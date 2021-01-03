@@ -1,0 +1,603 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
+		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
+		FD9D92C425A13B25003C7883 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* ViewController.swift */; };
+		FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C825A13B25003C7883 /* Sillo.xcdatamodeld */; };
+		FD9D92CC25A13B29003C7883 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD9D92CB25A13B29003C7883 /* Assets.xcassets */; };
+		FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */; };
+		FD9D92DA25A13B2A003C7883 /* SilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92D925A13B2A003C7883 /* SilloTests.swift */; };
+		FD9D92E525A13B2A003C7883 /* SilloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92E425A13B2A003C7883 /* SilloUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FD9D92D625A13B2A003C7883 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD9D92B425A13B25003C7883 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD9D92BB25A13B25003C7883;
+			remoteInfo = Sillo;
+		};
+		FD9D92E125A13B2A003C7883 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD9D92B425A13B25003C7883 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD9D92BB25A13B25003C7883;
+			remoteInfo = Sillo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD9D92BF25A13B25003C7883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FD9D92C125A13B25003C7883 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		FD9D92C325A13B25003C7883 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FD9D92C925A13B25003C7883 /* Sillo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sillo.xcdatamodel; sourceTree = "<group>"; };
+		FD9D92CB25A13B29003C7883 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FD9D92CE25A13B29003C7883 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FD9D92D025A13B29003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD9D92D525A13B2A003C7883 /* SilloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SilloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD9D92D925A13B2A003C7883 /* SilloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilloTests.swift; sourceTree = "<group>"; };
+		FD9D92DB25A13B2A003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD9D92E025A13B2A003C7883 /* SilloUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SilloUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD9D92E425A13B2A003C7883 /* SilloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilloUITests.swift; sourceTree = "<group>"; };
+		FD9D92E625A13B2A003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FD9D92B925A13B25003C7883 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD9D92D225A13B2A003C7883 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD9D92DD25A13B2A003C7883 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FD9D92B325A13B25003C7883 = {
+			isa = PBXGroup;
+			children = (
+				FD9D92BE25A13B25003C7883 /* Sillo */,
+				FD9D92D825A13B2A003C7883 /* SilloTests */,
+				FD9D92E325A13B2A003C7883 /* SilloUITests */,
+				FD9D92BD25A13B25003C7883 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FD9D92BD25A13B25003C7883 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD9D92BC25A13B25003C7883 /* Sillo.app */,
+				FD9D92D525A13B2A003C7883 /* SilloTests.xctest */,
+				FD9D92E025A13B2A003C7883 /* SilloUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FD9D92BE25A13B25003C7883 /* Sillo */ = {
+			isa = PBXGroup;
+			children = (
+				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
+				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
+				FD9D92C325A13B25003C7883 /* ViewController.swift */,
+				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
+				FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */,
+				FD9D92D025A13B29003C7883 /* Info.plist */,
+				FD9D92C825A13B25003C7883 /* Sillo.xcdatamodeld */,
+			);
+			path = Sillo;
+			sourceTree = "<group>";
+		};
+		FD9D92D825A13B2A003C7883 /* SilloTests */ = {
+			isa = PBXGroup;
+			children = (
+				FD9D92D925A13B2A003C7883 /* SilloTests.swift */,
+				FD9D92DB25A13B2A003C7883 /* Info.plist */,
+			);
+			path = SilloTests;
+			sourceTree = "<group>";
+		};
+		FD9D92E325A13B2A003C7883 /* SilloUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FD9D92E425A13B2A003C7883 /* SilloUITests.swift */,
+				FD9D92E625A13B2A003C7883 /* Info.plist */,
+			);
+			path = SilloUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FD9D92BB25A13B25003C7883 /* Sillo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD9D92E925A13B2A003C7883 /* Build configuration list for PBXNativeTarget "Sillo" */;
+			buildPhases = (
+				FD9D92B825A13B25003C7883 /* Sources */,
+				FD9D92B925A13B25003C7883 /* Frameworks */,
+				FD9D92BA25A13B25003C7883 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Sillo;
+			productName = Sillo;
+			productReference = FD9D92BC25A13B25003C7883 /* Sillo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FD9D92D425A13B2A003C7883 /* SilloTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD9D92EC25A13B2A003C7883 /* Build configuration list for PBXNativeTarget "SilloTests" */;
+			buildPhases = (
+				FD9D92D125A13B2A003C7883 /* Sources */,
+				FD9D92D225A13B2A003C7883 /* Frameworks */,
+				FD9D92D325A13B2A003C7883 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD9D92D725A13B2A003C7883 /* PBXTargetDependency */,
+			);
+			name = SilloTests;
+			productName = SilloTests;
+			productReference = FD9D92D525A13B2A003C7883 /* SilloTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FD9D92DF25A13B2A003C7883 /* SilloUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD9D92EF25A13B2A003C7883 /* Build configuration list for PBXNativeTarget "SilloUITests" */;
+			buildPhases = (
+				FD9D92DC25A13B2A003C7883 /* Sources */,
+				FD9D92DD25A13B2A003C7883 /* Frameworks */,
+				FD9D92DE25A13B2A003C7883 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD9D92E225A13B2A003C7883 /* PBXTargetDependency */,
+			);
+			name = SilloUITests;
+			productName = SilloUITests;
+			productReference = FD9D92E025A13B2A003C7883 /* SilloUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FD9D92B425A13B25003C7883 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1230;
+				LastUpgradeCheck = 1230;
+				TargetAttributes = {
+					FD9D92BB25A13B25003C7883 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					FD9D92D425A13B2A003C7883 = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = FD9D92BB25A13B25003C7883;
+					};
+					FD9D92DF25A13B2A003C7883 = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = FD9D92BB25A13B25003C7883;
+					};
+				};
+			};
+			buildConfigurationList = FD9D92B725A13B25003C7883 /* Build configuration list for PBXProject "Sillo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FD9D92B325A13B25003C7883;
+			productRefGroup = FD9D92BD25A13B25003C7883 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FD9D92BB25A13B25003C7883 /* Sillo */,
+				FD9D92D425A13B2A003C7883 /* SilloTests */,
+				FD9D92DF25A13B2A003C7883 /* SilloUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FD9D92BA25A13B25003C7883 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */,
+				FD9D92CC25A13B29003C7883 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD9D92D325A13B2A003C7883 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD9D92DE25A13B2A003C7883 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FD9D92B825A13B25003C7883 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD9D92C425A13B25003C7883 /* ViewController.swift in Sources */,
+				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
+				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
+				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD9D92D125A13B2A003C7883 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD9D92DA25A13B2A003C7883 /* SilloTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD9D92DC25A13B2A003C7883 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD9D92E525A13B2A003C7883 /* SilloUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FD9D92D725A13B2A003C7883 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD9D92BB25A13B25003C7883 /* Sillo */;
+			targetProxy = FD9D92D625A13B2A003C7883 /* PBXContainerItemProxy */;
+		};
+		FD9D92E225A13B2A003C7883 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD9D92BB25A13B25003C7883 /* Sillo */;
+			targetProxy = FD9D92E125A13B2A003C7883 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FD9D92CE25A13B29003C7883 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FD9D92E725A13B2A003C7883 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FD9D92E825A13B2A003C7883 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FD9D92EA25A13B2A003C7883 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9Z82JGWWDM;
+				INFOPLIST_FILE = Sillo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.Sillo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FD9D92EB25A13B2A003C7883 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9Z82JGWWDM;
+				INFOPLIST_FILE = Sillo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.Sillo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FD9D92ED25A13B2A003C7883 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9Z82JGWWDM;
+				INFOPLIST_FILE = SilloTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SilloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sillo.app/Sillo";
+			};
+			name = Debug;
+		};
+		FD9D92EE25A13B2A003C7883 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9Z82JGWWDM;
+				INFOPLIST_FILE = SilloTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SilloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sillo.app/Sillo";
+			};
+			name = Release;
+		};
+		FD9D92F025A13B2A003C7883 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9Z82JGWWDM;
+				INFOPLIST_FILE = SilloUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SilloUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Sillo;
+			};
+			name = Debug;
+		};
+		FD9D92F125A13B2A003C7883 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9Z82JGWWDM;
+				INFOPLIST_FILE = SilloUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.SilloUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Sillo;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FD9D92B725A13B25003C7883 /* Build configuration list for PBXProject "Sillo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD9D92E725A13B2A003C7883 /* Debug */,
+				FD9D92E825A13B2A003C7883 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD9D92E925A13B2A003C7883 /* Build configuration list for PBXNativeTarget "Sillo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD9D92EA25A13B2A003C7883 /* Debug */,
+				FD9D92EB25A13B2A003C7883 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD9D92EC25A13B2A003C7883 /* Build configuration list for PBXNativeTarget "SilloTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD9D92ED25A13B2A003C7883 /* Debug */,
+				FD9D92EE25A13B2A003C7883 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD9D92EF25A13B2A003C7883 /* Build configuration list for PBXNativeTarget "SilloUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD9D92F025A13B2A003C7883 /* Debug */,
+				FD9D92F125A13B2A003C7883 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FD9D92C825A13B25003C7883 /* Sillo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FD9D92C925A13B25003C7883 /* Sillo.xcdatamodel */,
+			);
+			currentVersion = FD9D92C925A13B25003C7883 /* Sillo.xcdatamodel */;
+			path = Sillo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = FD9D92B425A13B25003C7883 /* Project object */;
+}
