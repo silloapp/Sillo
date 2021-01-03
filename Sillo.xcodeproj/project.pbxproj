@@ -3,16 +3,27 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */; };
 		CBC7FADF0B4AB90051E2510D /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF0E214043279D73E59269E /* Pods_SilloTests.framework */; };
 		EF5A2108C5D5FD938896A7DB /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E45B4A49DB2FEF9EFB5D2AC /* Pods_Sillo_SilloUITests.framework */; };
+		FD1D22A625A19F0700F1636C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22A525A19F0700F1636C /* OnboardingViewController.swift */; };
+		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
+		FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */; };
+		FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */; };
+		FD1D22BB25A19F9E00F1636C /* Apercu Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B225A19F9D00F1636C /* Apercu Light.otf */; };
+		FD1D22BC25A19F9E00F1636C /* Apercu Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B325A19F9D00F1636C /* Apercu Italic.otf */; };
+		FD1D22BD25A19F9E00F1636C /* Apercu Bold Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B425A19F9D00F1636C /* Apercu Bold Italic.otf */; };
+		FD1D22BE25A19F9E00F1636C /* Apercu Light Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B525A19F9D00F1636C /* Apercu Light Italic.otf */; };
+		FD1D22BF25A19F9E00F1636C /* Apercu Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */; };
+		FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */; };
+		FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
 		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
-		FD9D92C425A13B25003C7883 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* ViewController.swift */; };
+		FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* PageViewController.swift */; };
 		FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C825A13B25003C7883 /* Sillo.xcdatamodeld */; };
 		FD9D92CC25A13B29003C7883 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD9D92CB25A13B29003C7883 /* Assets.xcassets */; };
 		FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */; };
@@ -47,10 +58,21 @@
 		C9302F300C95D3E462F57585 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
 		D74F3276AAC0AEEC70374C43 /* Pods-SilloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.debug.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA8C0B1B4AB2103320DFFF34 /* Pods-Sillo-SilloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		FD1D22A525A19F0700F1636C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		FD1D22AB25A19F5700F1636C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium Italic.otf"; sourceTree = "<group>"; };
+		FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium.otf"; sourceTree = "<group>"; };
+		FD1D22B225A19F9D00F1636C /* Apercu Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Light.otf"; sourceTree = "<group>"; };
+		FD1D22B325A19F9D00F1636C /* Apercu Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Italic.otf"; sourceTree = "<group>"; };
+		FD1D22B425A19F9D00F1636C /* Apercu Bold Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Bold Italic.otf"; sourceTree = "<group>"; };
+		FD1D22B525A19F9D00F1636C /* Apercu Light Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Light Italic.otf"; sourceTree = "<group>"; };
+		FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Bold.otf"; sourceTree = "<group>"; };
+		FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
+		FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
 		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92BF25A13B25003C7883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD9D92C125A13B25003C7883 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FD9D92C325A13B25003C7883 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FD9D92C325A13B25003C7883 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		FD9D92C925A13B25003C7883 /* Sillo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sillo.xcdatamodel; sourceTree = "<group>"; };
 		FD9D92CB25A13B29003C7883 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD9D92CE25A13B29003C7883 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -101,7 +123,6 @@
 				D74F3276AAC0AEEC70374C43 /* Pods-SilloTests.debug.xcconfig */,
 				50CD6D3AEAE21412F5592ADE /* Pods-SilloTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -113,6 +134,39 @@
 				5CF0E214043279D73E59269E /* Pods_SilloTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FD1D22A025A16D1100F1636C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				FD1D22AA25A19F3500F1636C /* Fonts */,
+				FD1D22A125A16DC600F1636C /* Colors */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		FD1D22A125A16DC600F1636C /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
+		FD1D22AA25A19F3500F1636C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FD1D22B425A19F9D00F1636C /* Apercu Bold Italic.otf */,
+				FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */,
+				FD1D22B325A19F9D00F1636C /* Apercu Italic.otf */,
+				FD1D22B525A19F9D00F1636C /* Apercu Light Italic.otf */,
+				FD1D22B225A19F9D00F1636C /* Apercu Light.otf */,
+				FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */,
+				FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */,
+				FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */,
+				FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */,
+				FD1D22AB25A19F5700F1636C /* Fonts.swift */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		FD9D92B325A13B25003C7883 = {
@@ -140,9 +194,11 @@
 		FD9D92BE25A13B25003C7883 /* Sillo */ = {
 			isa = PBXGroup;
 			children = (
+				FD1D22A025A16D1100F1636C /* Assets */,
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
-				FD9D92C325A13B25003C7883 /* ViewController.swift */,
+				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
+				FD1D22A525A19F0700F1636C /* OnboardingViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
 				FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */,
 				FD9D92D025A13B29003C7883 /* Info.plist */,
@@ -279,8 +335,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD1D22BF25A19F9E00F1636C /* Apercu Bold.otf in Resources */,
+				FD1D22BB25A19F9E00F1636C /* Apercu Light.otf in Resources */,
+				FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */,
+				FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */,
 				FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */,
+				FD1D22BE25A19F9E00F1636C /* Apercu Light Italic.otf in Resources */,
+				FD1D22BD25A19F9E00F1636C /* Apercu Bold Italic.otf in Resources */,
+				FD1D22BC25A19F9E00F1636C /* Apercu Italic.otf in Resources */,
 				FD9D92CC25A13B29003C7883 /* Assets.xcassets in Resources */,
+				FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */,
+				FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,9 +507,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD9D92C425A13B25003C7883 /* ViewController.swift in Sources */,
+				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
+				FD1D22A625A19F0700F1636C /* OnboardingViewController.swift in Sources */,
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
+				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
