@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */; };
+		CBC7FADF0B4AB90051E2510D /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF0E214043279D73E59269E /* Pods_SilloTests.framework */; };
+		EF5A2108C5D5FD938896A7DB /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E45B4A49DB2FEF9EFB5D2AC /* Pods_Sillo_SilloUITests.framework */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
 		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
 		FD9D92C425A13B25003C7883 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* ViewController.swift */; };
@@ -35,6 +38,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		234D2F7759A93511B2645F12 /* Pods-Sillo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.debug.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.debug.xcconfig"; sourceTree = "<group>"; };
+		3E45B4A49DB2FEF9EFB5D2AC /* Pods_Sillo_SilloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo_SilloUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		41894107815FAF4BF31F1706 /* Pods-Sillo-SilloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.release.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.release.xcconfig"; sourceTree = "<group>"; };
+		50CD6D3AEAE21412F5592ADE /* Pods-SilloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.release.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.release.xcconfig"; sourceTree = "<group>"; };
+		5CF0E214043279D73E59269E /* Pods_SilloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9302F300C95D3E462F57585 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
+		D74F3276AAC0AEEC70374C43 /* Pods-SilloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.debug.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EA8C0B1B4AB2103320DFFF34 /* Pods-Sillo-SilloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92BF25A13B25003C7883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD9D92C125A13B25003C7883 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBC7FADF0B4AB90051E2510D /* Pods_SilloTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +84,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF5A2108C5D5FD938896A7DB /* Pods_Sillo_SilloUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E206362424AD2D9FABE0282 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				234D2F7759A93511B2645F12 /* Pods-Sillo.debug.xcconfig */,
+				C9302F300C95D3E462F57585 /* Pods-Sillo.release.xcconfig */,
+				EA8C0B1B4AB2103320DFFF34 /* Pods-Sillo-SilloUITests.debug.xcconfig */,
+				41894107815FAF4BF31F1706 /* Pods-Sillo-SilloUITests.release.xcconfig */,
+				D74F3276AAC0AEEC70374C43 /* Pods-SilloTests.debug.xcconfig */,
+				50CD6D3AEAE21412F5592ADE /* Pods-SilloTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		4B90F86C7CC66004B97882E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */,
+				3E45B4A49DB2FEF9EFB5D2AC /* Pods_Sillo_SilloUITests.framework */,
+				5CF0E214043279D73E59269E /* Pods_SilloTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FD9D92B325A13B25003C7883 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +122,8 @@
 				FD9D92D825A13B2A003C7883 /* SilloTests */,
 				FD9D92E325A13B2A003C7883 /* SilloUITests */,
 				FD9D92BD25A13B25003C7883 /* Products */,
+				2E206362424AD2D9FABE0282 /* Pods */,
+				4B90F86C7CC66004B97882E0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,9 +176,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD9D92E925A13B2A003C7883 /* Build configuration list for PBXNativeTarget "Sillo" */;
 			buildPhases = (
+				BA0A52E5EDC10F4310BADC8D /* [CP] Check Pods Manifest.lock */,
 				FD9D92B825A13B25003C7883 /* Sources */,
 				FD9D92B925A13B25003C7883 /* Frameworks */,
 				FD9D92BA25A13B25003C7883 /* Resources */,
+				D11ED0A9EC39560E6C850EE1 /* [CP] Embed Pods Frameworks */,
+				855048DB36AE4BC0D8BB407B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -152,6 +196,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD9D92EC25A13B2A003C7883 /* Build configuration list for PBXNativeTarget "SilloTests" */;
 			buildPhases = (
+				9AF3778C7A94F53A619927AE /* [CP] Check Pods Manifest.lock */,
 				FD9D92D125A13B2A003C7883 /* Sources */,
 				FD9D92D225A13B2A003C7883 /* Frameworks */,
 				FD9D92D325A13B2A003C7883 /* Resources */,
@@ -170,9 +215,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD9D92EF25A13B2A003C7883 /* Build configuration list for PBXNativeTarget "SilloUITests" */;
 			buildPhases = (
+				D3B500B64D268EF99997BA01 /* [CP] Check Pods Manifest.lock */,
 				FD9D92DC25A13B2A003C7883 /* Sources */,
 				FD9D92DD25A13B2A003C7883 /* Frameworks */,
 				FD9D92DE25A13B2A003C7883 /* Resources */,
+				A132C6A1AD3CDD82303EDBDE /* [CP] Embed Pods Frameworks */,
+				88DC1E114933B930FE3DDF36 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -251,6 +299,143 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		855048DB36AE4BC0D8BB407B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88DC1E114933B930FE3DDF36 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9AF3778C7A94F53A619927AE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SilloTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A132C6A1AD3CDD82303EDBDE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BA0A52E5EDC10F4310BADC8D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sillo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D11ED0A9EC39560E6C850EE1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3B500B64D268EF99997BA01 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sillo-SilloUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FD9D92B825A13B25003C7883 /* Sources */ = {
@@ -425,6 +610,7 @@
 		};
 		FD9D92EA25A13B2A003C7883 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 234D2F7759A93511B2645F12 /* Pods-Sillo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -444,6 +630,7 @@
 		};
 		FD9D92EB25A13B2A003C7883 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9302F300C95D3E462F57585 /* Pods-Sillo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -463,6 +650,7 @@
 		};
 		FD9D92ED25A13B2A003C7883 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D74F3276AAC0AEEC70374C43 /* Pods-SilloTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -485,6 +673,7 @@
 		};
 		FD9D92EE25A13B2A003C7883 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50CD6D3AEAE21412F5592ADE /* Pods-SilloTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -507,6 +696,7 @@
 		};
 		FD9D92F025A13B2A003C7883 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA8C0B1B4AB2103320DFFF34 /* Pods-Sillo-SilloUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -527,6 +717,7 @@
 		};
 		FD9D92F125A13B2A003C7883 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41894107815FAF4BF31F1706 /* Pods-Sillo-SilloUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
