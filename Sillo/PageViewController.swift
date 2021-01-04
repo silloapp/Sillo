@@ -156,14 +156,13 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     func configurePageControl() {
         let initialPage = 0
-        let page1 = StudyPactOnboardingViewController(_signUpLabelText: "Sign Up", _bearImage: UIImage(named: "Onboarding1")!, _numberImage: UIImage(named: "Onboarding1Num")!, _descriptionText: "Complete your profile in less than 5 minutes to get the best pairing")
-        let page2 = StudyPactOnboardingViewController(_signUpLabelText: "Get Matched", _bearImage: UIImage(named: "Onboarding2")!, _numberImage: UIImage(named: "Onboarding2Num")!, _descriptionText: "Upon profile completion, we will find you a list of matches")
-        let page3 = StudyPactOnboardingViewController(_signUpLabelText: "Connect", _bearImage: UIImage(named: "Onboarding3")!, _numberImage: UIImage(named: "Onboarding3Num")!, _descriptionText: "Get connected through your choice of contact and start studying!")
+        let page1 = OnboardingViewController(_bearImage: UIImage(named: "onboardingSillo")!, _descriptionText: "Connecting the real you.")
+        let page2 = OnboardingViewController(_bearImage: UIImage(named: "onboardingSillo")!, _descriptionText: "Connecting the real you.")
         
         // add the individual viewControllers to the pageViewController
         self.pages.append(page1)
-        self.pages.append(page2)
-        self.pages.append(page3)
+//        self.pages.append(page2)
+//        self.pages.append(page3)
         setViewControllers([pages[initialPage]], direction: .forward, animated: true, completion: nil)
         
         // pageControl

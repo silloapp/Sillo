@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = ViewController() //starting VC (UI Tab bar / Nav controller)
+        window?.rootViewController = PageViewController() //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
     }
 

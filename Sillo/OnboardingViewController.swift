@@ -9,6 +9,7 @@ import Foundation
 
 import UIKit
 
+
 class OnboardingViewController: UIViewController {
     
     let signUpLabel: UILabel = {
@@ -17,7 +18,7 @@ class OnboardingViewController: UIViewController {
         return label
     }()
     
-    let bearImage = UIImageView()
+    let onboardingImage = UIImageView()
     
     let numberImage: UIImageView = {
         let numberImage = UIImageView()
@@ -27,19 +28,17 @@ class OnboardingViewController: UIViewController {
     
     let descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
-        descriptionLabel.font = Font.regular(18)
+        descriptionLabel.font = Font.medium(28)
+        descriptionLabel.textColor = .black
         descriptionLabel.numberOfLines = 0
         descriptionLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        descriptionLabel.textColor = .gray
         descriptionLabel.textAlignment = .center
         return descriptionLabel
     }()
     
     
-    init(_signUpLabelText: String, _bearImage: UIImage, _numberImage: UIImage, _descriptionText: String) {
-        signUpLabel.text = _signUpLabelText
-        bearImage.image = _bearImage
-        numberImage.image = _numberImage
+    init(_bearImage: UIImage, _descriptionText: String) {
+        onboardingImage.image = _bearImage
         descriptionLabel.text = _descriptionText
         super.init(nibName: nil, bundle: nil)
     }
@@ -58,30 +57,22 @@ class OnboardingViewController: UIViewController {
     func setupCard(){
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.distribution = .fill
         stack.alignment = .center
-        stack.spacing = 5
+        stack.distribution = .fillProportionally
+        stack.spacing = 65
         view.addSubview(stack)
+
         
-        let numberTitleStack = UIStackView()
-        numberTitleStack.axis = .horizontal
-        numberTitleStack.distribution = .equalCentering
-        numberTitleStack.alignment = .center
-        numberTitleStack.spacing = 14
-        
-        numberTitleStack.addArrangedSubview(numberImage)
-        numberTitleStack.addArrangedSubview(signUpLabel)
-        
-        stack.addArrangedSubview(bearImage)
-        stack.addArrangedSubview(numberTitleStack)
         stack.addArrangedSubview(descriptionLabel)
+        stack.addArrangedSubview(onboardingImage)
         
-        bearImage.contentMode = .scaleAspectFit
-        bearImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
-        bearImage.heightAnchor.constraint(equalToConstant: 310).isActive = true
+        onboardingImage.contentMode = .scaleAspectFit
+        onboardingImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
+//        bearImage.heightAnchor.constraint(equalToConstant: 500).isActive = true
+        onboardingImage.widthAnchor.constraint(equalToConstant: 500).isActive = true
         
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
         stack.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor).isActive = true
         stack.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor).isActive = true
     }
