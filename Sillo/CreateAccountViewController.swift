@@ -17,7 +17,6 @@ class CreateAccountViewController: UIViewController {
         ptextField.layer.cornerRadius = 10.0;
         ptextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         ptextField.isSecureTextEntry = true
-        ptextField.textContentType = .oneTimeCode
         ptextField.translatesAutoresizingMaskIntoConstraints = false
         return ptextField
     }()
@@ -29,7 +28,6 @@ class CreateAccountViewController: UIViewController {
         ctextField.layer.cornerRadius = 10.0;
         ctextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         ctextField.isSecureTextEntry = true
-        ctextField.textContentType = .oneTimeCode
         ctextField.translatesAutoresizingMaskIntoConstraints = false
         return ctextField
     }()
@@ -43,12 +41,14 @@ class CreateAccountViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         let screensize: CGRect = UIScreen.main.bounds
-        let screenWidth = screensize.width
         let screenHeight = screensize.height
-        scrollView.contentSize = CGSize(width: screenWidth, height: screenHeight)
+        scrollView.contentSize = CGSize(width: 0, height: screenHeight)
     }
     
     override func viewDidLoad() {
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
         self.view.backgroundColor = .white
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -110,7 +110,7 @@ class CreateAccountViewController: UIViewController {
             textField.placeholder = " youremail@berkeley.edu"
             textField.layer.cornerRadius = 10.0;
             textField.backgroundColor = grayColor
-            textField.keyboardType = UIKeyboardType.emailAddress
+            textField.keyboardType = .emailAddress
             textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
             textField.translatesAutoresizingMaskIntoConstraints = false
             return textField
@@ -137,6 +137,7 @@ class CreateAccountViewController: UIViewController {
         createPasswordLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 356).isActive = true
 
         //MARK: password text field
+        confirmPasswordTextField.textContentType = .password
         passwordTextField.keyboardType = .default
         passwordTextField.backgroundColor = grayColor
         scrollView.addSubview(passwordTextField)
@@ -177,6 +178,7 @@ class CreateAccountViewController: UIViewController {
         confirmPasswordLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 466).isActive = true
 
         //MARK: confirm password text field
+        confirmPasswordTextField.textContentType = .password
         confirmPasswordTextField.keyboardType = .default
         confirmPasswordTextField.backgroundColor = grayColor
         scrollView.addSubview(confirmPasswordTextField)
@@ -241,6 +243,7 @@ class CreateAccountViewController: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
+            scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
