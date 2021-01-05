@@ -6,9 +6,22 @@
 //
 
 import UIKit
+import Firebase
+
 class CreateAccountViewController: UIViewController {
     //MARK: TODO: add to color file
     let grayColor = UIColor(red: CGFloat(249/255), green: CGFloat(249/255), blue: CGFloat(249/255), alpha: CGFloat(0.05))
+    
+    //MARK: instantiate email text field
+    let emailTextField: UITextField = {
+        let etextField = UITextField()
+        etextField.placeholder = " youremail@berkeley.edu"
+        etextField.layer.cornerRadius = 10.0;
+        //textField.keyboardType = .emailAddress
+        etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
+        etextField.translatesAutoresizingMaskIntoConstraints = false
+        return etextField
+    }()
     
     //MARK: instantiate password text field
     var passwordTextField: UITextField = {
@@ -44,7 +57,7 @@ class CreateAccountViewController: UIViewController {
         let screenHeight = screensize.height
         scrollView.contentSize = CGSize(width: 0, height: screenHeight)
     }
-    
+    //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
@@ -52,14 +65,14 @@ class CreateAccountViewController: UIViewController {
         self.view.backgroundColor = .white
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        let tap = UITapGestureRecognizer(target: scrollView, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        scrollView.addGestureRecognizer(tap)
 
-        view.addSubview(scrollView)
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 1.0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 1.0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -1.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -1.0).isActive = true
+        self.view.addSubview(scrollView)
+        scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 1.0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 1.0).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -1.0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -1.0).isActive = true
         scrollView.isScrollEnabled = true
 
         
@@ -105,22 +118,12 @@ class CreateAccountViewController: UIViewController {
         schoolEmailLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 248).isActive = true
         
         //MARK: email text field
-        let emailTextField: UITextField = {
-            let textField = UITextField()
-            textField.placeholder = " youremail@berkeley.edu"
-            textField.layer.cornerRadius = 10.0;
-            textField.backgroundColor = grayColor
-            textField.keyboardType = .emailAddress
-            textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            return textField
-        }()
         scrollView.addSubview(emailTextField)
+        emailTextField.backgroundColor = grayColor
         emailTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         emailTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 32).isActive = true
         emailTextField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 275).isActive = true
-        
         
         //MARK: password label
         let createPasswordLabel: UILabel = {
@@ -137,8 +140,9 @@ class CreateAccountViewController: UIViewController {
         createPasswordLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 356).isActive = true
 
         //MARK: password text field
-        confirmPasswordTextField.textContentType = .password
-        passwordTextField.keyboardType = .default
+        //passwordTextField.textContentType = .oneTimeCode
+        //passwordTextField.textContentType = .password
+        //passwordTextField.keyboardType = .default
         passwordTextField.backgroundColor = grayColor
         scrollView.addSubview(passwordTextField)
         passwordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
@@ -178,25 +182,26 @@ class CreateAccountViewController: UIViewController {
         confirmPasswordLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 466).isActive = true
 
         //MARK: confirm password text field
-        confirmPasswordTextField.textContentType = .password
-        confirmPasswordTextField.keyboardType = .default
-        confirmPasswordTextField.backgroundColor = grayColor
         scrollView.addSubview(confirmPasswordTextField)
         confirmPasswordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         confirmPasswordTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
         confirmPasswordTextField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 495).isActive = true
+        //confirmPasswordTextField.keyboardType = .default
+        //confirmPasswordTextField.textContentType = .oneTimeCode
+        //confirmPasswordTextField.textContentType = .password
+        confirmPasswordTextField.backgroundColor = grayColor
 
         //MARK: terms text view
         let termsTextView: UITextView = {
-            let view = UITextView()
-            view.isEditable = false
-            view.isScrollEnabled = false
-            view.font = Font.regular(13)
-            view.textColor = grayColor
-            view.text = "By creating an account, you are indicating that you have read and acknowledged the Terms of Service and Privacy Policy."
-            view.translatesAutoresizingMaskIntoConstraints = false
-            return view
+            let tview = UITextView()
+            tview.isEditable = false
+            tview.isScrollEnabled = false
+            tview.font = Font.regular(13)
+            tview.textColor = grayColor
+            tview.text = "By creating an account, you are indicating that you have read and acknowledged the Terms of Service and Privacy Policy."
+            tview.translatesAutoresizingMaskIntoConstraints = false
+            return tview
         }()
         scrollView.addSubview(termsTextView)
         termsTextView.widthAnchor.constraint(equalToConstant: 310).isActive = true
@@ -227,7 +232,62 @@ class CreateAccountViewController: UIViewController {
     }
     
     @objc func nextClicked(_:UIButton) {
-        print("BUSINESS LOGIC")
+        var errorState = false
+        var errorMsg = "Uncaught Exception: please contact the sillo team."
+        var email:String = ""
+        var password:String = ""
+        var confirmedPassword:String = ""
+        if (emailTextField.hasText && passwordTextField.hasText && confirmPasswordTextField.hasText) {
+            email = emailTextField.text!
+            password = passwordTextField.text!
+            confirmedPassword = confirmPasswordTextField.text!
+        
+            print(email)
+            print(password)
+            print(confirmedPassword)
+            if (password == confirmedPassword)
+            {
+                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                    //Check that user isn't NIL
+                    if let res = authResult {
+                        //User is found, goto home screen
+                        print(res.user)
+                        print("IS EMAIL VERIFIED")
+                        print(res.user.isEmailVerified)
+                        //self.performSegue(withIdentifier: "goToHome", sender: self)
+                        Auth.auth().currentUser?.sendEmailVerification { (error) in
+                            print(res.user.isEmailVerified)
+                            print("SUCCESSFUL REGISTERED")
+                        }
+                    }
+                    else {
+                        //Check error and show message
+                        errorState=true
+                        errorMsg = error!.localizedDescription
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
+            else {
+                errorState=true
+                errorMsg="The passwords do not match."
+            }
+        }
+        else {
+            errorState=true
+            errorMsg="Please fill out all fields to continue."
+        }
+        if (errorState) {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     
@@ -237,15 +297,23 @@ class CreateAccountViewController: UIViewController {
                 self.view.frame.origin.y -= keyboardSize.height
                 scrollView.contentInset = UIEdgeInsets(top: keyboardSize.height + view.safeAreaInsets.top, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom, right: 0)
             }
+
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
-            scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
+            //scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
+        
+    }
+    
+    @objc func hideKeyboard() {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        confirmPasswordTextField.resignFirstResponder()
     }
 
 }
