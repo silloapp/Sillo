@@ -10,7 +10,7 @@
 		00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */; };
 		CBC7FADF0B4AB90051E2510D /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF0E214043279D73E59269E /* Pods_SilloTests.framework */; };
 		EF5A2108C5D5FD938896A7DB /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E45B4A49DB2FEF9EFB5D2AC /* Pods_Sillo_SilloUITests.framework */; };
-		FD1D22A625A19F0700F1636C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22A525A19F0700F1636C /* OnboardingViewController.swift */; };
+		FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */; };
 		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
 		FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */; };
 		FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */; };
@@ -29,6 +29,7 @@
 		FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */; };
 		FD9D92DA25A13B2A003C7883 /* SilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92D925A13B2A003C7883 /* SilloTests.swift */; };
 		FD9D92E525A13B2A003C7883 /* SilloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92E425A13B2A003C7883 /* SilloUITests.swift */; };
+		FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC59A125A57DB500BC2110 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +59,7 @@
 		C9302F300C95D3E462F57585 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
 		D74F3276AAC0AEEC70374C43 /* Pods-SilloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.debug.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA8C0B1B4AB2103320DFFF34 /* Pods-Sillo-SilloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		FD1D22A525A19F0700F1636C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = logoOnboardingViewController.swift; sourceTree = "<group>"; };
 		FD1D22AB25A19F5700F1636C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium Italic.otf"; sourceTree = "<group>"; };
 		FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium.otf"; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		FD9D92E025A13B2A003C7883 /* SilloUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SilloUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92E425A13B2A003C7883 /* SilloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilloUITests.swift; sourceTree = "<group>"; };
 		FD9D92E625A13B2A003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDAC59A125A57DB500BC2110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 		FD1D22A125A16DC600F1636C /* Colors */ = {
 			isa = PBXGroup;
 			children = (
+				FDAC59A125A57DB500BC2110 /* Colors.swift */,
 			);
 			path = Colors;
 			sourceTree = "<group>";
@@ -198,7 +201,7 @@
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
-				FD1D22A525A19F0700F1636C /* OnboardingViewController.swift */,
+				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
 				FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */,
 				FD9D92D025A13B29003C7883 /* Info.plist */,
@@ -509,7 +512,8 @@
 			files = (
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
-				FD1D22A625A19F0700F1636C /* OnboardingViewController.swift in Sources */,
+				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
+				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
