@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = CreateAccountViewController() //starting VC (UI Tab bar / Nav controller)
+        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let createAccountVC = CreateAccountViewController()
+        window?.rootViewController = vc //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
     }
 
