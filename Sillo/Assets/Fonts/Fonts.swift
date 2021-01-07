@@ -16,12 +16,12 @@ struct Font {
     
     static let bold = {
         (size: CGFloat) in
-        UIFont(name: "Apercu Bold", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Apercu Bold", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     static let medium = {
         (size: CGFloat) in
-        UIFont(name: "Apercu Medium", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Apercu Medium", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     static let mediumItalic = {
@@ -31,6 +31,6 @@ struct Font {
     
     static let light = {
         (size: CGFloat) in
-        UIFont(name: "Apercu Light", size: size) ?? UIFont.systemFont(ofSize: size)
+        return UIFont(name: "Apercu Light", size: size) ?? UIFont.systemFont(ofSize: size)
     }
 }
