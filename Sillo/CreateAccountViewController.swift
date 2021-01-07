@@ -247,13 +247,8 @@ class CreateAccountViewController: UIViewController {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if let res = authResult {
-                        //User is found, goto home screen
-                        //self.performSegue(withIdentifier: "goToHome", sender: self)
                         print("SUCCESSFUL REGISTERED, SHOW NEXT VC")
-                        Auth.auth().currentUser?.sendEmailVerification { (error) in
-                            print("email verification request sent to: \(Auth.auth().currentUser?.uid)")
-                            
-                        }
+                        self.triggerPinGenerator()
                     }
                     else {
                         //Check error and show message
@@ -283,6 +278,27 @@ class CreateAccountViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    //MARK: Call the generateAuthenticationFunction cloud function service
+    func triggerPinGenerator() {
+        guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/generateAuthenticationPin") else {return}
+        var request = URLRequest(url: url)
+        let userID : String = Auth.auth().currentUser!.uid
+        let payload = "{\"userID\": \"\(userID)\"}".data(using: .utf8)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = payload
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else { print(error!.localizedDescription); return }
+            guard let data = data else { print("Empty data");return }
+
+            if let str = String(data: data, encoding: .utf8) {
+                print(str)
+            }
+        }.resume()
     }
     
     
