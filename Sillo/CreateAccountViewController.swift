@@ -241,23 +241,18 @@ class CreateAccountViewController: UIViewController {
             email = emailTextField.text!
             password = passwordTextField.text!
             confirmedPassword = confirmPasswordTextField.text!
-        
-            print(email)
-            print(password)
-            print(confirmedPassword)
+            
             if (password == confirmedPassword)
             {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if let res = authResult {
                         //User is found, goto home screen
-                        print(res.user)
-                        print("IS EMAIL VERIFIED")
-                        print(res.user.isEmailVerified)
                         //self.performSegue(withIdentifier: "goToHome", sender: self)
+                        print("SUCCESSFUL REGISTERED, SHOW NEXT VC")
                         Auth.auth().currentUser?.sendEmailVerification { (error) in
-                            print(res.user.isEmailVerified)
-                            print("SUCCESSFUL REGISTERED")
+                            print("email verification request sent to: \(Auth.auth().currentUser?.uid)")
+                            
                         }
                     }
                     else {
