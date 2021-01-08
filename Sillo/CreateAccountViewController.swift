@@ -247,8 +247,10 @@ class CreateAccountViewController: UIViewController {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if let res = authResult {
-                        print("SUCCESSFUL REGISTERED, SHOW NEXT VC")
-                        self.triggerPinGenerator()
+                        cloudutil.generateAuthenticationCode()
+                        let nextVC = PasscodeVerificationViewController()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        self.present(nextVC, animated: true, completion:nil)
                     }
                     else {
                         //Check error and show message
@@ -280,35 +282,12 @@ class CreateAccountViewController: UIViewController {
         }
     }
     
-    //MARK: Call the generateAuthenticationFunction cloud function service
-    func triggerPinGenerator() {
-        guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/generateAuthenticationPin") else {return}
-        var request = URLRequest(url: url)
-        let userID : String = Auth.auth().currentUser!.uid
-        let payload = "{\"userID\": \"\(userID)\"}".data(using: .utf8)
-        
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = payload
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else { print(error!.localizedDescription); return }
-            guard let data = data else { print("Empty data");return }
-
-            if let str = String(data: data, encoding: .utf8) {
-                print(str)
-            }
-        }.resume()
-    }
-    
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
                 scrollView.contentInset = UIEdgeInsets(top: keyboardSize.height + view.safeAreaInsets.top, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom, right: 0)
             }
-
         }
     }
 
@@ -318,7 +297,6 @@ class CreateAccountViewController: UIViewController {
             //scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
-        
     }
     
     @objc func hideKeyboard() {
