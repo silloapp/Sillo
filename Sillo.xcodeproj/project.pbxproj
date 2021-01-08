@@ -10,6 +10,9 @@
 		00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */; };
 		AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */; };
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
+		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
+		AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69325A83B7900D89C62 /* CloudUtil.swift */; };
+		AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */; };
 		CBC7FADF0B4AB90051E2510D /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF0E214043279D73E59269E /* Pods_SilloTests.framework */; };
 		EF5A2108C5D5FD938896A7DB /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E45B4A49DB2FEF9EFB5D2AC /* Pods_Sillo_SilloUITests.framework */; };
 		FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */; };
@@ -60,6 +63,9 @@
 		8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
+		AABEC69325A83B7900D89C62 /* CloudUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUtil.swift; sourceTree = "<group>"; };
+		AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeVerificationViewController.swift; sourceTree = "<group>"; };
 		C9302F300C95D3E462F57585 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
 		D74F3276AAC0AEEC70374C43 /* Pods-SilloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.debug.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA8C0B1B4AB2103320DFFF34 /* Pods-Sillo-SilloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -207,6 +213,9 @@
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
+				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
+				AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */,
+				AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
 				FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */,
 				FD9D92D025A13B29003C7883 /* Info.plist */,
@@ -520,9 +529,12 @@
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
+				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
 				AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */,
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
+				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
+				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 			);
