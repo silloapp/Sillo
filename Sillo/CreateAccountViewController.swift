@@ -194,7 +194,7 @@ class CreateAccountViewController: UIViewController {
             tview.isEditable = false
             tview.isScrollEnabled = false
             tview.font = Font.regular(13)
-            tview.textColor = Color.textFieldBackground
+            tview.textColor = .black
             tview.text = "By creating an account, you are indicating that you have read and acknowledged the Terms of Service and Privacy Policy."
             tview.translatesAutoresizingMaskIntoConstraints = false
             return tview

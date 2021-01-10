@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         let createAccountVC = CreateAccountViewController()
-        window?.rootViewController = vc //starting VC (UI Tab bar / Nav controller)
+        window?.rootViewController = createAccountVC //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
     }
 
