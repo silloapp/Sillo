@@ -241,24 +241,16 @@ class CreateAccountViewController: UIViewController {
             email = emailTextField.text!
             password = passwordTextField.text!
             confirmedPassword = confirmPasswordTextField.text!
-        
-            print(email)
-            print(password)
-            print(confirmedPassword)
+            
             if (password == confirmedPassword)
             {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if let res = authResult {
-                        //User is found, goto home screen
-                        print(res.user)
-                        print("IS EMAIL VERIFIED")
-                        print(res.user.isEmailVerified)
-                        //self.performSegue(withIdentifier: "goToHome", sender: self)
-                        Auth.auth().currentUser?.sendEmailVerification { (error) in
-                            print(res.user.isEmailVerified)
-                            print("SUCCESSFUL REGISTERED")
-                        }
+                        cloudutil.generateAuthenticationCode()
+                        let nextVC = PasscodeVerificationViewController()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        self.present(nextVC, animated: true, completion:nil)
                     }
                     else {
                         //Check error and show message
@@ -290,14 +282,12 @@ class CreateAccountViewController: UIViewController {
         }
     }
     
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
                 scrollView.contentInset = UIEdgeInsets(top: keyboardSize.height + view.safeAreaInsets.top, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom, right: 0)
             }
-
         }
     }
 
@@ -307,7 +297,6 @@ class CreateAccountViewController: UIViewController {
             //scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
-        
     }
     
     @objc func hideKeyboard() {
