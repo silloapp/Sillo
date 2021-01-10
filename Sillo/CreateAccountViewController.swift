@@ -9,10 +9,8 @@ import UIKit
 import Firebase
 
 class CreateAccountViewController: UIViewController {
-    //MARK: TODO: add to color file
-    let grayColor = UIColor(red: CGFloat(249/255), green: CGFloat(249/255), blue: CGFloat(249/255), alpha: CGFloat(0.05))
     
-    //MARK: instantiate email text field
+    //MARK: init email text field
     let emailTextField: UITextField = {
         let etextField = UITextField()
         etextField.placeholder = " youremail@berkeley.edu"
@@ -23,7 +21,7 @@ class CreateAccountViewController: UIViewController {
         return etextField
     }()
     
-    //MARK: instantiate password text field
+    //MARK: init password text field
     var passwordTextField: UITextField = {
         let ptextField = UITextField()
         ptextField.placeholder = " Password"
@@ -34,7 +32,7 @@ class CreateAccountViewController: UIViewController {
         return ptextField
     }()
     
-    //MARK: instantiate confirm password text field
+    //MARK: init confirm password text field
     var confirmPasswordTextField: UITextField = {
         let ctextField = UITextField()
         ctextField.placeholder = " Password"
@@ -80,6 +78,7 @@ class CreateAccountViewController: UIViewController {
         let silloLogotype: UIImageView = {
             let image = UIImage(named: "onboardingSillo")
             let imageView = UIImageView(image: image)
+            imageView.contentMode = .left
             imageView.translatesAutoresizingMaskIntoConstraints = false
             return imageView
         }()
@@ -119,7 +118,7 @@ class CreateAccountViewController: UIViewController {
         
         //MARK: email text field
         scrollView.addSubview(emailTextField)
-        emailTextField.backgroundColor = grayColor
+        emailTextField.backgroundColor = Color.textFieldBackground
         emailTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         emailTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 32).isActive = true
@@ -143,7 +142,7 @@ class CreateAccountViewController: UIViewController {
         //passwordTextField.textContentType = .oneTimeCode
         //passwordTextField.textContentType = .password
         //passwordTextField.keyboardType = .default
-        passwordTextField.backgroundColor = grayColor
+        passwordTextField.backgroundColor = Color.textFieldBackground
         scrollView.addSubview(passwordTextField)
         passwordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -182,15 +181,12 @@ class CreateAccountViewController: UIViewController {
         confirmPasswordLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 466).isActive = true
 
         //MARK: confirm password text field
+        confirmPasswordTextField.backgroundColor = Color.textFieldBackground
         scrollView.addSubview(confirmPasswordTextField)
         confirmPasswordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         confirmPasswordTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
         confirmPasswordTextField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 495).isActive = true
-        //confirmPasswordTextField.keyboardType = .default
-        //confirmPasswordTextField.textContentType = .oneTimeCode
-        //confirmPasswordTextField.textContentType = .password
-        confirmPasswordTextField.backgroundColor = grayColor
 
         //MARK: terms text view
         let termsTextView: UITextView = {
@@ -198,7 +194,7 @@ class CreateAccountViewController: UIViewController {
             tview.isEditable = false
             tview.isScrollEnabled = false
             tview.font = Font.regular(13)
-            tview.textColor = grayColor
+            tview.textColor = Color.textFieldBackground
             tview.text = "By creating an account, you are indicating that you have read and acknowledged the Terms of Service and Privacy Policy."
             tview.translatesAutoresizingMaskIntoConstraints = false
             return tview
@@ -213,8 +209,9 @@ class CreateAccountViewController: UIViewController {
         let nextButton: UIButton = {
             let button = UIButton()
             button.setTitle("Next", for: .normal)
-            button.setTitleColor(.black, for: .normal)
-            button.backgroundColor = .lightGray
+            button.titleLabel?.font = Font.bold(20)
+            button.setTitleColor(.white, for: .normal)
+            button.backgroundColor = Color.buttonClickable
             button.addTarget(self, action: #selector(nextClicked(_:)), for: .touchUpInside)
             button.translatesAutoresizingMaskIntoConstraints = false
             return button

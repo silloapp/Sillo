@@ -10,23 +10,21 @@ import Firebase
 
 let cloudutil = CloudUtil()
 
-//MARK: TODO: add to color file
-let grayColor = UIColor(red: CGFloat(249/255), green: CGFloat(249/255), blue: CGFloat(249/255), alpha: CGFloat(0.05))
-
 class PasscodeVerificationViewController: UIViewController {
     
     private var latestAuthRequestTimestamp: Date = Date()
     private var THROTTLE_LIMIT: Double = 5.0 //in seconds
     
-    //MARK: instantiate sillo logotype
+    //MARK: init sillo logotype
     let silloLogotype: UIImageView = {
         let image = UIImage(named: "onboardingSillo")
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .left
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    //MARK: instantiate Header label
+    //MARK: init Header label
     let headerLabel: UILabel = {
         let label = UILabel()
         label.font = Font.medium(28)
@@ -35,7 +33,7 @@ class PasscodeVerificationViewController: UIViewController {
         return label
     }()
     
-    //MARK: instantiate body text label
+    //MARK: init body text label
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = Font.regular(17)
@@ -44,7 +42,7 @@ class PasscodeVerificationViewController: UIViewController {
         return label
     }()
     
-    //MARK: instantiate passcode text field
+    //MARK: init passcode text field
     let passcodeField: UITextField = {
         let textField = UITextField()
         textField.placeholder = ""
@@ -62,7 +60,7 @@ class PasscodeVerificationViewController: UIViewController {
         return range.location < 5
     }
     
-    //MARK: instantiate resend email label
+    //MARK: init resend email label
     let resendLabel: UILabel = {
         let label = UILabel()
         label.font = Font.regular(22)
@@ -72,7 +70,7 @@ class PasscodeVerificationViewController: UIViewController {
         return label
     }()
     
-    //MARK: instantiate resend email button
+    //MARK: init resend email button
     let resendButton: UIButton = {
         let button = UIButton()
         button.setTitle("Resend", for: .normal)
@@ -83,12 +81,13 @@ class PasscodeVerificationViewController: UIViewController {
         return button
     }()
     
-    //MARK: instantiate verify button
+    //MARK: init verify button
     let verifyButton: UIButton = {
         let button = UIButton()
         button.setTitle("Verify", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .lightGray
+        button.titleLabel?.font = Font.bold(20)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(verifyClicked(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -130,7 +129,7 @@ class PasscodeVerificationViewController: UIViewController {
          
         //MARK: passcode field
         view.addSubview(passcodeField)
-        passcodeField.backgroundColor = grayColor
+        passcodeField.backgroundColor = Color.textFieldBackground
         passcodeField.widthAnchor.constraint(equalToConstant: 250).isActive = true
         passcodeField.heightAnchor.constraint(equalToConstant: 55).isActive = true
         passcodeField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -140,7 +139,7 @@ class PasscodeVerificationViewController: UIViewController {
         view.addSubview(resendLabel)
         resendLabel.widthAnchor.constraint(equalToConstant: 291).isActive = true
         resendLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        resendLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        resendLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         resendLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 478).isActive = true
         
         //MARK: resend code button
@@ -155,7 +154,7 @@ class PasscodeVerificationViewController: UIViewController {
         view.addSubview(verifyButton)
         verifyButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         verifyButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        verifyButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32).isActive = true
+        verifyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         verifyButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 730).isActive = true
         
     }

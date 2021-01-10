@@ -13,6 +13,7 @@ class VerificationSuccessViewController: UIViewController {
     let successImage: UIImageView = {
         let image = UIImage(named: "onboardingSillo")
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .center
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -37,15 +38,15 @@ class VerificationSuccessViewController: UIViewController {
         view.addSubview(successImage)
         successImage.widthAnchor.constraint(equalToConstant: 136).isActive = true
         successImage.heightAnchor.constraint(equalToConstant: 114).isActive = true
-        successImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 111).isActive = true
-        successImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 292).isActive = true
+        successImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        successImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -70).isActive = true
         
         //MARK: success label
         view.addSubview(successLabel)
         successLabel.widthAnchor.constraint(equalToConstant: 140).isActive = true
         successLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
-        successLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 122).isActive = true
-        successLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 426).isActive = true
+        successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        successLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         
         
