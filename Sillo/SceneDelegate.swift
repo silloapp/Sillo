@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        let createAccountVC = CreateAccountViewController()
+        let createAccountVC = WelcomeToSilloViewController()
         window?.rootViewController = createAccountVC //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
     }

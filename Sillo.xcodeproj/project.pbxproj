@@ -35,6 +35,8 @@
 		FD9D92DA25A13B2A003C7883 /* SilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92D925A13B2A003C7883 /* SilloTests.swift */; };
 		FD9D92E525A13B2A003C7883 /* SilloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92E425A13B2A003C7883 /* SilloUITests.swift */; };
 		FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC59A125A57DB500BC2110 /* Colors.swift */; };
+		FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */; };
+		FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +98,8 @@
 		FD9D92E425A13B2A003C7883 /* SilloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilloUITests.swift; sourceTree = "<group>"; };
 		FD9D92E625A13B2A003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDAC59A125A57DB500BC2110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeToSilloViewController.swift; sourceTree = "<group>"; };
+		FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupOrganizationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +218,8 @@
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
+				FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */,
+				FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */,
@@ -530,6 +536,7 @@
 			files = (
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
+				FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
@@ -539,6 +546,7 @@
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
+				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

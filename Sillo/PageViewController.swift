@@ -26,9 +26,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     let getStartedButton: UIButton = {
         let button = UIButton()
         button.setTitle("Get Started", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = Font.bold(20)
-        button.backgroundColor = Color.getStarted
+        button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(getStartedClicked(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
