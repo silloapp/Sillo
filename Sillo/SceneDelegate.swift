@@ -20,8 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        window?.rootViewController = vc //starting VC (UI Tab bar / Nav controller)
+//        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+//        window?.rootViewController = vc
+        window?.rootViewController = WelcomeToSilloViewController()
         window?.makeKeyAndVisible()
     }
 

@@ -33,4 +33,5 @@ struct Font {
         (size: CGFloat) in
         UIFont(name: "Apercu Light", size: size) ?? UIFont.systemFont(ofSize: size)
     }
+
 }

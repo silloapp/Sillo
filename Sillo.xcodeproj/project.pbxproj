@@ -30,6 +30,8 @@
 		FD9D92DA25A13B2A003C7883 /* SilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92D925A13B2A003C7883 /* SilloTests.swift */; };
 		FD9D92E525A13B2A003C7883 /* SilloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92E425A13B2A003C7883 /* SilloUITests.swift */; };
 		FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC59A125A57DB500BC2110 /* Colors.swift */; };
+		FDB33FF425ABD56F00097FE1 /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB33FF325ABD56F00097FE1 /* WelcomeToSilloViewController.swift */; };
+		FDB33FF925ABF81000097FE1 /* SetupOrganizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB33FF825ABF81000097FE1 /* SetupOrganizationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		FD9D92E425A13B2A003C7883 /* SilloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilloUITests.swift; sourceTree = "<group>"; };
 		FD9D92E625A13B2A003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDAC59A125A57DB500BC2110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		FDB33FF325ABD56F00097FE1 /* WelcomeToSilloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeToSilloViewController.swift; sourceTree = "<group>"; };
+		FDB33FF825ABF81000097FE1 /* SetupOrganizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupOrganizationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +204,8 @@
 				FD1D22A025A16D1100F1636C /* Assets */,
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
+				FDB33FF325ABD56F00097FE1 /* WelcomeToSilloViewController.swift */,
+				FDB33FF825ABF81000097FE1 /* SetupOrganizationViewController.swift */,
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
@@ -510,12 +516,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDB33FF925ABF81000097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
+				FDB33FF425ABD56F00097FE1 /* WelcomeToSilloViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
