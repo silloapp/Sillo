@@ -9,7 +9,7 @@ import UIKit
 
 class VerificationSuccessViewController: UIViewController {
     
-    //MARK: instantiate success image
+    //MARK: init success image
     let successImage: UIImageView = {
         let image = UIImage(named: "onboardingSillo")
         let imageView = UIImageView(image: image)
@@ -18,7 +18,7 @@ class VerificationSuccessViewController: UIViewController {
         return imageView
     }()
     
-    //MARK: instantiate success label
+    //MARK: init success label
     let successLabel: UILabel = {
         let label = UILabel()
         label.font = Font.medium(28)
