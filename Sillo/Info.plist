@@ -28,6 +28,8 @@
 		<string>Apercu Light Italic.otf</string>
 		<string>Apercu Light.otf</string>
 		<string>Apercu Medium.otf</string>
+		<string>Apercu Medium.otf</string>
+		<string>Apercu Mono.otf</string>
 		<string>Apercu Regular.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
