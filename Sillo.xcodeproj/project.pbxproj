@@ -12,7 +12,15 @@
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
 		AAB8075D25B026F40070E938 /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB8075C25B026F40070E938 /* NotificationEnableViewController.swift */; };
 		AAB8076225B027BB0070E938 /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB8076125B027BB0070E938 /* AllSetViewController.swift */; };
-		AAB8077025B02DF70070E938 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = AAB8076F25B02DF70070E938 /* Fonts */; };
+		AAB8079725B02F430070E938 /* Apercu Medium Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8078E25B02F430070E938 /* Apercu Medium Italic.otf */; };
+		AAB8079825B02F430070E938 /* Apercu Light Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8078F25B02F430070E938 /* Apercu Light Italic.otf */; };
+		AAB8079925B02F430070E938 /* Apercu Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8079025B02F430070E938 /* Apercu Bold.otf */; };
+		AAB8079A25B02F430070E938 /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8079125B02F430070E938 /* Apercu Regular.otf */; };
+		AAB8079B25B02F430070E938 /* Apercu Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8079225B02F430070E938 /* Apercu Medium.otf */; };
+		AAB8079C25B02F430070E938 /* Apercu Bold Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8079325B02F430070E938 /* Apercu Bold Italic.otf */; };
+		AAB8079D25B02F430070E938 /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8079425B02F430070E938 /* Apercu Mono.otf */; };
+		AAB8079E25B02F430070E938 /* Apercu Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8079525B02F430070E938 /* Apercu Light.otf */; };
+		AAB8079F25B02F430070E938 /* Apercu Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = AAB8079625B02F430070E938 /* Apercu Italic.otf */; };
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
 		AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69325A83B7900D89C62 /* CloudUtil.swift */; };
 		AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */; };
@@ -70,7 +78,15 @@
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AAB8075C25B026F40070E938 /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		AAB8076125B027BB0070E938 /* AllSetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
-		AAB8076F25B02DF70070E938 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = Sillo/Fonts; sourceTree = "<group>"; };
+		AAB8078E25B02F430070E938 /* Apercu Medium Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium Italic.otf"; sourceTree = "<group>"; };
+		AAB8078F25B02F430070E938 /* Apercu Light Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Light Italic.otf"; sourceTree = "<group>"; };
+		AAB8079025B02F430070E938 /* Apercu Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Bold.otf"; sourceTree = "<group>"; };
+		AAB8079125B02F430070E938 /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
+		AAB8079225B02F430070E938 /* Apercu Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium.otf"; sourceTree = "<group>"; };
+		AAB8079325B02F430070E938 /* Apercu Bold Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Bold Italic.otf"; sourceTree = "<group>"; };
+		AAB8079425B02F430070E938 /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
+		AAB8079525B02F430070E938 /* Apercu Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Light.otf"; sourceTree = "<group>"; };
+		AAB8079625B02F430070E938 /* Apercu Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Italic.otf"; sourceTree = "<group>"; };
 		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
 		AABEC69325A83B7900D89C62 /* CloudUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUtil.swift; sourceTree = "<group>"; };
 		AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeVerificationViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +175,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AAB8077525B02EBB0070E938 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				AAB8079325B02F430070E938 /* Apercu Bold Italic.otf */,
+				AAB8079025B02F430070E938 /* Apercu Bold.otf */,
+				AAB8079625B02F430070E938 /* Apercu Italic.otf */,
+				AAB8078F25B02F430070E938 /* Apercu Light Italic.otf */,
+				AAB8079525B02F430070E938 /* Apercu Light.otf */,
+				AAB8078E25B02F430070E938 /* Apercu Medium Italic.otf */,
+				AAB8079225B02F430070E938 /* Apercu Medium.otf */,
+				AAB8079425B02F430070E938 /* Apercu Mono.otf */,
+				AAB8079125B02F430070E938 /* Apercu Regular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		FD1D22A025A16D1100F1636C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,7 +228,6 @@
 		FD9D92B325A13B25003C7883 = {
 			isa = PBXGroup;
 			children = (
-				AAB8076F25B02DF70070E938 /* Fonts */,
 				FD9D92BE25A13B25003C7883 /* Sillo */,
 				FD9D92D825A13B2A003C7883 /* SilloTests */,
 				FD9D92E325A13B2A003C7883 /* SilloUITests */,
@@ -219,6 +250,7 @@
 		FD9D92BE25A13B25003C7883 /* Sillo */ = {
 			isa = PBXGroup;
 			children = (
+				AAB8077525B02EBB0070E938 /* Fonts */,
 				AAD5196725AB123A00EB2B78 /* Sillo.entitlements */,
 				FD1D22A025A16D1100F1636C /* Assets */,
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
@@ -375,13 +407,21 @@
 				FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */,
 				FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */,
 				FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */,
-				AAB8077025B02DF70070E938 /* Fonts in Resources */,
+				AAB8079D25B02F430070E938 /* Apercu Mono.otf in Resources */,
+				AAB8079A25B02F430070E938 /* Apercu Regular.otf in Resources */,
+				AAB8079E25B02F430070E938 /* Apercu Light.otf in Resources */,
 				AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */,
+				AAB8079825B02F430070E938 /* Apercu Light Italic.otf in Resources */,
+				AAB8079C25B02F430070E938 /* Apercu Bold Italic.otf in Resources */,
+				AAB8079B25B02F430070E938 /* Apercu Medium.otf in Resources */,
+				AAB8079925B02F430070E938 /* Apercu Bold.otf in Resources */,
 				FD1D22BE25A19F9E00F1636C /* Apercu Light Italic.otf in Resources */,
 				FD1D22BD25A19F9E00F1636C /* Apercu Bold Italic.otf in Resources */,
+				AAB8079725B02F430070E938 /* Apercu Medium Italic.otf in Resources */,
 				FD1D22BC25A19F9E00F1636C /* Apercu Italic.otf in Resources */,
 				FD9D92CC25A13B29003C7883 /* Assets.xcassets in Resources */,
 				FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */,
+				AAB8079F25B02F430070E938 /* Apercu Italic.otf in Resources */,
 				FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
