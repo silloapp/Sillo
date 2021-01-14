@@ -12,6 +12,7 @@
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
 		AAB8075D25B026F40070E938 /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB8075C25B026F40070E938 /* NotificationEnableViewController.swift */; };
 		AAB8076225B027BB0070E938 /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB8076125B027BB0070E938 /* AllSetViewController.swift */; };
+		AAB8077025B02DF70070E938 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = AAB8076F25B02DF70070E938 /* Fonts */; };
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
 		AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69325A83B7900D89C62 /* CloudUtil.swift */; };
 		AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */; };
@@ -69,6 +70,7 @@
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AAB8075C25B026F40070E938 /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		AAB8076125B027BB0070E938 /* AllSetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
+		AAB8076F25B02DF70070E938 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = Sillo/Fonts; sourceTree = "<group>"; };
 		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
 		AABEC69325A83B7900D89C62 /* CloudUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUtil.swift; sourceTree = "<group>"; };
 		AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeVerificationViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 		FD9D92B325A13B25003C7883 = {
 			isa = PBXGroup;
 			children = (
+				AAB8076F25B02DF70070E938 /* Fonts */,
 				FD9D92BE25A13B25003C7883 /* Sillo */,
 				FD9D92D825A13B2A003C7883 /* SilloTests */,
 				FD9D92E325A13B2A003C7883 /* SilloUITests */,
@@ -372,6 +375,7 @@
 				FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */,
 				FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */,
 				FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */,
+				AAB8077025B02DF70070E938 /* Fonts in Resources */,
 				AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */,
 				FD1D22BE25A19F9E00F1636C /* Apercu Light Italic.otf in Resources */,
 				FD1D22BD25A19F9E00F1636C /* Apercu Bold Italic.otf in Resources */,
