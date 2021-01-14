@@ -208,6 +208,7 @@ class CreateAccountViewController: UIViewController {
         //MARK: next button
         let nextButton: UIButton = {
             let button = UIButton()
+            button.layer.cornerRadius = 8
             button.setTitle("Next", for: .normal)
             button.titleLabel?.font = Font.bold(20)
             button.setTitleColor(.white, for: .normal)

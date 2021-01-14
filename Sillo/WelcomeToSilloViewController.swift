@@ -13,10 +13,13 @@ class WelcomeToSilloViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        configureNavBar()
         setupView()
     }
     
-
+    func configureNavBar() {
+        navigationController?.isNavigationBarHidden = true
+    }
     
     func setupView() {
         
@@ -51,7 +54,7 @@ class WelcomeToSilloViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Create a Sillo space", for: .normal)
         button.backgroundColor = Color.buttonClickable
-        button.titleLabel?.font = Font.bold(17)
+        button.titleLabel?.font = Font.bold(dynamicFontSize(17))
         button.titleLabel?.minimumScaleFactor = 0.5
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setTitleColor(.white, for: .normal)
@@ -77,22 +80,7 @@ class WelcomeToSilloViewController: UIViewController {
     }
     
     @objc private func createSilloSpaceClicked() {
-        
-        
-        let rootVC = SetupOrganizationViewController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.modalPresentationStyle = .fullScreen
-        
-        
-        
-        let transition = CATransition()
-        transition.duration = 0.35
-        transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromRight
-        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-        view.window!.layer.add(transition, forKey: kCATransition)
-        
-        present(navVC, animated: false)
+        navigationController?.pushViewController(SetupOrganizationViewController(), animated: true)
     }
 
 }

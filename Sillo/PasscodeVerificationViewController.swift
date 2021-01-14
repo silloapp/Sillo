@@ -84,6 +84,7 @@ class PasscodeVerificationViewController: UIViewController {
     //MARK: init verify button
     let verifyButton: UIButton = {
         let button = UIButton()
+        button.layer.cornerRadius = 8
         button.setTitle("Verify", for: .normal)
         button.titleLabel?.font = Font.bold(20)
         button.setTitleColor(.white, for: .normal)
