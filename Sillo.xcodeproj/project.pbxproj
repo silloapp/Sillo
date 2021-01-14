@@ -27,6 +27,7 @@
 		FD1D22BF25A19F9E00F1636C /* Apercu Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */; };
 		FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */; };
 		FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */; };
+		FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
 		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
 		FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* PageViewController.swift */; };
@@ -85,6 +86,7 @@
 		FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Bold.otf"; sourceTree = "<group>"; };
 		FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
 		FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
+		FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
 		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92BF25A13B25003C7883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD9D92C125A13B25003C7883 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
 				FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */,
 				FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */,
+				FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
@@ -542,6 +545,7 @@
 				FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
+				FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
 				AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */,
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
