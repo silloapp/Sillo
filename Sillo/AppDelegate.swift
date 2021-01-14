@@ -10,7 +10,7 @@ import CoreData
 import Firebase
 import UserNotifications
 
-@main
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
-        registerForPushNotifications()
         return true
     }
 
@@ -82,47 +81,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
-    //MARK: Push Notification
-    func registerForPushNotifications() {
-        UNUserNotificationCenter.current()
-          .requestAuthorization(
-            options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-            print("Permission granted: \(granted)")
-            guard granted else { return }
-            self?.getNotificationSettings()
-          }
-    }
-    
-    //MARK: Get Push Notification Settings
-    func getNotificationSettings() {
-      UNUserNotificationCenter.current().getNotificationSettings { settings in
-        print("Notification settings: \(settings)")
-        
-        guard settings.authorizationStatus == .authorized else { return }
-        DispatchQueue.main.async {
-          UIApplication.shared.registerForRemoteNotifications()
-        }
-      }
-    }
-    
-    //MARK: Did Register Notifs
-    func application(
-      _ application: UIApplication,
-      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-    ) {
-      let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-      let token = tokenParts.joined()
-      print("Device Token: \(token)")
-    }
-    
-    //MARK: Fail Register Notifs
-    func application(
-      _ application: UIApplication,
-      didFailToRegisterForRemoteNotificationsWithError error: Error
-    ) {
-      print("Failed to register: \(error)")
-    }
-
 }
 
