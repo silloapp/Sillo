@@ -7,8 +7,9 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
-class CreateAccountViewController: UIViewController {
+class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     
     //MARK: init email text field
     let emailTextField: UITextField = {
@@ -53,7 +54,8 @@ class CreateAccountViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         let screensize: CGRect = UIScreen.main.bounds
         let screenHeight = screensize.height
-        scrollView.contentSize = CGSize(width: 0, height: screenHeight)
+        print(screenHeight)
+        scrollView.contentSize = CGSize(width: 0, height: 896.0)
     }
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
@@ -61,6 +63,9 @@ class CreateAccountViewController: UIViewController {
             overrideUserInterfaceStyle = .light
         }
         self.view.backgroundColor = .white
+        GIDSignIn.sharedInstance().presentingViewController = self
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
@@ -72,7 +77,6 @@ class CreateAccountViewController: UIViewController {
         scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -1.0).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -1.0).isActive = true
         scrollView.isScrollEnabled = true
-
         
         //MARK: sillo logotype
         let silloLogotype: UIImageView = {
@@ -91,7 +95,7 @@ class CreateAccountViewController: UIViewController {
         //MARK: create account label
         let createAccountLabel: UILabel = {
             let label = UILabel()
-            label.font = Font.medium(28)
+            label.font = Font.medium(dynamicFontSize(28))
             label.text = "Create your account"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -105,7 +109,7 @@ class CreateAccountViewController: UIViewController {
         //MARK: school email label
         let schoolEmailLabel: UILabel = {
             let label = UILabel()
-            label.font = Font.regular(17)
+            label.font = Font.regular(dynamicFontSize(17))
             label.text = "Enter your school email"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -127,7 +131,7 @@ class CreateAccountViewController: UIViewController {
         //MARK: password label
         let createPasswordLabel: UILabel = {
             let label = UILabel()
-            label.font = Font.regular(17)
+            label.font = Font.regular(dynamicFontSize(17))
             label.text = "Create a password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -193,7 +197,7 @@ class CreateAccountViewController: UIViewController {
             let tview = UITextView()
             tview.isEditable = false
             tview.isScrollEnabled = false
-            tview.font = Font.regular(13)
+            tview.font = Font.regular(dynamicFontSize(13))
             tview.textColor = .black
             tview.text = "By creating an account, you are indicating that you have read and acknowledged the Terms of Service and Privacy Policy."
             tview.translatesAutoresizingMaskIntoConstraints = false
@@ -213,7 +217,7 @@ class CreateAccountViewController: UIViewController {
             button.titleLabel?.font = Font.bold(20)
             button.setTitleColor(.white, for: .normal)
             button.backgroundColor = Color.buttonClickable
-            button.addTarget(self, action: #selector(nextClicked(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(signInButtonPressed(_:)), for: .touchUpInside)
             button.translatesAutoresizingMaskIntoConstraints = false
             return button
         }()
@@ -279,6 +283,29 @@ class CreateAccountViewController: UIViewController {
             }
         }
     }
+    
+    @objc func signInButtonPressed(_ sender: Any) {
+            GIDSignIn.sharedInstance().signIn()
+        }
+        
+        func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        //Sign in functionality will be handled here
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            guard let auth = user.authentication else { return }
+            let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
+            Auth.auth().signIn(with: credentials) { (authResult, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("Login Successful.")
+                    UserDefaults.standard.set(true, forKey: "loggedIn")
+                }
+            }
+        }
+    
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
