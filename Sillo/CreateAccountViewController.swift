@@ -55,7 +55,6 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     override func viewDidAppear(_ animated: Bool) {
         let screensize: CGRect = UIScreen.main.bounds
         let screenHeight = screensize.height
-        print(screenHeight)
         scrollView.contentSize = CGSize(width: 0, height: 896.0)
     }
     //MARK: VIEWDIDLOAD

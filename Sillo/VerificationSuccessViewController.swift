@@ -47,10 +47,5 @@ class VerificationSuccessViewController: UIViewController {
         successLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         successLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
-        
-        
-        
-        
     }
 }
