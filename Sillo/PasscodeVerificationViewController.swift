@@ -10,6 +10,7 @@ import Firebase
 
 let cloudutil = CloudUtil()
 
+//MARK: figma screen 164, 165
 class PasscodeVerificationViewController: UIViewController {
     
     private var latestAuthRequestTimestamp: Date = Date()
@@ -177,7 +178,7 @@ class PasscodeVerificationViewController: UIViewController {
         }
         else {
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Please enter a 5-digit verification code.", message: "", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Please enter a verification code.", message: "", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
                 self.present(alert, animated: true, completion: nil)
             }

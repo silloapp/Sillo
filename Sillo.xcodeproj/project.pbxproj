@@ -12,6 +12,7 @@
 		AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */; };
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
 		AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C125B13DC90070E938 /* SignInViewController.swift */; };
+		AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C625B154940070E938 /* SetNameViewController.swift */; };
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
 		AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69325A83B7900D89C62 /* CloudUtil.swift */; };
 		AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */; };
@@ -70,6 +71,7 @@
 		AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AAB807C125B13DC90070E938 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		AAB807C625B154940070E938 /* SetNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNameViewController.swift; sourceTree = "<group>"; };
 		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
 		AABEC69325A83B7900D89C62 /* CloudUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUtil.swift; sourceTree = "<group>"; };
 		AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeVerificationViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */,
 				FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
+				AAB807C625B154940070E938 /* SetNameViewController.swift */,
 				AAB807C125B13DC90070E938 /* SignInViewController.swift */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
@@ -556,6 +559,7 @@
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */,
+				AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */,

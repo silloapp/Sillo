@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+//MARK: figma screen 168
 class VerificationSuccessViewController: UIViewController {
     
     //MARK: init success image
@@ -47,6 +47,8 @@ class VerificationSuccessViewController: UIViewController {
         successLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         successLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        
         
         
         

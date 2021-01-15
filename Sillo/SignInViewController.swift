@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
+//MARK: figma screen 1266
 class SignInViewController: UIViewController, GIDSignInDelegate {
     
     //MARK: init email text field
@@ -121,7 +122,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         let createPasswordLabel: UILabel = {
             let label = UILabel()
             label.font = Font.regular(dynamicFontSize(17))
-            label.text = "Create a password"
+            label.text = "Password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
@@ -204,7 +205,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         divider.widthAnchor.constraint(equalToConstant: 305).isActive = true
         divider.heightAnchor.constraint(equalToConstant: 22).isActive = true
         divider.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        divider.topAnchor.constraint(equalTo: resetPasswordButton.topAnchor, constant: 94).isActive = true
+        divider.topAnchor.constraint(equalTo: resetPasswordButton.topAnchor, constant: 62).isActive = true
         
         //MARK: google-signin button
         let googleSignIn: UIButton = {
@@ -236,14 +237,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         var errorMsg = "Uncaught Exception: please contact the sillo team."
         var email:String = ""
         var password:String = ""
-        var confirmedPassword:String = ""
+        
         if (emailTextField.hasText && passwordTextField.hasText) {
             email = emailTextField.text!
             password = passwordTextField.text!
         
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
-                    if let res = authResult {
+                    if authResult != nil {
                         cloudutil.generateAuthenticationCode()
                         let nextVC = PasscodeVerificationViewController()
                         nextVC.modalPresentationStyle = .fullScreen
