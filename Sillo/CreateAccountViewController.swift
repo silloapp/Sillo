@@ -89,8 +89,8 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(silloLogotype)
         silloLogotype.widthAnchor.constraint(equalToConstant: 132).isActive = true
         silloLogotype.heightAnchor.constraint(equalToConstant: 61).isActive = true
-        silloLogotype.topAnchor.constraint(equalTo: scrollView.topAnchor,constant: 91).isActive = true
-        silloLogotype.leftAnchor.constraint(equalTo: scrollView.leftAnchor,constant: 36).isActive = true
+        silloLogotype.topAnchor.constraint(equalTo: scrollView.topAnchor,constant: 63).isActive = true
+        silloLogotype.leftAnchor.constraint(equalTo: scrollView.leftAnchor,constant: 32).isActive = true
         
         //MARK: create account label
         let createAccountLabel: UILabel = {
@@ -104,7 +104,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         createAccountLabel.widthAnchor.constraint(equalToConstant: 261).isActive = true
         createAccountLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
         createAccountLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 36).isActive = true
-        createAccountLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 201).isActive = true
+        createAccountLabel.topAnchor.constraint(equalTo: silloLogotype.topAnchor, constant: 119).isActive = true
         
         //MARK: school email label
         let schoolEmailLabel: UILabel = {
@@ -118,7 +118,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         schoolEmailLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
         schoolEmailLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
         schoolEmailLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
-        schoolEmailLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 248).isActive = true
+        schoolEmailLabel.topAnchor.constraint(equalTo: createAccountLabel.topAnchor, constant: 49).isActive = true
         
         //MARK: email text field
         scrollView.addSubview(emailTextField)
@@ -126,7 +126,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         emailTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         emailTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 32).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 275).isActive = true
+        emailTextField.topAnchor.constraint(equalTo: schoolEmailLabel.topAnchor, constant: 25).isActive = true
         
         //MARK: password label
         let createPasswordLabel: UILabel = {
@@ -139,19 +139,16 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(createPasswordLabel)
         createPasswordLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
         createPasswordLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        createPasswordLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 41).isActive = true
-        createPasswordLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 356).isActive = true
+        createPasswordLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        createPasswordLabel.topAnchor.constraint(equalTo: emailTextField.topAnchor, constant: 68).isActive = true
 
         //MARK: password text field
-        //passwordTextField.textContentType = .oneTimeCode
-        //passwordTextField.textContentType = .password
-        //passwordTextField.keyboardType = .default
         passwordTextField.backgroundColor = Color.textFieldBackground
         scrollView.addSubview(passwordTextField)
         passwordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         passwordTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
-        passwordTextField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 385).isActive = true
+        passwordTextField.topAnchor.constraint(equalTo: createPasswordLabel.topAnchor, constant: 29).isActive = true
         
         //MARK: password visiblity toggle
         let passwordVisibilityToggle: UIButton = {
@@ -168,7 +165,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         passwordVisibilityToggle.widthAnchor.constraint(equalToConstant: 24).isActive = true
         passwordVisibilityToggle.heightAnchor.constraint(equalToConstant: 24).isActive = true
         passwordVisibilityToggle.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 327).isActive = true
-        passwordVisibilityToggle.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 349).isActive = true
+        passwordVisibilityToggle.topAnchor.constraint(equalTo: emailTextField.topAnchor, constant: 62).isActive = true
         
         //MARK: confirm password label
         let confirmPasswordLabel: UILabel = {
@@ -181,8 +178,8 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(confirmPasswordLabel)
         confirmPasswordLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
         confirmPasswordLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        confirmPasswordLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 41).isActive = true
-        confirmPasswordLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 466).isActive = true
+        confirmPasswordLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        confirmPasswordLabel.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: 65).isActive = true
 
         //MARK: confirm password text field
         confirmPasswordTextField.backgroundColor = Color.textFieldBackground
@@ -190,8 +187,26 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         confirmPasswordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         confirmPasswordTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
-        confirmPasswordTextField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 495).isActive = true
+        confirmPasswordTextField.topAnchor.constraint(equalTo: confirmPasswordLabel.topAnchor, constant: 25).isActive = true
 
+        //MARK: next button
+        let nextButton: UIButton = {
+            let button = UIButton()
+            button.layer.cornerRadius = 8
+            button.setTitle("Continue with e-mail", for: .normal)
+            button.titleLabel?.font = Font.bold(20)
+            button.setTitleColor(.white, for: .normal)
+            button.backgroundColor = Color.buttonClickable
+            button.addTarget(self, action: #selector(nextClicked(_:)), for: .touchUpInside)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            return button
+        }()
+        scrollView.addSubview(nextButton)
+        nextButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        nextButton.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 37).isActive = true
+        nextButton.topAnchor.constraint(equalTo: confirmPasswordTextField.topAnchor, constant: 74).isActive = true
+        
         //MARK: terms text view
         let termsTextView: UITextView = {
             let tview = UITextView()
@@ -206,26 +221,40 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(termsTextView)
         termsTextView.widthAnchor.constraint(equalToConstant: 310).isActive = true
         termsTextView.heightAnchor.constraint(equalToConstant: 73).isActive = true
-        termsTextView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 41).isActive = true
-        termsTextView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 574).isActive = true
+        termsTextView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 37).isActive = true
+        termsTextView.topAnchor.constraint(equalTo: nextButton.topAnchor, constant: 70).isActive = true
         
-        //MARK: next button
-        let nextButton: UIButton = {
+        //MARK: or divider
+        let divider: UIImageView = {
+            let imageView = UIImageView()
+            let image = UIImage(named: "or-divider")
+            imageView.image = image
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            return imageView
+        }()
+        scrollView.addSubview(divider)
+        divider.widthAnchor.constraint(equalToConstant: 305).isActive = true
+        divider.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        divider.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        divider.topAnchor.constraint(equalTo: termsTextView.topAnchor, constant: 74).isActive = true
+        
+        //MARK: google-signin button
+        let googleSignIn: UIButton = {
             let button = UIButton()
-            button.layer.cornerRadius = 8
-            button.setTitle("Next", for: .normal)
-            button.titleLabel?.font = Font.bold(20)
-            button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = Color.buttonClickable
+            let image = UIImage(named:"google-signin")
+            let imagePressed = UIImage(named:"google-signin-pressed")
+            button.setBackgroundImage(image, for: .normal)
+            button.setBackgroundImage(imagePressed, for: .highlighted)
             button.addTarget(self, action: #selector(signInButtonPressed(_:)), for: .touchUpInside)
             button.translatesAutoresizingMaskIntoConstraints = false
+            button.imageView?.contentMode = .scaleToFill
             return button
         }()
-        scrollView.addSubview(nextButton)
-        nextButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        nextButton.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 39).isActive = true
-        nextButton.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 732).isActive = true
+        scrollView.addSubview(googleSignIn)
+        googleSignIn.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        googleSignIn.heightAnchor.constraint(equalToConstant: 65).isActive = true
+        googleSignIn.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        googleSignIn.topAnchor.constraint(equalTo: divider.topAnchor, constant: 47).isActive = true
 
     }
     @objc func togglePasswordVisibility(_:UIButton) {
