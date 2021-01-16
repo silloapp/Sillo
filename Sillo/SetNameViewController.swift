@@ -38,10 +38,14 @@ class SetNameViewController: UIViewController {
     }()
     
     override func viewDidAppear(_ animated: Bool) {
-        let screensize: CGRect = UIScreen.main.bounds
-        let screenHeight = screensize.height
         scrollView.contentSize = CGSize(width: 0, height: 896.0)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         if #available(iOS 13.0, *) {
@@ -70,28 +74,30 @@ class SetNameViewController: UIViewController {
             return imageView
         }()
         scrollView.addSubview(silloLogotype)
-        silloLogotype.widthAnchor.constraint(equalToConstant: 132).isActive = true
+        silloLogotype.widthAnchor.constraint(equalToConstant: 319).isActive = true
         silloLogotype.heightAnchor.constraint(equalToConstant: 61).isActive = true
+        silloLogotype.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         silloLogotype.topAnchor.constraint(equalTo: scrollView.topAnchor,constant: 63).isActive = true
-        silloLogotype.leftAnchor.constraint(equalTo: scrollView.leftAnchor,constant: 32).isActive = true
         
         //MARK: what's your name label
         let nameLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.medium(dynamicFontSize(28))
             label.text = "What's your name?"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(nameLabel)
-        nameLabel.widthAnchor.constraint(equalToConstant: 261).isActive = true
+        nameLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 36).isActive = true
+        nameLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         nameLabel.topAnchor.constraint(equalTo: silloLogotype.topAnchor, constant: 119).isActive = true
         
         //MARK: body label
         let bodyLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.numberOfLines = 0
             label.font = Font.regular(dynamicFontSize(17))
             label.text = "Please use your real name - this will be displayed onced you reveal. You will not be able to change this."
@@ -99,23 +105,24 @@ class SetNameViewController: UIViewController {
             return label
         }()
         scrollView.addSubview(bodyLabel)
-        bodyLabel.widthAnchor.constraint(equalToConstant: 291).isActive = true
+        bodyLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         bodyLabel.heightAnchor.constraint(equalToConstant: 63).isActive = true
-        bodyLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 36).isActive = true
+        bodyLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         bodyLabel.topAnchor.constraint(equalTo: nameLabel.topAnchor, constant: 51).isActive = true
         
         //MARK: first name label
         let firstNameLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.regular(dynamicFontSize(17))
             label.text = "First Name"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(firstNameLabel)
-        firstNameLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
+        firstNameLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         firstNameLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        firstNameLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        firstNameLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         firstNameLabel.topAnchor.constraint(equalTo: bodyLabel.topAnchor, constant: 99).isActive = true
         
         //MARK: first name text field
@@ -123,21 +130,22 @@ class SetNameViewController: UIViewController {
         firstNameField.backgroundColor = Color.textFieldBackground
         firstNameField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         firstNameField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        firstNameField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 32).isActive = true
+        firstNameField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         firstNameField.topAnchor.constraint(equalTo: firstNameLabel.topAnchor, constant: 25).isActive = true
         
         //MARK: last name label
         let lastNameLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.regular(dynamicFontSize(17))
             label.text = "Last Name"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(lastNameLabel)
-        lastNameLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
+        lastNameLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         lastNameLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        lastNameLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        lastNameLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         lastNameLabel.topAnchor.constraint(equalTo: firstNameField.topAnchor, constant: 68).isActive = true
 
         //MARK: last name text field
@@ -145,7 +153,7 @@ class SetNameViewController: UIViewController {
         lastNameField.backgroundColor = Color.textFieldBackground
         lastNameField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         lastNameField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        lastNameField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
+        lastNameField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         lastNameField.topAnchor.constraint(equalTo: lastNameLabel.topAnchor, constant: 29).isActive = true
 
         //MARK: next button
@@ -161,9 +169,9 @@ class SetNameViewController: UIViewController {
             return button
         }()
         scrollView.addSubview(nextButton)
-        nextButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        nextButton.widthAnchor.constraint(equalToConstant: 319).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        nextButton.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 37).isActive = true
+        nextButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         nextButton.topAnchor.constraint(equalTo: lastNameField.topAnchor, constant: 74).isActive = true
     }
     

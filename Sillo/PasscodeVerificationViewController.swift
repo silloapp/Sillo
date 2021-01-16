@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 let cloudutil = CloudUtil()
 
@@ -75,6 +76,7 @@ class PasscodeVerificationViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Resend", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel!.font = Font.bold(22)
         button.setTitleColor(.darkGray, for: .highlighted)
         button.addTarget(self, action: #selector(resendRequested(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -93,6 +95,11 @@ class PasscodeVerificationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
     
     override func viewDidLoad() {
         
@@ -141,14 +148,14 @@ class PasscodeVerificationViewController: UIViewController {
         resendLabel.widthAnchor.constraint(equalToConstant: 291).isActive = true
         resendLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         resendLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        resendLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 478).isActive = true
+        resendLabel.topAnchor.constraint(equalTo: passcodeField.bottomAnchor, constant: 104).isActive = true
         
         //MARK: resend code button
         view.addSubview(resendButton)
         resendButton.widthAnchor.constraint(equalToConstant: 291).isActive = true
         resendButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         resendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resendButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 505).isActive = true
+        resendButton.topAnchor.constraint(equalTo: resendLabel.bottomAnchor, constant: 30).isActive = true
         
         
         //MARK: verify Button

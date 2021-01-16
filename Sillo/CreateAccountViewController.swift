@@ -17,7 +17,6 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         let etextField = UITextField()
         etextField.placeholder = " youremail@berkeley.edu"
         etextField.layer.cornerRadius = 10.0;
-        //textField.keyboardType = .emailAddress
         etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         etextField.translatesAutoresizingMaskIntoConstraints = false
         return etextField
@@ -51,16 +50,8 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        
-    }
     
     override func viewDidAppear(_ animated: Bool) {
-        let screensize: CGRect = UIScreen.main.bounds
-        let screenHeight = screensize.height
         scrollView.contentSize = CGSize(width: 0, height: 896.0)
     }
     //MARK: VIEWDIDLOAD
@@ -93,37 +84,40 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             return imageView
         }()
         scrollView.addSubview(silloLogotype)
-        silloLogotype.widthAnchor.constraint(equalToConstant: 132).isActive = true
+        silloLogotype.widthAnchor.constraint(equalToConstant: 319).isActive = true
         silloLogotype.heightAnchor.constraint(equalToConstant: 61).isActive = true
+        silloLogotype.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         silloLogotype.topAnchor.constraint(equalTo: scrollView.topAnchor,constant: 63).isActive = true
-        silloLogotype.leftAnchor.constraint(equalTo: scrollView.leftAnchor,constant: 32).isActive = true
+        
         
         //MARK: create account label
         let createAccountLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.medium(dynamicFontSize(28))
             label.text = "Create your account"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(createAccountLabel)
-        createAccountLabel.widthAnchor.constraint(equalToConstant: 261).isActive = true
+        createAccountLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         createAccountLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
-        createAccountLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 36).isActive = true
+        createAccountLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         createAccountLabel.topAnchor.constraint(equalTo: silloLogotype.topAnchor, constant: 119).isActive = true
         
         //MARK: school email label
         let schoolEmailLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.regular(dynamicFontSize(17))
             label.text = "Enter your school email"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(schoolEmailLabel)
-        schoolEmailLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
+        schoolEmailLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         schoolEmailLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        schoolEmailLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        schoolEmailLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         schoolEmailLabel.topAnchor.constraint(equalTo: createAccountLabel.topAnchor, constant: 49).isActive = true
         
         //MARK: email text field
@@ -131,21 +125,22 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         emailTextField.backgroundColor = Color.textFieldBackground
         emailTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        emailTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 32).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: schoolEmailLabel.topAnchor, constant: 25).isActive = true
+        emailTextField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        emailTextField.topAnchor.constraint(equalTo: schoolEmailLabel.topAnchor, constant: 29).isActive = true
         
         //MARK: password label
         let createPasswordLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.regular(dynamicFontSize(17))
             label.text = "Create a password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(createPasswordLabel)
-        createPasswordLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
+        createPasswordLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         createPasswordLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        createPasswordLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        createPasswordLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         createPasswordLabel.topAnchor.constraint(equalTo: emailTextField.topAnchor, constant: 68).isActive = true
 
         //MARK: password text field
@@ -153,7 +148,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(passwordTextField)
         passwordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        passwordTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
+        passwordTextField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: createPasswordLabel.topAnchor, constant: 29).isActive = true
         
         //MARK: password visiblity toggle
@@ -170,21 +165,22 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(passwordVisibilityToggle)
         passwordVisibilityToggle.widthAnchor.constraint(equalToConstant: 24).isActive = true
         passwordVisibilityToggle.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        passwordVisibilityToggle.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 327).isActive = true
-        passwordVisibilityToggle.topAnchor.constraint(equalTo: emailTextField.topAnchor, constant: 62).isActive = true
+        passwordVisibilityToggle.leftAnchor.constraint(equalTo: createPasswordLabel.leftAnchor, constant: 319-24).isActive = true
+        passwordVisibilityToggle.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -24).isActive = true
         
         //MARK: confirm password label
         let confirmPasswordLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.regular(17)
             label.text = "Confirm password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(confirmPasswordLabel)
-        confirmPasswordLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
+        confirmPasswordLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         confirmPasswordLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        confirmPasswordLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        confirmPasswordLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         confirmPasswordLabel.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: 65).isActive = true
 
         //MARK: confirm password text field
@@ -192,7 +188,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(confirmPasswordTextField)
         confirmPasswordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        confirmPasswordTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
+        confirmPasswordTextField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         confirmPasswordTextField.topAnchor.constraint(equalTo: confirmPasswordLabel.topAnchor, constant: 25).isActive = true
 
         //MARK: next button
@@ -208,14 +204,15 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             return button
         }()
         scrollView.addSubview(nextButton)
-        nextButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        nextButton.widthAnchor.constraint(equalToConstant: 319).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        nextButton.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 37).isActive = true
+        nextButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         nextButton.topAnchor.constraint(equalTo: confirmPasswordTextField.topAnchor, constant: 74).isActive = true
         
         //MARK: terms text view
         let termsTextView: UITextView = {
             let tview = UITextView()
+            tview.textAlignment = .left
             tview.isEditable = false
             tview.isScrollEnabled = false
             tview.font = Font.regular(dynamicFontSize(13))
@@ -227,7 +224,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(termsTextView)
         termsTextView.widthAnchor.constraint(equalToConstant: 310).isActive = true
         termsTextView.heightAnchor.constraint(equalToConstant: 73).isActive = true
-        termsTextView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 37).isActive = true
+        termsTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         termsTextView.topAnchor.constraint(equalTo: nextButton.topAnchor, constant: 70).isActive = true
         
         //MARK: or divider
@@ -283,7 +280,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
-                    if let res = authResult {
+                    if authResult != nil {
                         cloudutil.generateAuthenticationCode()
                         let nextVC = PasscodeVerificationViewController()
                         nextVC.modalPresentationStyle = .fullScreen

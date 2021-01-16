@@ -28,6 +28,10 @@ class VerificationSuccessViewController: UIViewController {
         return label
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
     
     override func viewDidLoad() {
         if #available(iOS 13.0, *) {

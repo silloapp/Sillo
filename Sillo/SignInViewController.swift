@@ -77,37 +77,39 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             return imageView
         }()
         scrollView.addSubview(silloLogotype)
-        silloLogotype.widthAnchor.constraint(equalToConstant: 132).isActive = true
+        silloLogotype.widthAnchor.constraint(equalToConstant: 319).isActive = true
         silloLogotype.heightAnchor.constraint(equalToConstant: 61).isActive = true
         silloLogotype.topAnchor.constraint(equalTo: scrollView.topAnchor,constant: 63).isActive = true
-        silloLogotype.leftAnchor.constraint(equalTo: scrollView.leftAnchor,constant: 32).isActive = true
+        silloLogotype.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         //MARK: sign in account label
         let signInLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.medium(dynamicFontSize(28))
             label.text = "Sign in"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(signInLabel)
-        signInLabel.widthAnchor.constraint(equalToConstant: 261).isActive = true
+        signInLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         signInLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
-        signInLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 36).isActive = true
+        signInLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         signInLabel.topAnchor.constraint(equalTo: silloLogotype.topAnchor, constant: 119).isActive = true
         
         //MARK: school email label
         let schoolEmailLabel: UILabel = {
             let label = UILabel()
+            label.textAlignment = .left
             label.font = Font.regular(dynamicFontSize(17))
             label.text = "Enter your school email"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         scrollView.addSubview(schoolEmailLabel)
-        schoolEmailLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
+        schoolEmailLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         schoolEmailLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        schoolEmailLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        schoolEmailLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         schoolEmailLabel.topAnchor.constraint(equalTo: signInLabel.topAnchor, constant: 49).isActive = true
         
         //MARK: email text field
@@ -115,8 +117,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         emailTextField.backgroundColor = Color.textFieldBackground
         emailTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        emailTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 32).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: schoolEmailLabel.topAnchor, constant: 25).isActive = true
+        emailTextField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        emailTextField.topAnchor.constraint(equalTo: schoolEmailLabel.topAnchor, constant: 29).isActive = true
         
         //MARK: password label
         let createPasswordLabel: UILabel = {
@@ -127,9 +129,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             return label
         }()
         scrollView.addSubview(createPasswordLabel)
-        createPasswordLabel.widthAnchor.constraint(equalToConstant: 284).isActive = true
+        createPasswordLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         createPasswordLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        createPasswordLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 38).isActive = true
+        createPasswordLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         createPasswordLabel.topAnchor.constraint(equalTo: emailTextField.topAnchor, constant: 68).isActive = true
 
         //MARK: password text field
@@ -137,7 +139,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(passwordTextField)
         passwordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        passwordTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 34).isActive = true
+        passwordTextField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: createPasswordLabel.topAnchor, constant: 29).isActive = true
         
         //MARK: password visiblity toggle
@@ -154,8 +156,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(passwordVisibilityToggle)
         passwordVisibilityToggle.widthAnchor.constraint(equalToConstant: 24).isActive = true
         passwordVisibilityToggle.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        passwordVisibilityToggle.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 327).isActive = true
-        passwordVisibilityToggle.topAnchor.constraint(equalTo: emailTextField.topAnchor, constant: 62).isActive = true
+        passwordVisibilityToggle.leftAnchor.constraint(equalTo: passwordTextField.leftAnchor, constant: 319-24).isActive = true
+        passwordVisibilityToggle.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -24).isActive = true
 
         //MARK: next button
         let nextButton: UIButton = {
@@ -170,9 +172,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             return button
         }()
         scrollView.addSubview(nextButton)
-        nextButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        nextButton.widthAnchor.constraint(equalToConstant: 319).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        nextButton.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 37).isActive = true
+        nextButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         nextButton.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: 74).isActive = true
         
         //MARK: reset password button
@@ -241,14 +243,28 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         if (emailTextField.hasText && passwordTextField.hasText) {
             email = emailTextField.text!
             password = passwordTextField.text!
-        
-                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if authResult != nil {
-                        cloudutil.generateAuthenticationCode()
-                        let nextVC = PasscodeVerificationViewController()
-                        nextVC.modalPresentationStyle = .fullScreen
-                        self.present(nextVC, animated: true, completion:nil)
+                        let currentUser = Auth.auth().currentUser!
+                        if (!currentUser.isEmailVerified) {
+                            //email not verified
+                            let nextVC = PasscodeVerificationViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                        else if (currentUser.displayName == nil) {
+                            //no display name
+                            let nextVC = SetNameViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                        else {
+                            //display name set and email verified
+                            let nextVC = WelcomeToSilloViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
                     }
                     else {
                         //Check error and show message
