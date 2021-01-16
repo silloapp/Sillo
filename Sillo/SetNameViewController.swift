@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Firebase
-import GoogleSignIn
 
 //MARK: figma screen 1265
 class SetNameViewController: UIViewController {
@@ -42,7 +40,6 @@ class SetNameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         let screensize: CGRect = UIScreen.main.bounds
         let screenHeight = screensize.height
-        print(screenHeight)
         scrollView.contentSize = CGSize(width: 0, height: 896.0)
     }
     //MARK: VIEWDIDLOAD
@@ -173,15 +170,16 @@ class SetNameViewController: UIViewController {
     //MARK: next clicked
     @objc func nextClicked(_:UIButton) {
         var errorState = false
-        var errorMsg = "Uncaught Exception: please contact the sillo team."
+        var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         
         if (firstNameField.hasText && lastNameField.hasText) {
             let firstName = firstNameField.text!
             let lastName = lastNameField.text!
-            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-            changeRequest?.displayName = "\(firstName) \(lastName)"
-            changeRequest?.commitChanges { (error) in
-            }
+            let displayName = "\(firstName) \(lastName)"
+            let nextVC = NameChangeProcessingViewController()
+            nextVC.displayName = displayName
+            nextVC.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
         else {
             errorState=true

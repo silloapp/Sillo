@@ -234,7 +234,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     //MARK: next clicked
     @objc func nextClicked(_:UIButton) {
         var errorState = false
-        var errorMsg = "Uncaught Exception: please contact the sillo team."
+        var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         var email:String = ""
         var password:String = ""
         

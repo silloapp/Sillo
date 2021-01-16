@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */; };
 		AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */; };
+		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
+		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
 		AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */; };
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
 		AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C125B13DC90070E938 /* SignInViewController.swift */; };
@@ -68,6 +70,8 @@
 		5CF0E214043279D73E59269E /* Pods_SilloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
+		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
+		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
 		AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AAB807C125B13DC90070E938 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 				AAB807C625B154940070E938 /* SetNameViewController.swift */,
 				AAB807C125B13DC90070E938 /* SignInViewController.swift */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
+				AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */,
+				AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
 				AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */,
 				AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */,
@@ -560,6 +566,8 @@
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */,
 				AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */,
+				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
+				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */,

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 
 let cloudutil = CloudUtil()
 
@@ -174,7 +173,11 @@ class PasscodeVerificationViewController: UIViewController {
     
     @objc func verifyClicked(_:UIButton) {
         if (passcodeField.hasText) {
-            validatePasscode(passcode: passcodeField.text!)
+            self.passcodeField.resignFirstResponder()
+            let nextVC = VerificationProcessingViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.passcode = passcodeField.text!
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
         else {
             DispatchQueue.main.async {
@@ -183,48 +186,6 @@ class PasscodeVerificationViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
-    }
-    
-    //MARK: Call the validateAuthenticationCode cloud function service
-    func validatePasscode(passcode: String) {
-        guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/validateAuthenticationCode") else {return}
-        var request = URLRequest(url: url)
-        let userID : String = Auth.auth().currentUser!.uid
-        let payload = "{\"userID\": \"\(userID)\", \"passcode\": \"\(passcode)\"}".data(using: .utf8)
-        
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = payload
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else { print(error!.localizedDescription); return }
-            guard let data = data else { print("Empty data");return }
-
-            if let str = String(data: data, encoding: .utf8) {
-                print(str)
-                let user = Auth.auth().currentUser!
-                
-                user.reload(completion: {_ in
-                    let auth_status:Bool = user.isEmailVerified
-                if (auth_status == true) {
-                    // Code verification successful, move to next VC
-                    self.passcodeField.resignFirstResponder()
-                    let nextVC = VerificationSuccessViewController()
-                    nextVC.modalPresentationStyle = .fullScreen
-                    self.present(nextVC, animated: true, completion:nil)
-                    
-                }
-                else {
-                    //incorrect passcode
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Code is incorrect.", message: "", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in self.passcodeField.text = nil}))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                }
-                })
-            }
-        }.resume()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {

@@ -51,6 +51,12 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         let screensize: CGRect = UIScreen.main.bounds
@@ -264,7 +270,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     
     @objc func nextClicked(_:UIButton) {
         var errorState = false
-        var errorMsg = "Uncaught Exception: please contact the sillo team."
+        var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         var email:String = ""
         var password:String = ""
         var confirmedPassword:String = ""
@@ -281,7 +287,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                         cloudutil.generateAuthenticationCode()
                         let nextVC = PasscodeVerificationViewController()
                         nextVC.modalPresentationStyle = .fullScreen
-                        self.present(nextVC, animated: true, completion:nil)
+                        self.navigationController?.pushViewController(nextVC, animated: true)
                     }
                     else {
                         //Check error and show message
@@ -328,9 +334,16 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             Auth.auth().signIn(with: credentials) { (authResult, error) in
                 if let error = error {
                     print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 } else {
-                    print("Login Successful.")
                     UserDefaults.standard.set(true, forKey: "loggedIn")
+                    let nextVC = VerificationSuccessViewController()
+                    nextVC.modalPresentationStyle = .fullScreen
+                    self.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
         }
