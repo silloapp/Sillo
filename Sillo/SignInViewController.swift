@@ -333,6 +333,18 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                 } else {
                     print("Login Successful.")
                     UserDefaults.standard.set(true, forKey: "loggedIn")
+                    let currentUser = Auth.auth().currentUser!
+                    if (currentUser.displayName == nil) {
+                        //no display name
+                        let nextVC = SetNameViewController()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                    else {
+                        let nextVC = WelcomeToSilloViewController()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
                 }
             }
         }
