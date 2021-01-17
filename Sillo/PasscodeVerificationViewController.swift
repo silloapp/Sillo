@@ -155,7 +155,7 @@ class PasscodeVerificationViewController: UIViewController {
         resendButton.widthAnchor.constraint(equalToConstant: 291).isActive = true
         resendButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         resendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resendButton.topAnchor.constraint(equalTo: resendLabel.bottomAnchor, constant: 30).isActive = true
+        resendButton.topAnchor.constraint(equalTo: resendLabel.bottomAnchor, constant: 5).isActive = true
         
         
         //MARK: verify Button
@@ -163,7 +163,7 @@ class PasscodeVerificationViewController: UIViewController {
         verifyButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         verifyButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         verifyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        verifyButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 730).isActive = true
+        verifyButton.topAnchor.constraint(equalTo: resendButton.topAnchor, constant: 74).isActive = true
         
     }
     
@@ -198,7 +198,7 @@ class PasscodeVerificationViewController: UIViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= 2*(keyboardSize.height / 3)
             }
         }
     }

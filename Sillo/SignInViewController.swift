@@ -297,13 +297,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         if (emailTextField.hasText) {
             let email : String = emailTextField.text!
             Auth.auth().sendPasswordReset(withEmail: email) { error in
-                if let e = error {
-                    errorMsg = e.localizedDescription
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
-                        self.present(alert, animated: true, completion: nil)
-                    }
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Password reset requested!", message: "If you have an email linked with Sillo, you will receieve a password reset link.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
@@ -344,7 +341,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= 2*(keyboardSize.height / 3)
                 scrollView.contentInset = UIEdgeInsets(top: keyboardSize.height + view.safeAreaInsets.top, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom, right: 0)
             }
         }

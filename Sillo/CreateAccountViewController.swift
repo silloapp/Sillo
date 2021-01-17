@@ -12,6 +12,9 @@ import GoogleSignIn
 //MARK: figma screen 1225
 class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     
+    private var latestButtonPressTimestamp: Date = Date()
+    private var DEBOUNCE_LIMIT: Double = 0.5 //in seconds
+    
     //MARK: init email text field
     let emailTextField: UITextField = {
         let etextField = UITextField()
@@ -271,7 +274,15 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         var email:String = ""
         var password:String = ""
         var confirmedPassword:String = ""
+        
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        
         if (emailTextField.hasText && passwordTextField.hasText && confirmPasswordTextField.hasText) {
+            self.latestButtonPressTimestamp = Date()
             email = emailTextField.text!
             password = passwordTextField.text!
             confirmedPassword = confirmPasswordTextField.text!
@@ -349,7 +360,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= 2*(keyboardSize.height / 3)
                 scrollView.contentInset = UIEdgeInsets(top: keyboardSize.height + view.safeAreaInsets.top, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom, right: 0)
             }
         }
