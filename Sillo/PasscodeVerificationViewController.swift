@@ -10,6 +10,7 @@ import Firebase
 
 let cloudutil = CloudUtil()
 
+//MARK: figma screen 164, 165
 class PasscodeVerificationViewController: UIViewController {
     
     private var latestAuthRequestTimestamp: Date = Date()
@@ -75,6 +76,7 @@ class PasscodeVerificationViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Resend", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel!.font = Font.bold(22)
         button.setTitleColor(.darkGray, for: .highlighted)
         button.addTarget(self, action: #selector(resendRequested(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -93,6 +95,11 @@ class PasscodeVerificationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
     
     override func viewDidLoad() {
         
@@ -141,14 +148,14 @@ class PasscodeVerificationViewController: UIViewController {
         resendLabel.widthAnchor.constraint(equalToConstant: 291).isActive = true
         resendLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         resendLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        resendLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 478).isActive = true
+        resendLabel.topAnchor.constraint(equalTo: passcodeField.bottomAnchor, constant: 104).isActive = true
         
         //MARK: resend code button
         view.addSubview(resendButton)
         resendButton.widthAnchor.constraint(equalToConstant: 291).isActive = true
         resendButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         resendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resendButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 505).isActive = true
+        resendButton.topAnchor.constraint(equalTo: resendLabel.bottomAnchor, constant: 5).isActive = true
         
         
         //MARK: verify Button
@@ -156,7 +163,7 @@ class PasscodeVerificationViewController: UIViewController {
         verifyButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         verifyButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         verifyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        verifyButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 730).isActive = true
+        verifyButton.topAnchor.constraint(equalTo: resendButton.topAnchor, constant: 74).isActive = true
         
     }
     
@@ -173,63 +180,25 @@ class PasscodeVerificationViewController: UIViewController {
     
     @objc func verifyClicked(_:UIButton) {
         if (passcodeField.hasText) {
-            validatePasscode(passcode: passcodeField.text!)
+            self.passcodeField.resignFirstResponder()
+            let nextVC = VerificationProcessingViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.passcode = passcodeField.text!
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
         else {
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Please enter a 5-digit verification code.", message: "", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Please enter a verification code.", message: "", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
                 self.present(alert, animated: true, completion: nil)
             }
         }
     }
     
-    //MARK: Call the validateAuthenticationCode cloud function service
-    func validatePasscode(passcode: String) {
-        guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/validateAuthenticationCode") else {return}
-        var request = URLRequest(url: url)
-        let userID : String = Auth.auth().currentUser!.uid
-        let payload = "{\"userID\": \"\(userID)\", \"passcode\": \"\(passcode)\"}".data(using: .utf8)
-        
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = payload
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else { print(error!.localizedDescription); return }
-            guard let data = data else { print("Empty data");return }
-
-            if let str = String(data: data, encoding: .utf8) {
-                print(str)
-                let user = Auth.auth().currentUser!
-                
-                user.reload(completion: {_ in
-                    let auth_status:Bool = user.isEmailVerified
-                if (auth_status == true) {
-                    // Code verification successful, move to next VC
-                    self.passcodeField.resignFirstResponder()
-                    let nextVC = VerificationSuccessViewController()
-                    nextVC.modalPresentationStyle = .fullScreen
-                    self.present(nextVC, animated: true, completion:nil)
-                    
-                }
-                else {
-                    //incorrect passcode
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Code is incorrect.", message: "", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in self.passcodeField.text = nil}))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                }
-                })
-            }
-        }.resume()
-    }
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= 2*(keyboardSize.height / 3)
             }
         }
     }

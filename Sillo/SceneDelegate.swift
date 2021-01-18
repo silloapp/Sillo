@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
 //        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
-        let rootVC = WelcomeToSilloViewController()
+        let rootVC = PageViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.modalPresentationStyle = .fullScreen
 

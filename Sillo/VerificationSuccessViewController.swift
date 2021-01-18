@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+//MARK: figma screen 168
 class VerificationSuccessViewController: UIViewController {
     
     //MARK: init success image
@@ -28,6 +28,10 @@ class VerificationSuccessViewController: UIViewController {
         return label
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
     
     override func viewDidLoad() {
         if #available(iOS 13.0, *) {
@@ -47,8 +51,10 @@ class VerificationSuccessViewController: UIViewController {
         successLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         successLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
-        
-        
+        DispatchQueue.main.asyncAfter(deadline: .now()  + 1.0) {
+            let nextVC = SetNameViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-
+//MARK: figma screens 1025, 1028, 1029
 class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     //MARK: Initialization of UI elements
@@ -94,12 +94,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
 
     @objc func signInClicked(_: UIButton) {
-        //todo
-        //code for signing in
+        let nextVC = SignInViewController()
+        nextVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     @objc func getStartedClicked(_: UIButton){
-        print("Get Started")
+        let nextVC = CreateAccountViewController()
+        nextVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 
     
