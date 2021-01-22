@@ -20,13 +20,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-//        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
+        //MARK: Setting up starting VC
+        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         let rootVC = WelcomeToSilloViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.modalPresentationStyle = .fullScreen
 
-        window?.rootViewController = navVC //starting VC (UI Tab bar / Nav controller)
+        //setup for home
+//        let tabVC = CustomUITabBarController()
+//
+//        let vc1 = UINavigationController(rootViewController: HomeViewController())
+//        let vc2 = UINavigationController(rootViewController: AchievementsViewController())
+//        let vc3 = UINavigationController(rootViewController: NewPostViewController())
+//        let vc4 = UINavigationController(rootViewController: TeamViewController())
+//        let vc5 = UINavigationController(rootViewController: MessagesViewController())
+//
+//
+//        vc1.title = "Home"
+//        vc2.title = "Achievements"
+//        vc3.title = "New Post"
+//        vc4.title = "Team"
+//        vc5.title = "Messages"
+//
+//
+//        tabVC.setViewControllers([vc1, vc2, vc3, vc4, vc5], animated: false)
+        
+        
+        window?.rootViewController = vc //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
     }
 
