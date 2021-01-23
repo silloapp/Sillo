@@ -20,13 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-//        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
-        let rootVC = WelcomeToSilloViewController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.modalPresentationStyle = .fullScreen
 
-        window?.rootViewController = navVC //starting VC (UI Tab bar / Nav controller)
+//        let navVC = UINavigationController(rootViewController: rootVC)
+//        navVC.modalPresentationStyle = .fullScreen
+
+        window?.rootViewController = vc //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
     }
 

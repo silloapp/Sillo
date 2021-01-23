@@ -1,25 +1,23 @@
 //
-//  CreateAccountViewController.swift
+//  SignInViewController.swift
 //  Sillo
 //
-//  Created by William Loo on 1/3/21.
+//  Created by William Loo on 1/14/21.
 //
 
 import UIKit
 import Firebase
 import GoogleSignIn
 
-//MARK: figma screen 1225
-class CreateAccountViewController: UIViewController, GIDSignInDelegate {
-    
-    private var latestButtonPressTimestamp: Date = Date()
-    private var DEBOUNCE_LIMIT: Double = 0.5 //in seconds
+//MARK: figma screen 1266
+class SignInViewController: UIViewController, GIDSignInDelegate {
     
     //MARK: init email text field
     let emailTextField: UITextField = {
         let etextField = UITextField()
         etextField.placeholder = " youremail@berkeley.edu"
         etextField.layer.cornerRadius = 10.0;
+        //textField.keyboardType = .emailAddress
         etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         etextField.translatesAutoresizingMaskIntoConstraints = false
         return etextField
@@ -36,17 +34,6 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         return ptextField
     }()
     
-    //MARK: init confirm password text field
-    var confirmPasswordTextField: UITextField = {
-        let ctextField = UITextField()
-        ctextField.placeholder = " Password"
-        ctextField.layer.cornerRadius = 10.0;
-        ctextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
-        ctextField.isSecureTextEntry = true
-        ctextField.translatesAutoresizingMaskIntoConstraints = false
-        return ctextField
-    }()
-    
     //MARK: Scroll view
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
@@ -55,6 +42,9 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     }()
     
     override func viewDidAppear(_ animated: Bool) {
+        let screensize: CGRect = UIScreen.main.bounds
+        let screenHeight = screensize.height
+        print(screenHeight)
         scrollView.contentSize = CGSize(width: 0, height: 896.0)
     }
     //MARK: VIEWDIDLOAD
@@ -89,24 +79,23 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(silloLogotype)
         silloLogotype.widthAnchor.constraint(equalToConstant: 319).isActive = true
         silloLogotype.heightAnchor.constraint(equalToConstant: 61).isActive = true
-        silloLogotype.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         silloLogotype.topAnchor.constraint(equalTo: scrollView.topAnchor,constant: 63).isActive = true
+        silloLogotype.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
-        
-        //MARK: create account label
-        let createAccountLabel: UILabel = {
+        //MARK: sign in account label
+        let signInLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
             label.font = Font.medium(dynamicFontSize(28))
-            label.text = "Create your account"
+            label.text = "Sign in"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
-        scrollView.addSubview(createAccountLabel)
-        createAccountLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
-        createAccountLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
-        createAccountLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        createAccountLabel.topAnchor.constraint(equalTo: silloLogotype.topAnchor, constant: 119).isActive = true
+        scrollView.addSubview(signInLabel)
+        signInLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
+        signInLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        signInLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        signInLabel.topAnchor.constraint(equalTo: silloLogotype.topAnchor, constant: 119).isActive = true
         
         //MARK: school email label
         let schoolEmailLabel: UILabel = {
@@ -121,7 +110,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         schoolEmailLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
         schoolEmailLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
         schoolEmailLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        schoolEmailLabel.topAnchor.constraint(equalTo: createAccountLabel.topAnchor, constant: 49).isActive = true
+        schoolEmailLabel.topAnchor.constraint(equalTo: signInLabel.topAnchor, constant: 49).isActive = true
         
         //MARK: email text field
         scrollView.addSubview(emailTextField)
@@ -134,9 +123,8 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         //MARK: password label
         let createPasswordLabel: UILabel = {
             let label = UILabel()
-            label.textAlignment = .left
             label.font = Font.regular(dynamicFontSize(17))
-            label.text = "Create a password"
+            label.text = "Password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
@@ -168,37 +156,14 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         scrollView.addSubview(passwordVisibilityToggle)
         passwordVisibilityToggle.widthAnchor.constraint(equalToConstant: 24).isActive = true
         passwordVisibilityToggle.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        passwordVisibilityToggle.leftAnchor.constraint(equalTo: createPasswordLabel.leftAnchor, constant: 319-24).isActive = true
+        passwordVisibilityToggle.leftAnchor.constraint(equalTo: passwordTextField.leftAnchor, constant: 319-24).isActive = true
         passwordVisibilityToggle.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -24).isActive = true
-        
-        //MARK: confirm password label
-        let confirmPasswordLabel: UILabel = {
-            let label = UILabel()
-            label.textAlignment = .left
-            label.font = Font.regular(17)
-            label.text = "Confirm password"
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
-        scrollView.addSubview(confirmPasswordLabel)
-        confirmPasswordLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
-        confirmPasswordLabel.heightAnchor.constraint(equalToConstant: 27).isActive = true
-        confirmPasswordLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        confirmPasswordLabel.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: 65).isActive = true
-
-        //MARK: confirm password text field
-        confirmPasswordTextField.backgroundColor = Color.textFieldBackground
-        scrollView.addSubview(confirmPasswordTextField)
-        confirmPasswordTextField.widthAnchor.constraint(equalToConstant: 319).isActive = true
-        confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        confirmPasswordTextField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        confirmPasswordTextField.topAnchor.constraint(equalTo: confirmPasswordLabel.topAnchor, constant: 25).isActive = true
 
         //MARK: next button
         let nextButton: UIButton = {
             let button = UIButton()
             button.layer.cornerRadius = 8
-            button.setTitle("Continue with e-mail", for: .normal)
+            button.setTitle("Sign in with e-mail", for: .normal)
             button.titleLabel?.font = Font.bold(20)
             button.setTitleColor(.white, for: .normal)
             button.backgroundColor = Color.buttonClickable
@@ -210,25 +175,25 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         nextButton.widthAnchor.constraint(equalToConstant: 319).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        nextButton.topAnchor.constraint(equalTo: confirmPasswordTextField.topAnchor, constant: 74).isActive = true
+        nextButton.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: 74).isActive = true
         
-        //MARK: terms text view
-        let termsTextView: UITextView = {
-            let tview = UITextView()
-            tview.textAlignment = .left
-            tview.isEditable = false
-            tview.isScrollEnabled = false
-            tview.font = Font.regular(dynamicFontSize(13))
-            tview.textColor = .black
-            tview.text = "By creating an account, you are indicating that you have read and acknowledged the Terms of Service and Privacy Policy."
-            tview.translatesAutoresizingMaskIntoConstraints = false
-            return tview
+        //MARK: reset password button
+        let resetPasswordButton: UIButton = {
+            let button = UIButton()
+            button.setTitle("Forgot password?", for: .normal)
+            button.setTitleColor(.black, for: .normal)
+            button.setTitleColor(.darkGray, for: .highlighted)
+            button.addTarget(self, action: #selector(resetPassword(_:)), for: .touchUpInside)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            return button
         }()
-        scrollView.addSubview(termsTextView)
-        termsTextView.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        termsTextView.heightAnchor.constraint(equalToConstant: 73).isActive = true
-        termsTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        termsTextView.topAnchor.constraint(equalTo: nextButton.topAnchor, constant: 70).isActive = true
+        
+        view.addSubview(resetPasswordButton)
+        resetPasswordButton.widthAnchor.constraint(equalToConstant: 216).isActive = true
+        resetPasswordButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        resetPasswordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        resetPasswordButton.topAnchor.constraint(equalTo: nextButton.topAnchor, constant: 68).isActive = true
+        
         
         //MARK: or divider
         let divider: UIImageView = {
@@ -242,7 +207,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         divider.widthAnchor.constraint(equalToConstant: 305).isActive = true
         divider.heightAnchor.constraint(equalToConstant: 22).isActive = true
         divider.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        divider.topAnchor.constraint(equalTo: termsTextView.topAnchor, constant: 74).isActive = true
+        divider.topAnchor.constraint(equalTo: resetPasswordButton.topAnchor, constant: 62).isActive = true
         
         //MARK: google-signin button
         let googleSignIn: UIButton = {
@@ -263,39 +228,43 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         googleSignIn.topAnchor.constraint(equalTo: divider.topAnchor, constant: 47).isActive = true
 
     }
+    //MARK: toggle password visibility
     @objc func togglePasswordVisibility(_:UIButton) {
         passwordTextField.isSecureTextEntry.toggle()
-        confirmPasswordTextField.isSecureTextEntry.toggle()
     }
     
+    //MARK: next clicked
     @objc func nextClicked(_:UIButton) {
         var errorState = false
         var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         var email:String = ""
         var password:String = ""
-        var confirmedPassword:String = ""
         
-        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
-        
-        if (requestThrottled) {
-            return
-        }
-        
-        if (emailTextField.hasText && passwordTextField.hasText && confirmPasswordTextField.hasText) {
-            self.latestButtonPressTimestamp = Date()
+        if (emailTextField.hasText && passwordTextField.hasText) {
             email = emailTextField.text!
             password = passwordTextField.text!
-            confirmedPassword = confirmPasswordTextField.text!
-            
-            if (password == confirmedPassword)
-            {
-                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if authResult != nil {
-                        cloudutil.generateAuthenticationCode()
-                        let nextVC = PasscodeVerificationViewController()
-                        nextVC.modalPresentationStyle = .fullScreen
-                        self.navigationController?.pushViewController(nextVC, animated: true)
+                        let currentUser = Auth.auth().currentUser!
+                        if (!currentUser.isEmailVerified) {
+                            //email not verified
+                            let nextVC = PasscodeVerificationViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                        else if (currentUser.displayName == nil) {
+                            //no display name
+                            let nextVC = SetNameViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                        else {
+                            //display name set and email verified
+                            let nextVC = WelcomeToSilloViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
                     }
                     else {
                         //Check error and show message
@@ -308,11 +277,6 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                         }
                     }
                 }
-            }
-            else {
-                errorState=true
-                errorMsg="The passwords do not match."
-            }
         }
         else {
             errorState=true
@@ -327,6 +291,30 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         }
     }
     
+    //MARK: reset password
+    @objc func resetPassword(_ sender: Any) {
+        var errorMsg = "Uncaught Exception: please contact the sillo team."
+        if (emailTextField.hasText) {
+            let email : String = emailTextField.text!
+            Auth.auth().sendPasswordReset(withEmail: email) { error in
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Password reset requested!", message: "If you have an email linked with Sillo, you will receieve a password reset link.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+        else {
+            errorMsg="Please fill out your email to continue."
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    //MARK: sign in with google
     @objc func signInButtonPressed(_ sender: Any) {
             GIDSignIn.sharedInstance().signIn()
         }
@@ -342,16 +330,21 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             Auth.auth().signIn(with: credentials) { (authResult, error) in
                 if let error = error {
                     print(error.localizedDescription)
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
-                        self.present(alert, animated: true, completion: nil)
-                    }
                 } else {
+                    print("Login Successful.")
                     UserDefaults.standard.set(true, forKey: "loggedIn")
-                    let nextVC = VerificationSuccessViewController()
-                    nextVC.modalPresentationStyle = .fullScreen
-                    self.navigationController?.pushViewController(nextVC, animated: true)
+                    let currentUser = Auth.auth().currentUser!
+                    if (currentUser.displayName == nil) {
+                        //no display name
+                        let nextVC = SetNameViewController()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                    else {
+                        let nextVC = WelcomeToSilloViewController()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
                 }
             }
         }
@@ -377,7 +370,6 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     @objc func hideKeyboard() {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        confirmPasswordTextField.resignFirstResponder()
     }
 
 }
