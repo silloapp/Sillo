@@ -165,6 +165,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AA196FA125BEA51C00A9997B /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
+				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
+				AAB807C625B154940070E938 /* SetNameViewController.swift */,
+				AAB807C125B13DC90070E938 /* SignInViewController.swift */,
+				AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */,
+				AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */,
+				AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */,
+				AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		FD1D22A025A16D1100F1636C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,20 +243,13 @@
 				FD1D22A025A16D1100F1636C /* Assets */,
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
-				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
 				FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */,
 				FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */,
 				FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */,
-				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
-				AAB807C625B154940070E938 /* SetNameViewController.swift */,
-				AAB807C125B13DC90070E938 /* SignInViewController.swift */,
+				AA196FA125BEA51C00A9997B /* Onboarding */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
-				AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */,
-				AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
-				AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */,
-				AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
 				FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */,
 				FD9D92D025A13B29003C7883 /* Info.plist */,
