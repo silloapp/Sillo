@@ -94,7 +94,6 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
 
     @objc func signInClicked(_: UIButton) {
-        print("HI")
         let nextVC = SignInViewController()
         nextVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(nextVC, animated: true)
