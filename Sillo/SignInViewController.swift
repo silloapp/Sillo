@@ -41,6 +41,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.scrollIndicatorInsets = UIEdgeInsets(top: 65, left: 0, bottom: 0, right: 0)
         return sv
     }()
     
@@ -66,9 +67,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
 
         self.view.addSubview(scrollView)
         scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 1.0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 1.0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -1.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -1.0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scrollView.isScrollEnabled = true
         
         //MARK: sillo logotype
