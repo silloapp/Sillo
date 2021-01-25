@@ -20,10 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-//        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
-        let rootVC = PageViewController()
-        let navVC = UINavigationController(rootViewController: rootVC)
+
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.navigationBar.isHidden = true
         navVC.modalPresentationStyle = .fullScreen
 
         window?.rootViewController = navVC //starting VC (UI Tab bar / Nav controller)

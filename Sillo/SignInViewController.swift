@@ -12,6 +12,9 @@ import GoogleSignIn
 //MARK: figma screen 1266
 class SignInViewController: UIViewController, GIDSignInDelegate {
     
+    private var latestButtonPressTimestamp: Date = Date()
+    private var DEBOUNCE_LIMIT: Double = 0.5 //in seconds
+    
     //MARK: init email text field
     let emailTextField: UITextField = {
         let etextField = UITextField()
@@ -38,6 +41,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.scrollIndicatorInsets = UIEdgeInsets(top: 65, left: 0, bottom: 0, right: 0)
         return sv
     }()
     
@@ -63,9 +67,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
 
         self.view.addSubview(scrollView)
         scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 1.0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 1.0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -1.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -1.0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scrollView.isScrollEnabled = true
         
         //MARK: sillo logotype
@@ -240,7 +244,14 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         var email:String = ""
         var password:String = ""
         
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        
         if (emailTextField.hasText && passwordTextField.hasText) {
+            self.latestButtonPressTimestamp = Date()
             email = emailTextField.text!
             password = passwordTextField.text!
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
@@ -294,8 +305,16 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     
     //MARK: reset password
     @objc func resetPassword(_ sender: Any) {
+        
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        
         var errorMsg = "Uncaught Exception: please contact the sillo team."
         if (emailTextField.hasText) {
+            self.latestButtonPressTimestamp = Date()
             let email : String = emailTextField.text!
             Auth.auth().sendPasswordReset(withEmail: email) { error in
                 DispatchQueue.main.async {
