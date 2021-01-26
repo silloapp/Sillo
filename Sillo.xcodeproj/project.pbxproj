@@ -28,15 +28,6 @@
 		EF5A2108C5D5FD938896A7DB /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E45B4A49DB2FEF9EFB5D2AC /* Pods_Sillo_SilloUITests.framework */; };
 		FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */; };
 		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
-		FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */; };
-		FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */; };
-		FD1D22BB25A19F9E00F1636C /* Apercu Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B225A19F9D00F1636C /* Apercu Light.otf */; };
-		FD1D22BC25A19F9E00F1636C /* Apercu Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B325A19F9D00F1636C /* Apercu Italic.otf */; };
-		FD1D22BD25A19F9E00F1636C /* Apercu Bold Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B425A19F9D00F1636C /* Apercu Bold Italic.otf */; };
-		FD1D22BE25A19F9E00F1636C /* Apercu Light Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B525A19F9D00F1636C /* Apercu Light Italic.otf */; };
-		FD1D22BF25A19F9E00F1636C /* Apercu Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */; };
-		FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */; };
-		FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
 		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
 		FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* PageViewController.swift */; };
@@ -402,10 +393,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD1D22BF25A19F9E00F1636C /* Apercu Bold.otf in Resources */,
-				FD1D22BB25A19F9E00F1636C /* Apercu Light.otf in Resources */,
-				FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */,
-				FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */,
 				FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */,
 				AAB8079D25B02F430070E938 /* Apercu Mono.otf in Resources */,
 				AAB8079A25B02F430070E938 /* Apercu Regular.otf in Resources */,
@@ -415,14 +402,9 @@
 				AAB8079C25B02F430070E938 /* Apercu Bold Italic.otf in Resources */,
 				AAB8079B25B02F430070E938 /* Apercu Medium.otf in Resources */,
 				AAB8079925B02F430070E938 /* Apercu Bold.otf in Resources */,
-				FD1D22BE25A19F9E00F1636C /* Apercu Light Italic.otf in Resources */,
-				FD1D22BD25A19F9E00F1636C /* Apercu Bold Italic.otf in Resources */,
 				AAB8079725B02F430070E938 /* Apercu Medium Italic.otf in Resources */,
-				FD1D22BC25A19F9E00F1636C /* Apercu Italic.otf in Resources */,
 				FD9D92CC25A13B29003C7883 /* Assets.xcassets in Resources */,
-				FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */,
 				AAB8079F25B02F430070E938 /* Apercu Italic.otf in Resources */,
-				FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,6 +22,7 @@ class NotificationEnableViewController: UIViewController {
        let headerLabel: UILabel = {
            let label = UILabel()
            label.font = Font.bold(32)
+           label.textColor = Color.buttonClickable
            label.text = "Stay connected"
            label.translatesAutoresizingMaskIntoConstraints = false
            return label
@@ -75,97 +76,88 @@ class NotificationEnableViewController: UIViewController {
           view.addSubview(silloLogotype)
           silloLogotype.widthAnchor.constraint(equalToConstant: 132).isActive = true
           silloLogotype.heightAnchor.constraint(equalToConstant: 61).isActive = true
-          silloLogotype.topAnchor.constraint(equalTo: view.topAnchor,constant: 91).isActive = true
-          silloLogotype.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 36).isActive = true
+        silloLogotype.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 91).isActive = true
+        silloLogotype.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor,constant: 55).isActive = true
           
           //MARK: header label
           view.addSubview(headerLabel)
           headerLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
           headerLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
-          headerLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 55).isActive = true
+        headerLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 55).isActive = true
         headerLabel.topAnchor.constraint(equalTo: silloLogotype.bottomAnchor, constant: 180).isActive = true
           
           //MARK: body label
           view.addSubview(bodyLabel)
           bodyLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
-          bodyLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 55).isActive = true
+        bodyLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 55).isActive = true
           bodyLabel.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 30).isActive = true
 
           //MARK: enable notifications button
           view.addSubview(enableNotificationsButton)
           enableNotificationsButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
           enableNotificationsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-          enableNotificationsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-          enableNotificationsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 530).isActive = true
+        enableNotificationsButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        enableNotificationsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60).isActive = true
         
             //MARK: skip notifications button
              view.addSubview(skipButton)
              skipButton.widthAnchor.constraint(equalToConstant: 291).isActive = true
              skipButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-             skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        skipButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
              skipButton.topAnchor.constraint(equalTo: enableNotificationsButton.bottomAnchor, constant: 20).isActive = true
              
     }
     
     //MARK: Push Notification
-       func registerForPushNotifications() {
-           UNUserNotificationCenter.current()
-             .requestAuthorization(
-               options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-               print("Permission granted: \(granted)")
-               guard granted else { return }
-               self?.getNotificationSettings()
-             }
-       }
-    
+    func registerForPushNotifications() {
+        UNUserNotificationCenter.current()
+          .requestAuthorization(
+            options: [.alert, .sound, .badge]) { [weak self] granted, _ in
+            print("Permission granted: \(granted)")
+            guard granted else {
+                DispatchQueue.main.async {
+                    let nextVC = AllSetViewController()
+                    nextVC.modalPresentationStyle = .fullScreen
+                    self?.present(nextVC, animated: true, completion:nil)
+                }
+                return
+            }
+            self?.getNotificationSettings()
+          }
+    }
     
     //MARK: Get Push Notification Settings
     func getNotificationSettings() {
       UNUserNotificationCenter.current().getNotificationSettings { settings in
         print("Notification settings: \(settings)")
         
-        guard settings.authorizationStatus == .authorized else { return }
+        guard settings.authorizationStatus == .authorized else {
+            let nextVC = AllSetViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            self.present(nextVC, animated: true, completion:nil)
+            return }
         DispatchQueue.main.async {
-          UIApplication.shared.registerForRemoteNotifications()
+            UIApplication.shared.registerForRemoteNotifications()
+            let nextVC = AllSetViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            self.present(nextVC, animated: true, completion:nil)
+           
         }
       }
     }
     
-    //MARK: Did Register Notifs
-    func application(
-      _ application: UIApplication,
-      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-    ) {
-      let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-      let token = tokenParts.joined()
-      print("Device Token: \(token)")
-    }
-    
-    //MARK: Fail Register Notifs
-    func application(
-      _ application: UIApplication,
-      didFailToRegisterForRemoteNotificationsWithError error: Error
-    ) {
-      print("Failed to register: \(error)")
-    }
 
     //User pressed enable notifications button
     @objc func enableNotifications(_:UIButton) {
         registerForPushNotifications()
-        print("Button pressed - you should see all set screen now! :) ")
-        let vc = AllSetViewController()
-        let navigationController = UINavigationController(rootViewController: vc)
-        self.present(navigationController, animated: true, completion: nil)
     }
     
     //User pressed skip notifications button
        @objc func skipNotifications(_:UIButton) {
-           print("You skipped notifications :( Should see next screen. ")
-//           let nextView = AllSetViewController(nibName: "AllSetViewController", bundle: nil)
-//           self.navigationController?.pushViewController(nextView, animated: true)
-        let vc = AllSetViewController()
-        let navigationController = UINavigationController(rootViewController: vc)
-        self.present(navigationController, animated: true, completion: nil)       }
+        let nextVC = AllSetViewController()
+        nextVC.modalPresentationStyle = .fullScreen
+        self.present(nextVC, animated: true, completion:nil)
+       }
     
     /*
     // MARK: - Navigation
