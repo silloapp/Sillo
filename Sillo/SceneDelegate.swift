@@ -20,7 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+//        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let vc = NotificationEnableViewController()
         
 
         let navVC = UINavigationController(rootViewController: vc)
