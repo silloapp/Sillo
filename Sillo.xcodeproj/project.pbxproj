@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */; };
+		A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */; };
+		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
 		AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
@@ -69,6 +71,8 @@
 		50CD6D3AEAE21412F5592ADE /* Pods-SilloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.release.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.release.xcconfig"; sourceTree = "<group>"; };
 		5CF0E214043279D73E59269E /* Pods_SilloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
+		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
@@ -176,6 +180,8 @@
 				AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */,
 				AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */,
 				AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */,
+				A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */,
+				A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -572,11 +578,13 @@
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
+				A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */,
 				AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */,
 				AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
+				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
 				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */,
 			);
