@@ -83,29 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    //MARK: Push Notification
-    func registerForPushNotifications() {
-        UNUserNotificationCenter.current()
-          .requestAuthorization(
-            options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-            print("Permission granted: \(granted)")
-            guard granted else { return }
-            self?.getNotificationSettings()
-          }
-    }
-    
-    //MARK: Get Push Notification Settings
-    func getNotificationSettings() {
-      UNUserNotificationCenter.current().getNotificationSettings { settings in
-        print("Notification settings: \(settings)")
-        
-        guard settings.authorizationStatus == .authorized else { return }
-        DispatchQueue.main.async {
-          UIApplication.shared.registerForRemoteNotifications()
-        }
-      }
-    }
-    
     //MARK: Did Register Notifs
     func application(
       _ application: UIApplication,
