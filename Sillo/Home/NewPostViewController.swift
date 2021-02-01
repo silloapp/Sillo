@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewPostViewController: UIViewController {
+class NewPostViewController: UIViewController, UITextViewDelegate {
     
     //MARK: init exit button
     let exitButton: UIImageView = {
@@ -45,10 +45,13 @@ class NewPostViewController: UIViewController {
 
     //MARK: init anonymous profile picture
     let profilepic: UIImageView = {
-        let image = UIImage(named: "profileplaceholder") //TODO: replace with finalized image
+        let image = UIImage(named: "anon_profile") //TODO: replace with randomized profile pic
         let imageView = UIImageView(image: image)
         imageView.contentMode = .center
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
+       
         return imageView
     }()
     
@@ -66,11 +69,23 @@ class NewPostViewController: UIViewController {
         return textView
     }()
     
+    //MARK: init textview
+    let textView: UITextView = {
+        let textView = UITextView()
+        textView.text = "Say something nice..."
+        textView.textColor = UIColor.lightGray
+        textView.backgroundColor = UIColor.white
+        textView.font = Font.regular(17)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.isScrollEnabled = false
+        return textView
+    }()
+    
     //MARK: init giphy space
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        postTextField.delegate = self
+        textView.delegate = self
 
         // Do any additional setup after loading the view.
         
@@ -103,33 +118,33 @@ class NewPostViewController: UIViewController {
 //        //MARK: profilepic
         view.addSubview(profilepic)
         profilepic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
-        profilepic.topAnchor.constraint(equalTo: headerLabel.topAnchor, constant: 50).isActive = true
-//
-//        //MARK: textfield
-        view.addSubview(postTextField)
-        postTextField.leadingAnchor.constraint(equalTo: profilepic.leadingAnchor, constant: 50).isActive = true
-        postTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
-        postTextField.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 50).isActive = true
+        profilepic.topAnchor.constraint(equalTo: headerLabel.topAnchor, constant: 40).isActive = true
+        profilepic.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        profilepic.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        //MARK: giphy field
+        //textiview
+        view.addSubview(textView)
+        textView.leadingAnchor.constraint(equalTo: profilepic.leadingAnchor, constant: 50).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+        textView.topAnchor.constraint(equalTo: profilepic.topAnchor, constant: 0).isActive = true        //MARK: giphy field
         //TODO: add this
         
        
     }
     
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        if textView.textColor == UIColor.lightGray {
-//            textView.text = nil
-//            textView.textColor = UIColor.black
-//        }
-//    }
-//
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        if textView.text.isEmpty {
-//            textView.text = "Placeholder"
-//            textView.textColor = UIColor.lightGray
-//        }
-//    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Say something nice..."
+            textView.textColor = UIColor.lightGray
+        }
+    }
     
     //User pressed post button
     @objc func createPost(_:UIButton) {
