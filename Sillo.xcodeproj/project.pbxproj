@@ -10,6 +10,7 @@
 		00E8E72F3171DA5E52E35B89 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */; };
 		A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */; };
 		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
+		A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA47D25C333400028FCBB /* NewPostViewController.swift */; };
 		AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
@@ -73,6 +74,7 @@
 		8B0E926880FB665EA3C65255 /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
 		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
+		A01CA47D25C333400028FCBB /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A01CA47325C333080028FCBB /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A01CA47D25C333400028FCBB /* NewPostViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		AA196FA125BEA51C00A9997B /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +260,7 @@
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
+				A01CA47325C333080028FCBB /* Home */,
 				FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */,
 				FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */,
 				FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */,
@@ -577,6 +588,7 @@
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
+				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */,
 				AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */,
