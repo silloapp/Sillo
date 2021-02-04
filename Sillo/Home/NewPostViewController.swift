@@ -129,7 +129,21 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         textView.topAnchor.constraint(equalTo: profilepic.topAnchor, constant: 0).isActive = true        //MARK: giphy field
         //TODO: add this
         
-       
+        
+        // UITOOLBAR
+        //for some reason these images don't show up as UIBarButtonItems :/
+//        let giphyImage = UIImage(named: "GIPHY_logo")?.withRenderingMode(.alwaysOriginal)
+//        let stickerImage = UIImage(named: "sticker_logo")?.withRenderingMode(.alwaysOriginal)
+      
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
+           toolBar.barStyle = UIBarStyle.default
+           toolBar.items = [
+            UIBarButtonItem(title:"GIPHY", style: UIBarButtonItem.Style.plain, target: self, action: #selector(addGifPressed(_:))),
+//            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title:"Sticker", style: UIBarButtonItem.Style.plain, target: self, action: #selector(addStickerPressed(_:)))]
+           toolBar.sizeToFit()
+
+           textView.inputAccessoryView = toolBar
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -155,6 +169,18 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     @objc func exitPressed(_:UIImage) {
         print("TODO: return to home page")
     }
+    
+    //User pressed gif button
+    @objc func addGifPressed(_:UIButton) {
+        print("TODO: bring up GIF VC")
+    }
+    
+    //User pressed sticker button
+    @objc func addStickerPressed(_:UIButton) {
+        print("TODO: bring up sillo sticker half VC")
+    }
+    
+    
     
     
 
