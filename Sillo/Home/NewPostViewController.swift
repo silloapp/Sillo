@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GiphyUISDK
 
 class NewPostViewController: UIViewController, UITextViewDelegate {
     
@@ -86,8 +87,15 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.delegate = self
-
         // Do any additional setup after loading the view.
+        addHomeView()
+        Giphy.configure(apiKey: "Z5AW2zezCf4gtUQEOh379fYxxqfLzPYX")
+        
+        
+
+    }
+    
+    func addHomeView() {
         
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
@@ -143,8 +151,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             UIBarButtonItem(title:"Sticker", style: UIBarButtonItem.Style.plain, target: self, action: #selector(addStickerPressed(_:)))]
            toolBar.sizeToFit()
 
-           textView.inputAccessoryView = toolBar
-    }
+           textView.inputAccessoryView = toolBar    }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
@@ -172,26 +179,40 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     //User pressed gif button
     @objc func addGifPressed(_:UIButton) {
-        print("TODO: bring up GIF VC")
+        let giphy = GiphyViewController()
+        giphy.theme = GPHTheme(type: GPHThemeType.lightBlur)
+        giphy.mediaTypeConfig = [.gifs, .stickers]
+        GiphyViewController.trayHeightMultiplier = 0.7
+        giphy.showConfirmationScreen = false
+        giphy.shouldLocalizeSearch = true
+        giphy.delegate = self
+        giphy.dimBackground = true
+        giphy.rating = .ratedPG13
+        giphy.modalPresentationStyle = .overCurrentContext
+        present(giphy, animated: true, completion: nil)
     }
     
     //User pressed sticker button
     @objc func addStickerPressed(_:UIButton) {
         print("TODO: bring up sillo sticker half VC")
     }
-    
-    
-    
-    
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension NewPostViewController: GiphyDelegate {
+    func didSearch(for term: String) {
+        print("your user made a search! ", term)
     }
-    */
-
+    
+    func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
+        // user tapped a GIF!
+        print("user tapped a GIF!")
+        giphyViewController.dismiss(animated: true, completion: nil)
+        GPHCache.shared.clear()
+    }
+    
+    func didDismiss(controller: GiphyViewController?) {
+        // user dismissed the controller without selecting a GIF.
+        GPHCache.shared.clear()
+    }
 }
