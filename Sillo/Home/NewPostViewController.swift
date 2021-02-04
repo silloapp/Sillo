@@ -9,6 +9,8 @@ import UIKit
 import GiphyUISDK
 
 class NewPostViewController: UIViewController, UITextViewDelegate {
+    var imageViewWidthConstraint: NSLayoutConstraint?
+    var imageViewRightConstraint: NSLayoutConstraint?
     
     //MARK: init exit button
     let exitButton: UIImageView = {
@@ -83,6 +85,14 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     }()
     
     //MARK: init giphy space
+    let bubbleView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var imageView = GPHMediaView()
+    var media: GPHMedia?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,6 +146,18 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         textView.topAnchor.constraint(equalTo: profilepic.topAnchor, constant: 0).isActive = true        //MARK: giphy field
         //TODO: add this
+        
+        view.addSubview(bubbleView)
+        bubbleView.topAnchor.constraint(equalTo: textView.topAnchor, constant: 100).isActive = true
+        bubbleView.heightAnchor.constraint(equalToConstant: 250).isActive = true
+        bubbleView.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        
+        bubbleView.layer.cornerRadius = 16
+        bubbleView.layer.masksToBounds = false
+        bubbleView.layer.shadowColor = UIColor.black.cgColor
+        bubbleView.layer.shadowOpacity = 0.12
+        bubbleView.layer.shadowRadius = 25
+        bubbleView.layer.shadowOffset = CGSize(width: 0, height: 13)
         
         
         // UITOOLBAR
@@ -204,10 +226,31 @@ extension NewPostViewController: GiphyDelegate {
         print("your user made a search! ", term)
     }
     
+    
+    func addMedia() {
+        guard let media = media else { return }
+        bubbleView.backgroundColor = .clear
+        bubbleView.addSubview(imageView)
+        imageView.media = media
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
+        imageViewWidthConstraint = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: media.aspectRatio)
+        imageViewWidthConstraint?.isActive = true
+        imageViewRightConstraint = imageView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor)
+        imageViewRightConstraint?.isActive = true
+        imageView.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor).isActive = true
+        imageView.isUserInteractionEnabled = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = bubbleView.layer.cornerRadius
+        imageView.layer.masksToBounds = true
+    }
+    
     func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
         // user tapped a GIF!
         print("user tapped a GIF!")
         giphyViewController.dismiss(animated: true, completion: nil)
+        self.media = media
+        addMedia()
         GPHCache.shared.clear()
     }
     
