@@ -78,12 +78,12 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         buttonsStack.addArrangedSubview(getStartedButton)
         buttonsStack.addArrangedSubview(signInButton)
         buttonsStack.translatesAutoresizingMaskIntoConstraints = false
-        buttonsStack.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 180).isActive = true
+        buttonsStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15).isActive = true
         buttonsStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        buttonsStack.widthAnchor.constraint(equalToConstant: 500).isActive = true
+        buttonsStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 306/375).isActive = true
         
-        getStartedButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        getStartedButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        getStartedButton.widthAnchor.constraint(equalTo: buttonsStack.widthAnchor).isActive = true
+        getStartedButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 50/812).isActive = true
         signInButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
     }
@@ -108,16 +108,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     func configurePageControl() {
         let initialPage = 0
-        let page1 = logoOnboardingViewController(_image: UIImage(named: "onboardingSillo")!, _descriptionText: "Connecting the real you.")
-        let page2 = onboardingViewController(_image: UIImage(named: "onboardingSillo")!, _descriptionText: "Spark a conversation in your team anonymously.")
-        let page3 = onboardingViewController(_image: UIImage(named: "onboardingSillo")!, _descriptionText: "Show yourself only when you are ready.")
-        let page4 = onboardingViewController(_image: UIImage(named: "onboardingSillo")!, _descriptionText: "Share exclusive deals from nearby restaurants.")
+//        let page1 = logoOnboardingViewController(_image: UIImage(named: "onboardingSillo")!, _descriptionText: "Connecting the real you.")
+        let page1 = onboardingViewController(_image: UIImage(named: "onboarding1")!, _descriptionText: "Spark a conversation in your team anonymously.")
+        let page2 = onboardingViewController(_image: UIImage(named: "onboarding2")!, _descriptionText: "Show yourself only when you are ready.")
+        let page3 = onboardingViewController(_image: UIImage(named: "onboarding3")!, _descriptionText: "Share exclusive deals from nearby restaurants.")
         
         // add the individual viewControllers to the pageViewController
         self.pages.append(page1)
         self.pages.append(page2)
         self.pages.append(page3)
-        self.pages.append(page4)
         setViewControllers([pages[initialPage]], direction: .forward, animated: false, completion: nil)
         
         
@@ -125,7 +124,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         self.pageControl.pageIndicatorTintColor = UIColor.lightGray
         self.pageControl.numberOfPages = self.pages.count
         self.pageControl.currentPage = initialPage
-        self.pageControl.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        self.pageControl.currentPageIndicatorTintColor = Color.buttonClickable
+        self.pageControl.pageIndicatorTintColor = Color.gray
+//        self.pageControl.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         self.view.addSubview(self.pageControl)
         
         self.pageControl.translatesAutoresizingMaskIntoConstraints = false
