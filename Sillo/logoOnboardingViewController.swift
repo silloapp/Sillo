@@ -60,6 +60,7 @@ class logoOnboardingViewController: UIViewController {
         stack.spacing = 15
         view.addSubview(stack)
         
+        
         stack.addArrangedSubview(onboardingImage)
         stack.addArrangedSubview(descriptionLabel)
         
@@ -69,6 +70,8 @@ class logoOnboardingViewController: UIViewController {
         stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         stack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         stack.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        
+        onboardingImage.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
     }
 
 }
@@ -120,7 +123,7 @@ class onboardingViewController: UIViewController {
         
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stack.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        stack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 319/375).isActive = true
         stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 130).isActive = true
     }
 }
