@@ -31,4 +31,10 @@ struct Color {
     }
     
     static var textFieldBackground = UIColor(red: CGFloat(249/255), green: CGFloat(249/255), blue: CGFloat(249/255), alpha: CGFloat(0.05))
+    
+    static var navBlue: UIColor {
+        return UIColor(displayP3Red: 234/255, green: 240/255, blue: 253/255, alpha: 1.0)
+    }
+    
+    
 }

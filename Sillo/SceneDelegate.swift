@@ -20,14 +20,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
+        //configure first screen
+//        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+//        let transition = CATransition()
+//        transition.duration = 0.3
+//        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+//        transition.type = .fade
+//        self.navigationController?.view.layer.add(transition, forKey: nil)
+        
+        let tabVC = UITabBarController()
+        let vc1 = UINavigationController(rootViewController: HomeViewController())
+        let vc2 = UINavigationController(rootViewController: AchievementsViewController())
+        let vc3 = UINavigationController(rootViewController: AchievementsViewController())
+        let vc4 = UINavigationController(rootViewController: TeamViewController())
+        let vc5 = UINavigationController(rootViewController: MessagesViewController())
+        vc1.title = "Home"
+        vc2.title = "Achievements"
+        vc3.title = "New Post"
+        vc4.title = "Team"
+        vc5.title = "Messages"
+        tabVC.setViewControllers([vc1, vc2, vc3, vc4, vc5], animated: false)
+//        tabVC.modalPresentationStyle = .fullScreen
+//        navigationController?.present(tabVC, animated: true, completion: nil)
 
-        let navVC = UINavigationController(rootViewController: vc)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
+        //OG CODE BELOW
+//        let navVC = UINavigationController(rootViewController: tabVC)
+//        navVC.modalPresentationStyle = .fullScreen
 
-        window?.rootViewController = navVC //starting VC (UI Tab bar / Nav controller)
+        window?.rootViewController = tabVC //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
     }
 
