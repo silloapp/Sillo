@@ -9,9 +9,12 @@
 /* Begin PBXBuildFile section */
 		40680F51CDA117DB628FE459 /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E35ACF4D93B0408DD590311 /* Pods_Sillo_SilloUITests.framework */; };
 		80D1ADF74F43A0D1F61EAE3E /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E486C59CFC9B22E4A8926D1 /* Pods_SilloTests.framework */; };
+		A002D19425D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */; };
 		A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */; };
 		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
 		A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA47D25C333400028FCBB /* NewPostViewController.swift */; };
+		A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E5925DEE3DE00479E2E /* TeamCell.swift */; };
+		A0B84E6425DEE43500479E2E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6325DEE43500479E2E /* Contact.swift */; };
 		AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
@@ -34,6 +37,11 @@
 		FD1D22BF25A19F9E00F1636C /* Apercu Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */; };
 		FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */; };
 		FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */; };
+		FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */; };
+		FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908125C3EB26009F4F29 /* HomeViewController.swift */; };
+		FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908625C3EB31009F4F29 /* MessagesViewController.swift */; };
+		FD94908C25C3EB3F009F4F29 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908B25C3EB3F009F4F29 /* TeamViewController.swift */; };
+		FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */; };
 		FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
 		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
@@ -43,6 +51,8 @@
 		FD9D92CF25A13B29003C7883 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */; };
 		FD9D92DA25A13B2A003C7883 /* SilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92D925A13B2A003C7883 /* SilloTests.swift */; };
 		FD9D92E525A13B2A003C7883 /* SilloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92E425A13B2A003C7883 /* SilloUITests.swift */; };
+		FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA03F8325CCA09100F5F530 /* Colors+Home.swift */; };
+		FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */; };
 		FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC59A125A57DB500BC2110 /* Colors.swift */; };
 		FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */; };
 		FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */; };
@@ -73,9 +83,12 @@
 		82ADEC15985E2EB3E2847F79 /* Pods-SilloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.debug.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B3BECB7D5B4441B64CF4EAE /* Pods-Sillo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.debug.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.debug.xcconfig"; sourceTree = "<group>"; };
 		8E486C59CFC9B22E4A8926D1 /* Pods_SilloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsTableViewCell.swift; sourceTree = "<group>"; };
 		A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
 		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		A01CA47D25C333400028FCBB /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
+		A0B84E5925DEE3DE00479E2E /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
+		A0B84E6325DEE43500479E2E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +113,11 @@
 		FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Bold.otf"; sourceTree = "<group>"; };
 		FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
 		FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
+		FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
+		FD94908125C3EB26009F4F29 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		FD94908625C3EB31009F4F29 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		FD94908B25C3EB3F009F4F29 /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
+		FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
 		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92BF25A13B25003C7883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +133,8 @@
 		FD9D92E025A13B2A003C7883 /* SilloUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SilloUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92E425A13B2A003C7883 /* SilloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilloUITests.swift; sourceTree = "<group>"; };
 		FD9D92E625A13B2A003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDA03F8325CCA09100F5F530 /* Colors+Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Home.swift"; sourceTree = "<group>"; };
+		FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostTableViewCell.swift; sourceTree = "<group>"; };
 		FDAC59A125A57DB500BC2110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeToSilloViewController.swift; sourceTree = "<group>"; };
 		FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupOrganizationViewController.swift; sourceTree = "<group>"; };
@@ -184,11 +204,11 @@
 			children = (
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
-				AAB807C625B154940070E938 /* SetNameViewController.swift */,
 				AAB807C125B13DC90070E938 /* SignInViewController.swift */,
 				AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */,
 				AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */,
 				AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */,
+				AAB807C625B154940070E938 /* SetNameViewController.swift */,
 				AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */,
 				A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */,
 				A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */,
@@ -209,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				FDAC59A125A57DB500BC2110 /* Colors.swift */,
+				FDA03F8325CCA09100F5F530 /* Colors+Home.swift */,
 			);
 			path = Colors;
 			sourceTree = "<group>";
@@ -228,6 +249,22 @@
 				FD1D22AB25A19F5700F1636C /* Fonts.swift */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		FD94907525C3EA80009F4F29 /* Main Tab Views */ = {
+			isa = PBXGroup;
+			children = (
+				FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */,
+				FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */,
+				FD94908125C3EB26009F4F29 /* HomeViewController.swift */,
+				FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */,
+				FD94908625C3EB31009F4F29 /* MessagesViewController.swift */,
+				FD94908B25C3EB3F009F4F29 /* TeamViewController.swift */,
+				A0B84E5925DEE3DE00479E2E /* TeamCell.swift */,
+				A0B84E6325DEE43500479E2E /* Contact.swift */,
+				A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */,
+			);
+			path = "Main Tab Views";
 			sourceTree = "<group>";
 		};
 		FD9D92B325A13B25003C7883 = {
@@ -265,6 +302,7 @@
 				FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */,
 				FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */,
 				AA196FA125BEA51C00A9997B /* Onboarding */,
+				FD94907525C3EA80009F4F29 /* Main Tab Views */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
@@ -617,23 +655,33 @@
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
 				FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
+				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
+				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
 				FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */,
+				FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */,
+				FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
 				AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */,
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
+				FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
+				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
+				FD94908C25C3EB3F009F4F29 /* TeamViewController.swift in Sources */,
 				A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */,
 				AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */,
+				A002D19425D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift in Sources */,
 				AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
+				A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */,
 				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
+				FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */,
 				AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

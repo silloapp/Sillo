@@ -225,32 +225,36 @@ extension NewPostViewController: GiphyDelegate {
         bubbleView.leadingAnchor.constraint(equalTo: profilepic.leadingAnchor, constant: 50).isActive = true
         bubbleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         bubbleView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 20).isActive = true
-        bubbleView.heightAnchor.constraint(equalToConstant: 250).isActive = true
-        bubbleView.widthAnchor.constraint(equalToConstant: 250).isActive = true
         bubbleView.layer.masksToBounds = false
         
-        bubbleView.layer.backgroundColor = UIColor.systemPink.cgColor //just for debugging size
         bubbleView.layer.cornerRadius = 16
+        
+        //TODO: remove this after debugging
         bubbleView.layer.borderWidth = 2
         bubbleView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        
         //TODO: add x button to remove gif
-       
         bubbleView.addSubview(imageView)
         imageView.media = media
         
-        //review this
-        
-        //TODO: instead of setting height and width separately, perhaps set this to maximum total area?? something to think about
         imageView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
         imageViewHeightConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1/media.aspectRatio) //try 1/media.aspectRatio or 1/media.aspectRatio
         imageViewHeightConstraint?.isActive = true
-        imageView.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor).isActive = true
+        //imageView.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor).isActive = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         
+        
         imageView.isUserInteractionEnabled = false
-        imageView.layer.cornerRadius = bubbleView.layer.cornerRadius
+        imageView.layer.cornerRadius = 16
+        imageView.clipsToBounds = true
+        
+        //set up bubbleview height
+        bubbleView.heightAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+        bubbleView.widthAnchor.constraint(equalTo: imageView.widthAnchor).isActive = true
     }
     
     func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {

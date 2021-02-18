@@ -138,12 +138,13 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         transition.type = .fade
         self.navigationController?.view.layer.add(transition, forKey: nil)
-        
+
         let destVC = AddPeopleToSpaceViewController()
-        
+
         destVC.orgNameString = orgNameField.text!
-        
+
         navigationController?.pushViewController(destVC, animated: false)
+        
     }
     
     //MARK: Handle positioning of NEXT button - adaptive to keyboard size
