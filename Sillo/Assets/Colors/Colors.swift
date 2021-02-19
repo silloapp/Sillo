@@ -36,5 +36,10 @@ struct Color {
         return UIColor(displayP3Red: 234/255, green: 240/255, blue: 253/255, alpha: 1.0)
     }
     
+    static var navBar: UIColor {
+        return UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1.00)
+    }
+  
+    
     
 }

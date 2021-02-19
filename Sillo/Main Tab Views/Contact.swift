@@ -1,5 +1,5 @@
 //
-//  Contact.swift
+//  MenuItem.swift
 //  contactsapp
 //
 //  Created by SoftAuthor on 2019-04-20.
@@ -8,8 +8,7 @@
 
 import Foundation
 
-struct Contact {
+struct MenuItem {
     let name:String?
-    let jobTitle:String?
-    let country:String?
+    let nextVC:String?
 }

@@ -9,11 +9,11 @@ import UIKit
 
 class TeamCell: UITableViewCell {
 
-    var contact:Contact? {
+    var item:MenuItem? {
         didSet {
-            guard let contactItem = contact else {return}
-            if let name = contactItem.name {
-                profileImageView.image = UIImage(named: name)
+            guard let menuItem = item else {return}
+            if let name = menuItem.name {
+                itemImageview.image = UIImage(named: name)
                 nameLabel.text = name
             }
         }
@@ -26,9 +26,9 @@ class TeamCell: UITableViewCell {
         return view
     }()
     
-    let profileImageView:UIImageView = {
+    let itemImageview:UIImageView = {
         let img = UIImageView()
-        img.contentMode = .scaleAspectFill // image will never be strecthed vertially or horizontally
+        img.contentMode = .scaleAspectFit
         img.translatesAutoresizingMaskIntoConstraints = false // enable autolayout
         img.clipsToBounds = true
         return img
@@ -36,7 +36,7 @@ class TeamCell: UITableViewCell {
     
     let nameLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = Font.regular(20)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,22 +48,22 @@ class TeamCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(profileImageView)
+        self.contentView.addSubview(itemImageview)
         containerView.addSubview(nameLabel)
         self.contentView.addSubview(containerView)
         
-        profileImageView.centerYAnchor.constraint(equalTo:self.contentView.centerYAnchor).isActive = true
-        profileImageView.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:10).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant:25).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant:25).isActive = true
+        itemImageview.centerYAnchor.constraint(equalTo:self.contentView.centerYAnchor).isActive = true
+        itemImageview.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:36).isActive = true
+        itemImageview.widthAnchor.constraint(equalToConstant:25).isActive = true
+        itemImageview.heightAnchor.constraint(equalToConstant:25).isActive = true
         
         containerView.centerYAnchor.constraint(equalTo:self.contentView.centerYAnchor).isActive = true
-        containerView.leadingAnchor.constraint(equalTo:self.profileImageView.trailingAnchor, constant:10).isActive = true
+        containerView.leadingAnchor.constraint(equalTo:self.itemImageview.trailingAnchor, constant:10).isActive = true
         containerView.trailingAnchor.constraint(equalTo:self.contentView.trailingAnchor, constant:-10).isActive = true
         containerView.heightAnchor.constraint(equalToConstant:40).isActive = true
         
-        nameLabel.topAnchor.constraint(equalTo:self.containerView.topAnchor).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo:self.containerView.leadingAnchor).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo:self.itemImageview.trailingAnchor, constant: 36).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor).isActive = true
        
     }
