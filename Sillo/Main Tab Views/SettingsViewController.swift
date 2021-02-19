@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -65,8 +66,34 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
+        let name = menuItems[indexPath.row].name
+        print(name)
         //TODO: add Segway into nextVC
+        
+        if name == "Privacy Policy" {
+               let config = SFSafariViewController.Configuration()
+               config.entersReaderIfAvailable = true
+
+            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co/privacy-policy")!, configuration: config)
+               present(vc, animated: true)
+           }
+        
+        if name == "Terms of Use" {
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+
+            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co/terms-and-conditions")!, configuration: config)
+            present(vc, animated: true)
+        }
+        
+        if name == "About Sillo" {
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+
+            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co")!, configuration: config)
+            present(vc, animated: true)
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
