@@ -16,6 +16,9 @@ class TeamCell: UITableViewCell {
                 itemImageview.image = UIImage(named: name)
                 nameLabel.text = name
             }
+            if menuItem.withArrow! {
+                rightImageview.image = UIImage(named: "Forward Arrow")
+            }
         }
     }
     
@@ -27,6 +30,14 @@ class TeamCell: UITableViewCell {
     }()
     
     let itemImageview:UIImageView = {
+        let img = UIImageView()
+        img.contentMode = .scaleAspectFit
+        img.translatesAutoresizingMaskIntoConstraints = false // enable autolayout
+        img.clipsToBounds = true
+        return img
+    }()
+    
+    let rightImageview:UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFit
         img.translatesAutoresizingMaskIntoConstraints = false // enable autolayout
@@ -51,6 +62,7 @@ class TeamCell: UITableViewCell {
         self.contentView.addSubview(itemImageview)
         containerView.addSubview(nameLabel)
         self.contentView.addSubview(containerView)
+        self.contentView.addSubview(rightImageview)
         
         itemImageview.centerYAnchor.constraint(equalTo:self.contentView.centerYAnchor).isActive = true
         itemImageview.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:36).isActive = true
@@ -65,6 +77,11 @@ class TeamCell: UITableViewCell {
         nameLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo:self.itemImageview.trailingAnchor, constant: 36).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor).isActive = true
+        
+        rightImageview.centerYAnchor.constraint(equalTo:self.contentView.centerYAnchor).isActive = true
+        rightImageview.trailingAnchor.constraint(equalTo:self.contentView.trailingAnchor, constant:-36).isActive = true
+        rightImageview.widthAnchor.constraint(equalToConstant:25).isActive = true
+        rightImageview.heightAnchor.constraint(equalToConstant:25).isActive = true
        
     }
     

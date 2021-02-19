@@ -11,4 +11,5 @@ import Foundation
 struct MenuItem {
     let name:String?
     let nextVC:String?
+    let withArrow:Bool?
 }

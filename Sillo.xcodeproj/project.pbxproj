@@ -13,8 +13,10 @@
 		A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */; };
 		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
 		A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA47D25C333400028FCBB /* NewPostViewController.swift */; };
+		A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */; };
 		A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E5925DEE3DE00479E2E /* TeamCell.swift */; };
 		A0B84E6425DEE43500479E2E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6325DEE43500479E2E /* Contact.swift */; };
+		A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */; };
 		AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
@@ -40,7 +42,6 @@
 		FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */; };
 		FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908125C3EB26009F4F29 /* HomeViewController.swift */; };
 		FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908625C3EB31009F4F29 /* MessagesViewController.swift */; };
-		FD94908C25C3EB3F009F4F29 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908B25C3EB3F009F4F29 /* TeamViewController.swift */; };
 		FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */; };
 		FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
@@ -87,8 +88,10 @@
 		A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
 		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		A01CA47D25C333400028FCBB /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
+		A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		A0B84E5925DEE3DE00479E2E /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		A0B84E6325DEE43500479E2E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
@@ -116,7 +119,6 @@
 		FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
 		FD94908125C3EB26009F4F29 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FD94908625C3EB31009F4F29 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
-		FD94908B25C3EB3F009F4F29 /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
 		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,8 +261,9 @@
 				FD94908125C3EB26009F4F29 /* HomeViewController.swift */,
 				FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */,
 				FD94908625C3EB31009F4F29 /* MessagesViewController.swift */,
-				FD94908B25C3EB3F009F4F29 /* TeamViewController.swift */,
+				A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */,
 				A0B84E5925DEE3DE00479E2E /* TeamCell.swift */,
+				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				A0B84E6325DEE43500479E2E /* Contact.swift */,
 				A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */,
 			);
@@ -653,6 +656,7 @@
 			files = (
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
+				A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */,
 				FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
 				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
@@ -670,7 +674,6 @@
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
-				FD94908C25C3EB3F009F4F29 /* TeamViewController.swift in Sources */,
 				A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */,
 				AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */,
 				A002D19425D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift in Sources */,
@@ -682,6 +685,7 @@
 				A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */,
 				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */,
+				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,
 				AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
