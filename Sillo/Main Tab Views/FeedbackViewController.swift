@@ -1,14 +1,54 @@
 //
-//  SettingsViewController.swift
+//  FeedbackViewController.swift
 //  Sillo
 //
-//  Created by Angelica Pan on 2/19/21.
+//  Created by Angelica Pan on 2/20/21.
 //
 
-import UIKit
-import SafariServices
 
-class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+import UIKit
+
+class FeedbackViewController: UIViewController, UITextViewDelegate {
+    
+    //MARK: init success label
+    let text: UILabel = {
+        let label = UILabel()
+        label.font = Font.regular(17)
+        label.numberOfLines = 3
+        label.text = "Help us improve your experience with Sillo. Let us know how we can make it better:"
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    //MARK: init textview
+    let textView: UITextView = {
+        let textView = UITextView()
+        textView.text = "Send us some feedback..."
+        textView.textColor = UIColor.darkGray
+        textView.textAlignment = .left
+        textView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00)
+        textView.font = Font.regular(17)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.isScrollEnabled = false
+        textView.clipsToBounds = true;
+        textView.layer.cornerRadius = 10.0;
+        return textView
+    }()
+    
+    let newPostButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Send Feedback", for: .normal)
+        button.titleLabel?.font = Font.bold(20)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Color.buttonClickable
+        button.addTarget(self, action: #selector(actionButton(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
+        return button
+    }()
+    
+    
 
     let header : UIView = {
         let view = UIView()
@@ -18,93 +58,38 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }()
     
     
-    private let menuItems = [
-        MenuItem(name: "Privacy Policy", nextVC: "", withArrow: true), //TODO: replace with actual VC
-        MenuItem(name: "Terms of Use", nextVC: "", withArrow: true),
-        MenuItem(name: "Help & FAQ", nextVC: "", withArrow: true),
-        MenuItem(name: "Feedback", nextVC: "", withArrow: true),
-        MenuItem(name: "About Sillo", nextVC: "", withArrow: true),
-        MenuItem(name: "Log out", nextVC: "", withArrow: true),
-        MenuItem(name: "Account", nextVC: "", withArrow: true)
-    ]
-    
     let menuItemTableView = UITableView() // view
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         setupHeader()
+        textView.delegate = self
         view.backgroundColor = .white
-        view.addSubview(menuItemTableView)
-        self.menuItemTableView.tableFooterView = UIView() // removes separators at bottom of tableview
+        view.addSubview(text)
+        text.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 20).isActive = true
+        text.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
+        text.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
+        text.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-        menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(textView)
+        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
+        textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
+        textView.topAnchor.constraint(equalTo: text.bottomAnchor, constant: 5).isActive = true
         
-        menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 132).isActive = true
-        menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor).isActive = true
-        menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor).isActive = true
-        menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        menuItemTableView.isScrollEnabled = false
-        menuItemTableView.dataSource = self
-        menuItemTableView.delegate = self
-
-        menuItemTableView.register(TeamCell.self, forCellReuseIdentifier: "contactCell") //TODO: replace identifier
+        //MARK: new post button
+        view.addSubview(newPostButton)
+        newPostButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32).isActive = true
+        newPostButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32).isActive = true
+        newPostButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        newPostButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        newPostButton.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 20).isActive = true
 
     }
     
    
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuItems.count
-    }
-   
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! TeamCell
 
-        cell.item = menuItems[indexPath.row]
-        cell.separatorInset = UIEdgeInsets.zero
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let name = menuItems[indexPath.row].name
-        print(name)
-        //TODO: add Segway into nextVC
-        
-        if name == "Privacy Policy" {
-               let config = SFSafariViewController.Configuration()
-               config.entersReaderIfAvailable = true
-
-            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co/privacy-policy")!, configuration: config)
-               present(vc, animated: true)
-           }
-        
-        if name == "Terms of Use" {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = true
-
-            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co/terms-and-conditions")!, configuration: config)
-            present(vc, animated: true)
-        }
-        
-        if name == "About Sillo" {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = true
-
-            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co")!, configuration: config)
-            present(vc, animated: true)
-        }
-        
-        if name == "Feedback" {
-            let nextVC = FeedbackViewController()
-            nextVC.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(nextVC, animated: true)
-        }
-        
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
-    }
     
     func setupPhotoTeamName() -> UIStackView {
         let stack = UIStackView()
@@ -127,7 +112,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
          icon.addGestureRecognizer(tapGestureRecognizer)
         
         let tabName = UILabel()
-        tabName.text = "Settings"
+        tabName.text = "Feedback"
         tabName.font = Font.bold(22)
         tabName.textColor = Color.teamHeader
         tabName.widthAnchor.constraint(equalToConstant: 200).isActive = true
@@ -186,10 +171,31 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.darkGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Send us some feedback..."
+            textView.textColor = UIColor.darkGray
+        }
+    }
+    
+    
     @objc func backTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         print("Going back to previous VC... ")
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    //User pressed enable notifications button
+    @objc func actionButton(_:UIButton) {
+        print("TODO: submit the feedback")
+        print(textView.text)
     }
     
 

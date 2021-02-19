@@ -14,6 +14,7 @@
 		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
 		A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA47D25C333400028FCBB /* NewPostViewController.swift */; };
 		A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */; };
+		A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */; };
 		A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E5925DEE3DE00479E2E /* TeamCell.swift */; };
 		A0B84E6425DEE43500479E2E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6325DEE43500479E2E /* Contact.swift */; };
 		A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */; };
@@ -89,6 +90,7 @@
 		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		A01CA47D25C333400028FCBB /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
+		A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		A0B84E5925DEE3DE00479E2E /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		A0B84E6325DEE43500479E2E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */,
 				FD94908625C3EB31009F4F29 /* MessagesViewController.swift */,
 				A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */,
+				A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */,
 				A0B84E5925DEE3DE00479E2E /* TeamCell.swift */,
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				A0B84E6325DEE43500479E2E /* Contact.swift */,
@@ -673,6 +676,7 @@
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
+				A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */,
 				AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */,
