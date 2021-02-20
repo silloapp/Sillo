@@ -17,4 +17,8 @@ extension Color {
     static var message: UIColor {
         return UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
     }
+    
+    static var headerBackground: UIColor {
+        return UIColor(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
+    }
 }

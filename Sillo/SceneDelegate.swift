@@ -23,23 +23,51 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //configure first screen
 //        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+
 //        let transition = CATransition()
 //        transition.duration = 0.3
 //        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
 //        transition.type = .fade
 //        self.navigationController?.view.layer.add(transition, forKey: nil)
+
+//        let vc = NewPostViewController()
+
         
-        let tabVC = UITabBarController()
+//        let tabVC = UITabBarController()
+        let tabVC = CustomTabBarController()
+        tabVC.tabBar.backgroundColor = Color.tabBarBackground
+        tabVC.tabBar.layer.masksToBounds = true
+        tabVC.tabBar.isTranslucent = true
+        tabVC.tabBar.layer.borderWidth = 0
+        
+        let icon1 = UITabBarItem(title: "", image: UIImage(named: "tab1")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab1Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon2 = UITabBarItem(title: "", image: UIImage(named: "tab2")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab2Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon3 = UITabBarItem(title: "", image: UIImage(named: "tab3")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab3Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon4 = UITabBarItem(title: "", image: UIImage(named: "tab4")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab4Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon5 = UITabBarItem(title: "", image: UIImage(named: "tab5")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab5Selected")!.withRenderingMode(.alwaysOriginal))
+        
+        
         let vc1 = UINavigationController(rootViewController: HomeViewController())
         let vc2 = UINavigationController(rootViewController: AchievementsViewController())
-        let vc3 = UINavigationController(rootViewController: AchievementsViewController())
+        let vc3 = NewPostViewController()
         let vc4 = UINavigationController(rootViewController: TeamViewController())
         let vc5 = UINavigationController(rootViewController: MessagesViewController())
+        
         vc1.title = "Home"
+        vc1.tabBarItem = icon1
+        
         vc2.title = "Achievements"
+        vc2.tabBarItem = icon2
+        
         vc3.title = "New Post"
+        vc3.tabBarItem = icon3
+        
         vc4.title = "Team"
+        vc4.tabBarItem = icon4
+        
         vc5.title = "Messages"
+        vc5.tabBarItem = icon5
+        
         tabVC.setViewControllers([vc1, vc2, vc3, vc4, vc5], animated: false)
 //        tabVC.modalPresentationStyle = .fullScreen
 //        navigationController?.present(tabVC, animated: true, completion: nil)

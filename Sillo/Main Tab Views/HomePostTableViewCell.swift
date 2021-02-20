@@ -51,13 +51,13 @@ class HomePostTableViewCell: UITableViewCell {
         userName.translatesAutoresizingMaskIntoConstraints = false
         nameTimeStack.addArrangedSubview(userName)
         
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm"
-        let dateInString = dateFormatter.string(from: date as Date)
+//        let date = Date()
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "h:mm"
+//        let dateInString = dateFormatter.string(from: date as Date)
         
         let time = UILabel()
-        time.text = dateInString
+        time.text = "7:55 pm"
         time.font = Font.regular(17)
         time.textColor = .lightGray
         time.translatesAutoresizingMaskIntoConstraints = false
