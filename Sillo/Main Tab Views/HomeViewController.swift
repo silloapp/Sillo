@@ -23,7 +23,7 @@ class HomeViewController: UIViewController {
     let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = Color.headerBackground
         return view
     }()
         
@@ -32,9 +32,31 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
+        self.setNeedsStatusBarAppearanceUpdate()
+        
+        
+        if #available(iOS 13, *) {
+          let statusBar = UIView(frame: (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame)!)
+            statusBar.backgroundColor = Color.headerBackground
+          UIApplication.shared.keyWindow?.addSubview(statusBar)
+            
+        } else {
+             let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
+             if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+                statusBar.backgroundColor = Color.headerBackground
+             }
+             UIApplication.shared.statusBarStyle = .lightContent
+            
+        }
+        
         setupHeader()
         setupTableView()
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     
     func setupHeader() {
         view.addSubview(header)
@@ -53,7 +75,7 @@ class HomeViewController: UIViewController {
         logoTeamStack.topAnchor.constraint(equalTo: header.safeAreaLayoutGuide.topAnchor).isActive = true
         logoTeamStack.bottomAnchor.constraint(equalTo: header.bottomAnchor, constant: -15).isActive = true
         logoTeamStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
+
         //team picture
         let teamPic = UIImageView()
         teamPic.image = UIImage(named: "onboarding2")
@@ -65,7 +87,7 @@ class HomeViewController: UIViewController {
         teamPic.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         teamPic.layer.cornerRadius = teamPic.frame.height / 2
         header.addSubview(teamPic)
-    
+        
         teamPic.rightAnchor.constraint(equalTo: header.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
         teamPic.centerYAnchor.constraint(equalTo: logoTeamStack.centerYAnchor).isActive = true
         teamPic.heightAnchor.constraint(equalToConstant: 45).isActive = true
