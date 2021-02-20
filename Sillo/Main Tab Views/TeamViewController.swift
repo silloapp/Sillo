@@ -17,14 +17,14 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     
     private let menuItems = [
-        MenuItem(name: "My Profile", nextVC: "ProfileVC()", withArrow: false), //TODO: replace with actual VC
-        MenuItem(name: "My Connections", nextVC: "ConnectionsVC()", withArrow: false),
-        MenuItem(name: "People", nextVC: "PeopleVC()", withArrow: false),
-        MenuItem(name: "Engagement", nextVC: "EngagementVC()", withArrow: false),
-        MenuItem(name: "Notifications", nextVC: "NotificationsVC()", withArrow: false),
-        MenuItem(name: "Reports", nextVC: "ReportsVC()", withArrow: false),
-        MenuItem(name: "Quests", nextVC: "QuestsVC()", withArrow: false),
-        MenuItem(name: "Sign Out", nextVC: "SignOutVC()", withArrow: false)
+        MenuItem(name: "My Profile", nextVC: "ProfileVC()", withArrow: false, fontSize: 22), //TODO: replace with actual VC
+        MenuItem(name: "My Connections", nextVC: "ConnectionsVC()", withArrow: false, fontSize: 22),
+        MenuItem(name: "People", nextVC: "PeopleVC()", withArrow: false, fontSize: 22),
+        MenuItem(name: "Engagement", nextVC: "EngagementVC()", withArrow: false, fontSize: 22),
+        MenuItem(name: "Notifications", nextVC: "NotificationsVC()", withArrow: false, fontSize: 22),
+        MenuItem(name: "Reports", nextVC: "ReportsVC()", withArrow: false, fontSize: 22),
+        MenuItem(name: "Quests", nextVC: "QuestsVC()", withArrow: false, fontSize: 22),
+        MenuItem(name: "Sign Out", nextVC: "SignOutVC()", withArrow: false, fontSize: 22)
     ]
     
     let menuItemTableView = UITableView() // view

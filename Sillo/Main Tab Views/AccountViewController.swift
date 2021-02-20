@@ -1,14 +1,13 @@
 //
-//  SettingsViewController.swift
+//  AccountViewController.swift
 //  Sillo
 //
-//  Created by Angelica Pan on 2/19/21.
+//  Created by Angelica Pan on 2/20/21.
 //
 
 import UIKit
-import SafariServices
 
-class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     let header : UIView = {
         let view = UIView()
@@ -19,13 +18,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     private let menuItems = [
-        MenuItem(name: "Privacy Policy", nextVC: "", withArrow: true, fontSize: 17), //TODO: replace with actual VC
-        MenuItem(name: "Terms of Use", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Help & FAQ", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Feedback", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "About Sillo", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Log out", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Account", nextVC: "", withArrow: true, fontSize: 17)
+        MenuItem(name: "Delete Account", nextVC: "", withArrow: true, fontSize: 17)
     ]
     
     let menuItemTableView = UITableView() // view
@@ -34,22 +27,44 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         navigationController?.isNavigationBarHidden = true
         setupHeader()
         view.backgroundColor = .white
+        
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // removes separators at bottom of tableview
         
         menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 132).isActive = true
         menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor).isActive = true
         menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor).isActive = true
-        menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        menuItemTableView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         menuItemTableView.isScrollEnabled = false
         menuItemTableView.dataSource = self
         menuItemTableView.delegate = self
-
         menuItemTableView.register(TeamCell.self, forCellReuseIdentifier: "contactCell") //TODO: replace identifier
+        
+        
+        
+        text.text = "If you choose to delete your account, it will be permanently removed from Sillo and you will be removed from all spaces associated with \(accountEmail)"
+        view.addSubview(text)
+        text.topAnchor.constraint(equalTo:menuItemTableView.bottomAnchor, constant: 5).isActive = true
+        text.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor, constant: 32).isActive = true
+        text.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor, constant: -32).isActive = true
+        text.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
     }
+    
+    let accountEmail: String = "user@placeholder.com"
+    
+    //MARK: init success label
+    let text: UILabel = {
+        let label = UILabel()
+        label.font = Font.regular(12)
+        label.numberOfLines = 3
+        label.text = "If you choose to delete your account, it will be permanently removed from Sillo and you will be removed from all spaces associated with placeholder@placeholder.com"
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
    
     
@@ -68,49 +83,16 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let name = menuItems[indexPath.row].name
         print(name)
-        //TODO: add Segway into nextVC
-        
-        if name == "Privacy Policy" {
-               let config = SFSafariViewController.Configuration()
-               config.entersReaderIfAvailable = true
-
-            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co/privacy-policy")!, configuration: config)
-               present(vc, animated: true)
-           }
-        
-        if name == "Terms of Use" {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = true
-
-            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co/terms-and-conditions")!, configuration: config)
-            present(vc, animated: true)
-        }
-        
-        if name == "About Sillo" {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = true
-
-            let vc = SFSafariViewController(url: URL(string: "https://www.sillo.co")!, configuration: config)
-            present(vc, animated: true)
-        }
-        
-        if name == "Feedback" {
-            let nextVC = FeedbackViewController()
+            let nextVC = HomeViewController() //placeholder
             nextVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(nextVC, animated: true)
-        }
-        
-        if name == "Account" {
-            let nextVC = AccountViewController()
-            nextVC.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(nextVC, animated: true)
-        }
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
+    
+    
     
     func setupPhotoTeamName() -> UIStackView {
         let stack = UIStackView()
@@ -133,7 +115,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
          icon.addGestureRecognizer(tapGestureRecognizer)
         
         let tabName = UILabel()
-        tabName.text = "Settings"
+        tabName.text = "Account"
         tabName.font = Font.bold(22)
         tabName.textColor = Color.teamHeader
         tabName.widthAnchor.constraint(equalToConstant: 200).isActive = true
@@ -198,5 +180,4 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.navigationController?.popViewController(animated: true)
     }
     
-
 }

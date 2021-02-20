@@ -19,6 +19,9 @@ class TeamCell: UITableViewCell {
             if menuItem.withArrow! {
                 rightImageview.image = UIImage(named: "Forward Arrow")
             }
+            if menuItem.fontSize != nil{
+                nameLabel.font = Font.regular(menuItem.fontSize!)
+            }
         }
     }
     
