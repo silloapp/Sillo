@@ -10,6 +10,10 @@ import UIKit
 
 struct Color {
     
+    static var tabBarBackground: UIColor {
+        return UIColor(red: 93/255, green: 131/255, blue: 237/255, alpha: 0.7)
+    }
+    
     static var gray: UIColor {
         return UIColor(displayP3Red: 224/255, green: 224/255, blue: 224/255, alpha: 1.0)
     }
