@@ -14,13 +14,23 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         Message(alias: "Apple Pie", name: "Barnie", profilePicture: UIImage(named:"avatar-2"), message: "BABABAABBANA BANAANAN ABANA BANA!", timeSent: "7.55pm", isRead: true),
         Message(alias: "Bongo", name: "Sender", profilePicture: UIImage(named:"avatar-3"), message: "I really like candles would you like one here u go", timeSent: "7.55pm", isRead: false),
         Message(alias: "Bingo", name: "Mickey", profilePicture: UIImage(named:"avatar-1"), message: "Did you know that hippo milk is pink??", timeSent: "7.33pm", isRead: true),
-        Message(alias: "Sink", name: "Siri", profilePicture: UIImage(named:"avatar-1"), message: "my favourite flavour of icecream is giraffe", timeSent: "5.15pm", isRead: false),
+        Message(alias: "Sink", name: "Siri", profilePicture: UIImage(named:"avatar-3"), message: "my favourite flavour of icecream is giraffe", timeSent: "5.15pm", isRead: false),
+        Message(alias: "Potato", name: "Aqua", profilePicture: UIImage(named:"avatar-1"), message: "baby shark doo doo doo doo do ", timeSent: "2.55pm", isRead: false),
+        Message(alias: "Apple Pie", name: "Bob", profilePicture: UIImage(named:"avatar-2"), message: "whooo is thta girl i see??? staring straight??? back at me", timeSent: "7.55pm", isRead: true),
+        Message(alias: "Bongo", name: "Angel", profilePicture: UIImage(named:"avatar-3"), message: "Houston to Apollo 13 do you copy o", timeSent: "7.55pm", isRead: false),
+        Message(alias: "Bingo", name: "Frances", profilePicture: UIImage(named:"avatar-1"), message: "I have a pencil and my pencil is black", timeSent: "7.33pm", isRead: true),
+        Message(alias: "Sink", name: "Seargant", profilePicture: UIImage(named:"avatar-1"), message: "I rly rly like sillo wbu rbo", timeSent: "5.15pm", isRead: false),
+        Message(alias: "Potato", name: "Aqua", profilePicture: UIImage(named:"avatar-1"), message: "baby shark doo doo doo doo do ", timeSent: "2.55pm", isRead: false),
+        Message(alias: "Apple Pie", name: "Bob", profilePicture: UIImage(named:"avatar-2"), message: "whooo is thta girl i see??? staring straight??? back at me", timeSent: "7.55pm", isRead: true),
+        Message(alias: "Bongo", name: "Angel", profilePicture: UIImage(named:"avatar-3"), message: "Houston to Apollo 13 do you copy o", timeSent: "7.55pm", isRead: false),
+        Message(alias: "Bingo", name: "Frances", profilePicture: UIImage(named:"avatar-1"), message: "I have a pencil and my pencil is black", timeSent: "7.33pm", isRead: true),
+        Message(alias: "Sink", name: "Seargant", profilePicture: UIImage(named:"avatar-1"), message: "I rly rly like sillo wbu rbo", timeSent: "5.15pm", isRead: false),
                 
     ]
 
     let cellID = "cellID"
     let mainChatTable : UITableView = {
-        let table = UITableView()
+        let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .white
         table.separatorColor = .clear
@@ -148,6 +158,24 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         return 85
         
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+            let headerView = UIView.init(frame: CGRect.init(x: 25, y: 0, width: tableView.frame.width, height: 50))
+
+            let label = UILabel()
+            label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
+            label.text = "Today"
+             label.font = Font.bold(20) // my custom font
+            label.textColor = UIColor.black // my custom colour
+
+            headerView.addSubview(label)
+
+            return headerView
+        }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+            return 35
+        }
     
    
 }
