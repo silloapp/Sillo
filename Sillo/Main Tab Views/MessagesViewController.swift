@@ -55,7 +55,8 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
              UIApplication.shared.statusBarStyle = .lightContent
             
         }
-        
+        view.backgroundColor = .white
+        mainChatTable.translatesAutoresizingMaskIntoConstraints = false
         setupHeader()
         setupTableView()
         mainChatTable.separatorStyle = .singleLine
@@ -122,8 +123,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
         mainChatTable.delegate = self
         mainChatTable.dataSource = self
-        self.view.addSubview(mainChatTable)
-        
+        view.addSubview(mainChatTable)
         mainChatTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
         mainChatTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         mainChatTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -139,12 +139,13 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
         cell.item = messages[indexPath.row]
+        cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 85
         
     }
     

@@ -15,8 +15,11 @@ class ChatViewTableViewCell: UITableViewCell {
             if let name = msg.name {
                 //userName.text = name
                 let stringValue: String = "\(name) · \(msg.timeSent ?? "")"
-                let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
+                let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
+                let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
+                //let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(msg.timeSent ?? "")")
+                attributedString.setFont(font: Font.regular(17), forText: "· \(msg.timeSent ?? "")")
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
@@ -57,16 +60,12 @@ class ChatViewTableViewCell: UITableViewCell {
         return message
     } ()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    func setupView() {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        //set up profile picture
-        addSubview(profilePic)
-        profilePic.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 22).isActive = true
-        profilePic.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25).isActive = true
+        self.contentView.addSubview(profilePic)
+        profilePic.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 22).isActive = true
+        profilePic.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 25).isActive = true
         profilePic.heightAnchor.constraint(equalToConstant: 50).isActive = true
         profilePic.widthAnchor.constraint(equalToConstant: 50).isActive = true
          
@@ -77,25 +76,19 @@ class ChatViewTableViewCell: UITableViewCell {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.addArrangedSubview(userName)
         stack.addArrangedSubview(message)
-        contentView.addSubview(stack)
+        self.contentView.addSubview(stack)
         
         //set up constraints
-        userName.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        userName.heightAnchor.constraint(equalToConstant: 18).isActive = true
         message.heightAnchor.constraint(equalToConstant: 18).isActive = true
-        stack.leadingAnchor.constraint(equalTo: profilePic.trailingAnchor, constant: 16).isActive = true
-        stack.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 250/375).isActive = true
-        stack.topAnchor.constraint(equalTo: profilePic.topAnchor).isActive = true
-        stack.bottomAnchor.constraint(equalTo: profilePic.bottomAnchor).isActive = true
+        stack.leadingAnchor.constraint(equalTo: self.profilePic.trailingAnchor, constant: 16).isActive = true
+        stack.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 250/375).isActive = true
+        stack.topAnchor.constraint(equalTo: self.profilePic.topAnchor).isActive = true
+        stack.bottomAnchor.constraint(equalTo: self.profilePic.bottomAnchor).isActive = true
     }
     
-    override func layoutSubviews() {
-        contentView.backgroundColor = .clear
-        backgroundColor = .clear
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        setupView()
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
 
@@ -104,5 +97,10 @@ extension NSMutableAttributedString {
     func setColor(color: UIColor, forText stringValue: String) {
        let range: NSRange = self.mutableString.range(of: stringValue, options: .caseInsensitive)
         self.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+    }
+    
+    func setFont(font: UIFont, forText stringValue: String) {
+       let range: NSRange = self.mutableString.range(of: stringValue, options: .caseInsensitive)
+        self.addAttribute(NSAttributedString.Key.font, value: font, range: range)
     }
 }
