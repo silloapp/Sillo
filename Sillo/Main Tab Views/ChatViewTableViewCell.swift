@@ -13,7 +13,11 @@ class ChatViewTableViewCell: UITableViewCell {
         didSet {
             guard let msg = item else {return}
             if let name = msg.name {
-                userName.text = name
+                //userName.text = name
+                let stringValue: String = "\(name) · \(msg.timeSent ?? "")"
+                let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
+                attributedString.setColor(color: UIColor.lightGray, forText:"· \(msg.timeSent ?? "")")
+                userName.attributedText = attributedString
             }
             if let messageText = msg.message {
                 message.text = messageText
@@ -23,9 +27,6 @@ class ChatViewTableViewCell: UITableViewCell {
             }
             if msg.profilePicture != nil {
                 profilePic.image = msg.profilePicture
-            }
-            if let timesent = msg.timeSent {
-                time.text = timesent
             }
         }
     }
@@ -40,19 +41,11 @@ class ChatViewTableViewCell: UITableViewCell {
     let userName : UILabel = {
         let userName = UILabel()
         userName.font = Font.bold(17)
-        userName.textColor = Color.textSemiBlack
+        userName.textColor = UIColor.black
         userName.translatesAutoresizingMaskIntoConstraints = false
         return userName
     }()
-    
-    let time : UILabel = {
-        let time = UILabel()
-        time.font = Font.regular(17)
-        time.textColor = .lightGray
-        time.translatesAutoresizingMaskIntoConstraints = false
-        return time
-    } ()
-    
+   
     let message:UILabel = {
         let message = UILabel()
         message.font = Font.regular(15)
@@ -64,40 +57,35 @@ class ChatViewTableViewCell: UITableViewCell {
         return message
     } ()
     
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
     func setupView() {
         
+        //set up profile picture
         addSubview(profilePic)
         profilePic.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 22).isActive = true
         profilePic.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25).isActive = true
-      
-        //stack holding the name and time
-        let nameTimeStack = UIStackView()
-        nameTimeStack.axis = .horizontal
-        nameTimeStack.alignment = .leading
-        nameTimeStack.spacing = 0
-        nameTimeStack.addArrangedSubview(userName)
-        nameTimeStack.addArrangedSubview(time)
+        profilePic.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        profilePic.widthAnchor.constraint(equalToConstant: 50).isActive = true
+         
+        //stackview containing name/time and message
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 0
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.addArrangedSubview(userName)
+        stack.addArrangedSubview(message)
+        contentView.addSubview(stack)
         
-        //overarching message stack
-        let nameTimeMessageStack = UIStackView()
-        nameTimeMessageStack.axis = .vertical
-        nameTimeMessageStack.spacing = 0
-        nameTimeMessageStack.translatesAutoresizingMaskIntoConstraints = false
-        nameTimeMessageStack.addArrangedSubview(nameTimeStack)
-        nameTimeMessageStack.addArrangedSubview(message)
-        contentView.addSubview(nameTimeMessageStack)
-        nameTimeMessageStack.leadingAnchor.constraint(equalTo: profilePic.trailingAnchor, constant: 16).isActive = true
-        nameTimeMessageStack.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 250/375).isActive = true
-        nameTimeMessageStack.topAnchor.constraint(equalTo: profilePic.topAnchor).isActive = true
-        nameTimeMessageStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        
-        
+        //set up constraints
+        userName.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        message.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        stack.leadingAnchor.constraint(equalTo: profilePic.trailingAnchor, constant: 16).isActive = true
+        stack.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 250/375).isActive = true
+        stack.topAnchor.constraint(equalTo: profilePic.topAnchor).isActive = true
+        stack.bottomAnchor.constraint(equalTo: profilePic.bottomAnchor).isActive = true
     }
     
     override func layoutSubviews() {
@@ -109,5 +97,12 @@ class ChatViewTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         setupView()
     }
+}
 
+// An attributed string extension to achieve colors on text in label.
+extension NSMutableAttributedString {
+    func setColor(color: UIColor, forText stringValue: String) {
+       let range: NSRange = self.mutableString.range(of: stringValue, options: .caseInsensitive)
+        self.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+    }
 }

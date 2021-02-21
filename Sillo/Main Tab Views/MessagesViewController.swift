@@ -124,9 +124,6 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         mainChatTable.dataSource = self
         self.view.addSubview(mainChatTable)
         
-        mainChatTable.rowHeight = UITableView.automaticDimension
-        mainChatTable.estimatedRowHeight = 100
-        
         mainChatTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
         mainChatTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         mainChatTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
