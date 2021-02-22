@@ -50,8 +50,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let vc1 = UINavigationController(rootViewController: HomeViewController())
         let vc2 = UINavigationController(rootViewController: AchievementsViewController())
         let vc3 = NewPostViewController()
-        let vc4 = UINavigationController(rootViewController: TeamViewController())
-        let vc5 = UINavigationController(rootViewController: MessagesViewController())
+        let vc4 = UINavigationController(rootViewController: MessagesViewController())
+        let vc5 = UINavigationController(rootViewController: TeamViewController())
         
         vc1.title = "Home"
         vc1.tabBarItem = icon1
