@@ -1,9 +1,8 @@
 //
 //  MenuItem.swift
-//  contactsapp
+//  Sillo
 //
-//  Created by SoftAuthor on 2019-04-20.
-//  Copyright © 2019 SoftAuthor. All rights reserved.
+//  Created by Angelica on 2/22/2021
 //
 
 import Foundation
@@ -16,11 +15,21 @@ struct MenuItem {
     let fontSize:CGFloat?
 }
 
-struct Message { //THIS IS FOR TESTING ONLY
+struct Message { //testing only
     let alias: String?
     let name: String?
     let profilePicture: UIImage?
     let message: String?
     let timeSent: String?
     let isRead: Bool?
+    //TODO: add image/gif, conversationID, whatever else
+}
+
+struct Post { //testing only
+    let alias: String?
+    let name: String?
+    let profilePicture: UIImage?
+    let message: String?
+    let timeSent: String?
+    //TODO: add image/gif, postID, whatever else
 }

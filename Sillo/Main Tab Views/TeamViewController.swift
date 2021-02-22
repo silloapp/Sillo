@@ -15,7 +15,6 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return view
     }()
     
-    
     private let menuItems = [
         MenuItem(name: "My Profile", nextVC: "ProfileVC()", withArrow: false, fontSize: 22), //TODO: replace with actual VC
         MenuItem(name: "My Connections", nextVC: "ConnectionsVC()", withArrow: false, fontSize: 22),
@@ -31,16 +30,13 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        setupHeader()
-
-        // Do any additional setup after loading the view.
         view.backgroundColor = .white
+        
+        setupHeader()
         
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // remove separators at bottom of tableview
-        
         menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 132).isActive = true
         menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor).isActive = true
         menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor).isActive = true
@@ -48,20 +44,15 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         menuItemTableView.isScrollEnabled = false
         menuItemTableView.dataSource = self
         menuItemTableView.delegate = self
-
         menuItemTableView.register(TeamCell.self, forCellReuseIdentifier: "contactCell")
-
     }
-    
-   
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! TeamCell
-
         cell.item = menuItems[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
@@ -105,7 +96,6 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         header.heightAnchor.constraint(equalToConstant: 132).isActive = true
         
-        
         //app logo and team name stack
         let logoTeamStack = setupPhotoTeamName()
         header.addSubview(logoTeamStack)
@@ -116,24 +106,21 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         logoTeamStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         //team picture
-        let teamPic = UIImageView()
-        teamPic.image = UIImage(named: "Settings")
-        teamPic.translatesAutoresizingMaskIntoConstraints = false
-        teamPic.contentMode = .scaleAspectFit
-        teamPic.layer.masksToBounds = true
-        teamPic.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        header.addSubview(teamPic)
-        
+        let settingsButton = UIImageView()
+        settingsButton.image = UIImage(named: "Settings")
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false
+        settingsButton.contentMode = .scaleAspectFit
+        settingsButton.layer.masksToBounds = true
+        settingsButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        teamPic.isUserInteractionEnabled = true
-        teamPic.addGestureRecognizer(tapGestureRecognizer)
+        settingsButton.isUserInteractionEnabled = true
+        settingsButton.addGestureRecognizer(tapGestureRecognizer)
+        header.addSubview(settingsButton)
 
-       
-    
-        teamPic.rightAnchor.constraint(equalTo: header.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
-        teamPic.centerYAnchor.constraint(equalTo: logoTeamStack.centerYAnchor).isActive = true
-        teamPic.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        teamPic.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        settingsButton.rightAnchor.constraint(equalTo: header.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
+        settingsButton.centerYAnchor.constraint(equalTo: logoTeamStack.centerYAnchor).isActive = true
+        settingsButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -143,8 +130,4 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         nextVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
-    
-
 }
-
-

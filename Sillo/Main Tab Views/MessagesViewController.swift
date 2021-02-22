@@ -9,7 +9,7 @@ import UIKit
 
 class MessagesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    private let messages = [ //placeholder data
+    private let messages = [ //placeholder data, TODO: fetch conversations from firebase
         Message(alias: "Potato", name: "Alexa", profilePicture: UIImage(named:"avatar-1"), message: "Hey I really like potatoes what abotu you", timeSent: "2.55pm", isRead: false),
         Message(alias: "Apple Pie", name: "Barnie", profilePicture: UIImage(named:"avatar-2"), message: "BABABAABBANA BANAANAN ABANA BANA!", timeSent: "7.55pm", isRead: true),
         Message(alias: "Bongo", name: "Sender", profilePicture: UIImage(named:"avatar-3"), message: "I really like candles would you like one here u go", timeSent: "7.55pm", isRead: false),
@@ -29,7 +29,8 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     ]
 
     let cellID = "cellID"
-    let mainChatTable : UITableView = {
+    
+    let chatListTable : UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .white
@@ -47,35 +48,29 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        view.backgroundColor = .white
-        
         navigationController?.isNavigationBarHidden = true
-        self.setNeedsStatusBarAppearanceUpdate()
+        view.backgroundColor = .white
+        setupHeader()
+        setupTableView()
         
+        //set up status bar up top
+        self.setNeedsStatusBarAppearanceUpdate()
         if #available(iOS 13, *) {
           let statusBar = UIView(frame: (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame)!)
             statusBar.backgroundColor = Color.headerBackground
           UIApplication.shared.keyWindow?.addSubview(statusBar)
-            
         } else {
              let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
              if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
                 statusBar.backgroundColor = Color.headerBackground
              }
              UIApplication.shared.statusBarStyle = .lightContent
-            
         }
-        view.backgroundColor = .white
-        mainChatTable.translatesAutoresizingMaskIntoConstraints = false
-        setupHeader()
-        setupTableView()
-        mainChatTable.separatorStyle = .singleLine
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
     }
-    
     
     func setupHeader() {
         view.addSubview(header)
@@ -84,7 +79,6 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         header.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        
         
         //app logo and team name stack
         let logoTeamStack = setupPhotoTeamName()
@@ -97,7 +91,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
 
         //team picture
         let teamPic = UIImageView()
-        teamPic.image = UIImage(named: "onboarding2")
+        teamPic.image = UIImage(named: "avatar-1")
         teamPic.translatesAutoresizingMaskIntoConstraints = false
         teamPic.contentMode = .center
         teamPic.layer.masksToBounds = true
@@ -130,16 +124,14 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func setupTableView() {
-    
-        mainChatTable.delegate = self
-        mainChatTable.dataSource = self
-        view.addSubview(mainChatTable)
-        mainChatTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
-        mainChatTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        mainChatTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        mainChatTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
-        mainChatTable.register(ChatViewTableViewCell.self, forCellReuseIdentifier: cellID)
+        chatListTable.delegate = self
+        chatListTable.dataSource = self
+        view.addSubview(chatListTable)
+        chatListTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        chatListTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        chatListTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        chatListTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        chatListTable.register(ChatViewTableViewCell.self, forCellReuseIdentifier: cellID)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -156,18 +148,16 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
-        
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
             let headerView = UIView.init(frame: CGRect.init(x: 25, y: 0, width: tableView.frame.width, height: 50))
-
+        
             let label = UILabel()
             label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
             label.text = "Today"
-             label.font = Font.bold(20) // my custom font
-            label.textColor = UIColor.black // my custom colour
-
+            label.font = Font.bold(20)
+            label.textColor = UIColor.black
             headerView.addSubview(label)
 
             return headerView
@@ -176,7 +166,4 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
             return 35
         }
-    
-   
 }
-

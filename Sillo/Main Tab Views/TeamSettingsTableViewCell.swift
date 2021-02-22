@@ -37,7 +37,6 @@ class TeamSettingsTableViewCell: UITableViewCell {
         stackView.addArrangedSubview(itemLabel)
     
         contentView.addSubview(stackView)
-        
     }
     
     override func layoutSubviews() {
@@ -49,6 +48,4 @@ class TeamSettingsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         setupView()
     }
-
-
 }
