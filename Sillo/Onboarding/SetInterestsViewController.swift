@@ -8,10 +8,9 @@
 import UIKit
 
 class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    //final
     var interests = ["art","baking","cooking","dance","diy","fashion","finance","games","meditation","movies","music","outdoors","photography","reading","sports","tech","travel","volunteering"]
     
-    var interests_pretty_name = ["Art & Design","Baking","Cooking","dance","diy","fashion","Finance","games","meditation","Movies & TV","music","outdoors","photography","reading","sports","tech","travel","volunteering"]
+    var interests_pretty_name = ["Art & Design","Baking","Cooking","Dance","DIY","Fashion","Finance","Games","Meditation","Movies & TV","Music","Outdoors","Photography","Reading","Sports","Tech","Travel","Volunteering"]
     
     var interestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
@@ -49,7 +48,7 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             let layout = UICollectionViewFlowLayout()
             layout.minimumInteritemSpacing = 0
             layout.minimumLineSpacing = 40
-            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 20, right: 10)
             layout.itemSize = CGSize(width: screenWidth/4.5, height: screenWidth/4.5)
             return layout
         }()
@@ -81,38 +80,39 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "interestCell", for: indexPath)
         
         let interestImage: UIImageView = {
-            let image = UIImage(named: "interest_\(interests[indexPath.item])")
-            let imageView = UIImageView(image: image)
-            imageView.contentMode = .center
+            let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 64,height: 64))
+            imageView.image = UIImage(named: "interest_\(interests[indexPath.item])")
+            imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
             return imageView
         }()
         cell.addSubview(interestImage)
-        interestImage.widthAnchor.constraint(equalToConstant: screenWidth/5).isActive = true
-        interestImage.heightAnchor.constraint(equalToConstant: screenHeight/5).isActive = true
+        interestImage.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.75).isActive = true
+        interestImage.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.75).isActive = true
         interestImage.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
         interestImage.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         
-        let interestLabel: UILabel = {
-            let label = UILabel()
-            label.textAlignment = .left
+        let interestLabel : UILabel = {
+            let label: UILabel = UILabel()
+            label.textAlignment = .center
             label.font = Font.regular(dynamicFontSize(17))
             label.textColor = Color.navBlue
             label.text = interests_pretty_name[indexPath.item]
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
+        interestLabel.tag = 100
         cell.addSubview(interestLabel)
-        interestLabel.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.7).isActive = true
+        //interestLabel.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.7).isActive = true
         interestLabel.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.7).isActive = true
         interestLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
-        interestLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor, constant: 50).isActive = true
+        //interestLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor, constant: 60).isActive = true
+        interestLabel.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: -20).isActive = true
         
         
         cell.layer.backgroundColor = Color.russianDolphinGray.cgColor
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = false
-        //return cell ?? collectionView.dequeueReusableCell(withReuseIdentifier: "interestCell", for: indexPath)
         return cell
     }
     
@@ -148,7 +148,10 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             let index = indexOfCellsSelected.firstIndex(of: indexPath)
             indexOfCellsSelected.remove(at: index!)
             selectedInterests.remove(at: index!)
+            
             cell?.backgroundColor = Color.russianDolphinGray
+            let label = cell?.viewWithTag(100) as? UILabel
+            label?.textColor = Color.russianDolphinGray
         }
         else {
             //tapped item is not yet in data structure, evict last item, and include tapped item.
@@ -158,12 +161,19 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
                 _ = selectedInterests.popLast()
                 let removed_index: IndexPath = indexOfCellsSelected.popLast()!
                 let removed_cell = collectionView.cellForItem(at: removed_index)
+                
                 removed_cell?.backgroundColor = Color.russianDolphinGray
+                let label = cell?.viewWithTag(100) as? UILabel
+                label?.textColor = Color.russianDolphinGray
             }
             //append tapped item to data structure
             selectedInterests.append(interest)
             indexOfCellsSelected.append(indexPath)
+            
             cell?.backgroundColor = Color.matteBlack
+            let label = cell?.viewWithTag(100) as? UILabel
+            label?.textColor = Color.matteBlack
+            
             
         }
         print(selectedInterests) //debug output, pls remove
