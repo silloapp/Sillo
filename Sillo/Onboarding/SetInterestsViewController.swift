@@ -15,37 +15,42 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
     
     var interestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .light
-            
+        self.view.backgroundColor = .white
+        
+        let screenSize = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        
         //MARK: select three interests label
         let promptLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = Font.medium(dynamicFontSize(28))
-            label.textColor = Color.navBlue
+            label.numberOfLines = 0
+            label.font = Font.medium(dynamicFontSize(24))
+            label.textColor = Color.buttonClickable
             label.text = "Select three interests to personalize your profile."
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         self.view.addSubview(promptLabel)
         promptLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
-        promptLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        promptLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
         promptLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         promptLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 119).isActive = true
         
         
         //MARK: interest collection view
         let flowLayout: UICollectionViewFlowLayout = {
-            let screenSize = UIScreen.main.bounds
-            let screenWidth = screenSize.width
-            let screenHeight = screenSize.height
             let layout = UICollectionViewFlowLayout()
             layout.minimumInteritemSpacing = 0
             layout.minimumLineSpacing = 40
-            layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
-            layout.itemSize = CGSize(width: screenWidth/3.5, height: screenWidth/3.5)
+            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            layout.itemSize = CGSize(width: screenWidth/4.5, height: screenWidth/4.5)
             return layout
         }()
         
@@ -55,10 +60,10 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         interestCollectionView.delegate = self
         interestCollectionView.dataSource = self
         interestCollectionView.backgroundColor = UIColor.white
-        
+        interestCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(interestCollectionView)
-        //interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
-        //interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
+        interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
+        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.9).isActive = true
         interestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         interestCollectionView.topAnchor.constraint(equalTo: promptLabel.topAnchor, constant: 119).isActive = true
     }
@@ -68,6 +73,11 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let screenSize = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "interestCell", for: indexPath)
         
         let interestImage: UIImageView = {
@@ -78,8 +88,8 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             return imageView
         }()
         cell.addSubview(interestImage)
-        interestImage.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.5).isActive = true
-        interestImage.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.5).isActive = true
+        interestImage.widthAnchor.constraint(equalToConstant: screenWidth/5).isActive = true
+        interestImage.heightAnchor.constraint(equalToConstant: screenHeight/5).isActive = true
         interestImage.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
         interestImage.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         
@@ -87,19 +97,21 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             let label = UILabel()
             label.textAlignment = .left
             label.font = Font.regular(dynamicFontSize(17))
+            label.textColor = Color.navBlue
             label.text = interests_pretty_name[indexPath.item]
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         cell.addSubview(interestLabel)
         interestLabel.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.7).isActive = true
+        interestLabel.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.7).isActive = true
         interestLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
         interestLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor, constant: 50).isActive = true
         
         
         cell.layer.backgroundColor = Color.russianDolphinGray.cgColor
         cell.layer.cornerRadius = 10
-        cell.layer.masksToBounds = true
+        cell.layer.masksToBounds = false
         //return cell ?? collectionView.dequeueReusableCell(withReuseIdentifier: "interestCell", for: indexPath)
         return cell
     }
@@ -151,7 +163,6 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             //append tapped item to data structure
             selectedInterests.append(interest)
             indexOfCellsSelected.append(indexPath)
-            cell?.layer.backgroundColor = Color.matteBlack.cgColor
             cell?.backgroundColor = Color.matteBlack
             
         }
