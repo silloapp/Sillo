@@ -12,10 +12,10 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
     
     var interests_pretty_name = ["Art & Design","Baking","Cooking","Dance","DIY","Fashion","Finance","Games","Meditation","Movies & TV","Music","Outdoors","Photography","Reading","Sports","Tech","Travel","Volunteering"]
     
+    var selectedInterestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     var interestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
-
-    
+    //MARK: viewdidload
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .light
@@ -23,7 +23,6 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
         
         //MARK: select three interests label
         let promptLabel: UILabel = {
@@ -42,15 +41,14 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         promptLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         promptLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 119).isActive = true
         
-        
         //MARK: interest collection view
         let flowLayout: UICollectionViewFlowLayout = {
-            let layout = UICollectionViewFlowLayout()
-            layout.minimumInteritemSpacing = 0
-            layout.minimumLineSpacing = 40
-            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 20, right: 10)
-            layout.itemSize = CGSize(width: screenWidth/4.5, height: screenWidth/4.5)
-            return layout
+            let second_layout = UICollectionViewFlowLayout()
+            second_layout.minimumInteritemSpacing = 0
+            second_layout.minimumLineSpacing = 40
+            second_layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 20, right: 10)
+            second_layout.itemSize = CGSize(width: screenWidth/4.5, height: screenWidth/4.5)
+            return second_layout
         }()
         
         interestCollectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: flowLayout)
@@ -62,7 +60,7 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         interestCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(interestCollectionView)
         interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
-        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.9).isActive = true
+        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.7).isActive = true
         interestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         interestCollectionView.topAnchor.constraint(equalTo: promptLabel.topAnchor, constant: 119).isActive = true
     }
@@ -70,17 +68,18 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return interests.count
     }
-    
+    //MARK: cellForItemAt
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let screenSize = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "interestCell", for: indexPath)
+        
+        //the foreach loop below clears the reusable cell, otherwise shitty shuffling occurs
+        cell.subviews.forEach {subview in
+            subview.removeFromSuperview()
+        }
         
         let interestImage: UIImageView = {
             let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 64,height: 64))
+            print(interests[indexPath.item])
             imageView.image = UIImage(named: "interest_\(interests[indexPath.item])")
             imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -103,22 +102,27 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         }()
         interestLabel.tag = 100
         cell.addSubview(interestLabel)
-        //interestLabel.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.7).isActive = true
         interestLabel.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.7).isActive = true
         interestLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
-        //interestLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor, constant: 60).isActive = true
         interestLabel.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: -20).isActive = true
         
-        
-        cell.layer.backgroundColor = Color.russianDolphinGray.cgColor
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = false
+        
+        if (indexPathOfCellsSelected.contains(indexPath)) {
+            cell.backgroundColor = Color.matteBlack
+            interestLabel.textColor = Color.matteBlack
+        }
+        else {
+            cell.backgroundColor = Color.russianDolphinGray
+        }
+        
         return cell
     }
     
     var selectedInterests: [String] = [] //a list of interests
     let maxInterestCount = 3 //maximum length of interests array
-    var indexOfCellsSelected: [IndexPath] = [] //indices of table cells
+    var indexPathOfCellsSelected: [IndexPath] = [] //indices of table cells
     
     /*
     func submitButtonCheck() {
@@ -144,9 +148,9 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         let cell = collectionView.cellForItem(at: indexPath)
         
         //tapped item is in data structure, deselect
-        if indexOfCellsSelected.contains(indexPath) {
-            let index = indexOfCellsSelected.firstIndex(of: indexPath)
-            indexOfCellsSelected.remove(at: index!)
+        if indexPathOfCellsSelected.contains(indexPath) {
+            let index = indexPathOfCellsSelected.firstIndex(of: indexPath)
+            indexPathOfCellsSelected.remove(at: index!)
             selectedInterests.remove(at: index!)
             
             cell?.backgroundColor = Color.russianDolphinGray
@@ -157,24 +161,22 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             //tapped item is not yet in data structure, evict last item, and include tapped item.
             let interest = interests[indexPath.item]
             //evict last item
-            if indexOfCellsSelected.count == maxInterestCount {
+            if indexPathOfCellsSelected.count == maxInterestCount {
                 _ = selectedInterests.popLast()
-                let removed_index: IndexPath = indexOfCellsSelected.popLast()!
+                let removed_index: IndexPath = indexPathOfCellsSelected.popLast()!
                 let removed_cell = collectionView.cellForItem(at: removed_index)
                 
                 removed_cell?.backgroundColor = Color.russianDolphinGray
-                let label = cell?.viewWithTag(100) as? UILabel
+                let label = removed_cell?.viewWithTag(100) as? UILabel
                 label?.textColor = Color.russianDolphinGray
             }
             //append tapped item to data structure
             selectedInterests.append(interest)
-            indexOfCellsSelected.append(indexPath)
+            indexPathOfCellsSelected.append(indexPath)
             
             cell?.backgroundColor = Color.matteBlack
             let label = cell?.viewWithTag(100) as? UILabel
             label?.textColor = Color.matteBlack
-            
-            
         }
         print(selectedInterests) //debug output, pls remove
     }
