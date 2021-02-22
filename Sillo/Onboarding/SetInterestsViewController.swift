@@ -19,6 +19,23 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
         overrideUserInterfaceStyle = .light
             
+        //MARK: select three interests label
+        let promptLabel: UILabel = {
+            let label = UILabel()
+            label.textAlignment = .left
+            label.font = Font.medium(dynamicFontSize(28))
+            label.textColor = Color.navBlue
+            label.text = "Select three interests to personalize your profile."
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+        self.view.addSubview(promptLabel)
+        promptLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
+        promptLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        promptLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        promptLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 119).isActive = true
+        
+        
         //MARK: interest collection view
         let flowLayout: UICollectionViewFlowLayout = {
             let screenSize = UIScreen.main.bounds
@@ -39,13 +56,11 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         interestCollectionView.dataSource = self
         interestCollectionView.backgroundColor = UIColor.white
         
-        
-        //let largeConfig = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .medium)
         self.view.addSubview(interestCollectionView)
-        interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7).isActive = true
-        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.7).isActive = true
+        //interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
+        //interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
         interestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        interestCollectionView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        interestCollectionView.topAnchor.constraint(equalTo: promptLabel.topAnchor, constant: 119).isActive = true
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -138,6 +153,7 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             indexOfCellsSelected.append(indexPath)
             cell?.layer.backgroundColor = Color.matteBlack.cgColor
             cell?.backgroundColor = Color.matteBlack
+            
         }
         print(selectedInterests) //debug output, pls remove
     }
