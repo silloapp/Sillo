@@ -8,8 +8,6 @@
 import UIKit
 import Firebase
 
-let cloudutil = CloudUtil()
-
 //MARK: figma screen 164, 165
 class PasscodeVerificationViewController: UIViewController {
     

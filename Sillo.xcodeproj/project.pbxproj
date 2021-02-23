@@ -25,6 +25,7 @@
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
 		AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */; };
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
+		AA7E0F5B25E3C546004C8C94 /* SetInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7E0F5A25E3C546004C8C94 /* SetInterestsViewController.swift */; };
 		AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C125B13DC90070E938 /* SignInViewController.swift */; };
 		AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C625B154940070E938 /* SetNameViewController.swift */; };
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
@@ -104,6 +105,7 @@
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
 		AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AA7E0F5A25E3C546004C8C94 /* SetInterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetInterestsViewController.swift; sourceTree = "<group>"; };
 		AAB807C125B13DC90070E938 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		AAB807C625B154940070E938 /* SetNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNameViewController.swift; sourceTree = "<group>"; };
 		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		AA196FA125BEA51C00A9997B /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				AA7E0F5A25E3C546004C8C94 /* SetInterestsViewController.swift */,
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
 				AAB807C125B13DC90070E938 /* SignInViewController.swift */,
@@ -684,6 +687,7 @@
 				FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
+				AA7E0F5B25E3C546004C8C94 /* SetInterestsViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
 				A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */,
