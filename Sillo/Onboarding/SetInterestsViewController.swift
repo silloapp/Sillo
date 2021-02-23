@@ -36,10 +36,6 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             return label
         }()
         self.view.addSubview(promptLabel)
-        promptLabel.widthAnchor.constraint(equalToConstant: 319).isActive = true
-        promptLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        promptLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        promptLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 119).isActive = true
         
         //MARK: selected interests collection view
         let selectedCollectionFlowLayout: UICollectionViewFlowLayout = {
@@ -59,10 +55,6 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         selectedInterestCollectionView.backgroundColor = UIColor.white
         selectedInterestCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(selectedInterestCollectionView)
-        selectedInterestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
-        selectedInterestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.20).isActive = true
-        selectedInterestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        selectedInterestCollectionView.topAnchor.constraint(equalTo: promptLabel.topAnchor, constant: 100).isActive = true
         
         //MARK: interest collection view
         let flowLayout: UICollectionViewFlowLayout = {
@@ -82,6 +74,24 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         interestCollectionView.backgroundColor = UIColor.white
         interestCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(interestCollectionView)
+        
+        
+        //MARK: prompt label constraints
+        promptLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
+        promptLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        //promptLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        promptLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 119).isActive = true
+        
+        //MARK: constraints for selectedInterestCollectionView
+        selectedInterestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
+        selectedInterestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.20).isActive = true
+        selectedInterestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        selectedInterestCollectionView.topAnchor.constraint(equalTo: promptLabel.topAnchor, constant: 100).isActive = true
+        
+        //MARK: prompt label constraint con't
+        promptLabel.leftAnchor.constraint(equalTo: self.interestCollectionView.leftAnchor, constant: 10).isActive = true
+        
+        //MARK: constraints for interestCollectionView
         interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
         interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
         interestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -93,7 +103,8 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             return interests.count
         }
         if (collectionView == self.selectedInterestCollectionView) {
-            return selectedInterests.count
+            //3 cells in collection at all times, the ones without content are set to neutral gray background.
+            return maxInterestCount
         }
         return 0
     }
@@ -110,9 +121,13 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             
             let selectedInterestImage: UIImageView = {
                 let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 64,height: 64))
-                imageView.image = UIImage(named: "interest_\(selectedInterests[indexPath.item])")
                 imageView.contentMode = .scaleAspectFit
                 imageView.translatesAutoresizingMaskIntoConstraints = false
+                if (indexPath.item >= selectedInterests.count) {
+                    //return placeholder
+                    return imageView
+                }
+                imageView.image = UIImage(named: "interest_\(selectedInterests[indexPath.item])")
                 return imageView
             }()
             cell.addSubview(selectedInterestImage)
@@ -121,30 +136,35 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             selectedInterestImage.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
             selectedInterestImage.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
             
-            let deleteInterestButton: UIButton = {
-                let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-                let image = UIImage(named: "delete_interest")
-                button.setImage(image,for: .normal)
-                button.contentMode = .scaleAspectFit
-                button.tag = indexPath.item
-                button.addTarget(self, action: #selector(deleteInterest), for: .touchUpInside)
-                button.translatesAutoresizingMaskIntoConstraints = false
-                return button
-            }()
-            
-            cell.addSubview(deleteInterestButton)
-            cell.bringSubviewToFront(deleteInterestButton)
-            
-            deleteInterestButton.topAnchor.constraint(equalTo: cell.topAnchor,constant: -10).isActive = true
-            deleteInterestButton.rightAnchor.constraint(equalTo: cell.rightAnchor,constant: 5).isActive = true
-            
+            //MARK: delete interest button
+            if (indexPath.item < selectedInterests.count) {
+                let deleteInterestButton: UIButton = {
+                    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+                    let image = UIImage(named: "delete_interest")
+                    button.setImage(image,for: .normal)
+                    button.contentMode = .scaleAspectFit
+                    button.tag = indexPath.item
+                    button.addTarget(self, action: #selector(deleteInterest), for: .touchUpInside)
+                    button.translatesAutoresizingMaskIntoConstraints = false
+                    return button
+                }()
+                
+                cell.addSubview(deleteInterestButton)
+                cell.bringSubviewToFront(deleteInterestButton)
+                
+                deleteInterestButton.topAnchor.constraint(equalTo: cell.topAnchor,constant: -10).isActive = true
+                deleteInterestButton.rightAnchor.constraint(equalTo: cell.rightAnchor,constant: 5).isActive = true
+            }
             
             let interestLabel : UILabel = {
                 let label: UILabel = UILabel()
                 label.textAlignment = .center
                 label.font = Font.regular(dynamicFontSize(17))
                 label.textColor = Color.navBlue
-                label.text = pretty_name_matching[selectedInterests[indexPath.item]]
+                //checks to see if index is within selectedInterests
+                if (indexPath.item < selectedInterests.count) {
+                    label.text = pretty_name_matching[selectedInterests[indexPath.item]]
+                }
                 label.translatesAutoresizingMaskIntoConstraints = false
                 return label
             }()
@@ -157,8 +177,16 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             cell.layer.cornerRadius = 10
             cell.layer.masksToBounds = false
             
-            cell.backgroundColor = Color.matteBlack
-            interestLabel.textColor = Color.matteBlack
+
+            //set color matteBlack is not a dummy cell, grey otherwise
+            if (indexPath.item >= selectedInterests.count) {
+                cell.backgroundColor = Color.russianDolphinGray
+            }
+            else {
+                cell.backgroundColor = Color.matteBlack
+                interestLabel.textColor = Color.matteBlack
+            }
+            
             return cell
         }
         
@@ -253,7 +281,6 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             let label = cell?.viewWithTag(100) as? UILabel
             label?.textColor = Color.matteBlack
         }
-        print(selectedInterests) //debug output, pls remove
         self.selectedInterestCollectionView.reloadData()
         }
     }
@@ -264,10 +291,11 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         indexPathOfCellsSelected.remove(at: index)
         self.selectedInterestCollectionView.reloadData()
         self.interestCollectionView.reloadData()
-        print(selectedInterests)
     }
     
-    @objc func nextClicked(_:UIButton) {
+    @objc func next(_:UIButton) {
+        
+        
         
 //        let doc = Constants.db.collection("organizations").document()
 //        DispatchQueue.main.async {
