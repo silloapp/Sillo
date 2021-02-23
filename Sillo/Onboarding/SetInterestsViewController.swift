@@ -10,7 +10,7 @@ import UIKit
 class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var interests = ["art","baking","cooking","dance","diy","fashion","finance","games","meditation","movies","music","outdoors","photography","reading","sports","tech","travel","volunteering"]
     
-    var interests_pretty_name = ["Art & Design","Baking","Cooking","Dance","DIY","Fashion","Finance","Games","Meditation","Movies & TV","Music","Outdoors","Photography","Reading","Sports","Tech","Travel","Volunteering"]
+    var pretty_name_matching : [String:String] = ["art":"Art & Design","baking":"Baking","cooking":"Cooking","dance":"Dance","diy":"DIY","fashion":"Fashion","finance":"Finance","games":"Games","meditation":"Meditation","movies":"Movies & TV","music":"Music","outdoors":"Outdoors","photography":"Photography","reading":"Reading","sports":"Sports","tech":"Tech","travel":"Travel","volunteering":"Volunteering"]
     
     var selectedInterestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     var interestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -41,6 +41,29 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         promptLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         promptLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 119).isActive = true
         
+        //MARK: selected interests collection view
+        let selectedCollectionFlowLayout: UICollectionViewFlowLayout = {
+            let first_layout = UICollectionViewFlowLayout()
+            first_layout.minimumInteritemSpacing = 0
+            first_layout.minimumLineSpacing = 40
+            first_layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 20, right: 10)
+            first_layout.itemSize = CGSize(width: screenWidth/4.5, height: screenWidth/4.5)
+            return first_layout
+        }()
+        
+        selectedInterestCollectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: selectedCollectionFlowLayout)
+        
+        selectedInterestCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "selectedInterestCell")
+        selectedInterestCollectionView.delegate = self
+        selectedInterestCollectionView.dataSource = self
+        selectedInterestCollectionView.backgroundColor = UIColor.white
+        selectedInterestCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(selectedInterestCollectionView)
+        selectedInterestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
+        selectedInterestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.20).isActive = true
+        selectedInterestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        selectedInterestCollectionView.topAnchor.constraint(equalTo: promptLabel.topAnchor, constant: 100).isActive = true
+        
         //MARK: interest collection view
         let flowLayout: UICollectionViewFlowLayout = {
             let second_layout = UICollectionViewFlowLayout()
@@ -60,26 +83,94 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         interestCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(interestCollectionView)
         interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
-        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.7).isActive = true
+        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
         interestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        interestCollectionView.topAnchor.constraint(equalTo: promptLabel.topAnchor, constant: 119).isActive = true
+        interestCollectionView.topAnchor.constraint(equalTo: selectedInterestCollectionView.bottomAnchor, constant: 10).isActive = true
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return interests.count
+        if (collectionView == self.interestCollectionView) {
+            return interests.count
+        }
+        if (collectionView == self.selectedInterestCollectionView) {
+            return selectedInterests.count
+        }
+        return 0
     }
     //MARK: cellForItemAt
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "interestCell", for: indexPath)
         
+        //MARK: generate selected interest cell
+        if collectionView == self.selectedInterestCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "selectedInterestCell", for: indexPath)
+            //the foreach loop below clears the reusable cell, otherwise shitty shuffling occurs
+            cell.subviews.forEach {subview in
+                subview.removeFromSuperview()
+            }
+            
+            let selectedInterestImage: UIImageView = {
+                let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 64,height: 64))
+                imageView.image = UIImage(named: "interest_\(selectedInterests[indexPath.item])")
+                imageView.contentMode = .scaleAspectFit
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                return imageView
+            }()
+            cell.addSubview(selectedInterestImage)
+            selectedInterestImage.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.75).isActive = true
+            selectedInterestImage.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.75).isActive = true
+            selectedInterestImage.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+            selectedInterestImage.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+            
+            let deleteInterestButton: UIButton = {
+                let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+                let image = UIImage(named: "delete_interest")
+                button.setImage(image,for: .normal)
+                button.contentMode = .scaleAspectFit
+                button.tag = indexPath.item
+                button.addTarget(self, action: #selector(deleteInterest), for: .touchUpInside)
+                button.translatesAutoresizingMaskIntoConstraints = false
+                return button
+            }()
+            
+            cell.addSubview(deleteInterestButton)
+            cell.bringSubviewToFront(deleteInterestButton)
+            
+            deleteInterestButton.topAnchor.constraint(equalTo: cell.topAnchor,constant: -10).isActive = true
+            deleteInterestButton.rightAnchor.constraint(equalTo: cell.rightAnchor,constant: 5).isActive = true
+            
+            
+            let interestLabel : UILabel = {
+                let label: UILabel = UILabel()
+                label.textAlignment = .center
+                label.font = Font.regular(dynamicFontSize(17))
+                label.textColor = Color.navBlue
+                label.text = pretty_name_matching[selectedInterests[indexPath.item]]
+                label.translatesAutoresizingMaskIntoConstraints = false
+                return label
+            }()
+            interestLabel.tag = 100
+            cell.addSubview(interestLabel)
+            interestLabel.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.7).isActive = true
+            interestLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+            interestLabel.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: -20).isActive = true
+            
+            cell.layer.cornerRadius = 10
+            cell.layer.masksToBounds = false
+            
+            cell.backgroundColor = Color.matteBlack
+            interestLabel.textColor = Color.matteBlack
+            return cell
+        }
+        
+        //MARK: generate interest cell
+        if (collectionView == self.interestCollectionView) {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "interestCell", for: indexPath)
         //the foreach loop below clears the reusable cell, otherwise shitty shuffling occurs
         cell.subviews.forEach {subview in
             subview.removeFromSuperview()
         }
-        
         let interestImage: UIImageView = {
             let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 64,height: 64))
-            print(interests[indexPath.item])
             imageView.image = UIImage(named: "interest_\(interests[indexPath.item])")
             imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +187,7 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             label.textAlignment = .center
             label.font = Font.regular(dynamicFontSize(17))
             label.textColor = Color.navBlue
-            label.text = interests_pretty_name[indexPath.item]
+            label.text = pretty_name_matching[interests[indexPath.item]]
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
@@ -118,33 +209,17 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
         }
         
         return cell
+        }
+        return UICollectionViewCell() //this is an
     }
     
     var selectedInterests: [String] = [] //a list of interests
     let maxInterestCount = 3 //maximum length of interests array
     var indexPathOfCellsSelected: [IndexPath] = [] //indices of table cells
-    
-    /*
-    func submitButtonCheck() {
-        if selectedInterests.count == 3 {
-            UIView.animate(withDuration: 0.2) {
-                self.continueButton.isUserInteractionEnabled = true
-                self.continueButton.alpha = 1
-            }
-        } else {
-            if selectedInterests.count == 2 {
-                UIView.animate(withDuration: 0.2) {
-                    self.continueButton.alpha = 0.62
-                    self.continueButton.isUserInteractionEnabled = false
-                }
-            }
-        }
-    }
- */
    
     //MARK: tapped an interest
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        if (collectionView == self.interestCollectionView) {
         let cell = collectionView.cellForItem(at: indexPath)
         
         //tapped item is in data structure, deselect
@@ -179,6 +254,17 @@ class SetInterestsViewController: UIViewController, UICollectionViewDelegate, UI
             label?.textColor = Color.matteBlack
         }
         print(selectedInterests) //debug output, pls remove
+        self.selectedInterestCollectionView.reloadData()
+        }
+    }
+    
+    @objc func deleteInterest(button:UIButton) {
+        let index = button.tag //index
+        selectedInterests.remove(at: index)
+        indexPathOfCellsSelected.remove(at: index)
+        self.selectedInterestCollectionView.reloadData()
+        self.interestCollectionView.reloadData()
+        print(selectedInterests)
     }
     
     @objc func nextClicked(_:UIButton) {
