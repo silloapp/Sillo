@@ -5,9 +5,11 @@
 //  Created by William Loo on 1/7/21.
 //
 
+import Firebase
 import FirebaseAuth
 
 let cloudutil = CloudUtil()
+let db =  Firestore.firestore()
 
 class CloudUtil {
     
