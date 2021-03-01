@@ -14,13 +14,22 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
 
     var bar = UIProgressView()
     var nextButton = UIButton()
+    var picButton = UIButton()
+    var imagePicker: UIImagePickerController!
     var orgNameField = UITextField()
+    var orgImage:UIImage? = nil
     
     //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         orgNameField.addTarget(self, action: #selector(self.textFieldDidEndEditing(_:)), for: .editingChanged)
+        
+        
+        self.imagePicker = UIImagePickerController()
+        self.imagePicker.delegate = self
+        self.imagePicker.sourceType = .photoLibrary
+
         configureNavBar()
         setupProgressBar()
         setupView()
@@ -80,7 +89,7 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         stack.addArrangedSubview(header)
         
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
+        stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         stack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 300/375).isActive = true
 
@@ -94,9 +103,11 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         hStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15).isActive = true
         hStack.widthAnchor.constraint(equalTo: stack.widthAnchor, multiplier: 1).isActive = true
         
-        let addPhotoImage = UIImageView()
-        addPhotoImage.image = UIImage(named: "addPhoto")
-        addPhotoImage.contentMode = .scaleAspectFit
+        picButton.setImage(UIImage(named: "addPhoto"), for: .normal)
+        picButton.contentMode = .scaleAspectFit
+        picButton.addTarget(self, action: #selector(choosePic), for: .touchUpInside)
+        picButton.layer.cornerRadius = 0.5 * picButton.bounds.size.width
+        picButton.clipsToBounds = true
         
         orgNameField.backgroundColor = Color.textFieldBackground
         orgNameField.textColor = Color.textSemiBlack
@@ -109,13 +120,13 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         orgNameField.delegate = self
         orgNameField.becomeFirstResponder()
         
-        hStack.addArrangedSubview(addPhotoImage)
+        hStack.addArrangedSubview(picButton)
         hStack.addArrangedSubview(orgNameField)
         
         orgNameField.widthAnchor.constraint(equalTo: hStack.widthAnchor, multiplier: 0.76).isActive = true
         orgNameField.heightAnchor.constraint(equalTo: hStack.heightAnchor, multiplier: 30/71).isActive = true
-        addPhotoImage.widthAnchor.constraint(equalTo: orgNameField.heightAnchor).isActive = true
-        addPhotoImage.heightAnchor.constraint(equalTo: orgNameField.heightAnchor).isActive = true
+        picButton.widthAnchor.constraint(equalTo: orgNameField.heightAnchor).isActive = true
+        picButton.heightAnchor.constraint(equalTo: orgNameField.heightAnchor).isActive = true
         
         nextButton.backgroundColor = Color.buttonClickableUnselected
         nextButton.setTitle("Next", for: .normal)
@@ -142,9 +153,13 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         let destVC = AddPeopleToSpaceViewController()
 
         destVC.orgNameString = orgNameField.text!
+        destVC.orgImage = orgImage
 
         navigationController?.pushViewController(destVC, animated: false)
-        
+    }
+
+    @objc func choosePic() {
+        present(imagePicker, animated: true, completion: nil)
     }
     
     //MARK: Handle positioning of NEXT button - adaptive to keyboard size
@@ -155,16 +170,42 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         }
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if (orgNameField.text! != "") {
+            nextButton.isEnabled = true
+            nextButton.backgroundColor = Color.buttonClickable
+            organizationData.newOrganizationName = orgNameField.text!
+        }
+        else {
+            self.nextButton.isEnabled = false
+            nextButton.backgroundColor = Color.buttonClickableUnselected
+        }
+    }
+    
     //MARK: Textfield button selection/deselection
     func textFieldDidEndEditing(_ textField: UITextField) {
-            if (orgNameField.text?.isEmpty == false) {
-                self.nextButton.isEnabled = true
-                nextButton.backgroundColor = Color.buttonClickable
-            }
-            else {
-                self.nextButton.isEnabled = false
-                nextButton.backgroundColor = Color.buttonClickableUnselected
-            }
+        if (orgNameField.text! != "") {
+            nextButton.isEnabled = true
+            nextButton.backgroundColor = Color.buttonClickable
+            organizationData.newOrganizationName = orgNameField.text!
         }
+        else {
+            self.nextButton.isEnabled = false
+            nextButton.backgroundColor = Color.buttonClickableUnselected
+        }
+    }
 
+}
+
+extension SetupOrganizationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            orgImage = image
+            self.picButton.setImage(image, for: .normal)
+            self.picButton.layer.cornerRadius = 0.5 * picButton.bounds.size.width
+            self.picButton.clipsToBounds = true
+            organizationData.newOrganizationPic = image
+        }
+        self.imagePicker.dismiss(animated: true, completion: nil)
+    }
 }
