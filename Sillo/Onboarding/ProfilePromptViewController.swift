@@ -4,6 +4,7 @@
 //
 //  Created by William Loo on 2/25/21.
 //
+import Firebase
 import UIKit
 
 class ProfilePromptViewController: UIViewController {
@@ -98,7 +99,51 @@ class ProfilePromptViewController: UIViewController {
     }
     
     @objc private func createProfileClicked() {
-        navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
+        let nextVC = ProfileEditViewController()
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let upperUserRef = db.collection("profiles").document(userID)
+        
+        upperUserRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                let dataDict = document.data()
+                print("Document data: \(dataDescription)")
+                var profileDocumentName = "all_orgs"
+
+                let use_separate_profiles = dataDict!["use_separate_profiles"] as! Bool
+                if (use_separate_profiles) {
+                    profileDocumentName = "some_org_id"
+                }
+                else {
+                    profileDocumentName = "all_orgs"
+                }
+                let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let innerDict = document.data()!
+                        let pronouns = innerDict["pronouns"] as! String
+                        let bioText = innerDict["bio"] as! String
+                        let restaurants = innerDict["restaurants"] as! [String]
+
+                        nextVC.bioText = bioText
+                        nextVC.pronouns = pronouns
+                        nextVC.restaurants = restaurants
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                }
+                
+            }
+            else {
+                print("Document does not exist")
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            
+        }
+        
+        
+        
+        
+        
     }
     @objc private func skipClicked() {
         navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)

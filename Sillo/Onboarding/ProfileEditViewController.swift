@@ -10,7 +10,10 @@ import Firebase
 import GoogleSignIn
 
 class ProfileEditViewController: UIViewController, GIDSignInDelegate {
-        
+    var bioText: String = ""
+    var pronouns: String = ""
+    var restaurants : [String] = []
+    var interests : [String] = []
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.5 //in seconds
     
@@ -18,7 +21,7 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
     let emailTextField: UITextField = {
         let etextField = UITextField()
         etextField.placeholder = " He/Him/His"
-        etextField.text = " He/Him/His"
+        etextField.text = ""
         etextField.layer.cornerRadius = 10.0;
         etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         etextField.translatesAutoresizingMaskIntoConstraints = false
@@ -35,13 +38,13 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         ptextField.frame = frameRect;
         ptextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         //ptextField.isSecureTextEntry = true
-        ptextField.text = "Hi my name is Eashan and I am potato."
+        ptextField.text = ""
         ptextField.translatesAutoresizingMaskIntoConstraints = false
         return ptextField
     }()
     
-    var interests:[String] = ["design","baking","meditation"]
-    var restaurants:[String] = ["Asha Tea House","Eureka","Thai Basil"]
+    //var interests:[String] = ["design","baking","meditation"]
+    //var restaurants:[String] = ["Asha Tea House","Eureka","Thai Basil"]
     
     //MARK: Scroll view
     let scrollView: UIScrollView = {
@@ -58,6 +61,12 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
         }
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let upperUserRef = db.collection("profiles").document(userID)
+        //let userRef = db.collection("profiles").document(userID).collection("org_profiles")
+        
+        
         self.view.backgroundColor = .white
         GIDSignIn.sharedInstance().presentingViewController = self
         GIDSignIn.sharedInstance().delegate = self
@@ -234,7 +243,47 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         googleSignIn.heightAnchor.constraint(equalToConstant: 65).isActive = true
         googleSignIn.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         googleSignIn.topAnchor.constraint(equalTo: divider.topAnchor, constant: 47).isActive = true
+        
+        emailTextField.text = pronouns
+        passwordTextField.text = bioText
+        /*
+        upperUserRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                let dataDict = document.data()
+                print("Document data: \(dataDescription)")
+                var profileDocumentName = "all_orgs"
 
+                let use_separate_profiles = dataDict!["use_separate_profiles"] as! Bool
+                if (use_separate_profiles) {
+                    profileDocumentName = "some_org_id"
+                }
+                else {
+                    profileDocumentName = "all_orgs"
+                }
+                let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let innerDict = document.data()!
+                        let pronouns = innerDict["pronouns"] as! String
+                        let bioText = innerDict["bio"] as! String
+                        let restaurants = innerDict["restaurants"] as! [String]
+                        print(restaurants)
+                        
+                        self.passwordTextField.text = bioText
+                        
+                    }
+                }
+                
+            }
+            else {
+                print("Document does not exist")
+            }
+        }
+        */
+        
+        
+        
     }
     @objc func togglePasswordVisibility(_:UIButton) {
         passwordTextField.isSecureTextEntry.toggle()
@@ -269,18 +318,7 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
             upperUserRef.setData(["use_separate_profiles":USE_SEPARATE_PROFILES])
             
             let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
-            /*
-            userRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    print("Document data: \(dataDescription)")
-                    userRef.updateData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"data":"some more important data."])
-                } else {
-                    print("Document does not exist")
-                    userRef.setData(["use_separate_profiles":USE_SEPARATE_PROFILES])
-                }
-            }
-            */
+            
             userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants, "data":"some more important data."])
             
         }
