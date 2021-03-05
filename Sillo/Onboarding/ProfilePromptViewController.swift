@@ -9,6 +9,9 @@ import UIKit
 
 class ProfilePromptViewController: UIViewController {
     
+    private var latestButtonPressTimestamp: Date = Date()
+    private var DEBOUNCE_LIMIT: Double = 0.7 //in seconds
+    
     var ORGANIZATION_NAME = "Berkeley Food Club"//SET DYNAMICALLY SOON
     
     override func viewDidLoad() {
@@ -99,6 +102,13 @@ class ProfilePromptViewController: UIViewController {
     }
     
     @objc private func createProfileClicked() {
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        self.latestButtonPressTimestamp = Date()
+        
         let nextVC = ProfileEditViewController()
         guard let userID = Auth.auth().currentUser?.uid else { return }
         let upperUserRef = db.collection("profiles").document(userID)
@@ -110,11 +120,9 @@ class ProfilePromptViewController: UIViewController {
                 print("Document data: \(dataDescription)")
                 var profileDocumentName = "all_orgs"
 
-                let use_separate_profiles = dataDict!["use_separate_profiles"] as! Bool
-                if (use_separate_profiles) {
-                    profileDocumentName = "some_org_id"
-                }
-                else {
+                let useSeparateProfiles = dataDict!["use_separate_profiles"] as! Bool
+                profileDocumentName = "some_org"
+                if (useSeparateProfiles) {
                     profileDocumentName = "all_orgs"
                 }
                 let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
@@ -128,6 +136,17 @@ class ProfilePromptViewController: UIViewController {
                         nextVC.bioText = bioText
                         nextVC.pronouns = pronouns
                         nextVC.restaurants = restaurants
+                        nextVC.useSeparateProfiles = useSeparateProfiles
+                        
+                        //https://firebase.google.com/docs/analytics/events?platform=ios
+                        Analytics.logEvent("edit_profile", parameters: [
+                          "name": "will" as NSObject,
+                          "full_text": "creating a profile.." as NSObject
+                          ])
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                    else {
+                        print("creating blank document because inner document does not exist.")
                         self.navigationController?.pushViewController(nextVC, animated: true)
                     }
                 }
@@ -146,6 +165,12 @@ class ProfilePromptViewController: UIViewController {
         
     }
     @objc private func skipClicked() {
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        self.latestButtonPressTimestamp = Date()
         navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
     }
 

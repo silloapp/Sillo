@@ -14,6 +14,7 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
     var pronouns: String = ""
     var restaurants : [String] = []
     var interests : [String] = []
+    var useSeparateProfiles = false
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.5 //in seconds
     
@@ -41,6 +42,13 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         ptextField.text = ""
         ptextField.translatesAutoresizingMaskIntoConstraints = false
         return ptextField
+    }()
+    
+    let useSeparateProfilesSwitch: UISwitch = {
+        let newSwitch = UISwitch()
+        newSwitch.addTarget(self, action:#selector(toggleSwitch(_:)), for: .valueChanged)
+        newSwitch.translatesAutoresizingMaskIntoConstraints = false
+        return newSwitch
     }()
     
     //var interests:[String] = ["design","baking","meditation"]
@@ -175,6 +183,14 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         passwordVisibilityToggle.heightAnchor.constraint(equalToConstant: 24).isActive = true
         passwordVisibilityToggle.leftAnchor.constraint(equalTo: createPasswordLabel.leftAnchor, constant: 319-24).isActive = true
         passwordVisibilityToggle.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -24).isActive = true
+        
+        //MARK: switchview
+        useSeparateProfilesSwitch.isOn = useSeparateProfiles
+        scrollView.addSubview(useSeparateProfilesSwitch)
+        useSeparateProfilesSwitch.widthAnchor.constraint(equalToConstant: 319).isActive = true
+        useSeparateProfilesSwitch.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        useSeparateProfilesSwitch.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        useSeparateProfilesSwitch.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: 74).isActive = true
 
         //MARK: next button
         let nextButton: UIButton = {
@@ -192,7 +208,7 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         nextButton.widthAnchor.constraint(equalToConstant: 319).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        nextButton.topAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: 74).isActive = true
+        nextButton.topAnchor.constraint(equalTo: useSeparateProfilesSwitch.topAnchor, constant: 74).isActive = true
         
         //MARK: terms text view
         let termsTextView: UITextView = {
@@ -290,6 +306,19 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         //confirmPasswordTextField.isSecureTextEntry.toggle()
     }
     
+    @objc func toggleSwitch(_ sender : UISwitch!){
+
+        if sender.isOn {
+            useSeparateProfiles =  true
+
+        } else {
+
+            useSeparateProfiles =  false
+        }
+
+
+    }
+    
     @objc func nextClicked(_:UIButton) {
         var errorState = false
         var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
@@ -302,24 +331,23 @@ class ProfileEditViewController: UIViewController, GIDSignInDelegate {
         if (requestThrottled) {
             return
         }
-        let USE_SEPARATE_PROFILES = false
         if (emailTextField.hasText && passwordTextField.hasText) {
             let pronouns = emailTextField.text!
             let bio = passwordTextField.text!
             self.latestButtonPressTimestamp = Date()
             //set the orgaization document to overwrite
-            var profileDocumentName = "all_orgs"
-            if (USE_SEPARATE_PROFILES) {
-                profileDocumentName = "some_org"
+            var profileDocumentName = "some_org"
+            if (useSeparateProfiles) {
+                profileDocumentName = "all_orgs"
             }
             
             guard let userID = Auth.auth().currentUser?.uid else { return }
             let upperUserRef = db.collection("profiles").document(userID)
-            upperUserRef.setData(["use_separate_profiles":USE_SEPARATE_PROFILES])
+            upperUserRef.setData(["use_separate_profiles":useSeparateProfiles])
             
             let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
             
-            userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants, "data":"some more important data."])
+            userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
             
         }
         else {
