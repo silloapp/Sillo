@@ -10,7 +10,7 @@ import UIKit
 class ProfilePromptViewController: UIViewController {
     
     private var latestButtonPressTimestamp: Date = Date()
-    private var DEBOUNCE_LIMIT: Double = 0.7 //in seconds
+    private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
     var ORGANIZATION_NAME = "Berkeley Food Club"//SET DYNAMICALLY SOON
     
@@ -102,14 +102,21 @@ class ProfilePromptViewController: UIViewController {
     }
     
     @objc private func createProfileClicked() {
+        //debouncing business
         let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
-        
-        if (requestThrottled) {
-            return
-        }
+        if (requestThrottled) {return}
         self.latestButtonPressTimestamp = Date()
         
+        //show loading vc while backend business
+        let loadingVC = LoadingViewController()
+        loadingVC.modalPresentationStyle = .overCurrentContext
+        loadingVC.modalTransitionStyle = .crossDissolve
+        self.present(loadingVC, animated: false, completion: nil)
+        
+        //prepare next view controller
         let nextVC = ProfileEditViewController()
+        
+        //perform backend businesss
         guard let userID = Auth.auth().currentUser?.uid else { return }
         let upperUserRef = db.collection("profiles").document(userID)
         
@@ -143,17 +150,19 @@ class ProfilePromptViewController: UIViewController {
                           "name": "will" as NSObject,
                           "full_text": "creating a profile.." as NSObject
                           ])
+                        //transition to next vc
                         self.navigationController?.pushViewController(nextVC, animated: true)
                     }
                     else {
-                        print("creating blank document because inner document does not exist.")
+                        //transition to next vc (blank, because organization-specific profile doesn't exist yet)
                         self.navigationController?.pushViewController(nextVC, animated: true)
                     }
+                    //dismiss loading overlay
+                    loadingVC.dismiss(animated: false, completion: nil)
                 }
-                
             }
             else {
-                print("Document does not exist")
+                //transition to next vc (blank, because no existing document found)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
             
