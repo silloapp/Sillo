@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/GiphyUISDK-Swift.h</key>
 		<data>
-		ug0VNJyYx/+lH2POKbkOhvkgpDs=
+		7CK2aVqoMtXci6c6JvjJkYVmwHA=
 		</data>
 		<key>Headers/GiphyUISDK.h</key>
 		<data>
@@ -34,79 +34,79 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Ww+dOy6AmTbnyqIbUBkhWkPf50o=
+		pn6OIJgfdbF8lz6NlaatitigQIA=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		N88sBesLMj44KSGigG2l5McuFWI=
+		izBMaXjcCOhT0VKKN35cSabjzNk=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		N6mXcXTtMxkq8bRSr+b+g5KO3j4=
+		B5pr7pZEJ5GJ9V1LPaKEUlXLiCM=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		IyaHzdFM9Ten2aswo+C0671/nnU=
+		n2DPk9NtOcEFpL3aSYuquXIrxSs=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		N88sBesLMj44KSGigG2l5McuFWI=
+		izBMaXjcCOhT0VKKN35cSabjzNk=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftinterface</key>
 		<data>
-		N6mXcXTtMxkq8bRSr+b+g5KO3j4=
+		B5pr7pZEJ5GJ9V1LPaKEUlXLiCM=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		IyaHzdFM9Ten2aswo+C0671/nnU=
+		n2DPk9NtOcEFpL3aSYuquXIrxSs=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<data>
-		3OpmL8ASts56jde1hGd69vtLg8c=
+		WdV6gSOPlzIOAR3VrWaYN1rOT+E=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/i386-apple-ios-simulator.swiftinterface</key>
 		<data>
-		zrt3iwrPw36YgooQshH7MJ9e8K4=
+		jBkrxhJJ1fJFzi1x8h1f+gy1zCI=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<data>
-		2QkfRvSb+BbmQb91lPkXXAAA1uw=
+		I1owdwx/Ss09yrdtJBKjnzz0Duo=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/i386.swiftdoc</key>
 		<data>
-		3OpmL8ASts56jde1hGd69vtLg8c=
+		WdV6gSOPlzIOAR3VrWaYN1rOT+E=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/i386.swiftinterface</key>
 		<data>
-		zrt3iwrPw36YgooQshH7MJ9e8K4=
+		jBkrxhJJ1fJFzi1x8h1f+gy1zCI=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/i386.swiftmodule</key>
 		<data>
-		2QkfRvSb+BbmQb91lPkXXAAA1uw=
+		I1owdwx/Ss09yrdtJBKjnzz0Duo=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		l75j3HEX+N9PxN2CzKAB60jfBf0=
+		UnCXQrTziUbvtNoLDpd3fdvno7o=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		g9F7nnK6MB1yW1eDAXkfAwpaCTs=
+		gNYuUNQTJTQdKca6Y8l/zpj7VtQ=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		sU5om/kmULxZv0czN141//YtJbg=
+		8TMJ8jYxUz2poHgLqADSn528l1g=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		l75j3HEX+N9PxN2CzKAB60jfBf0=
+		UnCXQrTziUbvtNoLDpd3fdvno7o=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		g9F7nnK6MB1yW1eDAXkfAwpaCTs=
+		gNYuUNQTJTQdKca6Y8l/zpj7VtQ=
 		</data>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		sU5om/kmULxZv0czN141//YtJbg=
+		8TMJ8jYxUz2poHgLqADSn528l1g=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -119,11 +119,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ug0VNJyYx/+lH2POKbkOhvkgpDs=
+			7CK2aVqoMtXci6c6JvjJkYVmwHA=
 			</data>
 			<key>hash2</key>
 			<data>
-			OmE53kSTYzEXgpFqNdfhGOL2PfpYwmE/d7L4grYN73A=
+			yFx5zoRdjTRIJSznvP9JzDmoZ/FOLdhtty9jwGWn90M=
 			</data>
 		</dict>
 		<key>Headers/GiphyUISDK.h</key>
@@ -196,198 +196,198 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			N88sBesLMj44KSGigG2l5McuFWI=
+			izBMaXjcCOhT0VKKN35cSabjzNk=
 			</data>
 			<key>hash2</key>
 			<data>
-			cMkoCB7J7/faYBSIL5DZJblxMY51/PMyTlzLqCg8wN0=
+			SzcmojGx+rPkkfi0P97fTKArkkYlTl4blP/hzL1Vce0=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N6mXcXTtMxkq8bRSr+b+g5KO3j4=
+			B5pr7pZEJ5GJ9V1LPaKEUlXLiCM=
 			</data>
 			<key>hash2</key>
 			<data>
-			ag1nzkq99K5m8qQZUKHxEedNyr3BrHIg4y9+bjDT9A8=
+			fWhlo0TkXHlrvqMVQHUBfQToj1Xa6STJXVD8T37wnKc=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IyaHzdFM9Ten2aswo+C0671/nnU=
+			n2DPk9NtOcEFpL3aSYuquXIrxSs=
 			</data>
 			<key>hash2</key>
 			<data>
-			Am+6qjaQdZGuWFPTcsiimkmLiwVe0eN97LO0ibEbvh0=
+			1k9fpnYpTIqjXsA1lELDzW6dHhOSPC/CAWIefC+jGys=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N88sBesLMj44KSGigG2l5McuFWI=
+			izBMaXjcCOhT0VKKN35cSabjzNk=
 			</data>
 			<key>hash2</key>
 			<data>
-			cMkoCB7J7/faYBSIL5DZJblxMY51/PMyTlzLqCg8wN0=
+			SzcmojGx+rPkkfi0P97fTKArkkYlTl4blP/hzL1Vce0=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N6mXcXTtMxkq8bRSr+b+g5KO3j4=
+			B5pr7pZEJ5GJ9V1LPaKEUlXLiCM=
 			</data>
 			<key>hash2</key>
 			<data>
-			ag1nzkq99K5m8qQZUKHxEedNyr3BrHIg4y9+bjDT9A8=
+			fWhlo0TkXHlrvqMVQHUBfQToj1Xa6STJXVD8T37wnKc=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IyaHzdFM9Ten2aswo+C0671/nnU=
+			n2DPk9NtOcEFpL3aSYuquXIrxSs=
 			</data>
 			<key>hash2</key>
 			<data>
-			Am+6qjaQdZGuWFPTcsiimkmLiwVe0eN97LO0ibEbvh0=
+			1k9fpnYpTIqjXsA1lELDzW6dHhOSPC/CAWIefC+jGys=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3OpmL8ASts56jde1hGd69vtLg8c=
+			WdV6gSOPlzIOAR3VrWaYN1rOT+E=
 			</data>
 			<key>hash2</key>
 			<data>
-			KCfV+eAujZOKxF83uwIr78PPEskXpSiAXXNtbJYaFQ4=
+			m49CPZCAFcTeQN+LGGC5dSwWik56z07d565PkUqQFPY=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/i386-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			zrt3iwrPw36YgooQshH7MJ9e8K4=
+			jBkrxhJJ1fJFzi1x8h1f+gy1zCI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Os5JuCwRwBUtn2ajikb3GlOJqnkAbCYpfe0zuSBhyuo=
+			LGIaDIyoSdyoT+gPZS7VeGgCFsz8AML5oJgDoa9z4Yo=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2QkfRvSb+BbmQb91lPkXXAAA1uw=
+			I1owdwx/Ss09yrdtJBKjnzz0Duo=
 			</data>
 			<key>hash2</key>
 			<data>
-			VMhTG8e7NjppvXQG1tGe4jA2qRiZM4NZCn58N5TqWEw=
+			U0zFsNgEumng8Tys6DQV2dfy9GGA6eCkQEMLjf2vXhU=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/i386.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3OpmL8ASts56jde1hGd69vtLg8c=
+			WdV6gSOPlzIOAR3VrWaYN1rOT+E=
 			</data>
 			<key>hash2</key>
 			<data>
-			KCfV+eAujZOKxF83uwIr78PPEskXpSiAXXNtbJYaFQ4=
+			m49CPZCAFcTeQN+LGGC5dSwWik56z07d565PkUqQFPY=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/i386.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			zrt3iwrPw36YgooQshH7MJ9e8K4=
+			jBkrxhJJ1fJFzi1x8h1f+gy1zCI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Os5JuCwRwBUtn2ajikb3GlOJqnkAbCYpfe0zuSBhyuo=
+			LGIaDIyoSdyoT+gPZS7VeGgCFsz8AML5oJgDoa9z4Yo=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2QkfRvSb+BbmQb91lPkXXAAA1uw=
+			I1owdwx/Ss09yrdtJBKjnzz0Duo=
 			</data>
 			<key>hash2</key>
 			<data>
-			VMhTG8e7NjppvXQG1tGe4jA2qRiZM4NZCn58N5TqWEw=
+			U0zFsNgEumng8Tys6DQV2dfy9GGA6eCkQEMLjf2vXhU=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l75j3HEX+N9PxN2CzKAB60jfBf0=
+			UnCXQrTziUbvtNoLDpd3fdvno7o=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZD0OVv+eIiW6OVYLBwcp0cw5kOiYn7qboKIrORWwHN8=
+			PDUHfzZodpVdQl47NALkZQY0P3ItS2zpza+y/Zy8ItY=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			g9F7nnK6MB1yW1eDAXkfAwpaCTs=
+			gNYuUNQTJTQdKca6Y8l/zpj7VtQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			psDTmhc46KvY7oP9jobs7kjvO4zaPduDKLksEEprj68=
+			xhRgIvX5ij6IBGOjTGRSMpGBPtJ6MatipLH5OqLEEh8=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			sU5om/kmULxZv0czN141//YtJbg=
+			8TMJ8jYxUz2poHgLqADSn528l1g=
 			</data>
 			<key>hash2</key>
 			<data>
-			2z+9YVkerlt2k2pYav80ojvQ8EDnqL4CImYxDJRRNzw=
+			mSqE3s0YvoB3pMFu8u7NVaARHmO+RLu3xLVcPtdZyoQ=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l75j3HEX+N9PxN2CzKAB60jfBf0=
+			UnCXQrTziUbvtNoLDpd3fdvno7o=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZD0OVv+eIiW6OVYLBwcp0cw5kOiYn7qboKIrORWwHN8=
+			PDUHfzZodpVdQl47NALkZQY0P3ItS2zpza+y/Zy8ItY=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			g9F7nnK6MB1yW1eDAXkfAwpaCTs=
+			gNYuUNQTJTQdKca6Y8l/zpj7VtQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			psDTmhc46KvY7oP9jobs7kjvO4zaPduDKLksEEprj68=
+			xhRgIvX5ij6IBGOjTGRSMpGBPtJ6MatipLH5OqLEEh8=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			sU5om/kmULxZv0czN141//YtJbg=
+			8TMJ8jYxUz2poHgLqADSn528l1g=
 			</data>
 			<key>hash2</key>
 			<data>
-			2z+9YVkerlt2k2pYav80ojvQ8EDnqL4CImYxDJRRNzw=
+			mSqE3s0YvoB3pMFu8u7NVaARHmO+RLu3xLVcPtdZyoQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

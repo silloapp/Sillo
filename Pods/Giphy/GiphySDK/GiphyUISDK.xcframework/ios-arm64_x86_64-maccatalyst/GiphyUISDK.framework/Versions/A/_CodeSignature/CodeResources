@@ -6,20 +6,28 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		8Zcvx7KH4EAinhZNZjiAHsSjLCE=
+		MIweTYKvwhLEndd8cnBVu9m7kSg=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
 		<key>Headers/GiphyUISDK-Swift.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			8r50otFWKscukHK0iq2svO5qlTs=
+			</data>
 			<key>hash2</key>
 			<data>
-			MuDs5m7O23mEPH7iUvxNFP+U86zFScpGoARb/aXZjHw=
+			4QrnLfjcEqesEzDWba6Y9Ia6Vv090gXC9qTBqbhGBck=
 			</data>
 		</dict>
 		<key>Headers/GiphyUISDK.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			WTuka7rPMl8r1gYCP3zxBxsSf+s=
+			</data>
 			<key>hash2</key>
 			<data>
 			DsvZapuSlNIcVKzMDbrb0HRg6DiqqtMN0zsmtItFc2w=
@@ -27,6 +35,10 @@
 		</dict>
 		<key>Headers/GiphyYYAnimatedImageView.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			OwnRkm9vGBXeNV1VtgaoEgNiZfc=
+			</data>
 			<key>hash2</key>
 			<data>
 			q90MlthT+6Tdb1VpPKKmWwfjyhTn5kaMkeK9EG3BIIc=
@@ -34,6 +46,10 @@
 		</dict>
 		<key>Headers/GiphyYYFrameImage.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			RV1CyVszzqkP51Kspw6QI47jRXo=
+			</data>
 			<key>hash2</key>
 			<data>
 			5lcq5qH7hkyryTePF8UUN9EUI+lhFgsqbJHGFnNOkkU=
@@ -41,6 +57,10 @@
 		</dict>
 		<key>Headers/GiphyYYImage.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			OTIOQYBklPdWV8TzHMNBg5/zQRA=
+			</data>
 			<key>hash2</key>
 			<data>
 			qCdFW6zt62ajGnOglrsBNnSc6ldtXkSSdULr3bHZY14=
@@ -48,6 +68,10 @@
 		</dict>
 		<key>Headers/GiphyYYImageCoder.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			x2Ms17oKod/e7j9aMK6BfrGuSPM=
+			</data>
 			<key>hash2</key>
 			<data>
 			zQbu1rVzRXlQO2ZVsH5YAYn5HHCWu7CF9FuXt/bXAHE=
@@ -55,6 +79,10 @@
 		</dict>
 		<key>Headers/GiphyYYSpriteSheetImage.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			9IoAWPXYlLWy3BO4qE7KyEiuGO0=
+			</data>
 			<key>hash2</key>
 			<data>
 			8aKVNNU2vLLGqcF0ZjzBtviBX4bRjjeHUpyN/AH5uPo=
@@ -62,90 +90,142 @@
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-macabi.swiftdoc</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			fpeMU81T8Zga/++lmolyciaq6NE=
+			</data>
 			<key>hash2</key>
 			<data>
-			1Qn2iORbluyNWlWsmlTUMsE3MtqJzF5c2JvmIuxUVX4=
+			/GsF8cUvNXYFHkJjWtQtKFrc9pWUYglxAFYk3bx6nas=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-macabi.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			CqBZm3UAqTQm4XFAxYBBsE1Mrqc=
+			</data>
 			<key>hash2</key>
 			<data>
-			zO48kH6jo/k0E3qkgdOtzu14pSBGnnnvtN27oj/RJeY=
+			JhYYGcer+g9a31ReORVvY/NnnCDGD7FnFIV649hV24w=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64-apple-ios-macabi.swiftmodule</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			j+Oo5X+TRkToqoTC+au4Y9AG6z8=
+			</data>
 			<key>hash2</key>
 			<data>
-			f14kp75E0ezOIE8LJ4omBSxEDNmB0LkkcP5foTjGchk=
+			HlCFNRckU/pG4yuX8THpYyR5akaNhd5tVoVzD34NvOc=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftdoc</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			fpeMU81T8Zga/++lmolyciaq6NE=
+			</data>
 			<key>hash2</key>
 			<data>
-			1Qn2iORbluyNWlWsmlTUMsE3MtqJzF5c2JvmIuxUVX4=
+			/GsF8cUvNXYFHkJjWtQtKFrc9pWUYglxAFYk3bx6nas=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			CqBZm3UAqTQm4XFAxYBBsE1Mrqc=
+			</data>
 			<key>hash2</key>
 			<data>
-			zO48kH6jo/k0E3qkgdOtzu14pSBGnnnvtN27oj/RJeY=
+			JhYYGcer+g9a31ReORVvY/NnnCDGD7FnFIV649hV24w=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/arm64.swiftmodule</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			j+Oo5X+TRkToqoTC+au4Y9AG6z8=
+			</data>
 			<key>hash2</key>
 			<data>
-			f14kp75E0ezOIE8LJ4omBSxEDNmB0LkkcP5foTjGchk=
+			HlCFNRckU/pG4yuX8THpYyR5akaNhd5tVoVzD34NvOc=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-macabi.swiftdoc</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			AtDlYMiDpiI95aYrhXTx26QqiYA=
+			</data>
 			<key>hash2</key>
 			<data>
-			+/XTDIDQw/FgV3x1rKcTqMOzB/aevrd9N3BHz0xTHfs=
+			GMnRdRMBBPVlE1MeUJmjXecCxIDHe6sSU60SBgjaUTc=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-macabi.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			AJkyi2fD0GDroewQbGTORiGCd+g=
+			</data>
 			<key>hash2</key>
 			<data>
-			WA5RAxlccdTUjC5Idpu5H3FjjYLhLB0ffFO0TqNJCEY=
+			mZJsC6nRjVK5VJVzTjvsDI8UBFwW//bYOzudxMUoihY=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64-apple-ios-macabi.swiftmodule</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			kuB+2j7rKbyI9doJ1JqNLqXh3ws=
+			</data>
 			<key>hash2</key>
 			<data>
-			lGFC+eMvxy7Ypx7ArteNqO/zR0HSx5ptCX29ZIS5EcU=
+			Vy20uxh1EGRBIvXvxcfeYWCzle+YpO8jQqal30ZxCtA=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			AtDlYMiDpiI95aYrhXTx26QqiYA=
+			</data>
 			<key>hash2</key>
 			<data>
-			+/XTDIDQw/FgV3x1rKcTqMOzB/aevrd9N3BHz0xTHfs=
+			GMnRdRMBBPVlE1MeUJmjXecCxIDHe6sSU60SBgjaUTc=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftinterface</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			AJkyi2fD0GDroewQbGTORiGCd+g=
+			</data>
 			<key>hash2</key>
 			<data>
-			WA5RAxlccdTUjC5Idpu5H3FjjYLhLB0ffFO0TqNJCEY=
+			mZJsC6nRjVK5VJVzTjvsDI8UBFwW//bYOzudxMUoihY=
 			</data>
 		</dict>
 		<key>Modules/GiphyUISDK.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			kuB+2j7rKbyI9doJ1JqNLqXh3ws=
+			</data>
 			<key>hash2</key>
 			<data>
-			lGFC+eMvxy7Ypx7ArteNqO/zR0HSx5ptCX29ZIS5EcU=
+			Vy20uxh1EGRBIvXvxcfeYWCzle+YpO8jQqal30ZxCtA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			+DyGV68uy3Swobw5aLGktV96Vu8=
+			</data>
 			<key>hash2</key>
 			<data>
 			vysnd5Uw6CHSXgTg6TQUmTxo+QliIomjk/7NC5h3BBU=
@@ -153,9 +233,13 @@
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			MIweTYKvwhLEndd8cnBVu9m7kSg=
+			</data>
 			<key>hash2</key>
 			<data>
-			X7CwgFkpCmJVTT8ncYixizo/KU30bcMaZHSBfqsTWfE=
+			npNU6I496mRH86du73kjog6qkWo/H6K6oHJUQT27xyU=
 			</data>
 		</dict>
 	</dict>

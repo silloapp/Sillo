@@ -53,6 +53,7 @@
 		FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908625C3EB31009F4F29 /* MessagesViewController.swift */; };
 		FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */; };
 		FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */; };
+		FD9BDF3325F4C6E0005B377D /* SupportClass in Resources */ = {isa = PBXBuildFile; fileRef = FD9BDF3225F4C6E0005B377D /* SupportClass */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
 		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
 		FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* PageViewController.swift */; };
@@ -139,6 +140,7 @@
 		FD94908625C3EB31009F4F29 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
+		FD9BDF3225F4C6E0005B377D /* SupportClass */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SupportClass; sourceTree = "<group>"; };
 		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92BF25A13B25003C7883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD9D92C125A13B25003C7883 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */,
 				AA196FA125BEA51C00A9997B /* Onboarding */,
 				FD94907525C3EA80009F4F29 /* Main Tab Views */,
+				FD9BDF3225F4C6E0005B377D /* SupportClass */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
@@ -484,6 +487,7 @@
 				FD9D92CC25A13B29003C7883 /* Assets.xcassets in Resources */,
 				FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */,
 				FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */,
+				FD9BDF3325F4C6E0005B377D /* SupportClass in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,8 +17,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     
     var initialState: InitialState = .contracted
     var selectIndex = -1
-    // MARK: - IBOutlets
-    
     var visualEffectView = UIView()
     var mainView = UIView()
     var searchBoxContainerView = UIView()
@@ -43,8 +41,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         case .contracted:
             print("contracted 1")
-            
-            
             
             return 120
             
@@ -136,7 +132,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         ]
         
         self.mainView.addSubview(searchBoxContainerView)
-        self.mainView.backgroundColor = .white
+        self.mainView.backgroundColor = Color.russianDolphinGray
         
         
         let button1dismiss = UIButton()
@@ -350,8 +346,8 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         cell.imgUser2.isHidden = true
         
         
-        cell.imgUser.borderWidth = 3.5
-        cell.imgUser.borderColor = .gray
+        cell.imgUser.layer.borderWidth = 3.5
+        cell.imgUser.layer.borderColor = UIColor.gray.cgColor
         
         
         cell.labMessage.text = "Lorem Ispum dollar"

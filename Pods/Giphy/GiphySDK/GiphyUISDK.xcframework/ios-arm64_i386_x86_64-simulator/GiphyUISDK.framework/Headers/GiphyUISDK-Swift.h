@@ -631,16 +631,6 @@ typedef SWIFT_ENUM(NSInteger, GPHGifButtonColor, open) {
   GPHGifButtonColorWhite = 3,
 };
 
-@class UICollectionViewCell;
-
-SWIFT_PROTOCOL("_TtP10GiphyUISDK15GPHGridDelegate_")
-@protocol GPHGridDelegate
-- (void)contentDidUpdateWithResultCount:(NSInteger)resultCount error:(NSError * _Nullable)error;
-- (void)didSelectMediaWithMedia:(GPHMedia * _Nonnull)media cell:(UICollectionViewCell * _Nonnull)cell;
-- (void)didSelectMoreByYouWithQuery:(NSString * _Nonnull)query;
-- (void)didScrollWithOffset:(CGFloat)offset;
-@end
-
 
 SWIFT_CLASS("_TtC10GiphyUISDK8GPHIcons")
 @interface GPHIcons : NSObject
@@ -1685,13 +1675,11 @@ SWIFT_PROTOCOL("_TtP10GiphyUISDK13GiphyDelegate_")
 
 SWIFT_CLASS("_TtC10GiphyUISDK19GiphyGridController")
 @interface GiphyGridController : UIViewController
-@property (nonatomic, weak) id <GPHGridDelegate> _Nullable delegate;
 @property (nonatomic) UICollectionViewScrollDirection direction;
 @property (nonatomic, strong) GPHTheme * _Nonnull theme;
 @property (nonatomic) enum GPHRatingType rating;
 @property (nonatomic, strong) GPHContent * _Nonnull content;
 @property (nonatomic) CGFloat cellPadding;
-- (void)setNumberOfTracks:(NSInteger)tracks;
 @property (nonatomic) BOOL fixedSizeCells;
 @property (nonatomic) enum GPHFileExtension imageFileExtensionForDynamicAssets;
 - (void)setAPIKey:(NSString * _Nonnull)apiKey verificationMode:(BOOL)verificationMode;
@@ -1794,13 +1782,13 @@ SWIFT_CLASS("_TtC10GiphyUISDK21GiphySearchController")
 
 
 @interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
-- (void)selectedContentTypeDidChange:(enum GPHContentType)contentType;
+- (void)didTapUsername:(NSString * _Nonnull)username;
+- (void)didLongPressCell:(GPHMediaCell * _Nullable)cell;
 @end
 
 
 @interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
-- (void)didTapUsername:(NSString * _Nonnull)username;
-- (void)didLongPressCell:(GPHMediaCell * _Nullable)cell;
+- (void)selectedContentTypeDidChange:(enum GPHContentType)contentType;
 @end
 
 
@@ -1812,9 +1800,8 @@ SWIFT_CLASS("_TtC10GiphyUISDK21GiphySearchController")
 
 
 
-@interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK)) <GPHGridDelegate>
+@interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
 - (void)didSelectMoreByYouWithQuery:(NSString * _Nonnull)query;
-- (void)contentDidUpdateWithResultCount:(NSInteger)resultCount error:(NSError * _Nullable)error;
 - (void)didScrollWithOffset:(CGFloat)offset;
 - (void)didSelectMediaWithMedia:(GPHMedia * _Nonnull)media cell:(UICollectionViewCell * _Nonnull)cell;
 @end
@@ -1880,6 +1867,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) CGFloat trayHeightMultiplier;)
 + (void)setTrayHeightMultiplier:(CGFloat)value;
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
 @end
+
 
 
 SWIFT_CLASS("_TtC10GiphyUISDK23PingbackSubmissionQueue")
@@ -2531,16 +2519,6 @@ typedef SWIFT_ENUM(NSInteger, GPHGifButtonColor, open) {
   GPHGifButtonColorWhite = 3,
 };
 
-@class UICollectionViewCell;
-
-SWIFT_PROTOCOL("_TtP10GiphyUISDK15GPHGridDelegate_")
-@protocol GPHGridDelegate
-- (void)contentDidUpdateWithResultCount:(NSInteger)resultCount error:(NSError * _Nullable)error;
-- (void)didSelectMediaWithMedia:(GPHMedia * _Nonnull)media cell:(UICollectionViewCell * _Nonnull)cell;
-- (void)didSelectMoreByYouWithQuery:(NSString * _Nonnull)query;
-- (void)didScrollWithOffset:(CGFloat)offset;
-@end
-
 
 SWIFT_CLASS("_TtC10GiphyUISDK8GPHIcons")
 @interface GPHIcons : NSObject
@@ -3585,13 +3563,11 @@ SWIFT_PROTOCOL("_TtP10GiphyUISDK13GiphyDelegate_")
 
 SWIFT_CLASS("_TtC10GiphyUISDK19GiphyGridController")
 @interface GiphyGridController : UIViewController
-@property (nonatomic, weak) id <GPHGridDelegate> _Nullable delegate;
 @property (nonatomic) UICollectionViewScrollDirection direction;
 @property (nonatomic, strong) GPHTheme * _Nonnull theme;
 @property (nonatomic) enum GPHRatingType rating;
 @property (nonatomic, strong) GPHContent * _Nonnull content;
 @property (nonatomic) CGFloat cellPadding;
-- (void)setNumberOfTracks:(NSInteger)tracks;
 @property (nonatomic) BOOL fixedSizeCells;
 @property (nonatomic) enum GPHFileExtension imageFileExtensionForDynamicAssets;
 - (void)setAPIKey:(NSString * _Nonnull)apiKey verificationMode:(BOOL)verificationMode;
@@ -3694,13 +3670,13 @@ SWIFT_CLASS("_TtC10GiphyUISDK21GiphySearchController")
 
 
 @interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
-- (void)selectedContentTypeDidChange:(enum GPHContentType)contentType;
+- (void)didTapUsername:(NSString * _Nonnull)username;
+- (void)didLongPressCell:(GPHMediaCell * _Nullable)cell;
 @end
 
 
 @interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
-- (void)didTapUsername:(NSString * _Nonnull)username;
-- (void)didLongPressCell:(GPHMediaCell * _Nullable)cell;
+- (void)selectedContentTypeDidChange:(enum GPHContentType)contentType;
 @end
 
 
@@ -3712,9 +3688,8 @@ SWIFT_CLASS("_TtC10GiphyUISDK21GiphySearchController")
 
 
 
-@interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK)) <GPHGridDelegate>
+@interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
 - (void)didSelectMoreByYouWithQuery:(NSString * _Nonnull)query;
-- (void)contentDidUpdateWithResultCount:(NSInteger)resultCount error:(NSError * _Nullable)error;
 - (void)didScrollWithOffset:(CGFloat)offset;
 - (void)didSelectMediaWithMedia:(GPHMedia * _Nonnull)media cell:(UICollectionViewCell * _Nonnull)cell;
 @end
@@ -3780,6 +3755,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) CGFloat trayHeightMultiplier;)
 + (void)setTrayHeightMultiplier:(CGFloat)value;
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
 @end
+
 
 
 SWIFT_CLASS("_TtC10GiphyUISDK23PingbackSubmissionQueue")
@@ -4431,16 +4407,6 @@ typedef SWIFT_ENUM(NSInteger, GPHGifButtonColor, open) {
   GPHGifButtonColorWhite = 3,
 };
 
-@class UICollectionViewCell;
-
-SWIFT_PROTOCOL("_TtP10GiphyUISDK15GPHGridDelegate_")
-@protocol GPHGridDelegate
-- (void)contentDidUpdateWithResultCount:(NSInteger)resultCount error:(NSError * _Nullable)error;
-- (void)didSelectMediaWithMedia:(GPHMedia * _Nonnull)media cell:(UICollectionViewCell * _Nonnull)cell;
-- (void)didSelectMoreByYouWithQuery:(NSString * _Nonnull)query;
-- (void)didScrollWithOffset:(CGFloat)offset;
-@end
-
 
 SWIFT_CLASS("_TtC10GiphyUISDK8GPHIcons")
 @interface GPHIcons : NSObject
@@ -5485,13 +5451,11 @@ SWIFT_PROTOCOL("_TtP10GiphyUISDK13GiphyDelegate_")
 
 SWIFT_CLASS("_TtC10GiphyUISDK19GiphyGridController")
 @interface GiphyGridController : UIViewController
-@property (nonatomic, weak) id <GPHGridDelegate> _Nullable delegate;
 @property (nonatomic) UICollectionViewScrollDirection direction;
 @property (nonatomic, strong) GPHTheme * _Nonnull theme;
 @property (nonatomic) enum GPHRatingType rating;
 @property (nonatomic, strong) GPHContent * _Nonnull content;
 @property (nonatomic) CGFloat cellPadding;
-- (void)setNumberOfTracks:(NSInteger)tracks;
 @property (nonatomic) BOOL fixedSizeCells;
 @property (nonatomic) enum GPHFileExtension imageFileExtensionForDynamicAssets;
 - (void)setAPIKey:(NSString * _Nonnull)apiKey verificationMode:(BOOL)verificationMode;
@@ -5594,13 +5558,13 @@ SWIFT_CLASS("_TtC10GiphyUISDK21GiphySearchController")
 
 
 @interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
-- (void)selectedContentTypeDidChange:(enum GPHContentType)contentType;
+- (void)didTapUsername:(NSString * _Nonnull)username;
+- (void)didLongPressCell:(GPHMediaCell * _Nullable)cell;
 @end
 
 
 @interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
-- (void)didTapUsername:(NSString * _Nonnull)username;
-- (void)didLongPressCell:(GPHMediaCell * _Nullable)cell;
+- (void)selectedContentTypeDidChange:(enum GPHContentType)contentType;
 @end
 
 
@@ -5612,9 +5576,8 @@ SWIFT_CLASS("_TtC10GiphyUISDK21GiphySearchController")
 
 
 
-@interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK)) <GPHGridDelegate>
+@interface GiphySearchController (SWIFT_EXTENSION(GiphyUISDK))
 - (void)didSelectMoreByYouWithQuery:(NSString * _Nonnull)query;
-- (void)contentDidUpdateWithResultCount:(NSInteger)resultCount error:(NSError * _Nullable)error;
 - (void)didScrollWithOffset:(CGFloat)offset;
 - (void)didSelectMediaWithMedia:(GPHMedia * _Nonnull)media cell:(UICollectionViewCell * _Nonnull)cell;
 @end
@@ -5680,6 +5643,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) CGFloat trayHeightMultiplier;)
 + (void)setTrayHeightMultiplier:(CGFloat)value;
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
 @end
+
 
 
 SWIFT_CLASS("_TtC10GiphyUISDK23PingbackSubmissionQueue")

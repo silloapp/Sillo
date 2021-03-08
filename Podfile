@@ -5,7 +5,7 @@ target 'Sillo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'Giphy'
+  pod 'Giphy', '=2.1.2'
 
   # Pods for Sillo
   pod 'Firebase/Core'
