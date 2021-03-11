@@ -134,7 +134,7 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         nextButton.isEnabled = false
         nextButton.layer.cornerRadius = 5
         nextButton.addTarget(self, action: #selector(nextClicked), for: .touchUpInside)
-        view.addSubview(nextButton)
+        stack.addArrangedSubview(nextButton)
         
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
@@ -171,7 +171,7 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if (orgNameField.text! != "") {
+        if (!orgNameField.text!.trimmingCharacters(in: .whitespaces).isEmpty) {
             nextButton.isEnabled = true
             nextButton.backgroundColor = Color.buttonClickable
             organizationData.newOrganizationName = orgNameField.text!
@@ -184,7 +184,7 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
     
     //MARK: Textfield button selection/deselection
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if (orgNameField.text! != "") {
+        if (!orgNameField.text!.trimmingCharacters(in: .whitespaces).isEmpty) {
             nextButton.isEnabled = true
             nextButton.backgroundColor = Color.buttonClickable
             organizationData.newOrganizationName = orgNameField.text!

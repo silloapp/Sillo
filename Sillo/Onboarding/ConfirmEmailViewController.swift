@@ -18,7 +18,6 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .white
         setupProgressBar()
         setUpView()
@@ -134,6 +133,7 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // TODO: change the margins of the text to be spaced out
         let cell = tableView.dequeueReusableCell(withIdentifier: "emailCell", for: indexPath as IndexPath)
+        cell.selectionStyle = .none
         cell.textLabel?.text = memberInvites[indexPath.row]
         return cell
     }

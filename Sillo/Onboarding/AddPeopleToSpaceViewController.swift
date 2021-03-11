@@ -16,6 +16,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     var orgImage:UIImage? = nil
     var emailTextView = UITextView()
     var nextButton = UIButton()
+    var prefilledText:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        populateTextView()
     }
     
     func configureNavBar() {
@@ -150,10 +152,9 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.widthAnchor.constraint(equalTo: textStack.widthAnchor, multiplier: 1).isActive = true
         
         
-        // TODO: nextButton doesn't show sometimes big sad
         // add next button
-        view.addSubview(nextButton)
-        nextButton.isEnabled = true
+        stack.addArrangedSubview(nextButton)
+        nextButton.isEnabled = false
         nextButton.backgroundColor = Color.buttonClickableUnselected
         nextButton.setTitle("Next", for: .normal)
         nextButton.titleLabel?.font = Font.bold(dynamicFontSize(20))
@@ -164,6 +165,26 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         nextButton.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
+    
+    func populateTextView() {
+        var i = 0
+        self.prefilledText = ""
+        while (organizationData.memberInvites != nil && !organizationData.memberInvites!.isEmpty && i < organizationData.memberInvites!.count) {
+            let email = organizationData.memberInvites![i]
+            if i+1 < organizationData.memberInvites!.count {
+                self.prefilledText+=email+","
+            }
+            else {
+                self.prefilledText+=email
+                self.emailTextView.textColor = Color.matteBlack
+                self.emailTextView.text = self.prefilledText
+                self.nextButton.isEnabled = true
+                self.nextButton.backgroundColor = Color.buttonClickable
+            }
+            i+=1
+        }
+    }
+    
     
     @objc func nextClicked() {
         organizationData.makeEmailArray(input: emailTextView.text ?? "")
@@ -186,13 +207,14 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        emailTextView.text = ""
-        nextButton.isEnabled = true
-        nextButton.backgroundColor = Color.buttonClickableUnselected
+        emailTextView.text = self.prefilledText
+        emailTextView.textColor = Color.matteBlack
+        //nextButton.isEnabled = true
+        //nextButton.backgroundColor = Color.buttonClickableUnselected
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if (emailTextView.text! != "") {
+        if (!emailTextView.text.trimmingCharacters(in: .whitespaces).isEmpty) {
             nextButton.isEnabled = true
             nextButton.backgroundColor = Color.buttonClickable
         }
@@ -203,7 +225,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     }
     
     private func textViewDidEndEditing(_ textField: UITextField) {
-        if (emailTextView.text! != "") {
+        if (!emailTextView.text.trimmingCharacters(in: .whitespaces).isEmpty) {
             nextButton.isEnabled = true
             nextButton.backgroundColor = Color.buttonClickable
         }
