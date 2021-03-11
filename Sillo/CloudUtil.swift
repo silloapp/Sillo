@@ -7,6 +7,8 @@
 
 import FirebaseAuth
 
+let cloudutil = CloudUtil()
+
 class CloudUtil {
     
     //MARK: Call the generateAuthenticationCode cloud function service

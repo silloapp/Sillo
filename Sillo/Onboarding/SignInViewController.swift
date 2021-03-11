@@ -261,6 +261,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         if (!currentUser.isEmailVerified) {
                             //email not verified
                             let nextVC = PasscodeVerificationViewController()
+                            cloudutil.generateAuthenticationCode()
                             nextVC.modalPresentationStyle = .fullScreen
                             self.navigationController?.pushViewController(nextVC, animated: true)
                         }

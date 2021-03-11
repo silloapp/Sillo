@@ -18,6 +18,10 @@ struct Color {
         return UIColor(displayP3Red: 224/255, green: 224/255, blue: 224/255, alpha: 1.0)
     }
     
+    static var russianDolphinGray: UIColor {
+        return UIColor(displayP3Red: 242/255, green: 244/255, blue: 244/255, alpha: 1.0)
+    }
+    
     static var buttonClickable: UIColor {
         return UIColor(displayP3Red: 64/255, green: 102/255, blue: 234/255, alpha: 1.0)
     }
@@ -28,6 +32,10 @@ struct Color {
     
     static var textSemiBlack: UIColor {
         return UIColor(displayP3Red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
+    }
+    
+    static var matteBlack: UIColor {
+        return UIColor(displayP3Red: 45/255, green: 44/255, blue: 44/255, alpha: 1.0)
     }
     
     static var progressBlue: UIColor {
@@ -43,7 +51,7 @@ struct Color {
     static var navBar: UIColor {
         return UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1.00)
     }
-    
+  
     //SILLO BRAND COLORS
     static var burple: UIColor {
         return UIColor(red: 0.36, green: 0.51, blue: 0.93, alpha: 1.00)
@@ -79,8 +87,5 @@ struct Color {
     
     static var salmon: UIColor {
         return UIColor(red: 0.96, green: 0.55, blue: 0.52, alpha: 1.00)
-    }
-  
-    
-    
+    } 
 }
