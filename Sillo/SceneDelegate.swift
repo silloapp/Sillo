@@ -35,23 +35,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
 //        let tabVC = UITabBarController()
         let tabVC = CustomTabBarController()
-        tabVC.tabBar.barTintColor = Color.offsnow
+        tabVC.tabBar.backgroundColor = Color.tabBarBackground
         tabVC.tabBar.layer.masksToBounds = true
         tabVC.tabBar.isTranslucent = true
         tabVC.tabBar.layer.borderWidth = 0
         
-        
-        tabVC.tabBar.layer.shadowOffset = CGSize(width: 0, height: -4)
-        tabVC.tabBar.layer.shadowRadius = 10
-        tabVC.tabBar.layer.shadowColor = UIColor.black.cgColor
-        tabVC.tabBar.layer.shadowOpacity = 0.15
-        tabVC.tabBar.clipsToBounds = false
-        
-        let icon1 = UITabBarItem(title: "Home", image: UIImage(named: "tab1")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab1Selected")!.withRenderingMode(.alwaysOriginal))
-        let icon2 = UITabBarItem(title: "Quests", image: UIImage(named: "tab2")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab2Selected")!.withRenderingMode(.alwaysOriginal))
-        let icon3 = UITabBarItem(title: "New Post", image: UIImage(named: "tab3")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab3Selected")!.withRenderingMode(.alwaysOriginal))
-        let icon4 = UITabBarItem(title: "Messages", image: UIImage(named: "tab4")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab4Selected")!.withRenderingMode(.alwaysOriginal))
-        let icon5 = UITabBarItem(title: "Team", image: UIImage(named: "tab5")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab5Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon1 = UITabBarItem(title: "", image: UIImage(named: "tab1")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab1Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon2 = UITabBarItem(title: "", image: UIImage(named: "tab2")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab2Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon3 = UITabBarItem(title: "", image: UIImage(named: "tab3")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab3Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon4 = UITabBarItem(title: "", image: UIImage(named: "tab4")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab4Selected")!.withRenderingMode(.alwaysOriginal))
+        let icon5 = UITabBarItem(title: "", image: UIImage(named: "tab5")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab5Selected")!.withRenderingMode(.alwaysOriginal))
         
         
         let vc1 = UINavigationController(rootViewController: HomeViewController())

@@ -52,40 +52,6 @@ struct Color {
         return UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1.00)
     }
   
-    //SILLO BRAND COLORS
-    static var burple: UIColor {
-        return UIColor(red: 0.36, green: 0.51, blue: 0.93, alpha: 1.00)
-    }
     
-    static var spf30: UIColor {
-        return UIColor(red: 0.98, green: 0.82, blue: 0.50, alpha: 1.00)
-    }
     
-    static var matte: UIColor {
-        return UIColor(red: 0.18, green: 0.17, blue: 0.17, alpha: 1.00)
-    }
-    
-    static var offsnow: UIColor {
-        return UIColor(red: 1.00, green: 1.00, blue: 0.98, alpha: 1.00)
-    }
-    
-    static var sky: UIColor {
-        return UIColor(red: 0.50, green: 0.68, blue: 1.00, alpha: 1.00)
-    }
-    
-    static var russiandolphin: UIColor {
-        return UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1.00)
-    }
-    
-    static var clouds: UIColor {
-        return UIColor(red: 0.88, green: 0.88, blue: 0.88, alpha: 1.00)
-    }
-    
-    static var waves: UIColor {
-        return UIColor(red: 0.25, green: 0.35, blue: 0.58, alpha: 1.00)
-    }
-    
-    static var salmon: UIColor {
-        return UIColor(red: 0.96, green: 0.55, blue: 0.52, alpha: 1.00)
-    } 
 }

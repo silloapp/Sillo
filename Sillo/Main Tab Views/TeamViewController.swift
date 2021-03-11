@@ -6,14 +6,8 @@
 //
 
 import UIKit
-struct ItemProperty {
-    var title: String
-    var backgroundImage: UIImage
-}
 
 class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
-  
-    let cellID = "cellID"
     let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -32,18 +26,6 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         MenuItem(name: "Sign Out", nextVC: "SignOutVC()", withArrow: false, fontSize: 22)
     ]
     
-    private let itemProperties = [
-        ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"Photography")!),
-        ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"Dance")!),
-        ItemProperty(title: "People", backgroundImage: UIImage(named:"Meditation")!),
-        ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"Tech")!),
-        ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"Finance")!),
-        ItemProperty(title: "Reports", backgroundImage: UIImage(named:"Music")!),
-        ItemProperty(title: "Quests", backgroundImage: UIImage(named:"Baking")!),
-        ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"Games")!),
-        
-    ]
-    
     let menuItemTableView = UITableView() // view
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,15 +37,14 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // remove separators at bottom of tableview
         menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
-        menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 140).isActive = true
-        menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
-        menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
+        menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 132).isActive = true
+        menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor).isActive = true
         menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        menuItemTableView.isScrollEnabled = true
+        menuItemTableView.isScrollEnabled = false
         menuItemTableView.dataSource = self
         menuItemTableView.delegate = self
-        menuItemTableView.separatorColor = .clear
-        menuItemTableView.register(ImageCell.self, forCellReuseIdentifier: cellID)
+        menuItemTableView.register(TeamCell.self, forCellReuseIdentifier: "contactCell")
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,10 +52,9 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ImageCell
-        cell.properties = itemProperties[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! TeamCell
+        cell.item = menuItems[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
-        cell.selectionStyle = .none
         return cell
     }
     
@@ -84,7 +64,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        return 70
     }
     
     func setupPhotoTeamName() -> UIStackView {
@@ -146,76 +126,8 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         print("Clicked on Settings! Time to segway into settings VC... ")
-//        let nextVC = SettingsViewController()
-        let nextVC = ProfileVC()
-        //nextVC.backingImage = self.navigationController?.view.asImage()
+        let nextVC = SettingsViewController()
         nextVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(nextVC, animated: true)
-    }
-}
-
-class ImageCell: UITableViewCell {
-
-    var properties:ItemProperty? {
-        didSet {
-            guard let properties = properties else { return }
-            nameLabel.text = properties.title
-            bgImage.image = properties.backgroundImage
-        }
-    }
-    
-    let containerView:UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.clipsToBounds = true // this will make sure its children do not go out of the boundary
-        view.layer.backgroundColor = Color.russiandolphin.cgColor
-        view.layer.cornerRadius = 10
-        return view
-    }()
-    
-    
-    let nameLabel:UILabel = {
-        let label = UILabel()
-        label.font = Font.medium(22)
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    
-    let bgImage: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 24,height: 24))
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        containerView.addSubview(nameLabel)
-        self.contentView.addSubview(containerView)
-        self.contentView.addSubview(bgImage)
-        
-
-        containerView.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 8).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -8).isActive = true
-        containerView.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:5).isActive = true
-        containerView.trailingAnchor.constraint(equalTo:self.contentView.trailingAnchor, constant:-5).isActive = true
-        
-        nameLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant: 20).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor).isActive = true
-        
-        bgImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        bgImage.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor,constant: -10).isActive = true
-        bgImage.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        bgImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        bgImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2).isActive = true
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
 }
