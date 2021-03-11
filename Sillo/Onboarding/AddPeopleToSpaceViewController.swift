@@ -209,8 +209,6 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     func textViewDidBeginEditing(_ textView: UITextView) {
         emailTextView.text = self.prefilledText
         emailTextView.textColor = Color.matteBlack
-        //nextButton.isEnabled = true
-        //nextButton.backgroundColor = Color.buttonClickableUnselected
     }
     
     func textViewDidChange(_ textView: UITextView) {
