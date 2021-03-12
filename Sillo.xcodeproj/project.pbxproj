@@ -31,6 +31,14 @@
 		AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */; };
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
 		AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */; };
+		AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89B6A125FB618C00178D94 /* LoadingViewController.swift */; };
+		AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */; };
+		AA8B775625FAE5410032336F /* SetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775225FAE5400032336F /* SetProfileViewController.swift */; };
+		AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */; };
+		AA8B775825FAE5410032336F /* SetupOrganizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775425FAE5410032336F /* SetupOrganizationViewController.swift */; };
+		AA8B775D25FAE5BA0032336F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775C25FAE5BA0032336F /* Constants.swift */; };
+		AA8B776425FAE5EE0032336F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B776225FAE5EE0032336F /* UserData.swift */; };
+		AA8B776525FAE5EE0032336F /* OrganizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B776325FAE5EE0032336F /* OrganizationData.swift */; };
 		AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C125B13DC90070E938 /* SignInViewController.swift */; };
 		AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C625B154940070E938 /* SetNameViewController.swift */; };
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
@@ -53,7 +61,6 @@
 		FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908125C3EB26009F4F29 /* HomeViewController.swift */; };
 		FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908625C3EB31009F4F29 /* MessagesViewController.swift */; };
 		FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */; };
-		FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */; };
 		FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92BF25A13B25003C7883 /* AppDelegate.swift */; };
 		FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C125A13B25003C7883 /* SceneDelegate.swift */; };
 		FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92C325A13B25003C7883 /* PageViewController.swift */; };
@@ -66,7 +73,6 @@
 		FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */; };
 		FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC59A125A57DB500BC2110 /* Colors.swift */; };
 		FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */; };
-		FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +122,14 @@
 		AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetInterestsViewController.swift; sourceTree = "<group>"; };
+		AA89B6A125FB618C00178D94 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
+		AA8B775225FAE5400032336F /* SetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetProfileViewController.swift; sourceTree = "<group>"; };
+		AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
+		AA8B775425FAE5410032336F /* SetupOrganizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupOrganizationViewController.swift; sourceTree = "<group>"; };
+		AA8B775C25FAE5BA0032336F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AA8B776225FAE5EE0032336F /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		AA8B776325FAE5EE0032336F /* OrganizationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationData.swift; sourceTree = "<group>"; };
 		AAB807C125B13DC90070E938 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		AAB807C625B154940070E938 /* SetNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNameViewController.swift; sourceTree = "<group>"; };
 		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +154,6 @@
 		FD94908125C3EB26009F4F29 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FD94908625C3EB31009F4F29 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
-		FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
 		FD9D92BC25A13B25003C7883 /* Sillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD9D92BF25A13B25003C7883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD9D92C125A13B25003C7883 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -159,7 +172,6 @@
 		FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostTableViewCell.swift; sourceTree = "<group>"; };
 		FDAC59A125A57DB500BC2110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeToSilloViewController.swift; sourceTree = "<group>"; };
-		FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupOrganizationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,7 +235,10 @@
 		AA196FA125BEA51C00A9997B /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */,
+				AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */,
+				AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */,
+				AA8B775225FAE5400032336F /* SetProfileViewController.swift */,
+				AA8B775425FAE5410032336F /* SetupOrganizationViewController.swift */,
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
 				AAB807C125B13DC90070E938 /* SignInViewController.swift */,
@@ -236,8 +251,19 @@
 				A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */,
 				AA57BA7225E84587001C378B /* ProfilePromptViewController.swift */,
 				AA57BA7A25E87078001C378B /* ProfileEditViewController.swift */,
+				AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */,
+				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		AA8B776125FAE5DA0032336F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AA8B776325FAE5EE0032336F /* OrganizationData.swift */,
+				AA8B776225FAE5EE0032336F /* UserData.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		FD1D22A025A16D1100F1636C /* Assets */ = {
@@ -322,6 +348,9 @@
 		FD9D92BE25A13B25003C7883 /* Sillo */ = {
 			isa = PBXGroup;
 			children = (
+				AA8B776125FAE5DA0032336F /* Model */,
+				AA8B775C25FAE5BA0032336F /* Constants.swift */,
+				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				A0A6BFE225EB9FA500F107F4 /* ProfileHalfVC.swift */,
 				A0334B6A25F5D6F0008A05F8 /* ProfileVC.swift */,
 				A0A6BFEA25EBA08900F107F4 /* UIView+Snapshot.swift */,
@@ -332,12 +361,9 @@
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
 				A01CA47325C333080028FCBB /* Home */,
 				FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */,
-				FDB3400825AC0A1F00097FE1 /* SetupOrganizationViewController.swift */,
-				FD9740BA25AEE20600289F3C /* AddPeopleToSpaceViewController.swift */,
+				AA89B6A125FB618C00178D94 /* LoadingViewController.swift */,
 				AA196FA125BEA51C00A9997B /* Onboarding */,
 				FD94907525C3EA80009F4F29 /* Main Tab Views */,
-				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
-				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
 				FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */,
 				FD9D92D025A13B29003C7883 /* Info.plist */,
@@ -684,6 +710,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8B776525FAE5EE0032336F /* OrganizationData.swift in Sources */,
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
 				A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */,
@@ -692,8 +719,9 @@
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
 				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
+				AA8B775D25FAE5BA0032336F /* Constants.swift in Sources */,
 				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
-				FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */,
+				AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */,
 				FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */,
 				FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
@@ -702,12 +730,18 @@
 				FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */,
 				AA57BA7B25E87078001C378B /* ProfileEditViewController.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
+				AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */,
+				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
+				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
+				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
+				AA8B775825FAE5410032336F /* SetupOrganizationViewController.swift in Sources */,
 				A0A6BFEB25EBA08900F107F4 /* UIView+Snapshot.swift in Sources */,
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
 				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				A0334B6B25F5D6F1008A05F8 /* ProfileVC.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
+				AA8B775625FAE5410032336F /* SetProfileViewController.swift in Sources */,
 				A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				A08E82F325E179A000760BF1 /* ChatViewTableViewCell.swift in Sources */,
@@ -719,10 +753,11 @@
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
+				AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */,
 				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
+				AA8B776425FAE5EE0032336F /* UserData.swift in Sources */,
 				A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */,
 				A0A6BFE325EB9FA500F107F4 /* ProfileHalfVC.swift in Sources */,
-				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
 				FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */,
 				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,

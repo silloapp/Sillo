@@ -354,6 +354,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     print("Login Successful.")
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let currentUser = Auth.auth().currentUser!
+                    localUser.coldStart()
                     if (currentUser.displayName == nil) {
                         //no display name
                         let nextVC = SetNameViewController()
