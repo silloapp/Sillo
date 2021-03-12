@@ -11,7 +11,26 @@ import Firebase
 class ProfileEditViewController: UIViewController {
 
     
+    func chi() {
+        
+    }
     
+    func another(){
+        
+    }
     
+    func third()
+    {
+        
+    }
     
+    func fourth()
+    {
+        
+    }
+    
+    func hello()
+    {
+        
+    }
 }
