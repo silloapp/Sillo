@@ -13,10 +13,13 @@
 		A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */; };
 		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
 		A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA47D25C333400028FCBB /* NewPostViewController.swift */; };
+		A0334B6B25F5D6F1008A05F8 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0334B6A25F5D6F0008A05F8 /* ProfileVC.swift */; };
 		A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */; };
 		A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */; };
 		A08E82EE25E16AB500760BF1 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82ED25E16AB500760BF1 /* AccountViewController.swift */; };
 		A08E82F325E179A000760BF1 /* ChatViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82F225E179A000760BF1 /* ChatViewTableViewCell.swift */; };
+		A0A6BFE325EB9FA500F107F4 /* ProfileHalfVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A6BFE225EB9FA500F107F4 /* ProfileHalfVC.swift */; };
+		A0A6BFEB25EBA08900F107F4 /* UIView+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A6BFEA25EBA08900F107F4 /* UIView+Snapshot.swift */; };
 		A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E5925DEE3DE00479E2E /* TeamCell.swift */; };
 		A0B84E6425DEE43500479E2E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6325DEE43500479E2E /* Contact.swift */; };
 		A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */; };
@@ -100,10 +103,13 @@
 		A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
 		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		A01CA47D25C333400028FCBB /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
+		A0334B6A25F5D6F0008A05F8 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		A08E82ED25E16AB500760BF1 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		A08E82F225E179A000760BF1 /* ChatViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewTableViewCell.swift; sourceTree = "<group>"; };
+		A0A6BFE225EB9FA500F107F4 /* ProfileHalfVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHalfVC.swift; sourceTree = "<group>"; };
+		A0A6BFEA25EBA08900F107F4 /* UIView+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Snapshot.swift"; sourceTree = "<group>"; };
 		A0B84E5925DEE3DE00479E2E /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		A0B84E6325DEE43500479E2E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -341,6 +347,9 @@
 			children = (
 				AA8B776125FAE5DA0032336F /* Model */,
 				AA8B775C25FAE5BA0032336F /* Constants.swift */,
+				A0A6BFE225EB9FA500F107F4 /* ProfileHalfVC.swift */,
+				A0334B6A25F5D6F0008A05F8 /* ProfileVC.swift */,
+				A0A6BFEA25EBA08900F107F4 /* UIView+Snapshot.swift */,
 				AAD5196725AB123A00EB2B78 /* Sillo.entitlements */,
 				FD1D22A025A16D1100F1636C /* Assets */,
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
@@ -722,6 +731,11 @@
 				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				AA8B775825FAE5410032336F /* SetupOrganizationViewController.swift in Sources */,
+				A0A6BFEB25EBA08900F107F4 /* UIView+Snapshot.swift in Sources */,
+				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
+				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
+				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
+				A0334B6B25F5D6F1008A05F8 /* ProfileVC.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
 				AA8B775625FAE5410032336F /* SetProfileViewController.swift in Sources */,
 				A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */,
@@ -739,6 +753,8 @@
 				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
 				AA8B776425FAE5EE0032336F /* UserData.swift in Sources */,
 				A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */,
+				A0A6BFE325EB9FA500F107F4 /* ProfileHalfVC.swift in Sources */,
+				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
 				FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */,
 				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,
