@@ -8,12 +8,23 @@
 import UIKit
 
 class ProfileSetInterestsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var interests = ["art","baking","cooking","dance","diy","fashion","finance","games","meditation","movies","music","outdoors","photography","reading","sports","tech","travel","volunteering"]
+    
+    let maxInterestCount = 3 //maximum length of interests array
+    var selectedInterests: [String] = [] //a list of interests
+    var indexPathOfCellsSelected: [IndexPath] = [] //indices of table cells
+    
+    var interests = ["Art","Baking","Cooking","Dance","DIY","Fashion","Finance","Games","Meditation","Movies","Music","Outdoors","Photography","Reading","Sports","Tech","Travel","Volunteering"]
     
     var pretty_name_matching : [String:String] = ["art":"Art & Design","baking":"Baking","cooking":"Cooking","dance":"Dance","diy":"DIY","fashion":"Fashion","finance":"Finance","games":"Games","meditation":"Meditation","movies":"Movies & TV","music":"Music","outdoors":"Outdoors","photography":"Photography","reading":"Reading","sports":"Sports","tech":"Tech","travel":"Travel","volunteering":"Volunteering"]
     
     var selectedInterestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     var interestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    
+    //MARK: viewwillDissapear
+    override func viewWillDisappear(_ animated: Bool) {
+        let nextVC = self.navigationController?.topViewController as! ProfileEditViewController
+        nextVC.interests = selectedInterests
+    }
     
     //MARK: viewdidload
     override func viewDidLoad() {
@@ -23,6 +34,22 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
+        
+        
+        //MARK: exit button
+        let exitButton: UIButton = {
+            let btn = UIButton()
+            btn.setBackgroundImage(UIImage(named: "back"), for: .normal)
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            return btn
+        }()
+        view.addSubview(exitButton)
+        exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+        exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
+        
         
         //MARK: select three interests label
         let promptLabel: UILabel = {
@@ -79,8 +106,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         //MARK: prompt label constraints
         promptLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
         promptLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        //promptLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        promptLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 119).isActive = true
+        promptLabel.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 20).isActive = true
         
         //MARK: constraints for selectedInterestCollectionView
         selectedInterestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
@@ -127,7 +153,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
                     //return placeholder
                     return imageView
                 }
-                imageView.image = UIImage(named: "interest_\(selectedInterests[indexPath.item])")
+                imageView.image = UIImage(named: "\(selectedInterests[indexPath.item])")
                 return imageView
             }()
             cell.addSubview(selectedInterestImage)
@@ -199,7 +225,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         }
         let interestImage: UIImageView = {
             let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 64,height: 64))
-            imageView.image = UIImage(named: "interest_\(interests[indexPath.item])")
+            imageView.image = UIImage(named: "\(interests[indexPath.item])")
             imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
             return imageView
@@ -227,7 +253,9 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = false
-        
+        if (selectedInterests.contains(interests[indexPath.item]) && !indexPathOfCellsSelected.contains(indexPath)) {
+            indexPathOfCellsSelected.append(indexPath)
+            }
         if (indexPathOfCellsSelected.contains(indexPath)) {
             cell.backgroundColor = Color.matteBlack
             interestLabel.textColor = Color.matteBlack
@@ -240,10 +268,6 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         }
         return UICollectionViewCell() //this is an
     }
-    
-    var selectedInterests: [String] = [] //a list of interests
-    let maxInterestCount = 3 //maximum length of interests array
-    var indexPathOfCellsSelected: [IndexPath] = [] //indices of table cells
    
     //MARK: tapped an interest
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -293,49 +317,12 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         self.interestCollectionView.reloadData()
     }
     
-    @objc func next(_:UIButton) {
+    @objc func exitPressed(_:UIImage) {
+        self.navigationController?.popViewController(animated: true)
+        let nextVC = self.navigationController?.topViewController as! ProfileEditViewController
+        nextVC.interests = selectedInterests
         
         
-        
-//        let doc = Constants.db.collection("organizations").document()
-//        DispatchQueue.main.async {
-//            doc.getDocument() { (query, err) in
-//                if let query = query, query.exists {
-//
-//                    let prompts = query.get("capacity") as! [String: String]
-//
-//                    for prompt in prompts.values {
-//                        print(prompt)
-//                    }
-//
-//                } else {
-//                    print("Error retrieving prompts from org")
-//                }
-//            }
-//        }
-/*
-        Constants.db.collection("profiles").document(Constants.FIREBASE_USERID).setData([
-            "interest1": selectedInterests[0] ,
-            "interest2": selectedInterests[1] ,
-            "interest3": selectedInterests[2] ,
-        ]) { err in
-            if err != nil {
-                print("error adding user info")
-            } else {
-                print("successfully added user info")
-            }
-        }
-    
-        //if user hasn't seen onboarding yet, show onboarding (for example if you signed out and sign back in, you shouldn't see the onboarding again.)
-        if Core.shared.isNewUser() {
-            let vc = self.storyboard?.instantiateViewController(identifier: "welcome") as! WelcomeViewController
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
-        } else {
-            //signed in? seen onboarding before? OFF TO THE ORG LIST
-            performSegue(withIdentifier: "interestToOrgSegue", sender: nil)
-        }
-         */
     }
 
 }

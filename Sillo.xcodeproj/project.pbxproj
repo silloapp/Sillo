@@ -32,6 +32,7 @@
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
 		AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */; };
 		AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89B6A125FB618C00178D94 /* LoadingViewController.swift */; };
+		AA89B6B225FB800E00178D94 /* OldProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89B6B125FB800E00178D94 /* OldProfileEditViewController.swift */; };
 		AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */; };
 		AA8B775625FAE5410032336F /* SetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775225FAE5400032336F /* SetProfileViewController.swift */; };
 		AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */; };
@@ -123,6 +124,7 @@
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetInterestsViewController.swift; sourceTree = "<group>"; };
 		AA89B6A125FB618C00178D94 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		AA89B6B125FB800E00178D94 /* OldProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldProfileEditViewController.swift; sourceTree = "<group>"; };
 		AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
 		AA8B775225FAE5400032336F /* SetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetProfileViewController.swift; sourceTree = "<group>"; };
 		AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				AA57BA7A25E87078001C378B /* ProfileEditViewController.swift */,
 				AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
+				AA89B6B125FB800E00178D94 /* OldProfileEditViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
 				FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */,
 				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,
+				AA89B6B225FB800E00178D94 /* OldProfileEditViewController.swift in Sources */,
 				AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

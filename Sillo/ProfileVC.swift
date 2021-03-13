@@ -17,12 +17,12 @@ class ProfileVC: UIViewController{
     
     
     //TODO: replace this data with user data
-    private let name = "Kevin Nguyen"
-    private let pronouns = "He/Him"
-    private let bio = "I love the outdoors ⛰️ and fishing 🎣. Thinking of my next adventure ✨ "
-    private let interests = ["Art", "Baking", "Meditation"]
-    private let restaurants = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
-    private let profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
+    var name = "Kevin Nguyen"
+    var pronouns = "He/Him"
+    var bio = "I love the outdoors ⛰️ and fishing 🎣. Thinking of my next adventure ✨ "
+    var interests = ["Art", "Baking", "Meditation"]
+    var restaurants = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
+    var profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     
@@ -265,7 +265,7 @@ class ProfileVC: UIViewController{
    
     //User pressed exit button
     @objc func exitPressed(_:UIImage) {
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -373,15 +373,23 @@ class CustomCell: UICollectionViewCell {
     var data: String? {
         didSet {
             guard let data = data else { return }
-            interestImage.image = UIImage(named: data)
-            label.text = data
-            
+            if data != "NONE" {
+                interestImage.image = UIImage(named: data)
+                interestImage.backgroundColor = Color.matte
+                label.text = data
+            }
+            else {
+                //data is set to "NONE" when no interest is selected, and a blank cell is shown
+                interestImage.image = UIImage()
+                interestImage.backgroundColor = Color.russiandolphin
+                label.text = ""
+            }
         }
     }
     
     let interestImage: UIImageView = {
        let iv = UIImageView()
-        iv.image = UIImage(named: "Photography")
+        iv.image = UIImage(named: "")
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFill
         return iv
@@ -402,7 +410,7 @@ class CustomCell: UICollectionViewCell {
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.font = Font.regular(13)
         label.textColor = UIColor.black
-        label.text = "Interest"
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
