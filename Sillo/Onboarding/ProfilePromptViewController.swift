@@ -114,7 +114,7 @@ class ProfilePromptViewController: UIViewController {
         self.present(loadingVC, animated: false, completion: nil)
         
         //prepare next view controller
-        let nextVC = ProfileEditViewController()
+        let nextVC = ProfileSetupViewController()
         
         //perform backend businesss
         guard let userID = Auth.auth().currentUser?.uid else { return }
@@ -128,9 +128,9 @@ class ProfilePromptViewController: UIViewController {
                 var profileDocumentName = "all_orgs"
 
                 let useSeparateProfiles = dataDict!["use_separate_profiles"] as! Bool
-                profileDocumentName = "some_org"
+                profileDocumentName = "all_orgs"
                 if (useSeparateProfiles) {
-                    profileDocumentName = "all_orgs"
+                    profileDocumentName = "some_orgs"
                 }
                 let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
                 userRef.getDocument { (document, error) in
@@ -138,10 +138,12 @@ class ProfilePromptViewController: UIViewController {
                         let innerDict = document.data()!
                         let pronouns = innerDict["pronouns"] as! String
                         let bioText = innerDict["bio"] as! String
+                        let interests = innerDict["interests"] as! [String]
                         let restaurants = innerDict["restaurants"] as! [String]
 
                         nextVC.bioText = bioText
                         nextVC.pronouns = pronouns
+                        nextVC.interests = interests
                         nextVC.restaurants = restaurants
                         nextVC.useSeparateProfiles = useSeparateProfiles
                         
@@ -180,7 +182,8 @@ class ProfilePromptViewController: UIViewController {
             return
         }
         self.latestButtonPressTimestamp = Date()
-        navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
+        //navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
+        print("SKIP")
     }
 
 }

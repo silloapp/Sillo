@@ -15,14 +15,14 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
     
     var interests = ["Art","Baking","Cooking","Dance","DIY","Fashion","Finance","Games","Meditation","Movies","Music","Outdoors","Photography","Reading","Sports","Tech","Travel","Volunteering"]
     
-    var pretty_name_matching : [String:String] = ["art":"Art & Design","baking":"Baking","cooking":"Cooking","dance":"Dance","diy":"DIY","fashion":"Fashion","finance":"Finance","games":"Games","meditation":"Meditation","movies":"Movies & TV","music":"Music","outdoors":"Outdoors","photography":"Photography","reading":"Reading","sports":"Sports","tech":"Tech","travel":"Travel","volunteering":"Volunteering"]
+    var pretty_name_matching : [String:String] = ["Art":"Art & Design","Baking":"Baking","Cooking":"Cooking","Dance":"Dance","DIY":"DIY","Fashion":"Fashion","Finance":"Finance","Games":"Games","Meditation":"Meditation","Movies":"Movies & TV","Music":"Music","Outdoors":"Outdoors","Photography":"Photography","Reading":"Reading","Sports":"Sports","Tech":"Tech","Travel":"Travel","Volunteering":"Volunteering"]
     
     var selectedInterestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     var interestCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     //MARK: viewwillDissapear
     override func viewWillDisappear(_ animated: Bool) {
-        let nextVC = self.navigationController?.topViewController as! ProfileEditViewController
+        let nextVC = self.navigationController?.topViewController as! ProfileSetupViewController
         nextVC.interests = selectedInterests
     }
     
@@ -319,7 +319,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
     
     @objc func exitPressed(_:UIImage) {
         self.navigationController?.popViewController(animated: true)
-        let nextVC = self.navigationController?.topViewController as! ProfileEditViewController
+        let nextVC = self.navigationController?.topViewController as! ProfileSetupViewController
         nextVC.interests = selectedInterests
         
         

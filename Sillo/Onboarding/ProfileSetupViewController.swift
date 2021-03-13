@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
-class ProfileEditViewController: UIViewController{
+class ProfileSetupViewController: UIViewController{
     
     let pronounValues = ["He/him", "She/her","They/them", "pronouns not specified"]
     
@@ -322,6 +322,23 @@ class ProfileEditViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         //reload necessary coming from selecting interest view
         collectionView.reloadData()
+        self.pronouns = ""
+        if self.pronouns != "no pronouns specified" {
+            pronounsTextField.text = self.pronouns
+        }
+        bioTextView.text = self.bioText
+        for (index, restaurant) in restaurants.enumerated() {
+            switch index {
+            case 0:
+                restaurantTextFieldOne.text = restaurant
+            case 1:
+                restaurantTextFieldTwo.text = restaurant
+            case 2:
+                restaurantTextFieldThree.text = restaurant
+            default:
+                break
+            }
+        }
     }
     
     //MARK: VIEWDIDAPPEAR
@@ -381,6 +398,7 @@ class ProfileEditViewController: UIViewController{
         scrollView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20).isActive = true
         scrollView.isScrollEnabled = true
         
+        //MARK: drop shadows (not working it seems D: )
         scrollView.layer.shadowOffset = CGSize(width:0, height:10)
         scrollView.layer.shadowRadius = 10
         scrollView.layer.shadowColor = UIColor.black.cgColor
@@ -601,7 +619,8 @@ class ProfileEditViewController: UIViewController{
         if (requestThrottled) {
             return
         }
-        if (bioTextView.hasText) {
+        
+        if (!interests.isEmpty && bioTextView.hasText) {
             var pronouns = "no pronouns specified"
             //prevents malicious alterations of pronouns
             if pronounValues.contains(pronounsTextField.text!) {
@@ -632,7 +651,7 @@ class ProfileEditViewController: UIViewController{
         }
         else {
             errorState=true
-            errorMsg="Please fill out at least your bio to continue."
+            errorMsg="Please fill out at least your bio and one interest to continue."
         }
         if (errorState) {
             DispatchQueue.main.async {
@@ -649,7 +668,7 @@ class ProfileEditViewController: UIViewController{
         } else {
             useSeparateProfiles = true
         }
-    }
+    } 
     
     @objc func hideKeyboard() {
         pronounsTextField.resignFirstResponder()
@@ -682,7 +701,7 @@ class ProfileEditViewController: UIViewController{
 }
 
 //COLLECTIONVIEW
-extension ProfileEditViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension ProfileSetupViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 70, height: 80)
@@ -704,7 +723,7 @@ extension ProfileEditViewController: UICollectionViewDelegateFlowLayout, UIColle
     }
 }
 
-extension ProfileEditViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+extension ProfileSetupViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func createPronounPicker() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()

@@ -27,14 +27,13 @@
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
 		AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57BA7225E84587001C378B /* ProfilePromptViewController.swift */; };
-		AA57BA7B25E87078001C378B /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57BA7A25E87078001C378B /* ProfileEditViewController.swift */; };
+		AA57BA7B25E87078001C378B /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57BA7A25E87078001C378B /* ProfileSetupViewController.swift */; };
 		AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */; };
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
 		AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */; };
 		AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89B6A125FB618C00178D94 /* LoadingViewController.swift */; };
 		AA89B6B225FB800E00178D94 /* OldProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89B6B125FB800E00178D94 /* OldProfileEditViewController.swift */; };
 		AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */; };
-		AA8B775625FAE5410032336F /* SetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775225FAE5400032336F /* SetProfileViewController.swift */; };
 		AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */; };
 		AA8B775825FAE5410032336F /* SetupOrganizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775425FAE5410032336F /* SetupOrganizationViewController.swift */; };
 		AA8B775D25FAE5BA0032336F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775C25FAE5BA0032336F /* Constants.swift */; };
@@ -119,14 +118,13 @@
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
 		AA57BA7225E84587001C378B /* ProfilePromptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePromptViewController.swift; sourceTree = "<group>"; };
-		AA57BA7A25E87078001C378B /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		AA57BA7A25E87078001C378B /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetInterestsViewController.swift; sourceTree = "<group>"; };
 		AA89B6A125FB618C00178D94 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		AA89B6B125FB800E00178D94 /* OldProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldProfileEditViewController.swift; sourceTree = "<group>"; };
 		AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
-		AA8B775225FAE5400032336F /* SetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetProfileViewController.swift; sourceTree = "<group>"; };
 		AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewController.swift; sourceTree = "<group>"; };
 		AA8B775425FAE5410032336F /* SetupOrganizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupOrganizationViewController.swift; sourceTree = "<group>"; };
 		AA8B775C25FAE5BA0032336F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -239,7 +237,6 @@
 			children = (
 				AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */,
 				AA8B775325FAE5410032336F /* ConfirmEmailViewController.swift */,
-				AA8B775225FAE5400032336F /* SetProfileViewController.swift */,
 				AA8B775425FAE5410032336F /* SetupOrganizationViewController.swift */,
 				FD9D92C325A13B25003C7883 /* PageViewController.swift */,
 				AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */,
@@ -252,7 +249,7 @@
 				A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */,
 				A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */,
 				AA57BA7225E84587001C378B /* ProfilePromptViewController.swift */,
-				AA57BA7A25E87078001C378B /* ProfileEditViewController.swift */,
+				AA57BA7A25E87078001C378B /* ProfileSetupViewController.swift */,
 				AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
 				AA89B6B125FB800E00178D94 /* OldProfileEditViewController.swift */,
@@ -731,7 +728,7 @@
 				AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */,
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
 				FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */,
-				AA57BA7B25E87078001C378B /* ProfileEditViewController.swift in Sources */,
+				AA57BA7B25E87078001C378B /* ProfileSetupViewController.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
 				AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */,
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
@@ -744,7 +741,6 @@
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				A0334B6B25F5D6F1008A05F8 /* ProfileVC.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
-				AA8B775625FAE5410032336F /* SetProfileViewController.swift in Sources */,
 				A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				A08E82F325E179A000760BF1 /* ChatViewTableViewCell.swift in Sources */,
