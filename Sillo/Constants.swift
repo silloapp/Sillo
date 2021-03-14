@@ -12,6 +12,7 @@ import FirebaseStorage
 enum Constants {
     static let db = Firestore.firestore()
     static let storage = Storage.storage()
+    static let image_extension: String = ".jpeg"
 
     // MARK: USER DATA
     static var FIREBASE_USERID:String? = nil

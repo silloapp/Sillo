@@ -13,7 +13,7 @@ class ProfileSetupViewController: UIViewController{
     
     let pronounValues = ["pronouns not specified", "she/her", "he/him", "they/them"]
     
-    private let name = "Kevin Nguyen"
+    private let name = Auth.auth().currentUser?.displayName
     var bioText: String = ""
     var pronouns: String = ""
     var restaurants : [String] = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
@@ -22,7 +22,7 @@ class ProfileSetupViewController: UIViewController{
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
-    var profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
+    var profilePic = UIImage(named: "placeholder profile")
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     
@@ -144,8 +144,7 @@ class ProfileSetupViewController: UIViewController{
     //MARK: pronouns text field
     let pronounsTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " pronouns not specified"
-        textField.text = ""
+        textField.placeholder = " no pronouns specified"
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.backgroundColor = Color.textFieldBackground
@@ -370,6 +369,8 @@ class ProfileSetupViewController: UIViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProfilePicture), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
+        
         
         //MARK: exitButton
         view.addSubview(exitButton)
@@ -480,6 +481,8 @@ class ProfileSetupViewController: UIViewController{
         
         //MARK: pronouns text field
         scrollView.addSubview(pronounsTextField)
+        pronounsTextField.attributedPlaceholder =
+            NSAttributedString(string: self.pronouns, attributes: [NSAttributedString.Key.foregroundColor : Color.matte])
         pronounsTextField.topAnchor.constraint(equalTo: pronounsLabel.bottomAnchor, constant: 5).isActive = true
         pronounsTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
         pronounsTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
@@ -527,7 +530,7 @@ class ProfileSetupViewController: UIViewController{
         //MARK: select interests button
         scrollView.addSubview(editInterestsButton)
         editInterestsButton.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor, constant: -10).isActive = true
-        editInterestsButton.leadingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 0).isActive = true
+        editInterestsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
         editInterestsButton.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.2).isActive = true
         
         //MARK: fourth grey line
@@ -608,6 +611,13 @@ class ProfileSetupViewController: UIViewController{
         self.navigationController?.popViewController(animated: true)
     }
     
+    //notification callback for refreshing profile picture
+    @objc func refreshProfilePicture(_:UIImage) {
+        let profilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"
+        self.profilePic = imageCache.object(forKey: profilePictureRef as NSString)
+        self.profilepic.image = profilePic
+    }
+    
     //User pressed preview button
     @objc func previewPressed(_:UIImage) {
         let nextVC = ProfileVC()
@@ -619,6 +629,7 @@ class ProfileSetupViewController: UIViewController{
         nextVC.bio = bioTextView.text!
         nextVC.interests = interests
         nextVC.restaurants = collectRestaurantHelper()
+        nextVC.profilePic = profilePic
         
         nextVC.modalPresentationStyle = .automatic
         nextVC.modalTransitionStyle = .coverVertical
@@ -641,6 +652,7 @@ class ProfileSetupViewController: UIViewController{
     
     //User pressed save changes button
     @objc func saveChanges(_:UIButton) {
+        print(cloudutil.uploadImages(image: profilePic!, ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"))
         var errorState = false
         var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         
@@ -746,7 +758,6 @@ extension ProfileSetupViewController: UICollectionViewDelegateFlowLayout, UIColl
             cell.data = self.interests[indexPath.item]
         }
         else {
-            print("NONE for: \(indexPath.item)")
             cell.data = "NONE"
         }
         return cell

@@ -140,12 +140,14 @@ class ProfilePromptViewController: UIViewController {
                         let bioText = innerDict["bio"] as! String
                         let interests = innerDict["interests"] as! [String]
                         let restaurants = innerDict["restaurants"] as! [String]
-
+                        Constants.FIREBASE_USERID = Auth.auth().currentUser?.uid //temporary, we can remove this after spinning up a coldboot screen
+                        let profilePic = cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)") 
                         nextVC.bioText = bioText
                         nextVC.pronouns = pronouns
                         nextVC.interests = interests
                         nextVC.restaurants = restaurants
                         nextVC.useSeparateProfiles = useSeparateProfiles
+                        nextVC.profilePic = profilePic
                         
                         //https://firebase.google.com/docs/analytics/events?platform=ios
                         Analytics.logEvent("edit_profile", parameters: [

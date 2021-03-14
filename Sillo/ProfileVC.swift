@@ -40,7 +40,7 @@ class ProfileVC: UIViewController{
         imageView.contentMode = .center
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 50 // make circle
         return imageView
     }()
@@ -396,7 +396,7 @@ class CustomCell: UICollectionViewCell {
     
     let interestImage: UIImageView = {
        let iv = UIImageView()
-        iv.image = UIImage(named: "")
+        iv.image = UIImage(named: "art") //dummy value instantiation
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFill
         return iv

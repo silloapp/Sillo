@@ -7,9 +7,15 @@
 
 import Firebase
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
 
 let cloudutil = CloudUtil()
 let db =  Firestore.firestore()
+let storage = Storage.storage()
+let storageRef = storage.reference()
+
+let imageCache = NSCache<NSString, UIImage>() //cache for images (key is the firebase path [ex: profiles/image.png) 
 
 class CloudUtil {
     
@@ -34,6 +40,82 @@ class CloudUtil {
         }.resume()
     }
     
+    func uploadImages(image: UIImage, ref: String) -> String {
+        // Data in memory
+        let croppedImage = image.resized(withPercentage: 0.5)
+        imageCache.setObject(croppedImage!, forKey: ref as NSString) //shove into cache
+        let imageData = croppedImage!.jpegData(compressionQuality: 0.5)!; // 0.7 is JPG quality
+        // Create a reference to the file you want to upload
+        let imageRef = storageRef.child(ref)
+        
+        // Upload the file to the path "images/rivers.jpg"
+        let uploadTask = imageRef.putData(imageData, metadata: nil) { (metadata, error) in
+          guard let metadata = metadata else {
+            // Uh-oh, an error occurred!
+            print("error")
+            return
+          }
+          // Metadata contains file metadata such as size, content-type.
+          let size = metadata.size
+          // You can also access to download URL after upload.
+            imageRef.downloadURL { (url, error) in
+            guard let downloadURL = url else {
+              // Uh-oh, an error occurred!
+                return
+            }
+            print(downloadURL)
+          }
+        }
+        return ""
+    }
+    
+    
+    func downloadImage(ref: String) -> UIImage {
+        var resultImage = UIImage(named:"placeholder profile")!
+        if let cachedVersion = imageCache.object(forKey: ref as NSString) {
+            // use the cached version
+            resultImage = cachedVersion
+        }
+        else {
+            // create it from scratch then store in the cache
+            let imageRef = storageRef.child(ref)
+            // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+            imageRef.getData(maxSize: 1*1024*1024) { data, error in
+              if let error = error {
+                // Uh-oh, an error occurred!
+                print(error.localizedDescription)
+                return
+              } else {
+                print("image success")
+                resultImage = UIImage(data: data!)!
+                imageCache.setObject(resultImage, forKey: ref as NSString)
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "refreshPicture")))
+              }
+            }
+        }
+        return resultImage
+        
+    }
+}
+
+//https://stackoverflow.com/questions/29137488/how-do-i-resize-the-uiimage-to-reduce-upload-image-size
+extension UIImage {
+    func resized(withPercentage percentage: CGFloat, isOpaque: Bool = true) -> UIImage? {
+        let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
+        let format = imageRendererFormat
+        format.opaque = isOpaque
+        return UIGraphicsImageRenderer(size: canvas, format: format).image {
+            _ in draw(in: CGRect(origin: .zero, size: canvas))
+        }
+    }
+    func resized(toWidth width: CGFloat, isOpaque: Bool = true) -> UIImage? {
+        let canvas = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+        let format = imageRendererFormat
+        format.opaque = isOpaque
+        return UIGraphicsImageRenderer(size: canvas, format: format).image {
+            _ in draw(in: CGRect(origin: .zero, size: canvas))
+        }
+    }
 }
 
 
