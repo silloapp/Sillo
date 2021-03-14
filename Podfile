@@ -4,8 +4,8 @@
 target 'Sillo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  
-  pod 'Giphy'
+
+  pod 'Giphy', '=2.1.2'
 
   # Pods for Sillo
   pod 'Firebase/Core'
@@ -21,6 +21,9 @@ target 'Sillo' do
   pod 'GoogleSignIn'
   pod 'BoringSSL-GRPC', '= 0.0.3', :modular_headers => false
   pod 'gRPC-Core', '= 1.21.0', :modular_headers => false
+  pod 'MessageInputBar'
+  pod 'PullUpController'
+  pod 'IQKeyboardManagerSwift'
 
   target 'SilloTests' do
     inherit! :search_paths

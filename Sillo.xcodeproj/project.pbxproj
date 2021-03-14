@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40680F51CDA117DB628FE459 /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E35ACF4D93B0408DD590311 /* Pods_Sillo_SilloUITests.framework */; };
-		80D1ADF74F43A0D1F61EAE3E /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E486C59CFC9B22E4A8926D1 /* Pods_SilloTests.framework */; };
+		355E5B67D6565A4C26812B4D /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F5F4E6BF36F78CCB4A5763 /* Pods_Sillo_SilloUITests.framework */; };
+		6A74907D4F7B86E6D66BCAE5 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6944E8B29A3B055FA61ABB /* Pods_Sillo.framework */; };
 		A002D19425D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */; };
 		A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */; };
 		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
@@ -43,7 +43,7 @@
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
 		AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69325A83B7900D89C62 /* CloudUtil.swift */; };
 		AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */; };
-		B1FF6C2387C95D4E3C2DC7FB /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4824B2A072736EAA2501D4AA /* Pods_Sillo.framework */; };
+		B1AC2219DD77C8E506068AF2 /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */; };
 		FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */; };
 		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
 		FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */; };
@@ -56,6 +56,15 @@
 		FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */; };
 		FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */; };
 		FD1DC5B525E10945007A0E70 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */; };
+		FD7C4F8625FDFB6900231F06 /* WelcomePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F8525FDFB6900231F06 /* WelcomePageVC.swift */; };
+		FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */; };
+		FD7C4F9725FDFC0000231F06 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9225FDFBFF00231F06 /* Constants.swift */; };
+		FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */; };
+		FD7C4F9925FDFC0000231F06 /* ArrayChoiceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */; };
+		FD7C4FA525FE040A00231F06 /* MyConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */; };
+		FD7C4FE025FE080700231F06 /* QuestsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4FDF25FE080700231F06 /* QuestsVC.swift */; };
+		FD8B839025F4B37E004980AC /* BottomSlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B838F25F4B37E004980AC /* BottomSlideController.swift */; };
+		FD8B839525F4B468004980AC /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B839425F4B468004980AC /* CustomTableViewCell.swift */; };
 		FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */; };
 		FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908125C3EB26009F4F29 /* HomeViewController.swift */; };
 		FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908625C3EB31009F4F29 /* MessagesViewController.swift */; };
@@ -92,13 +101,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EBAA2DAE90204B4F443FF7A /* Pods-Sillo-SilloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		3E35ACF4D93B0408DD590311 /* Pods_Sillo_SilloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo_SilloUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4824B2A072736EAA2501D4AA /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		61F5F4E6BF36F78CCB4A5763 /* Pods_Sillo_SilloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo_SilloUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A6944E8B29A3B055FA61ABB /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BCA0954960CE21B72418AB6 /* Pods-SilloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.release.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.release.xcconfig"; sourceTree = "<group>"; };
 		82ADEC15985E2EB3E2847F79 /* Pods-SilloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.debug.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B3BECB7D5B4441B64CF4EAE /* Pods-Sillo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.debug.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.debug.xcconfig"; sourceTree = "<group>"; };
-		8E486C59CFC9B22E4A8926D1 /* Pods_SilloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsTableViewCell.swift; sourceTree = "<group>"; };
 		A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSetViewController.swift; sourceTree = "<group>"; };
 		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +157,15 @@
 		FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
 		FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
 		FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		FD7C4F8525FDFB6900231F06 /* WelcomePageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageVC.swift; sourceTree = "<group>"; };
+		FD7C4F9225FDFBFF00231F06 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayChoiceTableViewController.swift; sourceTree = "<group>"; };
+		FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
+		FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysShowPopup.swift; sourceTree = "<group>"; };
+		FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyConnectionsVC.swift; sourceTree = "<group>"; };
+		FD7C4FDF25FE080700231F06 /* QuestsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestsVC.swift; sourceTree = "<group>"; };
+		FD8B838F25F4B37E004980AC /* BottomSlideController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSlideController.swift; sourceTree = "<group>"; };
+		FD8B839425F4B468004980AC /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
 		FD94908125C3EB26009F4F29 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FD94908625C3EB31009F4F29 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -177,7 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1FF6C2387C95D4E3C2DC7FB /* Pods_Sillo.framework in Frameworks */,
+				6A74907D4F7B86E6D66BCAE5 /* Pods_Sillo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,7 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80D1ADF74F43A0D1F61EAE3E /* Pods_SilloTests.framework in Frameworks */,
+				B1AC2219DD77C8E506068AF2 /* Pods_SilloTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +211,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40680F51CDA117DB628FE459 /* Pods_Sillo_SilloUITests.framework in Frameworks */,
+				355E5B67D6565A4C26812B4D /* Pods_Sillo_SilloUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,9 +234,9 @@
 		3D63387CB939910033204FC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4824B2A072736EAA2501D4AA /* Pods_Sillo.framework */,
-				3E35ACF4D93B0408DD590311 /* Pods_Sillo_SilloUITests.framework */,
-				8E486C59CFC9B22E4A8926D1 /* Pods_SilloTests.framework */,
+				7A6944E8B29A3B055FA61ABB /* Pods_Sillo.framework */,
+				61F5F4E6BF36F78CCB4A5763 /* Pods_Sillo_SilloUITests.framework */,
+				1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -226,6 +244,9 @@
 		A01CA47325C333080028FCBB /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				FD7C4F8525FDFB6900231F06 /* WelcomePageVC.swift */,
+				FD8B838F25F4B37E004980AC /* BottomSlideController.swift */,
+				FD8B839425F4B468004980AC /* CustomTableViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -298,9 +319,21 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		FD7C4FA025FDFC1400231F06 /* SupportClass */ = {
+			isa = PBXGroup;
+			children = (
+				FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */,
+				FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */,
+				FD7C4F9225FDFBFF00231F06 /* Constants.swift */,
+				FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */,
+			);
+			path = SupportClass;
+			sourceTree = "<group>";
+		};
 		FD94907525C3EA80009F4F29 /* Main Tab Views */ = {
 			isa = PBXGroup;
 			children = (
+				A01CA47325C333080028FCBB /* Home */,
 				FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */,
 				FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */,
 				A01CA47D25C333400028FCBB /* NewPostViewController.swift */,
@@ -312,6 +345,8 @@
 				A08E82ED25E16AB500760BF1 /* AccountViewController.swift */,
 				A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */,
 				A0B84E5925DEE3DE00479E2E /* TeamCell.swift */,
+				FD7C4FDF25FE080700231F06 /* QuestsVC.swift */,
+				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				A0B84E6325DEE43500479E2E /* Contact.swift */,
 				A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */,
@@ -355,12 +390,12 @@
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
 				FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */,
-				A01CA47325C333080028FCBB /* Home */,
 				FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */,
 				AA196FA125BEA51C00A9997B /* Onboarding */,
 				FD94907525C3EA80009F4F29 /* Main Tab Views */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				AA0480A325AD3CF000D024DC /* NotificationRequestViewController.swift */,
+				FD7C4FA025FDFC1400231F06 /* SupportClass */,
 				FD9D92CB25A13B29003C7883 /* Assets.xcassets */,
 				FD9D92CD25A13B29003C7883 /* LaunchScreen.storyboard */,
 				FD9D92D025A13B29003C7883 /* Info.plist */,
@@ -396,7 +431,6 @@
 			buildConfigurationList = FD9D92E925A13B2A003C7883 /* Build configuration list for PBXNativeTarget "Sillo" */;
 			buildPhases = (
 				43D15F7CA3C1ED29E725C23A /* [CP] Check Pods Manifest.lock */,
-				D2A32BC2D06DF587D69B4F65 /* [CP] Prepare Artifacts */,
 				FD9D92B825A13B25003C7883 /* Sources */,
 				FD9D92B925A13B25003C7883 /* Frameworks */,
 				FD9D92BA25A13B25003C7883 /* Resources */,
@@ -436,7 +470,6 @@
 			buildConfigurationList = FD9D92EF25A13B2A003C7883 /* Build configuration list for PBXNativeTarget "SilloUITests" */;
 			buildPhases = (
 				4181F41046684F9C5DFD5FD2 /* [CP] Check Pods Manifest.lock */,
-				0E7B263BF4DF14930D412B53 /* [CP] Prepare Artifacts */,
 				FD9D92DC25A13B2A003C7883 /* Sources */,
 				FD9D92DD25A13B2A003C7883 /* Frameworks */,
 				FD9D92DE25A13B2A003C7883 /* Resources */,
@@ -532,23 +565,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E7B263BF4DF14930D412B53 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-artifacts-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-artifacts-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4181F41046684F9C5DFD5FD2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -666,23 +682,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D2A32BC2D06DF587D69B4F65 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-artifacts-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-artifacts-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo/Pods-Sillo-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DCD54740BF7E5A9E4C21BEE6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -711,11 +710,16 @@
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
 				A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */,
+				FD7C4F8625FDFB6900231F06 /* WelcomePageVC.swift in Sources */,
 				FD1DC5B525E10945007A0E70 /* CustomTabBarController.swift in Sources */,
 				FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
 				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
+				FD7C4FA525FE040A00231F06 /* MyConnectionsVC.swift in Sources */,
+				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
+				FD9740BB25AEE20600289F3C /* AddPeopleToSpaceViewController.swift in Sources */,
+				FD7C4F9925FDFC0000231F06 /* ArrayChoiceTableViewController.swift in Sources */,
 				AA8B775D25FAE5BA0032336F /* Constants.swift in Sources */,
 				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
 				FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */,
@@ -735,10 +739,12 @@
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
 				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
+				FD8B839025F4B37E004980AC /* BottomSlideController.swift in Sources */,
 				A0334B6B25F5D6F1008A05F8 /* ProfileVC.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
 				AA8B775625FAE5410032336F /* SetProfileViewController.swift in Sources */,
 				A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */,
+				FD8B839525F4B468004980AC /* CustomTableViewCell.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,
 				A08E82F325E179A000760BF1 /* ChatViewTableViewCell.swift in Sources */,
 				A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */,
@@ -748,7 +754,10 @@
 				A08E82EE25E16AB500760BF1 /* AccountViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
+				FD7C4F9725FDFC0000231F06 /* Constants.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
+				FD7C4FE025FE080700231F06 /* QuestsVC.swift in Sources */,
+				FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */,
 				AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */,
 				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
 				AA8B776425FAE5EE0032336F /* UserData.swift in Sources */,
@@ -756,6 +765,7 @@
 				A0A6BFE325EB9FA500F107F4 /* ProfileHalfVC.swift in Sources */,
 				FDB3400925AC0A1F00097FE1 /* SetupOrganizationViewController.swift in Sources */,
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
+				FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */,
 				FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */,
 				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,
 				AA0480A425AD3CF000D024DC /* NotificationRequestViewController.swift in Sources */,
@@ -931,6 +941,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9Z82JGWWDM;
 				INFOPLIST_FILE = Sillo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -952,6 +963,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9Z82JGWWDM;
 				INFOPLIST_FILE = Sillo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
