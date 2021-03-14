@@ -132,7 +132,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         ]
         
         self.mainView.addSubview(searchBoxContainerView)
-        self.mainView.backgroundColor = Color.russianDolphinGray
+        self.mainView.backgroundColor = .white
         
         
         let button1dismiss = UIButton()
@@ -232,20 +232,20 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         ]
         
         
-        let bottomlbl = UILabel()
+        let bottomlbl = UIButton()
         
         self.secondPreviewView.addSubview(bottomlbl)
         buttonPlus.backgroundColor = .clear
         
-        bottomlbl.text = "Lorem Ispum"
-        bottomlbl.textColor = .black
-        bottomlbl.font = UIFont.init(name: "Apercu-Regular", size: 17)
-        bottomlbl.textAlignment = .left
+        bottomlbl.setTitle("Add a space", for: .normal)
+        bottomlbl.setTitleColor(.black, for: .normal)
+        bottomlbl.titleLabel?.font = Font.bold(17)
+        bottomlbl.titleLabel?.textAlignment = .left
+        bottomlbl.addTarget(self, action: #selector(addNewSpaceClicked), for: .touchUpInside)
         
         let bottomlblconstraints = [
             bottomlbl.centerYAnchor.constraint(equalTo:  buttonPlus.centerYAnchor, constant: 0),
-            bottomlbl.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
-            bottomlbl.leftAnchor.constraint(equalTo: buttonPlus.leftAnchor, constant: 100),
+            bottomlbl.leftAnchor.constraint(equalTo: buttonPlus.rightAnchor, constant: 15),
             bottomlbl.heightAnchor.constraint(equalToConstant: 60)
         ]
         
@@ -311,6 +311,11 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         buttonPlus.translatesAutoresizingMaskIntoConstraints = false
         bottomlbl.translatesAutoresizingMaskIntoConstraints = false
         
+    }
+    
+    @objc func addNewSpaceClicked() {
+        let vc = WelcomePageVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func button1dismissMethod() {

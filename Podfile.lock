@@ -366,7 +366,7 @@ PODS:
   - GTMSessionFetcher/Full (1.5.0):
     - GTMSessionFetcher/Core (= 1.5.0)
   - IQKeyboardManagerSwift (6.5.6)
-  - leveldb-library (1.22)
+  - leveldb-library (1.22.1)
   - libwebp (1.2.0):
     - libwebp/demux (= 1.2.0)
     - libwebp/mux (= 1.2.0)
@@ -500,7 +500,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
-  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   MessageInputBar: e81c7535347f1f7b923de7080409a535a004b6e4
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
