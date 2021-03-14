@@ -52,7 +52,7 @@
 		FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */; };
 		FD7C4F9925FDFC0000231F06 /* ArrayChoiceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */; };
 		FD7C4FA525FE040A00231F06 /* MyConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */; };
-		FD7C4FE025FE080700231F06 /* MyConnectionsVC1.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4FDF25FE080700231F06 /* MyConnectionsVC1.swift */; };
+		FD7C4FE025FE080700231F06 /* QuestsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4FDF25FE080700231F06 /* QuestsVC.swift */; };
 		FD8B839025F4B37E004980AC /* BottomSlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B838F25F4B37E004980AC /* BottomSlideController.swift */; };
 		FD8B839525F4B468004980AC /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B839425F4B468004980AC /* CustomTableViewCell.swift */; };
 		FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */; };
@@ -145,7 +145,7 @@
 		FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysShowPopup.swift; sourceTree = "<group>"; };
 		FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyConnectionsVC.swift; sourceTree = "<group>"; };
-		FD7C4FDF25FE080700231F06 /* MyConnectionsVC1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyConnectionsVC1.swift; sourceTree = "<group>"; };
+		FD7C4FDF25FE080700231F06 /* QuestsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestsVC.swift; sourceTree = "<group>"; };
 		FD8B838F25F4B37E004980AC /* BottomSlideController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSlideController.swift; sourceTree = "<group>"; };
 		FD8B839425F4B468004980AC /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
@@ -316,7 +316,7 @@
 				A08E82ED25E16AB500760BF1 /* AccountViewController.swift */,
 				A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */,
 				A0B84E5925DEE3DE00479E2E /* TeamCell.swift */,
-				FD7C4FDF25FE080700231F06 /* MyConnectionsVC1.swift */,
+				FD7C4FDF25FE080700231F06 /* QuestsVC.swift */,
 				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				A0B84E6325DEE43500479E2E /* Contact.swift */,
@@ -713,7 +713,7 @@
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				FD7C4F9725FDFC0000231F06 /* Constants.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
-				FD7C4FE025FE080700231F06 /* MyConnectionsVC1.swift in Sources */,
+				FD7C4FE025FE080700231F06 /* QuestsVC.swift in Sources */,
 				FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */,
 				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
 				A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */,

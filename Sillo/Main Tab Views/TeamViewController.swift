@@ -15,15 +15,16 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return view
     }()
     
+    
     private let menuItems = [
-        MenuItem(name: "My Profile", nextVC: "ProfileVC()", withArrow: false, fontSize: 22), //TODO: replace with actual VC
-        MenuItem(name: "My Connections", nextVC: "ConnectionsVC()", withArrow: false, fontSize: 22),
-        MenuItem(name: "People", nextVC: "PeopleVC()", withArrow: false, fontSize: 22),
-        MenuItem(name: "Engagement", nextVC: "EngagementVC()", withArrow: false, fontSize: 22),
-        MenuItem(name: "Notifications", nextVC: "NotificationsVC()", withArrow: false, fontSize: 22),
-        MenuItem(name: "Reports", nextVC: "ReportsVC()", withArrow: false, fontSize: 22),
-        MenuItem(name: "Quests", nextVC: "QuestsVC()", withArrow: false, fontSize: 22),
-        MenuItem(name: "Sign Out", nextVC: "SignOutVC()", withArrow: false, fontSize: 22)
+        MenuItem(name: "My Profile", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22), //TODO: replace with actual VC
+        MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "People", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Notifications", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Quests", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Sign Out", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22)
     ]
     
     let menuItemTableView = UITableView() // view
@@ -60,6 +61,8 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
+        let vc = menuItems[indexPath.row].nextVC!
+        self.navigationController?.pushViewController(vc, animated: true)
         //TODO: add Segway into nextVC
     }
     
