@@ -181,10 +181,17 @@ class ProfileVC: UIViewController{
         //MARK: profilepic
         profilepic.image = profilePic
         view.addSubview(profilepic)
-        profilepic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+        profilepic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         profilepic.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 25).isActive = true
-        profilepic.widthAnchor.constraint(equalToConstant: 90).isActive = true
-        profilepic.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        profilepic.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        profilepic.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        //MARK: profile pic masking
+        let maskImageView = UIImageView()
+        maskImageView.contentMode = .scaleAspectFit
+        maskImageView.image = UIImage(named: "profile_mask")
+        maskImageView.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+        profilepic.mask = maskImageView
         
         //MARK: add name and bio stack
         nameLabel.text = name
@@ -196,7 +203,7 @@ class ProfileVC: UIViewController{
         stack.addArrangedSubview(nameLabel)
         stack.addArrangedSubview(pronounLabel)
         view.addSubview(stack)
-        stack.leadingAnchor.constraint(equalTo: profilepic.trailingAnchor, constant: 28).isActive = true
+        stack.leadingAnchor.constraint(equalTo: profilepic.trailingAnchor, constant: 14).isActive = true
         stack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
         stack.centerYAnchor.constraint(equalTo: profilepic.centerYAnchor, constant: 0).isActive = true
       

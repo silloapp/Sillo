@@ -306,6 +306,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
             label?.textColor = Color.matteBlack
         }
         self.selectedInterestCollectionView.reloadData()
+        self.interestCollectionView.reloadData()
         }
     }
     

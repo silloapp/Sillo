@@ -11,7 +11,7 @@ import GoogleSignIn
 
 class ProfileSetupViewController: UIViewController{
     
-    let pronounValues = ["He/him", "She/her","They/them", "pronouns not specified"]
+    let pronounValues = ["pronouns not specified", "she/her", "he/him", "they/them"]
     
     private let name = "Kevin Nguyen"
     var bioText: String = ""
@@ -22,7 +22,7 @@ class ProfileSetupViewController: UIViewController{
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
-    private let profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
+    var profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     
@@ -65,13 +65,25 @@ class ProfileSetupViewController: UIViewController{
     //MARK: init anonymous profile picture
     let profilepic: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .center
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 50 // make circle
         return imageView
     }()
+    
+    //MARK: button to go next to profilepic
+    let choosePicButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let image = UIImage(named: "edit")
+        button.setImage(image,for: .normal)
+        button.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(choosePic), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    //MARK: picture picker
+    var imagePicker: UIImagePickerController!
     
     //MARK: init profile tip label
     let profileTipLabel: UILabel = {
@@ -407,23 +419,35 @@ class ProfileSetupViewController: UIViewController{
         //MARK: profilepic
         profilepic.image = profilePic
         scrollView.addSubview(profilepic)
-        profilepic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+        profilepic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         profilepic.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        profilepic.widthAnchor.constraint(equalToConstant: 90).isActive = true
-        profilepic.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        profilepic.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        profilepic.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
-        //MARK: add profile to its own stack
-        nameLabel.text = name
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 0
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.addArrangedSubview(profileTipLabel)
-        profileTipLabel.widthAnchor.constraint(equalToConstant: 178).isActive = true
-        scrollView.addSubview(stack)
-        stack.leadingAnchor.constraint(equalTo: profilepic.trailingAnchor, constant: 28).isActive = true
-        stack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50).isActive = true
-        stack.centerYAnchor.constraint(equalTo: profilepic.centerYAnchor, constant: 0).isActive = true
+        //MARK: profile pic masking
+        let maskImageView = UIImageView()
+        maskImageView.contentMode = .scaleAspectFit
+        maskImageView.image = UIImage(named: "profile_mask")
+        maskImageView.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+        profilepic.mask = maskImageView
+        
+        //MARK: picker
+        self.imagePicker = UIImagePickerController()
+        self.imagePicker.delegate = self
+        self.imagePicker.sourceType = .photoLibrary
+        
+        //MARK: edit button
+        scrollView.addSubview(choosePicButton)
+        choosePicButton.topAnchor.constraint(equalTo: profilepic.bottomAnchor,constant: -40).isActive = true
+        choosePicButton.rightAnchor.constraint(equalTo: profilepic.rightAnchor,constant: -10).isActive = true
+        
+        
+        //MARK: profile pic tip
+        profileTipLabel.font = Font.regular(dynamicFontSize(17))
+        scrollView.addSubview(profileTipLabel)
+        profileTipLabel.leadingAnchor.constraint(equalTo: profilepic.trailingAnchor, constant: 14).isActive = true
+        profileTipLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
+        profileTipLabel.centerYAnchor.constraint(equalTo: profilepic.centerYAnchor, constant: 0).isActive = true
         
         //MARK: grey line under bio
         scrollView.addSubview(firstGreyLine)
@@ -433,6 +457,7 @@ class ProfileSetupViewController: UIViewController{
         firstGreyLine.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         
         //MARK: name label
+        nameLabel.text = name
         scrollView.addSubview(nameLabel)
         nameLabel.topAnchor.constraint(equalTo: firstGreyLine.bottomAnchor, constant: 20).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
@@ -587,7 +612,7 @@ class ProfileSetupViewController: UIViewController{
     @objc func previewPressed(_:UIImage) {
         let nextVC = ProfileVC()
         nextVC.name = nameLabel.text!
-        nextVC.pronouns = "no pronouns specified"
+        nextVC.pronouns = "pronouns not specified"
         if pronounValues.contains(pronounsTextField.text!) {
             nextVC.pronouns = pronounsTextField.text!
         }
@@ -598,6 +623,11 @@ class ProfileSetupViewController: UIViewController{
         nextVC.modalPresentationStyle = .automatic
         nextVC.modalTransitionStyle = .coverVertical
         self.present(nextVC, animated: true, completion: nil)
+    }
+    
+    //user pressed profile pic picker button
+    @objc func choosePic() {
+        present(self.imagePicker, animated: true, completion: nil)
     }
     
     //User pressed edit profile interests button
@@ -756,4 +786,14 @@ extension ProfileSetupViewController: UIPickerViewDataSource, UIPickerViewDelega
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
         pronounsTextField.text = pronounValues[row]
      }
+}
+
+extension ProfileSetupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            profilePic = image
+            self.profilepic.image = profilePic
+        }
+        self.imagePicker.dismiss(animated: true, completion: nil)
+    }
 }
