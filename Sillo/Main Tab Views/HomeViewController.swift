@@ -44,6 +44,14 @@ class HomeViewController: UIViewController {
         return view
     }()
         
+    let blurVw = UIView()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfHideBlur(notification:)), name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfShowBlur(notification:)), name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -53,18 +61,22 @@ class HomeViewController: UIViewController {
         setupTableView()
         
         //set up status bar up top
-        self.setNeedsStatusBarAppearanceUpdate()
-        if #available(iOS 13, *) {
-          let statusBar = UIView(frame: (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame)!)
-            statusBar.backgroundColor = Color.headerBackground
-          UIApplication.shared.keyWindow?.addSubview(statusBar)
-        } else {
-             let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
-             if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
-                statusBar.backgroundColor = Color.headerBackground
-             }
-             UIApplication.shared.statusBarStyle = .lightContent
-        }
+//        self.setNeedsStatusBarAppearanceUpdate()
+//        if #available(iOS 13, *) {
+//          let statusBar = UIView(frame: (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame)!)
+//            statusBar.backgroundColor = Color.headerBackground
+//          UIApplication.shared.keyWindow?.addSubview(statusBar)
+//        } else {
+//             let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
+//             if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+//                statusBar.backgroundColor = Color.headerBackground
+//             }
+//             UIApplication.shared.statusBarStyle = .lightContent
+//        }
+        
+        navigationController?.navigationBar.barTintColor = Color.headerBackground
+        navigationController?.navigationBar.isTranslucent = false
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -75,10 +87,29 @@ class HomeViewController: UIViewController {
     func setupHeader() {
         view.addSubview(header)
         
-        header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        
+        // MARK: Blur View Constraints
+        
+        
+        view.addSubview(blurVw)
+        blurVw.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
+        
+        let blurVwconstraints = [
+            blurVw.topAnchor.constraint(equalTo: self.view.topAnchor),
+            blurVw.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            blurVw.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            blurVw.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ]
+        blurVw.isHidden = true
+        
+        NSLayoutConstraint.activate(blurVwconstraints)
+        self.view.layoutIfNeeded()
+        blurVw.translatesAutoresizingMaskIntoConstraints = false
+        
+        header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        header.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        header.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 110/812).isActive = true
         
         //app logo and team name stack
         let logoTeamStack = setupPhotoTeamName()
@@ -99,13 +130,33 @@ class HomeViewController: UIViewController {
         teamPic.layer.borderColor = Color.gray.cgColor
         teamPic.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         teamPic.layer.cornerRadius = teamPic.frame.height / 2
+        teamPic.isUserInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.profilePicTapped))
+        teamPic.addGestureRecognizer(tap)
         header.addSubview(teamPic)
         
         teamPic.rightAnchor.constraint(equalTo: header.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
         teamPic.centerYAnchor.constraint(equalTo: logoTeamStack.centerYAnchor).isActive = true
         teamPic.heightAnchor.constraint(equalToConstant: 45).isActive = true
         teamPic.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        
+        self.view.layoutIfNeeded()
     }
+    
+    @objc func blurTapped() {
+        print("tapped")
+        NotificationCenter.default.post(name: Notification.Name("DismissNotificationIdentifier"), object: nil)
+    }
+    
+    @objc func profilePicTapped() {
+        
+        blurVw.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
+        blurVw.addGestureRecognizer(tap)
+        addPullUpController(animated: true)
+    }
+    
     
     func setupPhotoTeamName() -> UIStackView {
         let stack = UIStackView()
@@ -132,6 +183,7 @@ class HomeViewController: UIViewController {
         postsTable.delegate = self
         postsTable.dataSource = self
         self.view.addSubview(postsTable)
+        view.sendSubviewToBack(postsTable)
         postsTable.rowHeight = UITableView.automaticDimension
         postsTable.estimatedRowHeight = 100
         postsTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
@@ -154,4 +206,65 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
+}
+
+extension HomeViewController {
+    
+    @objc func methodOfHideBlur(notification: Notification) {
+        hideBlur()
+    }
+    
+    @objc func methodOfShowBlur(notification: Notification) {
+        blurVw.isHidden = false
+    }
+    
+    func hideBlur() {
+        blurVw.isHidden = true
+    }
+    
+    private func makePullupViewControllerIfNeeded() -> BottomSlideController {
+        
+        UserDefaults.standard.set(false, forKey: "didmissPuppup")
+        
+        let currentPullUpController = children
+            .filter({ $0 is BottomSlideController })
+            .first as? BottomSlideController
+        let pullUpController: BottomSlideController = currentPullUpController ?? BottomSlideController()
+        
+        // pullUpController.initialState = .expanded
+        
+        return pullUpController
+    }
+    
+    private func addPullUpController(animated: Bool) {
+        let pullUpController = makePullupViewControllerIfNeeded()
+        _ = pullUpController.view // call pullUpController.viewDidLoad()
+        addPullUpController(pullUpController,
+                            initialStickyPointOffset: pullUpController.initialPointOffset,
+                            animated: animated)
+    }
+    
+    private func makeDismissViewControllerIfNeeded() -> BottomSlideController {
+        
+        UserDefaults.standard.set(true, forKey: "didmissPuppup")
+        
+        let currentPullUpController = children
+            .filter({ $0 is BottomSlideController })
+            .first as? BottomSlideController
+        let pullUpController: BottomSlideController = currentPullUpController ?? BottomSlideController()
+        
+        pullUpController.initialState = .contracted
+        
+        
+        return pullUpController
+    }
+    
+    private func addDismissPullUpController(animated: Bool) {
+        let pullUpController = makeDismissViewControllerIfNeeded()
+        _ = pullUpController.view // call pullUpController.viewDidLoad()
+        addPullUpController(pullUpController,
+                            initialStickyPointOffset: pullUpController.initialPointOffset,
+                            animated: animated)
+    }
+    
 }

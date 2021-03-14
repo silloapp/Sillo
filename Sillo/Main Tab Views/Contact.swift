@@ -10,7 +10,7 @@ import UIKit
 
 struct MenuItem {
     let name:String?
-    let nextVC:String?
+    let nextVC:UIViewController?
     let withArrow:Bool?
     let fontSize:CGFloat?
 }

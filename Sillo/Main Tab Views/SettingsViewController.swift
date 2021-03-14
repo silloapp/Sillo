@@ -18,13 +18,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }()
     
     private let menuItems = [
-        MenuItem(name: "Privacy Policy", nextVC: "", withArrow: true, fontSize: 17), //TODO: replace with actual VC
-        MenuItem(name: "Terms of Use", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Help & FAQ", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Feedback", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "About Sillo", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Log out", nextVC: "", withArrow: true, fontSize: 17),
-        MenuItem(name: "Account", nextVC: "", withArrow: true, fontSize: 17)
+        MenuItem(name: "Privacy Policy", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17), //TODO: replace with actual VC
+        MenuItem(name: "Terms of Use", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17),
+        MenuItem(name: "Help & FAQ", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17),
+        MenuItem(name: "Feedback", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17),
+        MenuItem(name: "About Sillo", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17),
+        MenuItem(name: "Log out", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17),
+        MenuItem(name: "Account", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17)
     ]
     
     let menuItemTableView = UITableView() // view

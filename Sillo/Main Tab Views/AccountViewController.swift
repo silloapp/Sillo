@@ -18,7 +18,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }()
     
     private let menuItems = [
-        MenuItem(name: "Delete Account", nextVC: "", withArrow: true, fontSize: 17)
+        MenuItem(name: "Delete Account", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17)
     ]
     
     let menuItemTableView = UITableView()
