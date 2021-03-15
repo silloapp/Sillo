@@ -36,7 +36,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     let signInButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Sign In", for: .normal)
+        button.setTitle("I already have an account", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = Font.bold(20)
         button.addTarget(self, action: #selector(signInClicked(_:)), for: .touchUpInside)
@@ -45,6 +45,10 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     }()
     
     let buttonsStack = UIStackView()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,12 +100,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     @objc func signInClicked(_: UIButton) {
         let nextVC = SignInViewController()
         nextVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     @objc func getStartedClicked(_: UIButton){
         let nextVC = CreateAccountViewController()
         nextVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 

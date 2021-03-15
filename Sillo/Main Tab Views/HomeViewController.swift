@@ -57,6 +57,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .white
+        overrideUserInterfaceStyle = .light
         setupHeader()
         setupTableView()
         

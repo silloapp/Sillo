@@ -17,6 +17,7 @@ enum Constants {
     static let image_extension: String = ".jpeg"
 
     // MARK: USER DATA
+    static var me:User? = nil
     static var FIREBASE_USERID:String? = nil
     static var USERNAME:String? = nil
     static var EMAIL:String? = nil

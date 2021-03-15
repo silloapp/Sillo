@@ -292,6 +292,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if authResult != nil {
+                        UserDefaults.standard.set(true, forKey: "loggedIn")
                         cloudutil.generateAuthenticationCode()
                         let nextVC = PasscodeVerificationViewController()
                         nextVC.modalPresentationStyle = .fullScreen

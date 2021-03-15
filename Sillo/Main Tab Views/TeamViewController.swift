@@ -50,6 +50,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .white
+        overrideUserInterfaceStyle = .light
         
         setupHeader()
         

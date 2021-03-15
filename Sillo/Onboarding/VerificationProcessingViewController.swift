@@ -15,7 +15,7 @@ class VerificationProcessingViewController: UIViewController {
     
     //MARK: init success image
     let waitImage: UIImageView = {
-        let image = UIImage(named: "onboardingSillo")
+        let image = UIImage(named: "wait_a_moment")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .center
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,8 +44,8 @@ class VerificationProcessingViewController: UIViewController {
         self.view.backgroundColor = .white
         //MARK: wait image
         view.addSubview(waitImage)
-        waitImage.widthAnchor.constraint(equalToConstant: 136).isActive = true
-        waitImage.heightAnchor.constraint(equalToConstant: 114).isActive = true
+        waitImage.widthAnchor.constraint(equalToConstant: 270).isActive = true
+        waitImage.heightAnchor.constraint(equalToConstant: 119).isActive = true
         waitImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         waitImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -70).isActive = true
         
@@ -53,8 +53,8 @@ class VerificationProcessingViewController: UIViewController {
         view.addSubview(waitLabel)
         waitLabel.widthAnchor.constraint(equalToConstant: 213).isActive = true
         waitLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        waitLabel.topAnchor.constraint(equalTo: waitImage.bottomAnchor, constant: 30).isActive = true
         waitLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        waitLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         validatePasscode(passcode: self.passcode)
     }
