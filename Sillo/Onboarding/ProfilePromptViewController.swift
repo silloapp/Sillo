@@ -4,9 +4,13 @@
 //
 //  Created by William Loo on 2/25/21.
 //
+import Firebase
 import UIKit
 
 class ProfilePromptViewController: UIViewController {
+    
+    private var latestButtonPressTimestamp: Date = Date()
+    private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
     var ORGANIZATION_NAME = "Berkeley Food Club"//SET DYNAMICALLY SOON
     
@@ -98,10 +102,90 @@ class ProfilePromptViewController: UIViewController {
     }
     
     @objc private func createProfileClicked() {
-        navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
+        //debouncing business
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        if (requestThrottled) {return}
+        self.latestButtonPressTimestamp = Date()
+        
+        //show loading vc while backend business
+        let loadingVC = LoadingViewController()
+        loadingVC.modalPresentationStyle = .overCurrentContext
+        loadingVC.modalTransitionStyle = .crossDissolve
+        self.present(loadingVC, animated: false, completion: nil)
+        
+        //prepare next view controller
+        let nextVC = ProfileSetupViewController()
+        
+        //perform backend businesss
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let upperUserRef = db.collection("profiles").document(userID)
+        
+        upperUserRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                let dataDict = document.data()
+                print("Document data: \(dataDescription)")
+                var profileDocumentName = "all_orgs"
+
+                let useSeparateProfiles = dataDict!["use_separate_profiles"] as! Bool
+                profileDocumentName = "all_orgs"
+                if (useSeparateProfiles) {
+                    profileDocumentName = "some_orgs"
+                }
+                let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let innerDict = document.data()!
+                        let pronouns = innerDict["pronouns"] as! String
+                        let bioText = innerDict["bio"] as! String
+                        let interests = innerDict["interests"] as! [String]
+                        let restaurants = innerDict["restaurants"] as! [String]
+                        Constants.FIREBASE_USERID = Auth.auth().currentUser?.uid //temporary, we can remove this after spinning up a coldboot screen
+                        let profilePic = cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)") 
+                        nextVC.bioText = bioText
+                        nextVC.pronouns = pronouns
+                        nextVC.interests = interests
+                        nextVC.restaurants = restaurants
+                        nextVC.useSeparateProfiles = useSeparateProfiles
+                        nextVC.profilePic = profilePic
+                        
+                        //https://firebase.google.com/docs/analytics/events?platform=ios
+                        Analytics.logEvent("edit_profile", parameters: [
+                          "name": "will" as NSObject,
+                          "full_text": "creating a profile.." as NSObject
+                          ])
+                        //transition to next vc
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                    else {
+                        //transition to next vc (blank, because organization-specific profile doesn't exist yet)
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                    //dismiss loading overlay
+                    loadingVC.dismiss(animated: false, completion: nil)
+                }
+            }
+            else {
+                //transition to next vc (blank, because no existing document found)
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            
+        }
+        
+        
+        
+        
+        
     }
     @objc private func skipClicked() {
-        navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        self.latestButtonPressTimestamp = Date()
+        //navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
+        print("SKIP")
     }
 
 }

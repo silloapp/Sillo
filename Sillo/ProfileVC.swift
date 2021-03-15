@@ -17,12 +17,12 @@ class ProfileVC: UIViewController{
     
     
     //TODO: replace this data with user data
-    private let name = "Kevin Nguyen"
-    private let pronouns = "He/Him"
-    private let bio = "I love the outdoors ⛰️ and fishing 🎣. Thinking of my next adventure ✨ "
-    private let interests = ["Art", "Baking", "Meditation"]
-    private let restaurants = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
-    private let profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
+    var name = "Kevin Nguyen"
+    var pronouns = "He/Him"
+    var bio = "I love the outdoors ⛰️ and fishing 🎣. Thinking of my next adventure ✨ "
+    var interests = ["Art", "Baking", "Meditation"]
+    var restaurants = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
+    var profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     
@@ -40,7 +40,7 @@ class ProfileVC: UIViewController{
         imageView.contentMode = .center
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 50 // make circle
         return imageView
     }()
@@ -181,10 +181,17 @@ class ProfileVC: UIViewController{
         //MARK: profilepic
         profilepic.image = profilePic
         view.addSubview(profilepic)
-        profilepic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+        profilepic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         profilepic.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 25).isActive = true
-        profilepic.widthAnchor.constraint(equalToConstant: 90).isActive = true
-        profilepic.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        profilepic.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        profilepic.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        //MARK: profile pic masking
+        let maskImageView = UIImageView()
+        maskImageView.contentMode = .scaleAspectFit
+        maskImageView.image = UIImage(named: "profile_mask")
+        maskImageView.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+        profilepic.mask = maskImageView
         
         //MARK: add name and bio stack
         nameLabel.text = name
@@ -196,7 +203,7 @@ class ProfileVC: UIViewController{
         stack.addArrangedSubview(nameLabel)
         stack.addArrangedSubview(pronounLabel)
         view.addSubview(stack)
-        stack.leadingAnchor.constraint(equalTo: profilepic.trailingAnchor, constant: 28).isActive = true
+        stack.leadingAnchor.constraint(equalTo: profilepic.trailingAnchor, constant: 14).isActive = true
         stack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
         stack.centerYAnchor.constraint(equalTo: profilepic.centerYAnchor, constant: 0).isActive = true
       
@@ -265,7 +272,7 @@ class ProfileVC: UIViewController{
    
     //User pressed exit button
     @objc func exitPressed(_:UIImage) {
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -356,7 +363,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSou
         return CGSize(width: 70, height: 80)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return self.interests.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -373,15 +380,23 @@ class CustomCell: UICollectionViewCell {
     var data: String? {
         didSet {
             guard let data = data else { return }
-            interestImage.image = UIImage(named: data)
-            label.text = data
-            
+            if data != "NONE" {
+                interestImage.image = UIImage(named: data)
+                interestImage.backgroundColor = Color.matte
+                label.text = data
+            }
+            else {
+                //data is set to "NONE" when no interest is selected, and a blank cell is shown
+                interestImage.image = UIImage()
+                interestImage.backgroundColor = Color.russiandolphin
+                label.text = ""
+            }
         }
     }
     
     let interestImage: UIImageView = {
        let iv = UIImageView()
-        iv.image = UIImage(named: "Photography")
+        iv.image = UIImage(named: "art") //dummy value instantiation
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFill
         return iv
@@ -402,7 +417,7 @@ class CustomCell: UICollectionViewCell {
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.font = Font.regular(13)
         label.textColor = UIColor.black
-        label.text = "Interest"
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
