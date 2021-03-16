@@ -52,8 +52,12 @@ class VerificationSuccessViewController: UIViewController {
         successLabel.topAnchor.constraint(equalTo: successImage.bottomAnchor, constant: 30).isActive = true
         successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
+        localUser.coldStart()
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+            localUser.createNewUser()
+        }
         DispatchQueue.main.asyncAfter(deadline: .now()  + 1.0) {
-            if (Constants.me?.displayName == nil) {
+            if (Constants.USERNAME == nil) {
                 let nextVC = SetNameViewController()
                 nextVC.modalPresentationStyle = .fullScreen
                 self.navigationController?.pushViewController(nextVC, animated: true)

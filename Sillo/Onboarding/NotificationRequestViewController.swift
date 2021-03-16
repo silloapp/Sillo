@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseInstanceID
 
 class NotificationRequestViewController: UIViewController {
  
@@ -101,7 +102,7 @@ class NotificationRequestViewController: UIViewController {
     @objc func skipTapped(_:UIButton) {
         let nextVC = WelcomeToSilloViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
-        //UserDefaults.standard.set(true, forKey: "finishedOnboarding")
+        //UserDefaults.standard.set(true, forKey: "finishedOnboarding") //y skip notification? ANNOY USER >:(
     }
     
     func registerForPushNotifications() {
@@ -123,6 +124,15 @@ class NotificationRequestViewController: UIViewController {
         DispatchQueue.main.async {
           UIApplication.shared.registerForRemoteNotifications()
         }
+        // upload notification token to user's database
+        InstanceID.instanceID().instanceID { (result, error) in
+              if let error = error {
+              print("Error fetching remote instange ID: \(error)")
+              } else if let result = result {
+              print("Remote instance ID token: \(result.token)")
+               localUser.uploadFCMToken(token: result.token)
+               }
+              }
       }
     }
 }

@@ -363,7 +363,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let currentUser = Auth.auth().currentUser!
                     localUser.coldStart()
-
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                        localUser.createNewUser()
+                    }
                     if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
                         if (currentUser.displayName == nil) {
                             //no display name
