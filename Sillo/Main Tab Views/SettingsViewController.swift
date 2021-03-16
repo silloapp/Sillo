@@ -33,6 +33,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         navigationController?.isNavigationBarHidden = true
         setupHeader()
         view.backgroundColor = .white
+        overrideUserInterfaceStyle = .light
         
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // removes separators at bottom of tableview

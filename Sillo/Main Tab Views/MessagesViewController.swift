@@ -50,6 +50,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .white
+        overrideUserInterfaceStyle = .light
         setupHeader()
         setupTableView()
         

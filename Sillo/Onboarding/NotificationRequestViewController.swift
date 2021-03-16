@@ -93,10 +93,15 @@ class NotificationRequestViewController: UIViewController {
     
     @objc func enableTapped(_:UIButton) {
         registerForPushNotifications()
+        let nextVC = WelcomeToSilloViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+        UserDefaults.standard.set(true, forKey: "finishedOnboarding")
     }
     
     @objc func skipTapped(_:UIButton) {
-        print("SKIPPED, add screen")
+        let nextVC = WelcomeToSilloViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+        //UserDefaults.standard.set(true, forKey: "finishedOnboarding")
     }
     
     func registerForPushNotifications() {

@@ -34,6 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         
 //        let tabVC = UITabBarController()
+        //MARK:: ALL MOVED TO STARTSCREENVIEWCONTROLLER
+        /*
         let tabVC = CustomTabBarController()
         tabVC.tabBar.barTintColor = Color.offsnow
         tabVC.tabBar.layer.masksToBounds = true
@@ -54,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let icon5 = UITabBarItem(title: "Team", image: UIImage(named: "tab5")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab5Selected")!.withRenderingMode(.alwaysOriginal))
         
         
-        let vc1 = UINavigationController(rootViewController: HomeViewController())
+        let vc1 = UINavigationController(rootViewController: StartScreenViewController())
         let vc2 = UINavigationController(rootViewController: AchievementsViewController())
         let vc3 = NewPostViewController()
         let vc4 = UINavigationController(rootViewController: MessagesViewController())
@@ -85,6 +87,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window?.rootViewController = tabVC //starting VC (UI Tab bar / Nav controller)
         window?.makeKeyAndVisible()
+ */
+        
+        let startVC = StartScreenViewController()
+        startVC.modalPresentationStyle = .fullScreen
+        window?.rootViewController = startVC
+        window?.makeKeyAndVisible()
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

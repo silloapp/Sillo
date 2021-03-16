@@ -39,7 +39,7 @@ class WelcomeToSilloViewController: UIViewController {
         stack.addArrangedSubview(welcomeHeader)
         
         let image = UIImageView()
-        image.image = UIImage(named: "placeholder")
+        image.image = UIImage(named: "no-associated-spaces")
         stack.addArrangedSubview(image)
         
         let descriptionText = UILabel()
@@ -53,7 +53,7 @@ class WelcomeToSilloViewController: UIViewController {
         
         let button = UIButton()
         button.setTitle("Create a Sillo space", for: .normal)
-        button.backgroundColor = Color.buttonClickable
+        button.backgroundColor = Color.buttonClickableUnselected
         button.titleLabel?.font = Font.bold(dynamicFontSize(17))
         button.titleLabel?.minimumScaleFactor = 0.5
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -68,19 +68,20 @@ class WelcomeToSilloViewController: UIViewController {
         stack.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
         stack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
         
-        image.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
-        image.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28).isActive = true
         image.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         descriptionText.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        descriptionText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         button.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         button.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07).isActive = true
+        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
     }
     
     @objc private func createSilloSpaceClicked() {
-        navigationController?.pushViewController(SetupOrganizationViewController(), animated: true)
+        print("maybe we should disable creating new space for beta..")
+        //navigationController?.pushViewController(SetupOrganizationViewController(), animated: true)
     }
 
 }

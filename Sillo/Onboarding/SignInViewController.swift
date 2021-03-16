@@ -257,19 +257,27 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if authResult != nil {
+                        UserDefaults.standard.set(true, forKey: "loggedIn")
                         let currentUser = Auth.auth().currentUser!
-                        if (!currentUser.isEmailVerified) {
-                            //email not verified
-                            let nextVC = PasscodeVerificationViewController()
-                            cloudutil.generateAuthenticationCode()
-                            nextVC.modalPresentationStyle = .fullScreen
-                            self.navigationController?.pushViewController(nextVC, animated: true)
-                        }
-                        else if (currentUser.displayName == nil) {
-                            //no display name
-                            let nextVC = SetNameViewController()
-                            nextVC.modalPresentationStyle = .fullScreen
-                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
+                            if (!currentUser.isEmailVerified) {
+                                //email not verified
+                                let nextVC = PasscodeVerificationViewController()
+                                cloudutil.generateAuthenticationCode()
+                                nextVC.modalPresentationStyle = .fullScreen
+                                self.navigationController?.pushViewController(nextVC, animated: true)
+                            }
+                            else if (currentUser.displayName == nil) {
+                                //no display name
+                                let nextVC = SetNameViewController()
+                                nextVC.modalPresentationStyle = .fullScreen
+                                self.navigationController?.pushViewController(nextVC, animated: true)
+                            }
+                            else {
+                                let nextVC = NotificationRequestViewController()
+                                nextVC.modalPresentationStyle = .fullScreen
+                                self.navigationController?.pushViewController(nextVC, animated: true)
+                            }
                         }
                         else {
                             //display name set and email verified
@@ -355,11 +363,19 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let currentUser = Auth.auth().currentUser!
                     localUser.coldStart()
-                    if (currentUser.displayName == nil) {
-                        //no display name
-                        let nextVC = SetNameViewController()
-                        nextVC.modalPresentationStyle = .fullScreen
-                        self.navigationController?.pushViewController(nextVC, animated: true)
+
+                    if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
+                        if (currentUser.displayName == nil) {
+                            //no display name
+                            let nextVC = SetNameViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                        else {
+                            let nextVC = NotificationRequestViewController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
                     }
                     else {
                         let nextVC = WelcomeToSilloViewController()
