@@ -23,7 +23,6 @@ class LocalUser {
                 print("document exists, do nothing")
                 return
             } else {
-                print("setting document..")
                 //create user document
                 docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? ""]) { err in
                 if let err = err {
@@ -31,6 +30,8 @@ class LocalUser {
                 } else {
                     print("success: created \(newUser!) \(newUser ?? "undefined value")")
                 }
+                //log creation of new firebase document
+                analytics.log_create_firebase_doc()
             }
             cloudutil.uploadImages(image: UIImage(named:"placeholder profile")!, ref: "profiles/\(newUser!)\(Constants.image_extension)")
         }
@@ -44,6 +45,8 @@ class LocalUser {
     
     //MARK: upload notification token to user document so we can send them notifications mwahah
     func uploadFCMToken(token: String) {
+        //log notifications enabled
+        analytics.log_notifications_enabled()
         Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["FCMToken" : token]) { err in
             if let err = err {
                 print("error adding user info with error: \(err.localizedDescription)")

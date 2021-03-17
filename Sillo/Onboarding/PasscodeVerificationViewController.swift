@@ -170,6 +170,9 @@ class PasscodeVerificationViewController: UIViewController {
         if (!requestThrottled) {
             cloudutil.generateAuthenticationCode()
             self.latestAuthRequestTimestamp = Date()
+            
+            //log passcode resent
+            analytics.log_passcode_verification_resend()
         }
         else {
             print("throttle limit exceeded!")

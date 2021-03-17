@@ -45,6 +45,7 @@
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
 		AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69325A83B7900D89C62 /* CloudUtil.swift */; };
 		AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */; };
+		AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE02E0726019E2C00BCC72A /* Analytics.swift */; };
 		B1AC2219DD77C8E506068AF2 /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */; };
 		FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */; };
 		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
@@ -146,6 +147,7 @@
 		AABEC69325A83B7900D89C62 /* CloudUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUtil.swift; sourceTree = "<group>"; };
 		AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeVerificationViewController.swift; sourceTree = "<group>"; };
 		AAD5196725AB123A00EB2B78 /* Sillo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sillo.entitlements; sourceTree = "<group>"; };
+		AAE02E0726019E2C00BCC72A /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C3E5B7BDD69653A1973E77B0 /* Pods-Sillo-SilloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.release.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F29CDC423F1F6A880C4EFA11 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
 		FD1D22A525A19F0700F1636C /* logoOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = logoOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 			children = (
 				AA8B776325FAE5EE0032336F /* OrganizationData.swift */,
 				AA8B776225FAE5EE0032336F /* UserData.swift */,
+				AAE02E0726019E2C00BCC72A /* Analytics.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				FD1DC5B525E10945007A0E70 /* CustomTabBarController.swift in Sources */,
 				FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */,
 				FD1D22A625A19F0700F1636C /* logoOnboardingViewController.swift in Sources */,
+				AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */,
 				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
 				FD7C4FA525FE040A00231F06 /* MyConnectionsVC.swift in Sources */,

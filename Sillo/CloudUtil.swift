@@ -21,6 +21,8 @@ class CloudUtil {
     
     //MARK: Call the generateAuthenticationCode cloud function service
     func generateAuthenticationCode() {
+        //log sending of Authentication Code
+        analytics.log_passcode_verification_request()
         guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/generateAuthenticationCode") else {return}
         var request = URLRequest(url: url)
         let userID : String = Auth.auth().currentUser!.uid

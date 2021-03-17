@@ -292,6 +292,9 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if authResult != nil {
+                        //log account creation
+                        analytics.log_account_creation_standard()
+                        
                         UserDefaults.standard.set(true, forKey: "loggedIn")
                         cloudutil.generateAuthenticationCode()
                         let nextVC = PasscodeVerificationViewController()
@@ -349,6 +352,9 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                         self.present(alert, animated: true, completion: nil)
                     }
                 } else {
+                    //log google education sign-in
+                    analytics.log_account_creation_google()
+                    
                     localUser.coldStart()
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
                         localUser.createNewUser()

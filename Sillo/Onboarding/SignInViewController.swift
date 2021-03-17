@@ -257,6 +257,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                     //Check that user isn't NIL
                     if authResult != nil {
+                        //log sign-in event
+                        analytics.log_sign_in_standard()
+                        
                         UserDefaults.standard.set(true, forKey: "loggedIn")
                         let currentUser = Auth.auth().currentUser!
                         if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
@@ -329,6 +332,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     let alert = UIAlertController(title: "Password reset requested!", message: "If you have an email linked with Sillo, you will receieve a password reset link.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
                     self.present(alert, animated: true, completion: nil)
+                    
+                    //log password reset
+                    analytics.log_forgot_password()
                 }
             }
         }
@@ -351,6 +357,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         //Sign in functionality will be handled here
             if let error = error {
                 print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                    self.present(alert, animated: true, completion: nil)
+                }
                 return
             }
             guard let auth = user.authentication else { return }
@@ -360,6 +371,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     print(error.localizedDescription)
                 } else {
                     print("Login Successful.")
+                    
+                    //log google education sign-in
+                    analytics.log_sign_in_google()
+
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let currentUser = Auth.auth().currentUser!
                     localUser.coldStart()
