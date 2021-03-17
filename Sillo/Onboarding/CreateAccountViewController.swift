@@ -349,6 +349,10 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                         self.present(alert, animated: true, completion: nil)
                     }
                 } else {
+                    localUser.coldStart()
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                        localUser.createNewUser()
+                    }
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let nextVC = VerificationSuccessViewController()
                     nextVC.modalPresentationStyle = .fullScreen

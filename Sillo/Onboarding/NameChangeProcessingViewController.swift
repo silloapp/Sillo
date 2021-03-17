@@ -61,6 +61,8 @@ class NameChangeProcessingViewController: UIViewController {
     
     //MARK: Change name in user database
     func setName(displayName: String) {
+        Constants.USERNAME = displayName
+        localUser.updateUserName(name: displayName)
         var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
         changeRequest?.displayName = displayName

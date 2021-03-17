@@ -40,7 +40,7 @@ class CloudUtil {
         }.resume()
     }
     
-    func uploadImages(image: UIImage, ref: String) -> String {
+    func uploadImages(image: UIImage, ref: String) {
         // Data in memory
         let croppedImage = image.resized(withPercentage: 0.5)
         imageCache.setObject(croppedImage!, forKey: ref as NSString) //shove into cache
@@ -66,7 +66,7 @@ class CloudUtil {
             print(downloadURL)
           }
         }
-        return ""
+        return
     }
     
     
