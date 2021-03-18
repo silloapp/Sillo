@@ -5,10 +5,18 @@
 //  Created by Angelica Pan on 1/29/21.
 //
 
-import UIKit
+import Firebase
 import GiphyUISDK
+import UIKit
+
 
 class NewPostViewController: UIViewController, UITextViewDelegate {
+    
+    var posterImageName: String = "avatar-1"
+    
+    private var latestButtonPressTimestamp: Date = Date()
+    private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
+    
     var imageViewHeightConstraint: NSLayoutConstraint?
     
     //MARK: init exit button
@@ -25,7 +33,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         button.setTitle("Post", for: .normal)
         button.titleLabel?.font = Font.bold(17)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Color.buttonClickable
+        button.backgroundColor = Color.buttonClickableUnselected
         button.addTarget(self, action: #selector(createPost(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
@@ -135,6 +143,8 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         profilepic.topAnchor.constraint(equalTo: headerLabel.topAnchor, constant: 50).isActive = true
         profilepic.widthAnchor.constraint(equalToConstant: 35).isActive = true
         profilepic.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        posterImageName = generatePosterImageName()
+        profilepic.image = UIImage(named:"\(posterImageName)")
         
         //textiview
         view.addSubview(textView)
@@ -159,20 +169,62 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
+            newPostButton.backgroundColor = Color.buttonClickable
         }
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
+        /*
         if textView.text.isEmpty {
             textView.text = "Say something nice..."
             textView.textColor = UIColor.lightGray
+            newPostButton.backgroundColor = Color.buttonClickableUnselected
         }
+        */
     }
     
     //User pressed post button
     @objc func createPost(_:UIButton) {
-        print("TODO: add post to firebase")
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        let postText = textView.text.filter {$0 != " "}
+        if (postText != "") {
+            textView.resignFirstResponder()
+            self.latestButtonPressTimestamp = Date()
+            let attachment = media?.id ?? ""
+            let poster = Constants.FIREBASE_USERID!
+            let poster_alias = generatePosterAlias()
+            
+            feed.addPost(attachment: attachment, postText: postText, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
+            self.dismiss(animated: true, completion: nil)
+            //log new post
+            //TODO: log post here once it's merged
+        }
+        else {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Empty posts are no fun, write something!", message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                self.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
+        
     }
+    
+    func generatePosterAlias() -> String {
+        let options: [String] = ["Beets", "Cabbage", "Watermelon", "Bananas", "Oranges", "Apple Pie", "Bongo", "Sink", "Boop"]
+        return options.randomElement()!
+    }
+    
+    func generatePosterImageName() -> String {
+        let options: [String] = ["1","2","3","4"]
+        return "avatar-\(options.randomElement()!)"
+        
+    }
+    
     
     //User pressed exit button
     @objc func exitPressed(_:UIImage) {

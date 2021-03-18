@@ -13,20 +13,25 @@ class HomePostTableViewCell: UITableViewCell {
     var item:Post? {
         didSet {
             guard let msg = item else {return}
-            if let name = msg.alias {
-                let stringValue: String = "\(name) · \(msg.timeSent ?? "")"
+            if let name = msg.posterAlias {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "h:mm a" //12 hr time
+                dateFormatter.timeZone = TimeZone.current
+                let timeStampString = dateFormatter.string(from: msg.date!)
+                
+                let stringValue: String = "\(name) · \(timeStampString)"
                 let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
-                attributedString.setColor(color: UIColor.lightGray, forText:"· \(msg.timeSent ?? "")")
-                attributedString.setFont(font: Font.regular(17), forText: "· \(msg.timeSent ?? "")")
+                attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
+                attributedString.setFont(font: Font.regular(17), forText: "· \(timeStampString)")
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
                 message.text = messageText
             }
             
-            if msg.profilePicture != nil {
-                profilePic.image = msg.profilePicture
+            if msg.posterImage != nil {
+                profilePic.image = msg.posterImage
             }
         }
     }
