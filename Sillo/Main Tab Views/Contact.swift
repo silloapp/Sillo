@@ -1,5 +1,5 @@
 //
-//  MenuItem.swift
+//  Contact.swift
 //  Sillo
 //
 //  Created by Angelica on 2/22/2021
@@ -25,11 +25,11 @@ struct Message { //testing only
     //TODO: add image/gif, conversationID, whatever else
 }
 
-struct Post { //testing only
-    let alias: String?
-    let name: String?
-    let profilePicture: UIImage?
+struct Post {
+    let postID: String?
+    let attachment: String?
     let message: String?
-    let timeSent: String?
-    //TODO: add image/gif, postID, whatever else
+    let posterAlias: String?
+    let posterImage: UIImage?
+    let date: Date?
 }
