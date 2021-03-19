@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Firebase
 
 
 class HomeViewController: UIViewController {
-    
+    /*
     private let posts = [ //placeholder data, TODO: fetch from firebase
         Post(alias: "Potato", name: "Alexa", profilePicture: UIImage(named:"avatar-1"), message: "Hey I really like potatoes what abotu you and this is some long long long text long long long text that should show up when cells are dynamic height please please work hello goodbye hello goodbye i need u to work constraint knowledge pls pull thru if u do it once u should be able to do it again", timeSent: "2.55pm"),
         Post(alias: "Apple Pie", name: "Barnie", profilePicture: UIImage(named:"avatar-2"), message: "BABABAABBANA BANAANAN ABANA BANA! BABABAABBANA BANAANAN ABANA BANA!BABABAABBANA BANAANAN ABANA BANA!BABABAABBANA BANAANAN ABANA BANA!BABABAABBANA BANAANAN ABANA BANA!", timeSent: "7.55pm"),
@@ -27,6 +28,7 @@ class HomeViewController: UIViewController {
         Post(alias: "Bingo", name: "Frances", profilePicture: UIImage(named:"avatar-1"), message: "I have a pencil and my pencil is black", timeSent: "7.33pm"),
         Post(alias: "Sink", name: "Seargant", profilePicture: UIImage(named:"avatar-1"), message: "I rly rly like sillo wbu rbo", timeSent: "5.15pm")
     ]
+    */
 
     let cellID = "cellID"
     let postsTable : UITableView = {
@@ -46,10 +48,34 @@ class HomeViewController: UIViewController {
         
     let blurVw = UIView()
     
+    //MARK: listener
+    private var postListener: ListenerRegistration?
+    deinit {
+       postListener?.remove()
+     }
+    
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfHideBlur(notification:)), name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfShowBlur(notification:)), name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshPostTableView"), object: nil)
+        
+        //attach listener
+        
+        let organizationName = "0_TEST_ORGANIZATION_ID" //MARK: DELETE THIS ONCE ORGANIZATION SI SUPORTED
+        let reference = db.collection("organization_posts").document(organizationName).collection("posts")
+        postListener = reference.addSnapshotListener { querySnapshot, error in
+          guard let snapshot = querySnapshot else {
+            print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+            return
+          }
+          snapshot.documentChanges.forEach { change in
+            self.handlePostDocumentChange(change)
+            }
+        }
+        
+        feed.coldStart()
     }
     
     override func viewDidLoad() {
@@ -193,17 +219,38 @@ class HomeViewController: UIViewController {
         postsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         postsTable.register(HomePostTableViewCell.self, forCellReuseIdentifier: cellID)
     }
+    
+    //MARK: handle document changes
+    private func handlePostDocumentChange(_ change: DocumentChange) {
+      switch change.type {
+      case .added:
+        feed.handleNewPost(id: change.document.documentID, data: change.document.data())
+      case .removed:
+        feed.handleDeletePost(id: change.document.documentID, data: change.document.data())
+      default:
+        break
+      }
+    }
+    
+    //MARK: refresh called
+    @objc func refreshTableView(note: NSNotification) {
+        feed.sortedPosts = feed.sortPosts()
+        self.postsTable.reloadData()
+    }
+    
+    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        return feed.posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! HomePostTableViewCell
-        cell.item = posts[indexPath.row]
+        
+        cell.item = feed.sortedPosts[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
