@@ -52,6 +52,9 @@ class VerificationSuccessViewController: UIViewController {
         successLabel.topAnchor.constraint(equalTo: successImage.bottomAnchor, constant: 30).isActive = true
         successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
+        //log successful passcode verification
+        analytics.log_passcode_verification_success()
+        
         localUser.coldStart()
         DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
             localUser.createNewUser()

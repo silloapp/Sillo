@@ -149,11 +149,9 @@ class ProfilePromptViewController: UIViewController {
                         nextVC.useSeparateProfiles = useSeparateProfiles
                         nextVC.profilePic = profilePic
                         
-                        //https://firebase.google.com/docs/analytics/events?platform=ios
-                        Analytics.logEvent("edit_profile", parameters: [
-                          "name": "will" as NSObject,
-                          "full_text": "creating a profile.." as NSObject
-                          ])
+                        //log profile creation
+                        analytics.log_create_profile()
+                        
                         //transition to next vc
                         self.navigationController?.pushViewController(nextVC, animated: true)
                     }
