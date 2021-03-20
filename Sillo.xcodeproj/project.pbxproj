@@ -67,6 +67,9 @@
 		FD7C8A8826055C7C00647D1B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C8A8726055C7C00647D1B /* OnboardingViewController.swift */; };
 		FD8B839025F4B37E004980AC /* BottomSlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B838F25F4B37E004980AC /* BottomSlideController.swift */; };
 		FD8B839525F4B468004980AC /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B839425F4B468004980AC /* CustomTableViewCell.swift */; };
+		FD93B2D926057BF200CC44AA /* FacebookInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD93B2D626057BF100CC44AA /* FacebookInputBar.swift */; };
+		FD93B2DA26057BF200CC44AA /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD93B2D726057BF100CC44AA /* ChatsViewController.swift */; };
+		FD93B2DB26057BF200CC44AA /* InterChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD93B2D826057BF200CC44AA /* InterChatVC.swift */; };
 		FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */; };
 		FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908125C3EB26009F4F29 /* HomeViewController.swift */; };
 		FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908625C3EB31009F4F29 /* MessagesViewController.swift */; };
@@ -170,6 +173,9 @@
 		FD7C8A8726055C7C00647D1B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		FD8B838F25F4B37E004980AC /* BottomSlideController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSlideController.swift; sourceTree = "<group>"; };
 		FD8B839425F4B468004980AC /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		FD93B2D626057BF100CC44AA /* FacebookInputBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookInputBar.swift; sourceTree = "<group>"; };
+		FD93B2D726057BF100CC44AA /* ChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
+		FD93B2D826057BF200CC44AA /* InterChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterChatVC.swift; sourceTree = "<group>"; };
 		FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
 		FD94908125C3EB26009F4F29 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FD94908625C3EB31009F4F29 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				FD7C8A92260561D200647D1B /* HomeVC */,
+				FD93B2DF26057BF800CC44AA /* Chat */,
 				FD7C8A96260561DF00647D1B /* OrganizationPopup */,
 			);
 			path = "Home Tab";
@@ -428,6 +435,16 @@
 				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
 			);
 			path = "Teams Tab";
+			sourceTree = "<group>";
+		};
+		FD93B2DF26057BF800CC44AA /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				FD93B2D726057BF100CC44AA /* ChatsViewController.swift */,
+				FD93B2D626057BF100CC44AA /* FacebookInputBar.swift */,
+				FD93B2D826057BF200CC44AA /* InterChatVC.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		FD94907525C3EA80009F4F29 /* Main Tab Views */ = {
@@ -809,6 +826,7 @@
 				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
 				AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */,
 				FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */,
+				FD93B2DA26057BF200CC44AA /* ChatsViewController.swift in Sources */,
 				FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
 				AADC1A7C260213E2008B0B8F /* PostData.swift in Sources */,
@@ -816,6 +834,7 @@
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
 				FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */,
 				AA57BA7B25E87078001C378B /* ProfileSetupViewController.swift in Sources */,
+				FD93B2DB26057BF200CC44AA /* InterChatVC.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
 				FD7C8A8826055C7C00647D1B /* OnboardingViewController.swift in Sources */,
 				AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */,
@@ -840,6 +859,7 @@
 				AA19190E25FF669000180A80 /* StartScreenViewController.swift in Sources */,
 				A002D19425D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift in Sources */,
 				AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */,
+				FD93B2D926057BF200CC44AA /* FacebookInputBar.swift in Sources */,
 				A08E82EE25E16AB500760BF1 /* AccountViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
