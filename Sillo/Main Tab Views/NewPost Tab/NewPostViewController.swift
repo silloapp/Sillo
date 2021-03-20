@@ -198,7 +198,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             let poster = Constants.FIREBASE_USERID!
             let poster_alias = generatePosterAlias()
             
-            feed.addPost(attachment: attachment, postText: postText, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
+            feed.addPost(attachment: attachment, postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
             self.dismiss(animated: true, completion: nil)
             //log new post
             //TODO: log post here once it's merged

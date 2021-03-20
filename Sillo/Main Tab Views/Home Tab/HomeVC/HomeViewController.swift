@@ -10,26 +10,7 @@ import Firebase
 
 
 class HomeViewController: UIViewController {
-    /*
-    private let posts = [ //placeholder data, TODO: fetch from firebase
-        Post(alias: "Potato", name: "Alexa", profilePicture: UIImage(named:"avatar-1"), message: "Hey I really like potatoes what abotu you and this is some long long long text long long long text that should show up when cells are dynamic height please please work hello goodbye hello goodbye i need u to work constraint knowledge pls pull thru if u do it once u should be able to do it again", timeSent: "2.55pm"),
-        Post(alias: "Apple Pie", name: "Barnie", profilePicture: UIImage(named:"avatar-2"), message: "BABABAABBANA BANAANAN ABANA BANA! BABABAABBANA BANAANAN ABANA BANA!BABABAABBANA BANAANAN ABANA BANA!BABABAABBANA BANAANAN ABANA BANA!BABABAABBANA BANAANAN ABANA BANA!", timeSent: "7.55pm"),
-        Post(alias: "Bongo", name: "Sender", profilePicture: UIImage(named:"avatar-3"), message: "I really like candles would you like one here u go", timeSent: "7.55pm"),
-        Post(alias: "Bingo", name: "Mickey", profilePicture: UIImage(named:"avatar-1"), message: "Did you know that hippo milk is pink??", timeSent: "7.33pm"),
-        Post(alias: "Sink", name: "Siri", profilePicture: UIImage(named:"avatar-3"), message: "my favourite flavour of icecream is giraffe", timeSent: "5.15pm"),
-        Post(alias: "Potato", name: "Aqua", profilePicture: UIImage(named:"avatar-1"), message: "baby shark doo doo doo doo do ", timeSent: "2.55pm"),
-        Post(alias: "Apple Pie", name: "Bob", profilePicture: UIImage(named:"avatar-2"), message: "whooo is thta girl i see??? staring straight??? back at me", timeSent: "7.55pm"),
-        Post(alias: "Bongo", name: "Angel", profilePicture: UIImage(named:"avatar-3"), message: "Houston to Apollo 13 do you copy o", timeSent: "7.55pm"),
-        Post(alias: "Bingo", name: "Frances", profilePicture: UIImage(named:"avatar-1"), message: "I have a pencil and my pencil is black", timeSent: "7.33pm"),
-        Post(alias: "Sink", name: "Seargant", profilePicture: UIImage(named:"avatar-1"), message: "I rly rly like sillo wbu rbo", timeSent: "5.15pm"),
-        Post(alias: "Potato", name: "Aqua", profilePicture: UIImage(named:"avatar-1"), message: "baby shark doo doo doo doo do ", timeSent: "2.55pm"),
-        Post(alias: "Apple Pie", name: "Bob", profilePicture: UIImage(named:"avatar-2"), message: "whooo is thta girl i see??? staring straight??? back at me", timeSent: "7.55pm"),
-        Post(alias: "Bongo", name: "Angel", profilePicture: UIImage(named:"avatar-3"), message: "Houston to Apollo 13 do you copy o", timeSent: "7.55pm"),
-        Post(alias: "Bingo", name: "Frances", profilePicture: UIImage(named:"avatar-1"), message: "I have a pencil and my pencil is black", timeSent: "7.33pm"),
-        Post(alias: "Sink", name: "Seargant", profilePicture: UIImage(named:"avatar-1"), message: "I rly rly like sillo wbu rbo", timeSent: "5.15pm")
-    ]
-    */
-
+    
     let cellID = "cellID"
     let postsTable : UITableView = {
         let table = UITableView()
@@ -50,6 +31,7 @@ class HomeViewController: UIViewController {
     
     //MARK: listener
     private var postListener: ListenerRegistration?
+    
     deinit {
        postListener?.remove()
      }
@@ -86,21 +68,6 @@ class HomeViewController: UIViewController {
         overrideUserInterfaceStyle = .light
         setupHeader()
         setupTableView()
-        
-        //set up status bar up top
-//        self.setNeedsStatusBarAppearanceUpdate()
-//        if #available(iOS 13, *) {
-//          let statusBar = UIView(frame: (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame)!)
-//            statusBar.backgroundColor = Color.headerBackground
-//          UIApplication.shared.keyWindow?.addSubview(statusBar)
-//        } else {
-//             let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
-//             if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
-//                statusBar.backgroundColor = Color.headerBackground
-//             }
-//             UIApplication.shared.statusBarStyle = .lightContent
-//        }
-        
         navigationController?.navigationBar.barTintColor = Color.headerBackground
         navigationController?.navigationBar.isTranslucent = false
         
@@ -114,9 +81,7 @@ class HomeViewController: UIViewController {
     func setupHeader() {
         view.addSubview(header)
         
-        
         // MARK: Blur View Constraints
-        
         
         view.addSubview(blurVw)
         blurVw.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
