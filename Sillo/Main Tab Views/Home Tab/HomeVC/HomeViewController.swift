@@ -43,10 +43,9 @@ class HomeViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshPostTableView"), object: nil)
         
-        //attach listener
-        
-        let organizationName = "0_TEST_ORGANIZATION_ID" //MARK: DELETE THIS ONCE ORGANIZATION SI SUPORTED
-        let reference = db.collection("organization_posts").document(organizationName).collection("posts")
+        //MARK: attach listener
+        let organizationID = organizationData.currOrganization ?? "ERROR"
+        let reference = db.collection("organization_posts").document(organizationID).collection("posts")
         postListener = reference.addSnapshotListener { querySnapshot, error in
           guard let snapshot = querySnapshot else {
             print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
@@ -165,7 +164,7 @@ class HomeViewController: UIViewController {
         stack.addArrangedSubview(silloLogo)
         
         let clubName = UILabel()
-        clubName.text = "Berkeley Design"
+        clubName.text = organizationData.currOrganizationName ?? "My Organization"
         clubName.font = Font.bold(22)
         clubName.textColor = Color.teamHeader
         stack.addArrangedSubview(clubName)
@@ -211,7 +210,25 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return feed.posts.count
+        tableView.backgroundView = nil
+        let posts_count = feed.posts.count
+        if posts_count > 0 {
+            return posts_count
+        }
+        else {
+            //MARK: set up fallback if table is empty
+            let noPostsUIView : UIImageView = {
+                let view = UIImageView()
+                let scaling:CGFloat = 0.2
+                view.frame = CGRect(x: 0, y: 0, width: scaling*(tableView.bounds.width), height: scaling*(tableView.frame.height))
+                view.contentMode = .scaleAspectFit
+                let image = UIImage(named:"no-posts")
+                view.image = image
+                return view
+            }()
+            tableView.backgroundView = noPostsUIView
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -12,7 +12,7 @@ class ProfilePromptViewController: UIViewController {
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
-    var ORGANIZATION_NAME = "Berkeley Food Club"//SET DYNAMICALLY SOON
+    var ORGANIZATION_NAME = organizationData.currOrganizationName ?? "your new organization"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,7 +130,7 @@ class ProfilePromptViewController: UIViewController {
                 let useSeparateProfiles = dataDict!["use_separate_profiles"] as! Bool
                 profileDocumentName = "all_orgs"
                 if (useSeparateProfiles) {
-                    profileDocumentName = "some_orgs"
+                    profileDocumentName = organizationData.currOrganization ?? "ERROR"
                 }
                 let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
                 userRef.getDocument { (document, error) in
@@ -182,8 +182,7 @@ class ProfilePromptViewController: UIViewController {
             return
         }
         self.latestButtonPressTimestamp = Date()
-        //navigationController?.pushViewController(ProfileSetInterestsViewController(), animated: true)
-        print("SKIP")
+        navigationController?.pushViewController(AllSetViewController(), animated: true)
     }
 
 }

@@ -7,7 +7,7 @@
 import UIKit
 
 class AllSetViewController: UIViewController {
-
+    
     //MARK: init Header label
     let headerLabel: UILabel = {
         let label = UILabel()
@@ -15,7 +15,7 @@ class AllSetViewController: UIViewController {
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.font = Font.bold(32)
         label.textColor = Color.buttonClickable
-        label.text = "Kudos! You're all set up!"
+        label.text = "Kudos!\r\nYou're all set up!"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
@@ -41,7 +41,7 @@ class AllSetViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-
+    
     //MARK: init new post button
     let newPostButton: UIButton = {
         let button = UIButton()
@@ -62,23 +62,33 @@ class AllSetViewController: UIViewController {
             overrideUserInterfaceStyle = .light
         }
         self.view.backgroundColor = .white
-
+        
         //MARK: header label
         view.addSubview(headerLabel)
         headerLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
         headerLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100).isActive = true
-
+        
+        //MARK: init stack
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.distribution = .fillProportionally
+        stack.spacing = 20
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stack)
+        stack.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
+        stack.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        stack.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        
         //MARK: successImage
-        view.addSubview(successImage)
-        successImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
-        successImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-
+        stack.addArrangedSubview(successImage)
+        successImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: -30).isActive = true
+        
         //MARK: body label
-        view.addSubview(bodyLabel)
+        stack.addArrangedSubview(bodyLabel)
         bodyLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
         bodyLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        bodyLabel.topAnchor.constraint(equalTo: successImage.bottomAnchor, constant: 15).isActive = true
 
         //MARK: new post button
         view.addSubview(newPostButton)
@@ -90,7 +100,9 @@ class AllSetViewController: UIViewController {
 
     //User pressed enable notifications button
     @objc func actionButton(_:UIButton) {
-        print("TODO: Go to Home / Post")
+        let nextVC = prepareTabVC()
+        nextVC.modalPresentationStyle = .fullScreen
+        self.present(nextVC, animated: true)
     }
 
         /*

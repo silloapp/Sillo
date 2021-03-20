@@ -17,8 +17,7 @@ class PostHandler {
     
     //MARK: add post
     func addPost(attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String) {
-        //let organizationID = organizationData.currOrganization!
-        let organizationID = "0_TEST_ORGANIZATION_ID" //MARK: DELETE THIS WITH ORGANIZATION IMPLEMENTATION
+        let organizationID = organizationData.currOrganization ?? "ERROR"
         let postID = UUID.init().uuidString
         let postRef = db.collection("organization_posts").document(organizationID).collection("posts").document(postID)
         postRef.setData(["attachment":attachment,"message":postText,"poster":poster,"poster_alias":posterAlias,"poster_image":posterImageName,"timestamp":Date()]) { err in
@@ -56,10 +55,11 @@ class PostHandler {
     //MARK: cold start
     func coldStart() {
         //let currentOrg = organizationData.currOrganization!
-        let organizationID = "0_TEST_ORGANIZATION_ID" //MARK: DELETE THIS WITH ORGANIZATION IMPLEMENTATION
+        let organizationID = organizationData.currOrganization ?? "ERROR"
         db.collection("organization_posts").document(organizationID).collection("posts").order(by: "timestamp").limit(to: 15).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
+                return
             } else {
                 for document in querySnapshot!.documents {
                     //print("\(document.documentID) => \(document.data())")
