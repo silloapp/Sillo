@@ -143,15 +143,15 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         settingsButton.rightAnchor.constraint(equalTo: header.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
         settingsButton.centerYAnchor.constraint(equalTo: logoTeamStack.centerYAnchor).isActive = true
-        settingsButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        settingsButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        settingsButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         print("Clicked on Settings! Time to segway into settings VC... ")
-//        let nextVC = SettingsViewController()
-        let nextVC = ProfileVC()
+        let nextVC = SettingsViewController()
+//        let nextVC = ProfileVC()
         //nextVC.backingImage = self.navigationController?.view.asImage()
         nextVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(nextVC, animated: true)

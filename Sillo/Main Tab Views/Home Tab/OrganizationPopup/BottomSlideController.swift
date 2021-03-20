@@ -314,7 +314,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     }
     
     @objc func addNewSpaceClicked() {
-        let vc = WelcomePageVC()
+        let vc = AddNewSpace()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

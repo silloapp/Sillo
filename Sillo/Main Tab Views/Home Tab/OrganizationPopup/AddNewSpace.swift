@@ -1,5 +1,5 @@
 //
-//  WelcomePageVC.swift
+//  AddNewSpace.swift
 //  WithoutStoryboard
 //
 //  Created by USER on 19/02/21.
@@ -8,7 +8,7 @@
 import UIKit
 
 @available(iOS 13.0, *)
-class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class AddNewSpace: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     // MARK: - IBDeclarations :
     
@@ -36,8 +36,7 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     //===================================*** SETTING CONSTRAINT ***=======================================//
     
     
-    func settingElemets()
-    {
+    func settingElemets() {
         
         // FOR SCROLL :
         
@@ -71,14 +70,12 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
             
             insideScrollVw.heightAnchor.constraint(equalToConstant: 800),
             insideScrollVw.widthAnchor.constraint(equalToConstant: screenWidth)
-            
         ]
-        
         
         // FOR TITLE :
         
         self.insideScrollVw.addSubview(titleLabel)
-        titleLabel.text = "Welcome Page"
+        titleLabel.text = "Welcome to Sillo"
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = themeColor
         titleLabel.font = UIFont(name: "Apercu-Bold", size: 22)
@@ -96,7 +93,7 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
         
         let sectitleLabel = UILabel()
         self.insideScrollVw.addSubview(sectitleLabel)
-        sectitleLabel.text = "lorem ispum dolar ispum iset loreum is nice text lorem ispum dolar ispum iset loreum is nice text"
+        sectitleLabel.text = "These are spaces you’ve been invited to. Select the spaces you would like to join. You can always sign in to more later."
         sectitleLabel.backgroundColor = .clear
         sectitleLabel.textColor = .black
         sectitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
@@ -116,7 +113,7 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
         
         let bottomtitleLabel = UILabel()
         self.insideScrollVw.addSubview(bottomtitleLabel)
-        bottomtitleLabel.text = "lorem ispum dolar ispum iset loreum is nice text lorem ispum dolar ispum iset loreum is nice text"
+        bottomtitleLabel.text = "This a list of all your teams associated with berkeley@gmail.com."
         bottomtitleLabel.backgroundColor = .clear
         bottomtitleLabel.textColor = .black
         bottomtitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
@@ -136,7 +133,7 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
         
         let bottomSectitleLabel = UILabel()
         self.insideScrollVw.addSubview(bottomSectitleLabel)
-        bottomSectitleLabel.text = "lorem ispum dolar ispum iset loreum is nice text lorem ispum dolar ispum iset loreum is nice text"
+        bottomSectitleLabel.text = "Don’t see what you’re looking for? Make sure you’ve been invited by your team administrator."
         bottomSectitleLabel.backgroundColor = .clear
         bottomSectitleLabel.textColor = themeColor
         bottomSectitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
@@ -157,7 +154,7 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
         let BottomButton = UIButton()
         self.insideScrollVw.addSubview(BottomButton)
         BottomButton.backgroundColor = themeColor
-        BottomButton.setTitle("Action Button Here", for: .normal)
+        BottomButton.setTitle("Create a Sillo space", for: .normal)
         BottomButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
         BottomButton.setTitleColor(.white, for: .normal)
         BottomButton.clipsToBounds = true
@@ -222,22 +219,7 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     }
     
     @objc func BottomButtonMethod() {
-        
-        //    if #available(iOS 13.0, *) {
-        //                        let scene = UIApplication.shared.connectedScenes.first
-        //
-        //                        if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {
-        //
-        //           }
-        //      }
-        //     else
-        //           {
-        //             appDele.setLoginRootController()
-        //                  }
-        
         self.navigationController?.popViewController(animated: true)
-        
-        
     }
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
@@ -245,14 +227,10 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     //MARK :  Table View Delegate Methods:
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return 100
-        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return 3
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -316,17 +294,6 @@ class WelcomePageVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
         self.TopTable.reloadData()
         
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 
 extension UIView {
