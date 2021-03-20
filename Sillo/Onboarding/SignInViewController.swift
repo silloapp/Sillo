@@ -259,6 +259,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     if authResult != nil {
                         //log sign-in event
                         analytics.log_sign_in_standard()
+                        localUser.coldStart()
                         
                         UserDefaults.standard.set(true, forKey: "loggedIn")
                         let currentUser = Auth.auth().currentUser!
@@ -374,6 +375,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     
                     //log google education sign-in
                     analytics.log_sign_in_google()
+                    localUser.coldStart()
 
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let currentUser = Auth.auth().currentUser!
