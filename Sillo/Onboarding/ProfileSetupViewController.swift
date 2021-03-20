@@ -679,7 +679,7 @@ class ProfileSetupViewController: UIViewController{
             //set the orgaization document to overwrite
             var profileDocumentName = "all_orgs"
             if (useSeparateProfiles) {
-                profileDocumentName = "some_org"
+                profileDocumentName = organizationData.currOrganization ?? "ERROR"
             }
             
             guard let userID = Auth.auth().currentUser?.uid else { return }

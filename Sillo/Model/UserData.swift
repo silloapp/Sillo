@@ -59,6 +59,7 @@ class LocalUser {
                     self.invites = query.get("member") as! [String]
                     self.invitesMapping = query.get("mapping") as! [String:String]
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
+                    organizationData.idToName.merge(self.invitesMapping, uniquingKeysWith: {(current, _) in current})
                 }
             }
         }

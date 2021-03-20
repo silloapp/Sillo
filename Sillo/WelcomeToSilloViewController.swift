@@ -325,8 +325,11 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             selectedIndx = indexPath.row
             let orgID : String = localUser.invites[selectedIndx]
-            print("navigate to create profile for \(orgID)")
             self.TopTable.reloadData()
+            organizationData.changeOrganization(dest: orgID)
+            
+            let nextVC = ProfilePromptViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
           
         }
 
