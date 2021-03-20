@@ -57,6 +57,7 @@ class HomeViewController: UIViewController {
             }
         }
         
+
         navigationController?.isNavigationBarHidden = true
         feed.coldStart()
     }
@@ -220,10 +221,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
+  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let interChatVC = InterChatVC()
         self.navigationController?.pushViewController(interChatVC, animated: true)
     }
+
 }
 
 extension HomeViewController {
