@@ -2,94 +2,342 @@
 //  WelcomeToSilloViewController.swift
 //  Sillo
 //
-//  Created by Eashan Mathur on 1/10/21.
+//  Created by William Loo on 3/20/21.
 //
 
-import Foundation
+import Firebase
 import UIKit
 
-class WelcomeToSilloViewController: UIViewController {
+@available(iOS 13.0, *)
+class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
+    // MARK: - IBDeclarations :
+    
+    let scrollView = UIScrollView()
+    let insideScrollVw = UIView()
+    let titleLabel = UILabel()
+    let screenSize = UIScreen.main.bounds
+    let TopTable = UITableView()
+    
+    var selectedIndx = -1
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        configureNavBar()
-        setupView()
+
+        // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshInvitesList(note:)), name: Notification.Name("InvitationsReady"), object: nil)
+        localUser.getInvites()
+        self.view.backgroundColor = ViewBgColor
+        self.navigationController?.navigationBar.isHidden = true
+        settingElemets()
     }
     
-    func configureNavBar() {
-        navigationController?.isNavigationBarHidden = true
+    //MARK: refresh called
+    @objc func refreshInvitesList(note: NSNotification) {
+        print("RELOAD TABLEVIEW")
+        self.TopTable.reloadData()
     }
-    
-    func setupView() {
+  
+//===================================*** SETTING CONSTRAINT ***=======================================//
         
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .leading
-        stack.distribution = .fillProportionally
-        stack.spacing = 25
-        view.addSubview(stack)
+        
+        func settingElemets()
+        {
+    
+    // FOR SCROLL :
+           
+            scrollView.showsVerticalScrollIndicator = false
+            scrollView.showsHorizontalScrollIndicator = false
             
-        let welcomeHeader = UILabel()
-        welcomeHeader.text = "Welcome to Sillo"
-        welcomeHeader.font = Font.medium(dynamicFontSize(30))
-        welcomeHeader.minimumScaleFactor = 0.5
-        welcomeHeader.adjustsFontSizeToFitWidth = true
-        welcomeHeader.textColor = Color.buttonClickable
-        stack.addArrangedSubview(welcomeHeader)
+            scrollView.isUserInteractionEnabled = true
+            insideScrollVw.isUserInteractionEnabled = true
+            scrollView.bounces = true
+            scrollView.isScrollEnabled = false
+            self.view.addSubview(scrollView)
+          
+           
+       let scrollViewconstraints = [
+        scrollView.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+        scrollView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
+        scrollView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
+        scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+
+           ]
+            
+            self.scrollView.addSubview(insideScrollVw)
+            let screenWidth = screenSize.width
+
+            
+       let insideScrollViewconstraints = [
+        insideScrollVw.topAnchor.constraint(equalTo:  self.scrollView.contentLayoutGuide.topAnchor, constant: 0),
+        insideScrollVw.leftAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leftAnchor, constant: 0),
+        insideScrollVw.rightAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.rightAnchor, constant: 0),
+        insideScrollVw.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
         
-        let image = UIImageView()
-        image.image = UIImage(named: "no-associated-spaces")
-        stack.addArrangedSubview(image)
-        
-        let descriptionText = UILabel()
-        descriptionText.numberOfLines = 0
-        descriptionText.text = "We don’t see any Sillo spaces associated with berkeley@gmail.com.\n\nYou can ask your team administrator for an invitation or try another email address."
-        descriptionText.font = Font.regular(dynamicFontSize(18))
-        descriptionText.minimumScaleFactor = 0.5
-        descriptionText.adjustsFontSizeToFitWidth = true
-        descriptionText.textColor = Color.textSemiBlack
-        stack.addArrangedSubview(descriptionText)
-        
-        let button = UIButton()
-        button.setTitle("Create a Sillo space", for: .normal)
-        button.backgroundColor = Color.buttonClickableUnselected
-        button.titleLabel?.font = Font.bold(dynamicFontSize(17))
-        button.titleLabel?.minimumScaleFactor = 0.5
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(createSilloSpaceClicked), for: .touchUpInside)
-        stack.addArrangedSubview(button)
-        
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
-        stack.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
-        stack.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
-        stack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
-        
-        image.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        descriptionText.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
-        descriptionText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        button.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
-        button.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07).isActive = true
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-    }
+        insideScrollVw.heightAnchor.constraint(equalToConstant: 800),
+        insideScrollVw.widthAnchor.constraint(equalToConstant: screenWidth)
+
+           ]
+            
+
+    // FOR TITLE :
+            
+             self.insideScrollVw.addSubview(titleLabel)
+            titleLabel.text = "Welcome to Sillo"
+            titleLabel.backgroundColor = .clear
+            titleLabel.textColor = Color.burple
+            titleLabel.font = UIFont(name: "Apercu-Bold", size: 22)
+            titleLabel.textAlignment = .left
+            
+        let TITLEconstraints = [
+            titleLabel.topAnchor.constraint(equalTo:  self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 45),
+            titleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+            titleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 25),
+            titleLabel.heightAnchor.constraint(equalToConstant: 25)
+
+            ]
+            
+  // FOR secondTITLE :
+          
+            let sectitleLabel = UILabel()
+          self.insideScrollVw.addSubview(sectitleLabel)
+            sectitleLabel.text = "These are spaces you've been invited to. Select the spaces you would like to join. You can always sign in to more later."
+            sectitleLabel.backgroundColor = .clear
+            sectitleLabel.textColor = .black
+            sectitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
+            sectitleLabel.textAlignment = .left
+            sectitleLabel.numberOfLines = 0
+            sectitleLabel.lineBreakMode = .byWordWrapping
+            
+                let sectitleLabelconstraints = [
+                    sectitleLabel.topAnchor.constraint(equalTo:  self.titleLabel.topAnchor, constant: 50),
+                    sectitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+                    sectitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+                    sectitleLabel.heightAnchor.constraint(equalToConstant: 70)
+
+                    ]
+            
+    // FOR BOTTOM TITLE :
+            
+            let bottomtitleLabel = UILabel()
+                     self.insideScrollVw.addSubview(bottomtitleLabel)
+            bottomtitleLabel.text = "This is a list of all your teams associated with \(Constants.EMAIL ?? "your email")."
+            bottomtitleLabel.backgroundColor = .clear
+            bottomtitleLabel.textColor = .black
+            bottomtitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
+            bottomtitleLabel.textAlignment = .left
+            bottomtitleLabel.numberOfLines = 0
+            bottomtitleLabel.lineBreakMode = .byWordWrapping
+                    
+                let bottomtitleconstraints = [
+                    bottomtitleLabel.topAnchor.constraint(equalTo:  self.TopTable.safeAreaLayoutGuide.topAnchor, constant: 325),
+                    bottomtitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+                    bottomtitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+                    bottomtitleLabel.heightAnchor.constraint(equalToConstant: 50)
+
+                    ]
+                    
+          // FOR BOTTOM secondTITLE :
+                  
+                    let bottomSectitleLabel = UILabel()
+                  self.insideScrollVw.addSubview(bottomSectitleLabel)
+            bottomSectitleLabel.text = "Don't see what you're looking for? Make sure you've been invited by your team leader."
+            bottomSectitleLabel.backgroundColor = .clear
+            bottomSectitleLabel.textColor = Color.burple
+            bottomSectitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
+            bottomSectitleLabel.textAlignment = .left
+            bottomSectitleLabel.numberOfLines = 0
+            bottomSectitleLabel.lineBreakMode = .byWordWrapping
+                    
+                        let bottomSectitleLabelconstraints = [
+                            bottomSectitleLabel.topAnchor.constraint(equalTo:  bottomtitleLabel.topAnchor, constant: 75),
+                            bottomSectitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+                            bottomSectitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+                            bottomSectitleLabel.heightAnchor.constraint(equalToConstant: 50)
+
+                            ]
+            
+            // FOR BOTTOM BUTTON :
+                    
+                      let BottomButton = UIButton()
+                    self.insideScrollVw.addSubview(BottomButton)
+            BottomButton.backgroundColor = Color.buttonClickable
+            BottomButton.setTitle("Sign out", for: .normal)
+            BottomButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
+            BottomButton.setTitleColor(.white, for: .normal)
+            BottomButton.clipsToBounds = true
+            BottomButton.cornerRadius = 7
+            
+            
+            let BottomButtonconstraints = [
+                BottomButton.topAnchor.constraint(equalTo:  bottomSectitleLabel.topAnchor, constant: 95),
+                BottomButton.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+                BottomButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+                BottomButton.heightAnchor.constraint(equalToConstant: 50)
+  ]
+            
+            BottomButton.addTarget(self, action:#selector(BottomButtonMethod), for: .touchUpInside)
+
+            
+//------------------------------------ FOR TABLE VIEWS--------------------------------------------------//
+                    
+            // FOR TOP TABLE  :
+
+                TopTable.separatorStyle = .none
+                TopTable.backgroundColor = .clear
+                    TopTable.bounces = true
+                TopTable.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+                    
+                let TopTableconstraints = [
+                    TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),  TopTable.leftAnchor.constraint(equalTo: titleLabel.leftAnchor, constant: 0),
+                    TopTable.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+                    TopTable.heightAnchor.constraint(equalToConstant: 300)
+                ]
+                    self.insideScrollVw.addSubview(TopTable)
+
+                   self.TopTable.delegate = self
+                    self.TopTable.dataSource = self
+            
+   
+       
+ //-----------for aqctivating constraints:
+            
+            NSLayoutConstraint.activate(scrollViewconstraints)
+            NSLayoutConstraint.activate(insideScrollViewconstraints)
+            NSLayoutConstraint.activate(TITLEconstraints)
+            NSLayoutConstraint.activate(sectitleLabelconstraints)
+            NSLayoutConstraint.activate(TopTableconstraints)
+            NSLayoutConstraint.activate(bottomtitleconstraints)
+            NSLayoutConstraint.activate(bottomSectitleLabelconstraints)
+            NSLayoutConstraint.activate(BottomButtonconstraints)
+
+
+            self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+            self.insideScrollVw.translatesAutoresizingMaskIntoConstraints = false
+            self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            sectitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            TopTable.translatesAutoresizingMaskIntoConstraints = false
+            bottomtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            bottomSectitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            BottomButton.translatesAutoresizingMaskIntoConstraints = false
+
+            self.view.layoutIfNeeded()
+            
+            
+        }
+ 
+@objc func BottomButtonMethod() {
+    localUser.signOut()
+    let nextVC = StartScreenViewController()
+    UserDefaults.standard.set(false, forKey: "loggedIn")
+    nextVC.modalPresentationStyle = .fullScreen
+    self.present(nextVC, animated: true, completion: nil)
     
-    @objc private func createSilloSpaceClicked() {
-        print("maybe we should disable creating new space for beta..")
-        //navigationController?.pushViewController(SetupOrganizationViewController(), animated: true)
-    }
+ }
+    
+    //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
+        
+        //MARK :  Table View Delegate Methods:
+        
+        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+           
+            return 100
+           
+        }
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            TopTable.backgroundView = nil
+            if localUser.invites.count > 0 {
+                return localUser.invites.count
+            }
+            else {
+                //MARK: set up fallback if table is empty
+                let noOrganizationUIImageView : UIImageView = {
+                    let view = UIImageView()
+                    view.frame = CGRect(x: 0, y: 0, width: TopTable.bounds.width, height: TopTable.frame.height)
+                    view.contentMode = .scaleAspectFit
+                    let image = UIImage(named:"no-associated-spaces")
+                    view.image = image
+                    return view
+                }()
+                TopTable.backgroundView = noOrganizationUIImageView
+                return 0
+            }
+            
+        }
+        
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
+            cell.selectionStyle = .none
+            
+          
+            cell.bgView.backgroundColor = hexStringToUIColor(hex: "#F2F4F4")
+            cell.labUserName.isHidden = true
+            cell.imgUser2.isHidden = true
+           
+            cell.imgUser.borderWidth = 3.5
+            cell.imgUser.borderColor = .gray
+            
+            let orgID : String = localUser.invites[indexPath.row]
+            cell.labMessage.text = localUser.invitesMapping[orgID] ?? "ERROR"
+            cell.labMessage.textColor = .black
+            cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
+            
+            cell.img1constraints = [
+                cell.imgUser.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 0),
+                cell.imgUser.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 30),
+                cell.imgUser.widthAnchor.constraint(equalToConstant: 60),
+                cell.imgUser.heightAnchor.constraint(equalToConstant: 60)
+                ]
+            
+            cell.Messageconstraints = [
+                cell.labMessage.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 0),
+                cell.labMessage.leftAnchor.constraint(equalTo:  cell.imgUser2.leftAnchor, constant: 10),
+                cell.labMessage.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: 20),
+                cell.labMessage.heightAnchor.constraint(equalToConstant: 20)
+                ]
+            cell.imgUser.clipsToBounds = true
+            cell.imgUser.cornerRadius = 20
+          
+            
+            NSLayoutConstraint.activate(cell.Messageconstraints)
+            NSLayoutConstraint.activate(cell.img1constraints)
 
-}
+            cell.contentView.layoutIfNeeded()
+            
+            
+            if selectedIndx == indexPath.row
+            {
+               cell.bgView.backgroundColor = UIColor.init(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1)
+                cell.bgView.addTopShadow(shadowColor: UIColor.lightGray, shadowOpacity: 0.5, shadowRadius: 5, offset: CGSize(width: 3.0, height : 3.0))
+            }
+            else
+            {
+                cell.bgView.backgroundColor = hexStringToUIColor(hex: "#F2F4F4")
+                cell.bgView.addTopShadow(shadowColor: .clear, shadowOpacity: 0, shadowRadius: 0, offset: CGSize(width: 0.0, height : 0.0))
+            }
+              return cell
 
-extension UIViewController {
-    func dynamicFontSize(_ FontSize: CGFloat) -> CGFloat {
-        let screenWidth = UIScreen.main.bounds.size.width
-        let calculatedFontSize = screenWidth / 375 * FontSize
-        return calculatedFontSize
+
+        }
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            selectedIndx = indexPath.row
+            let orgID : String = localUser.invites[selectedIndx]
+            print("navigate to create profile for \(orgID)")
+            self.TopTable.reloadData()
+          
+        }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
     }
+    */
+
 }

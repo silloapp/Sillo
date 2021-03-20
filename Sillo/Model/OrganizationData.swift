@@ -39,7 +39,7 @@ class OrganizationData {
         if newOrganizationPic != nil {
             uploadOrganizationPic(organization: newOrganization, image: newOrganizationPic)
         }
-        inviteMembers(organization: newOrganization, emails: memberInvites ?? [String]())
+        inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
     }
 
     // MARK: Changing Organization Data
@@ -64,19 +64,22 @@ class OrganizationData {
         }
     }
 
-    func inviteMembers(organization:String, emails:[String]) {
+    func inviteMembers(organizationID:String, organizationName:String, emails:[String]) {
         let col = Constants.db.collection("invites")
         for address in emails {
             let docRef = col.document(address)
             var member: [String] = []
+            var mapping: [String:String] = [:]
             docRef.getDocument() { (query, err) in
                 if let query = query {
                     if query.exists {
                         if let unwrap_member = query.get("members") {member = unwrap_member as! [String]}
+                        if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
                     }
-                    member.append(organization)
+                    member.append(organizationID)
+                    mapping[organizationID] = organizationName
                 }
-                docRef.setData(["member": member], merge: true)
+                docRef.setData(["member": member, "mapping":mapping], merge: true)
             }
         }
     }

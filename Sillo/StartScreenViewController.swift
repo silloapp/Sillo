@@ -33,6 +33,7 @@ class StartScreenViewController: UIViewController {
 
         pulsate()
         localUser.coldStart()
+        
         //UserDefaults.standard.set(true, forKey: "loggedIn")
         DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
             var nextVC = UIViewController()
@@ -41,9 +42,10 @@ class StartScreenViewController: UIViewController {
                 if (UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
                     //onboarding finished
                     print("logged in, onboarding finished")
-                    nextVC = self.prepareTabVC()
+                        nextVC = WelcomeToSilloViewController()
                     if (UserDefaults.standard.string(forKey: "defaultOrganization") != nil) {
                         print("Load in default organization")
+                        nextVC = self.prepareTabVC()
                     }
                 } else {
                     print("logged in, onboarding unfinished")

@@ -11,6 +11,9 @@ var localUser = LocalUser()
 
 class LocalUser {
     
+    var invites: [String] = [] //an array of invitations to organizations
+    var invitesMapping: [String:String] = [:] //an array mapping invitations to orgaization name
+    
     // MARK: Creating New User
     func createNewUser() {
         let newUser = Constants.FIREBASE_USERID
@@ -43,6 +46,24 @@ class LocalUser {
         db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["username":name])
     }
     
+    //MARK: get invitations from "invites" db
+    func getInvites() {
+        if !UserDefaults.standard.bool(forKey: "loggedIn") {
+            return
+        }
+        
+        let myEmail = Constants.EMAIL ?? ""
+        db.collection("invites").document(myEmail).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    self.invites = query.get("member") as! [String]
+                    self.invitesMapping = query.get("mapping") as! [String:String]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
+                }
+            }
+        }
+    }
+    
     //MARK: upload notification token to user document so we can send them notifications mwahah
     func uploadFCMToken(token: String) {
         //log notifications enabled
@@ -59,7 +80,21 @@ class LocalUser {
     func coldStart() {
         guard let me = Auth.auth().currentUser else {return}
         Constants.me = me
+        Constants.EMAIL = me.email
         Constants.USERNAME = me.displayName
         Constants.FIREBASE_USERID = me.uid
+    }
+    
+    //MARK: sign out
+    func signOut() {
+        print("SIGNING OUT")
+        let firebaseAuth = Auth.auth()
+    do {
+      try firebaseAuth.signOut()
+    } catch let signOutError as NSError {
+      print ("Error signing out: %@", signOutError)
+    }
+        self.invites = []
+        self.invitesMapping = [:]
     }
 }

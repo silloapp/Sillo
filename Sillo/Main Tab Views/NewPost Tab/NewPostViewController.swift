@@ -201,7 +201,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             feed.addPost(attachment: attachment, postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
             self.dismiss(animated: true, completion: nil)
             //log new post
-            //TODO: log post here once it's merged
+            analytics.log_create_post()
         }
         else {
             DispatchQueue.main.async {

@@ -45,6 +45,7 @@
 		AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69325A83B7900D89C62 /* CloudUtil.swift */; };
 		AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */; };
 		AADC1A7C260213E2008B0B8F /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADC1A7B260213E2008B0B8F /* PostData.swift */; };
+		AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADFD2282605F87D00D26DCF /* WelcomeToSilloViewController.swift */; };
 		AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE02E0726019E2C00BCC72A /* Analytics.swift */; };
 		B1AC2219DD77C8E506068AF2 /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */; };
 		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
@@ -85,7 +86,7 @@
 		FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA03F8325CCA09100F5F530 /* Colors+Home.swift */; };
 		FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */; };
 		FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC59A125A57DB500BC2110 /* Colors.swift */; };
-		FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */; };
+		FDB3400425AC09E700097FE1 /* NoInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,7 @@
 		AABEC69425A83B7900D89C62 /* PasscodeVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeVerificationViewController.swift; sourceTree = "<group>"; };
 		AAD5196725AB123A00EB2B78 /* Sillo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sillo.entitlements; sourceTree = "<group>"; };
 		AADC1A7B260213E2008B0B8F /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
+		AADFD2282605F87D00D26DCF /* WelcomeToSilloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeToSilloViewController.swift; sourceTree = "<group>"; };
 		AAE02E0726019E2C00BCC72A /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C3E5B7BDD69653A1973E77B0 /* Pods-Sillo-SilloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.release.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F29CDC423F1F6A880C4EFA11 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
@@ -197,7 +199,7 @@
 		FDA03F8325CCA09100F5F530 /* Colors+Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Home.swift"; sourceTree = "<group>"; };
 		FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostTableViewCell.swift; sourceTree = "<group>"; };
 		FDAC59A125A57DB500BC2110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeToSilloViewController.swift; sourceTree = "<group>"; };
+		FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInvitesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -489,7 +491,8 @@
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
 				AA19190D25FF669000180A80 /* StartScreenViewController.swift */,
-				FDB3400325AC09E700097FE1 /* WelcomeToSilloViewController.swift */,
+				FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */,
+				AADFD2282605F87D00D26DCF /* WelcomeToSilloViewController.swift */,
 				AA89B6A125FB618C00178D94 /* LoadingViewController.swift */,
 				FD1D22A025A16D1100F1636C /* Assets */,
 				AA8B776125FAE5DA0032336F /* Model */,
@@ -815,7 +818,7 @@
 				A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */,
 				FD7C4F8625FDFB6900231F06 /* AddNewSpace.swift in Sources */,
 				FD1DC5B525E10945007A0E70 /* CustomTabBarController.swift in Sources */,
-				FDB3400425AC09E700097FE1 /* WelcomeToSilloViewController.swift in Sources */,
+				FDB3400425AC09E700097FE1 /* NoInvitesViewController.swift in Sources */,
 				AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */,
 				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
@@ -861,6 +864,7 @@
 				AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */,
 				FD93B2D926057BF200CC44AA /* FacebookInputBar.swift in Sources */,
 				A08E82EE25E16AB500760BF1 /* AccountViewController.swift in Sources */,
+				AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
