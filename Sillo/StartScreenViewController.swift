@@ -69,7 +69,6 @@ class StartScreenViewController: UIViewController {
             }
             else {
                 //not loggedIn
-                print("not logged in")
                 nextVC = PageViewController()
                 }
             

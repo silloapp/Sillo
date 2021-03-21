@@ -182,6 +182,31 @@ class ProfilePromptViewController: UIViewController {
             return
         }
         self.latestButtonPressTimestamp = Date()
+        
+        let upperUserRef = db.collection("profiles").document(Constants.FIREBASE_USERID!)
+        upperUserRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                //document exists, pull separate profile state
+                let use_separate_profiles = document.get("use_separate_profiles") as! Bool
+                
+                if use_separate_profiles {
+                    let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document(organizationData.currOrganization!)
+                    userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                }
+                else {
+                    //do not use separate profiles, set for all orgs
+                    let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
+                    userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                }
+                return
+            } else {
+                print("Document does not exist, set dummy data in all_orgs")
+                upperUserRef.updateData(["use_separate_profiles":false])
+                let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
+                userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+            }
+        }
+        
         navigationController?.pushViewController(AllSetViewController(), animated: true)
     }
 

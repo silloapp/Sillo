@@ -65,6 +65,29 @@ class LocalUser {
         }
     }
     
+    //MARK: accept invitation given organizatioNID
+    func acceptInvite(organizationID:String) {
+        let myEmail = Constants.EMAIL ?? "ERROR"
+        if !self.invites.contains(organizationID) {return}
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+            self.invitesMapping[organizationID] = nil
+            //delete invite
+            db.collection("invites").document(myEmail).updateData(["member":self.invites,"mapping":self.invitesMapping])
+        }
+        //add organization to user doc
+        db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    var orgList = query.get("organizations") as! [String]
+                    orgList.append(organizationID)
+                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations":orgList])
+                }
+            }
+        }
+        organizationData.addMemberToOrganization(organizationID: organizationID)
+    }
+    
     //MARK: upload notification token to user document so we can send them notifications mwahah
     func uploadFCMToken(token: String) {
         //log notifications enabled
@@ -79,11 +102,27 @@ class LocalUser {
     }
     
     func coldStart() {
+        if !UserDefaults.standard.bool(forKey: "loggedIn") {
+            return
+        }
+        
         guard let me = Auth.auth().currentUser else {return}
         Constants.me = me
         Constants.EMAIL = me.email
         Constants.USERNAME = me.displayName
         Constants.FIREBASE_USERID = me.uid
+        
+        db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    organizationData.adminStatusMap = query.get("admin") as! [String:Bool]
+                    let organizations = query.get("organizations") as! [String]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserReady"), object: nil)
+                    organizationData.coldStart(organizations: organizations)
+                }
+            }
+        }
+        
     }
     
     //MARK: sign out

@@ -54,7 +54,6 @@ class PostHandler {
     
     //MARK: cold start
     func coldStart() {
-        //let currentOrg = organizationData.currOrganization!
         let organizationID = organizationData.currOrganization ?? "ERROR"
         db.collection("organization_posts").document(organizationID).collection("posts").order(by: "timestamp").limit(to: 15).getDocuments() { (querySnapshot, err) in
             if let err = err {

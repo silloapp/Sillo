@@ -690,6 +690,9 @@ class ProfileSetupViewController: UIViewController{
             
             userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
             
+            //transition to all set, onboarding finished
+            let nextVC = AllSetViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
         else {
             errorState=true
