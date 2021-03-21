@@ -30,7 +30,7 @@ class OrganizationData {
     // MARK: Creating New Organizations
     func createNewOrganization() {
         let newOrganization = UUID.init().uuidString
-        Constants.db.collection("organizations").document(newOrganization).setData(["admins": [Constants.FIREBASE_USERID], "members": [], "org-name": newOrganizationName!, "posts": [], "image": ""]) { [self] err in
+        Constants.db.collection("organizations").document(newOrganization).setData(["admins": [Constants.FIREBASE_USERID], "members": [], "organization_name": newOrganizationName!, "posts": [], "image": ""]) { [self] err in
             if let err = err {
                 print("error: \(err) org: \(newOrganizationName!) \(newOrganization) not created")
             } else {
