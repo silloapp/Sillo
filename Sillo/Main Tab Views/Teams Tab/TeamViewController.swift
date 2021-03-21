@@ -25,7 +25,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let menuItems = [
         MenuItem(name: "My Profile", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22), //TODO: replace with actual VC
         MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "People", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "People", nextVC: PeopleVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Notifications", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
@@ -67,6 +67,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         menuItemTableView.separatorColor = .clear
         menuItemTableView.register(ImageCell.self, forCellReuseIdentifier: cellID)
     }
+    
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
@@ -83,6 +84,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
         let vc = menuItems[indexPath.row].nextVC!
+        vc.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.pushViewController(vc, animated: true)
         //TODO: add Segway into nextVC
     }

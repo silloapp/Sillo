@@ -120,7 +120,7 @@ class StartScreenViewController: UIViewController {
         
         
         let vc1 = UINavigationController(rootViewController: HomeViewController())
-        let vc2 = UINavigationController(rootViewController: AchievementsViewController())
+        let vc2 = UINavigationController(rootViewController: QuestProgressVC())
         let vc3 = NewPostViewController()
         let vc4 = UINavigationController(rootViewController: MessagesViewController())
         let vc5 = UINavigationController(rootViewController: TeamViewController())

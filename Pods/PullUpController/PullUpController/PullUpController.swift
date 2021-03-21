@@ -90,8 +90,7 @@ open class PullUpController: UIViewController {
      At the end of the gesture the pull up controller will scroll at the nearest point in the list.
      */
     public final var pullUpControllerAllStickyPoints: [CGFloat] {
-        var sc_allStickyPoints = [initialStickyPointOffset, pullUpControllerPreferredSize.height].compactMap { $0 }
-        sc_allStickyPoints.append(contentsOf: pullUpControllerMiddleStickyPoints)
+        let sc_allStickyPoints = [initialStickyPointOffset, pullUpControllerPreferredSize.height].compactMap { $0 }
         return sc_allStickyPoints.sorted()
     }
     
