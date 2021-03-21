@@ -94,15 +94,26 @@ class NotificationRequestViewController: UIViewController {
     
     @objc func enableTapped(_:UIButton) {
         registerForPushNotifications()
-        let nextVC = WelcomeToSilloViewController()
-        self.navigationController?.pushViewController(nextVC, animated: true)
         UserDefaults.standard.set(true, forKey: "finishedOnboarding")
+        showNextVC()
     }
     
     @objc func skipTapped(_:UIButton) {
-        let nextVC = WelcomeToSilloViewController()
-        self.navigationController?.pushViewController(nextVC, animated: true)
         //UserDefaults.standard.set(true, forKey: "finishedOnboarding") //y skip notification? ANNOY USER >:(
+        showNextVC()
+    }
+    
+    func showNextVC() {
+        if (organizationData.organizationList.isEmpty) {
+            let nextVC = WelcomeToSilloViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+        else {
+            organizationData.changeOrganization(dest: organizationData.organizationList[0])
+            let nextVC = prepareTabVC()
+            nextVC.modalPresentationStyle = .fullScreen
+            self.present(nextVC, animated: true)
+        }
     }
     
     func registerForPushNotifications() {

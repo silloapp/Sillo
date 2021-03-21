@@ -81,6 +81,9 @@ class VerificationProcessingViewController: UIViewController {
                 user.reload(completion: {_ in
                     let auth_status:Bool = user.isEmailVerified
                 if (auth_status == true) {
+                    //log successful passcode verification
+                    analytics.log_passcode_verification_success()
+                    
                     // Code verification successful, move to next VC
                     let nextVC = VerificationSuccessViewController()
                     nextVC.modalPresentationStyle = .fullScreen

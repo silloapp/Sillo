@@ -259,9 +259,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     if authResult != nil {
                         //log sign-in event
                         analytics.log_sign_in_standard()
-                        localUser.coldStart()
+                        
+                        localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
                         
                         UserDefaults.standard.set(true, forKey: "loggedIn")
+                        
                         let currentUser = Auth.auth().currentUser!
                         if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
                             if (!currentUser.isEmailVerified) {
@@ -285,7 +287,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         }
                         else {
                             //display name set and email verified
-                            let nextVC = WelcomeToSilloViewController()
+                            let nextVC = VerificationSuccessViewController()
                             nextVC.modalPresentationStyle = .fullScreen
                             self.navigationController?.pushViewController(nextVC, animated: true)
                         }
@@ -307,40 +309,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             errorMsg="Please fill out all fields to continue."
         }
         if (errorState) {
-            DispatchQueue.main.async {
-                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    //MARK: reset password
-    @objc func resetPassword(_ sender: Any) {
-        
-        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
-        
-        if (requestThrottled) {
-            return
-        }
-        
-        var errorMsg = "Uncaught Exception: please contact the sillo team."
-        if (emailTextField.hasText) {
-            self.latestButtonPressTimestamp = Date()
-            let email : String = emailTextField.text!
-            Auth.auth().sendPasswordReset(withEmail: email) { error in
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Password reset requested!", message: "If you have an email linked with Sillo, you will receieve a password reset link.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
-                    self.present(alert, animated: true, completion: nil)
-                    
-                    //log password reset
-                    analytics.log_forgot_password()
-                }
-            }
-        }
-        else {
-            errorMsg="Please fill out your email to continue."
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
@@ -375,35 +343,50 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     
                     //log google education sign-in
                     analytics.log_sign_in_google()
-                    localUser.coldStart()
-
+                    
+                    localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
+                    
                     UserDefaults.standard.set(true, forKey: "loggedIn")
-                    let currentUser = Auth.auth().currentUser!
-                    localUser.coldStart()
-                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-                        localUser.createNewUser()
-                    }
-                    if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
-                        if (currentUser.displayName == nil) {
-                            //no display name
-                            let nextVC = SetNameViewController()
-                            nextVC.modalPresentationStyle = .fullScreen
-                            self.navigationController?.pushViewController(nextVC, animated: true)
-                        }
-                        else {
-                            let nextVC = NotificationRequestViewController()
-                            nextVC.modalPresentationStyle = .fullScreen
-                            self.navigationController?.pushViewController(nextVC, animated: true)
-                        }
-                    }
-                    else {
-                        let nextVC = WelcomeToSilloViewController()
-                        nextVC.modalPresentationStyle = .fullScreen
-                        self.navigationController?.pushViewController(nextVC, animated: true)
-                    }
+                    let nextVC = VerificationSuccessViewController()
+                    nextVC.modalPresentationStyle = .fullScreen
+                    self.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
         }
+    
+    //MARK: reset password
+    @objc func resetPassword(_ sender: Any) {
+        
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        
+        if (requestThrottled) {
+            return
+        }
+        
+        var errorMsg = "Uncaught Exception: please contact the sillo team."
+        if (emailTextField.hasText) {
+            self.latestButtonPressTimestamp = Date()
+            let email : String = emailTextField.text!
+            Auth.auth().sendPasswordReset(withEmail: email) { error in
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Password reset requested!", message: "If you have an email linked with Sillo, you will receieve a password reset link.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                    //log password reset
+                    analytics.log_forgot_password()
+                }
+            }
+        }
+        else {
+            errorMsg="Please fill out your email to continue."
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
     
     
     @objc func keyboardWillShow(notification: NSNotification) {

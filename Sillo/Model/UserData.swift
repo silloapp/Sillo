@@ -15,28 +15,31 @@ class LocalUser {
     var invitesMapping: [String:String] = [:] //an array mapping invitations to orgaization name
     
     // MARK: Creating New User
-    func createNewUser() {
-        let newUser = Constants.FIREBASE_USERID
+    func createNewUser(newUser:String) {
+        self.setConstants()
         
-        let docRef = db.collection("users").document(newUser!)
+        let docRef = db.collection("users").document(newUser)
 
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 //user document exists, don't do anything
-                print("document exists, do nothing")
+                print("document exists, set organizationList")
+                organizationData.organizationList = document.get("organizations") as! [String]
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
                 return
             } else {
                 //create user document
                 docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? ""]) { err in
                 if let err = err {
-                    print("error: \(err) user: \(newUser!) \(newUser ?? "undefined value") not created")
+                    print("error: \(err) user: \(newUser) \(newUser) not created")
                 } else {
-                    print("success: created \(newUser!) \(newUser ?? "undefined value")")
+                    print("success: created \(newUser) \(newUser)")
                 }
                 //log creation of new firebase document
                 analytics.log_create_firebase_doc()
             }
-            cloudutil.uploadImages(image: UIImage(named:"placeholder profile")!, ref: "profiles/\(newUser!)\(Constants.image_extension)")
+            cloudutil.uploadImages(image: UIImage(named:"placeholder profile")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
         }
     }
     }
@@ -101,28 +104,41 @@ class LocalUser {
         }
     }
     
-    func coldStart() {
-        if !UserDefaults.standard.bool(forKey: "loggedIn") {
-            return
-        }
-        
-        guard let me = Auth.auth().currentUser else {return}
+    //MARK: set constants without pulling anything
+    func setConstants() {
+        let me = Auth.auth().currentUser!
         Constants.me = me
         Constants.EMAIL = me.email
         Constants.USERNAME = me.displayName
         Constants.FIREBASE_USERID = me.uid
+    }
+    
+    //MARK: coldstart
+    func coldStart() {
+        if !UserDefaults.standard.bool(forKey: "loggedIn") {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
+            }
+            return
+        }
+        
+        self.setConstants()
         
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
                     organizationData.adminStatusMap = query.get("admin") as! [String:Bool]
-                    let organizations = query.get("organizations") as! [String]
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserReady"), object: nil)
-                    organizationData.coldStart(organizations: organizations)
+                    organizationData.organizationList = query.get("organizations") as! [String]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
+                    organizationData.coldStart(organizations: organizationData.organizationList) //pull the rest
+                    return
+                }
+                else {
+                    //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
+                    return
                 }
             }
         }
-        
     }
     
     //MARK: sign out
