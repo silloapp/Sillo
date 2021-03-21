@@ -57,8 +57,6 @@ class HomeViewController: UIViewController {
             }
         }
         
-
-        navigationController?.isNavigationBarHidden = true
         feed.coldStart()
     }
     
@@ -72,6 +70,7 @@ class HomeViewController: UIViewController {
         setupTableView()
         navigationController?.navigationBar.barTintColor = Color.headerBackground
         navigationController?.navigationBar.isTranslucent = false
+        addDismissPullUpController(animated: false)
         
     }
     
@@ -138,6 +137,8 @@ class HomeViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
+//    MARK: Detect blur tap
+    
     @objc func blurTapped() {
         print("tapped")
         NotificationCenter.default.post(name: Notification.Name("DismissNotificationIdentifier"), object: nil)
@@ -149,6 +150,7 @@ class HomeViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
         blurVw.addGestureRecognizer(tap)
         addPullUpController(animated: true)
+        NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
     }
     
     
@@ -243,6 +245,8 @@ extension HomeViewController {
         blurVw.isHidden = true
     }
     
+//      MARK: Makes and adds the Pullup controller to the view
+    
     private func makePullupViewControllerIfNeeded() -> BottomSlideController {
         
         UserDefaults.standard.set(false, forKey: "didmissPuppup")
@@ -261,9 +265,11 @@ extension HomeViewController {
         let pullUpController = makePullupViewControllerIfNeeded()
         _ = pullUpController.view // call pullUpController.viewDidLoad()
         addPullUpController(pullUpController,
-                            initialStickyPointOffset: pullUpController.initialPointOffset,
-                            animated: animated)
+                            initialStickyPointOffset: 500,
+                            animated: true)
     }
+    
+//    MARK: Dismissing the Pull Up Controller
     
     private func makeDismissViewControllerIfNeeded() -> BottomSlideController {
         
@@ -276,10 +282,10 @@ extension HomeViewController {
         
         pullUpController.initialState = .contracted
         
-        
         return pullUpController
     }
     
+ 
     private func addDismissPullUpController(animated: Bool) {
         let pullUpController = makeDismissViewControllerIfNeeded()
         _ = pullUpController.view // call pullUpController.viewDidLoad()

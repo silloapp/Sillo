@@ -193,13 +193,6 @@ final class ChatsViewController: UITableViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         
-        //        let attrs = [
-        //            NSAttributedString.Key.foregroundColor: UIColor.darkGray,
-        //            NSAttributedString.Key.font: UIFont(name: "Apercu-Regular", size: 15)!
-        //        ]
-        //        UINavigationBar.appearance().titleTextAttributes = attrs
-        
-        
         //setting buttons
         let backbutton = UIButton(type: UIButton.ButtonType.custom)
         backbutton.setImage(UIImage(named: "back"), for: .normal)
@@ -242,17 +235,22 @@ final class ChatsViewController: UITableViewController {
     @objc func backBtnPressed() {
         self.navigationController?.popToRootViewController(animated: true)
     }
+    
     @objc func menuMethod() {
         self.navigationController?.popViewController(animated: true)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
         setNavBar()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = true
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
-        if #available(iOS 13, *)
-        {
+        if #available(iOS 13, *) {
             let statusBar = UIView(frame: (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame)!)
             statusBar.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
             UIApplication.shared.keyWindow?.addSubview(statusBar)

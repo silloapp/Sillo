@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "more.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Vector 193.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
