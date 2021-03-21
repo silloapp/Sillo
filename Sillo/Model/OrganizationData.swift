@@ -23,6 +23,8 @@ class OrganizationData {
 
     // MARK: User Organization Data
     var idToName:[String?:String] = [:]
+    var orgToImage:[String?:UIImage] = [:]
+    var adminStatusMap:[String?:Bool] = [:]
 
     // MARK: Creating New Organizations
     func createNewOrganization() {
@@ -89,8 +91,42 @@ class OrganizationData {
         if currOrganization == dest { return }
         currOrganization = dest
         currOrganizationName = idToName[currOrganization]
-
-        // TODO: Pull dest organization data and posts
+        feed.coldStart() //pull posts
+    }
+    
+    func addMemberToOrganization(organizationID: String) {
+        //add organization to user doc
+        db.collection("organizations").document(organizationID).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    var memberList = query.get("members") as! [String]
+                    memberList.append(Constants.FIREBASE_USERID!)
+                    db.collection("organizations").document(organizationID).updateData(["members":memberList])
+                }
+            }
+        }
+    }
+    
+    func coldStart(organizations: [String]) {
+        for orgID in organizations {
+            db.collection("organizations").document(orgID).getDocument() { (query, err) in
+                if let query = query {
+                    if query.exists {
+                        let name = query.get("organization_name") as! String
+                        print(name)
+                        let imageRef = query.get("image") as! String
+                        self.idToName[orgID] = name
+                        if (imageRef != "") {
+                            let resImage = cloudutil.downloadImage(ref: imageRef)
+                            self.orgToImage[orgID] = resImage
+                        }
+                        else {
+                            self.orgToImage[orgID] = UIImage(named:"avatar-1") //set placeholder
+                        }
+                    }
+                }
+            }
+        }
     }
     
     //MARK: Email Format Validation

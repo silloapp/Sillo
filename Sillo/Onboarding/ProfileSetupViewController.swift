@@ -679,7 +679,7 @@ class ProfileSetupViewController: UIViewController{
             //set the orgaization document to overwrite
             var profileDocumentName = "all_orgs"
             if (useSeparateProfiles) {
-                profileDocumentName = "some_org"
+                profileDocumentName = organizationData.currOrganization ?? "ERROR"
             }
             
             guard let userID = Auth.auth().currentUser?.uid else { return }
@@ -690,6 +690,9 @@ class ProfileSetupViewController: UIViewController{
             
             userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
             
+            //transition to all set, onboarding finished
+            let nextVC = AllSetViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
         else {
             errorState=true

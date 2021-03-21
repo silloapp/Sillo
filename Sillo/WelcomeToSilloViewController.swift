@@ -232,8 +232,8 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
 @objc func BottomButtonMethod() {
     localUser.signOut()
     let nextVC = StartScreenViewController()
-    UserDefaults.standard.set(false, forKey: "loggedIn")
     nextVC.modalPresentationStyle = .fullScreen
+    UserDefaults.standard.set(false, forKey: "loggedIn")
     self.present(nextVC, animated: true, completion: nil)
     
  }
@@ -322,11 +322,18 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
 
 
         }
+    
+        //MARK: selected the cell
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             selectedIndx = indexPath.row
-            let orgID : String = localUser.invites[selectedIndx]
-            print("navigate to create profile for \(orgID)")
             self.TopTable.reloadData()
+            let orgID : String = localUser.invites[selectedIndx]
+            
+            localUser.acceptInvite(organizationID: orgID)
+            organizationData.changeOrganization(dest: orgID)
+            
+            let nextVC = ProfilePromptViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
           
         }
 

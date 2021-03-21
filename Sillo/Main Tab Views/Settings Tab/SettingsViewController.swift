@@ -78,7 +78,14 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             nextVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
-        
+        if name == "Log out" {
+            localUser.signOut()
+            let nextVC = StartScreenViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            UserDefaults.standard.set(false, forKey: "loggedIn")
+            self.present(nextVC, animated: true, completion: nil)
+            
+        }
         if name == "Account" {
             let nextVC = AccountViewController()
             nextVC.modalPresentationStyle = .fullScreen
