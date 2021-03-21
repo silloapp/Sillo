@@ -19,6 +19,11 @@ class StartScreenViewController: UIViewController {
         return imageView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.routeUser(note:)), name: Notification.Name("UserLoadingComplete"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.goToMainView(note:)), name: Notification.Name("ColdOrgChangeComplete"), object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -33,50 +38,69 @@ class StartScreenViewController: UIViewController {
 
         pulsate()
         localUser.coldStart()
-        
+    }
+    @objc func routeUser(note:NSNotification) {
         //UserDefaults.standard.set(true, forKey: "loggedIn")
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-            var nextVC = UIViewController()
-            if (UserDefaults.standard.bool(forKey: "loggedIn")) {
-                //loggedIn
-                if (UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
-                    //onboarding finished
-                    print("logged in, onboarding finished")
-                        nextVC = WelcomeToSilloViewController()
-                    if (UserDefaults.standard.string(forKey: "defaultOrganization") != nil) {
-                        print("Load in default organization")
-                        nextVC = prepareTabVC()
-                    }
-                } else {
-                    print("logged in, onboarding unfinished")
-                    //not yet finished with onboarding, go through steps
-                    if (!(Constants.me?.isEmailVerified ?? false)) {
-                        //is email verified?
-                        nextVC = ConfirmEmailViewController()
-                        cloudutil.generateAuthenticationCode()
-                    }
-                    else if (Constants.me?.displayName == nil) {
-                        //is name set?
-                        nextVC = SetNameViewController()
-                    }
-                    else {
-                        //alright, then it must be notifications.
-                        nextVC = NotificationRequestViewController()
-                    }
-                    self.navigationController?.pushViewController(nextVC, animated: true)
+        var nextVC = UIViewController()
+        if (UserDefaults.standard.bool(forKey: "loggedIn")) {
+            //loggedIn
+            if (UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
+                //onboarding finished
+                print("logged in, onboarding finished")
+                
+                if !organizationData.organizationList.isEmpty {
+                    print(organizationData.organizationList)
+                    organizationData.coldChangeOrganization(dest: organizationData.organizationList[0])
+                    return //leave this router and await notification coldOrgChangeComplete
                 }
-            
+                /*
+                if (UserDefaults.standard.string(forKey: "defaultOrganization") != nil) {
+                    print("Load in default organization") //TODO: implement this local caching
+                    nextVC = prepareTabVC()
+                }
+                */
+                else {
+                    nextVC = WelcomeToSilloViewController()
+                }
+            } else {
+                print("logged in, onboarding unfinished")
+                //not yet finished with onboarding, go through steps
+                if (!(Constants.me?.isEmailVerified ?? false)) {
+                    //is email verified?
+                    nextVC = ConfirmEmailViewController()
+                    cloudutil.generateAuthenticationCode()
+                }
+                else if (Constants.me?.displayName == nil) {
+                    //is name set?
+                    nextVC = SetNameViewController()
+                }
+                else {
+                    //alright, then it must be notifications.
+                    nextVC = NotificationRequestViewController()
+                }
+                self.navigationController?.pushViewController(nextVC, animated: true)
             }
-            else {
-                //not loggedIn
-                nextVC = PageViewController()
-                }
-            
-                let navC = UINavigationController(rootViewController: nextVC)
-                navC.modalPresentationStyle = .fullScreen
-                navC.setNavigationBarHidden(true, animated: false)
-                self.present(navC, animated: true, completion: nil)
+        
         }
+        else {
+            //not loggedIn
+            nextVC = PageViewController()
+            }
+        
+            let navC = UINavigationController(rootViewController: nextVC)
+            navC.modalPresentationStyle = .fullScreen
+            navC.setNavigationBarHidden(true, animated: false)
+            self.present(navC, animated: true, completion: nil)
+    }
+    
+    @objc func goToMainView(note:NSNotification) {
+        print("GO TO MAIN VIEW")
+        let nextVC = prepareTabVC()
+        
+        let navC = UINavigationController(rootViewController: nextVC)
+        navC.modalPresentationStyle = .fullScreen
+        navC.setNavigationBarHidden(true, animated: false)
+        self.present(navC, animated: true, completion: nil)
     }
     
     func pulsate() {
@@ -91,11 +115,6 @@ class StartScreenViewController: UIViewController {
         logoImageView.layer.add(pulse, forKey: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-    }
 }
 func prepareTabVC() -> UIViewController {
     let tabVC = CustomTabBarController()

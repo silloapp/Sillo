@@ -31,6 +31,8 @@ class VerificationSuccessViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.routeUser(note:)), name: Notification.Name("NewUserCreated"), object: nil)
+        
     }
     
     override func viewDidLoad() {
@@ -52,14 +54,13 @@ class VerificationSuccessViewController: UIViewController {
         successLabel.topAnchor.constraint(equalTo: successImage.bottomAnchor, constant: 30).isActive = true
         successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        //log successful passcode verification
-        analytics.log_passcode_verification_success()
-        
-        localUser.coldStart()
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-            localUser.createNewUser()
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now()  + 1.0) {
+
+        localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
+        return
+    }
+    
+    @objc func routeUser(note:NSNotification) {
+        if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
             if (Constants.USERNAME == nil) {
                 let nextVC = SetNameViewController()
                 nextVC.modalPresentationStyle = .fullScreen
@@ -71,5 +72,20 @@ class VerificationSuccessViewController: UIViewController {
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         }
+        else {
+            //onboarding complete
+            if !organizationData.organizationList.isEmpty {
+                organizationData.coldChangeOrganization(dest: organizationData.organizationList[0])
+                let nextVC = prepareTabVC()
+                nextVC.modalPresentationStyle = .fullScreen
+                self.present(nextVC, animated: true)
+            }
+            else {
+                let nextVC = WelcomeToSilloViewController()
+                nextVC.modalPresentationStyle = .fullScreen
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+        }
+        
     }
 }

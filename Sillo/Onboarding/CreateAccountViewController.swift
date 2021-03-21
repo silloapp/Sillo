@@ -356,10 +356,8 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                     //log google education sign-in
                     analytics.log_account_creation_google()
                     
-                    localUser.coldStart()
-                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-                        localUser.createNewUser()
-                    }
+                    localUser.createNewUser(newUser: Constants.FIREBASE_USERID!)
+                    
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let nextVC = VerificationSuccessViewController()
                     nextVC.modalPresentationStyle = .fullScreen

@@ -25,6 +25,7 @@ class OrganizationData {
     var idToName:[String?:String] = [:]
     var orgToImage:[String?:UIImage] = [:]
     var adminStatusMap:[String?:Bool] = [:]
+    var organizationList:[String] = [] //for coldstarting only
 
     // MARK: Creating New Organizations
     func createNewOrganization() {
@@ -94,6 +95,24 @@ class OrganizationData {
         feed.coldStart() //pull posts
     }
     
+    // MARK: fast-set default organization when the app just started (DIFFERENCE IS PULLING FROM THE DATABASE, caveat is nsnotification needed)
+    func coldChangeOrganization(dest: String?) {
+        if currOrganization == dest { return }
+        currOrganization = dest
+        db.collection("organizations").document(currOrganization!).getDocument() { (query, err) in
+            if (query != nil) {
+                if query!.exists {
+                    let name = query?.get("organization_name") as! String
+                    self.currOrganizationName = name
+                    feed.coldStart() //pull posts
+                    print("COMPLETE COLD CHANGE")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ColdOrgChangeComplete"), object: nil)
+                }
+            }
+        }
+        
+    }
+    
     func addMemberToOrganization(organizationID: String) {
         //add organization to user doc
         db.collection("organizations").document(organizationID).getDocument() { (query, err) in
@@ -108,6 +127,7 @@ class OrganizationData {
     }
     
     func coldStart(organizations: [String]) {
+        print("COLDSTART ORG DATA")
         for orgID in organizations {
             db.collection("organizations").document(orgID).getDocument() { (query, err) in
                 if let query = query {
