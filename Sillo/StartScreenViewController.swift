@@ -105,7 +105,6 @@ func prepareTabVC() -> UIViewController {
     tabVC.tabBar.isTranslucent = true
     tabVC.tabBar.layer.borderWidth = 0
     
-    
     tabVC.tabBar.layer.shadowOffset = CGSize(width: 0, height: -4)
     tabVC.tabBar.layer.shadowRadius = 10
     tabVC.tabBar.layer.shadowColor = UIColor.black.cgColor
@@ -120,7 +119,7 @@ func prepareTabVC() -> UIViewController {
     
     
     let vc1 = UINavigationController(rootViewController: HomeViewController())
-    let vc2 = UINavigationController(rootViewController: AchievementsViewController())
+    let vc2 = UINavigationController(rootViewController: QuestProgressVC())
     let vc3 = NewPostViewController()
     let vc4 = UINavigationController(rootViewController: MessagesViewController())
     let vc5 = UINavigationController(rootViewController: TeamViewController())

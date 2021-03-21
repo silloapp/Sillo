@@ -10,7 +10,7 @@ import UIKit
 class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 
     
-    override func viewDidLoad(){
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
     }

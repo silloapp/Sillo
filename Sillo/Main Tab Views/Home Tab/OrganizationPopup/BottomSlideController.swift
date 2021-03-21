@@ -15,34 +15,23 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         case expanded
     }
     
-    var initialState: InitialState = .contracted
+    var initialState: InitialState = .expanded
     var selectIndex = -1
     var visualEffectView = UIView()
     var mainView = UIView()
     var searchBoxContainerView = UIView()
     var searchSeparatorView = UIView()
-    //{
-    //        didSet {
-    //           // searchSeparatorView.layer.cornerRadius = 4
-    //        }
-    //    }
     var firstPreviewView = UIView()
     var secondPreviewView = UIView()
     var tableView = UITableView()
     
     var initialPointOffset: CGFloat {
         switch initialState {
-        //        case .contracted:
-        //        return 150
-        //
-        //        case .expanded:
-        //      return 600
-        //
         
         case .contracted:
             print("contracted 1")
             
-            return 120
+            return 0
             
         case .expanded:
             print("expanded 1")
@@ -52,7 +41,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         
     }
-    
     
     public var portraitSize: CGSize = .zero
     public var landscapeFrame: CGRect = .zero
@@ -79,30 +67,24 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     
     @objc func methodOfDismissNotification(notification: Notification) {
         print("Value of notification : ", notification.object ?? "")
-        
         dismiss()
-        
     }
-    func dismiss()
-    {
-        
+    
+    func dismiss() {
         NotificationCenter.default.post(name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
-        // dismiss(animated: true, completion: nil)
         if let lastStickyPoint = pullUpControllerAllStickyPoints.last {
-            pullUpControllerMoveToVisiblePoint(120, animated: true, completion: nil)
+            pullUpControllerMoveToVisiblePoint(0, animated: true, completion: nil)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         print("bottom popup appeared")
         settingElemets()
     }
     
     //===================================*** SETTING CONSTRAINT ***=======================================//
     
-    func settingElemets()
-    {
+    func settingElemets() {
         
         // FOR SCROLL :
         
@@ -116,7 +98,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
             visualEffectView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
             
         ]
-        //  visualEffectView.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
         
         NSLayoutConstraint.activate(visualEffectViewconstraints)
         self.view.layoutIfNeeded()
@@ -257,9 +238,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         self.searchBoxContainerView.addSubview(button2dismiss)
         button2dismiss.backgroundColor = .clear
-        //              button2dismiss.clipsToBounds = true
-        //              button2dismiss.layer.cornerRadius = 0
-        
+
         let button2dismissconstraints = [
             button2dismiss.centerXAnchor.constraint(equalTo:  self.view.centerXAnchor, constant: 0),
             button2dismiss.topAnchor.constraint(equalTo: self.searchBoxContainerView.safeAreaLayoutGuide.topAnchor, constant: 8),
@@ -281,8 +260,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         self.searchBoxContainerView.addSubview(searchSeparatorView)
         
-        //  button1dismiss.isUserInteractionEnabled = false
-        //   button1dismiss.addTarget(self, action:#selector(button1dismissMethod), for: .touchUpInside)
         button2dismiss.addTarget(self, action:#selector(button2dismissMethod), for: .touchUpInside)
         
         // NSLayoutConstraint.activate(visualEffectViewconstraints)
@@ -421,13 +398,11 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     override func pullUpControllerDidDrag(to point: CGFloat) {
         print("did drag to \(point)")
         
-        if point > 120.0
-        {
+        if point > 0 {
             NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
             //  self.mainView.isUserInteractionEnabled = false
         }
-        else
-        {
+        else {
             NotificationCenter.default.post(name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
         }
         
@@ -441,56 +416,12 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     
     override var pullUpControllerPreferredSize: CGSize {
         return portraitSize
-        
-        
     }
     
     override var pullUpControllerPreferredLandscapeFrame: CGRect {
         return landscapeFrame
     }
     
-    override var pullUpControllerMiddleStickyPoints: [CGFloat] {
-        
-        
-        // print(self.pullUpControllerMiddleStickyPoints)
-        
-        switch initialState {
-        
-        case .contracted:
-            
-            print("contracted")
-            
-            //  return [firstPreviewView.frame.maxY]
-            
-            // return [250,250]
-            if UserDefaults.standard.bool(forKey: "didmissPuppup") == true
-            {
-                return [120, 120]
-            }
-            else
-            {
-                return [tableViewHeight + 220,tableViewHeight + 220]
-            }
-            
-        case .expanded:
-            print("expanded")
-            
-            return [searchBoxContainerView.frame.maxY + safeAreaAdditionalOffset, firstPreviewView.frame.maxY]
-            
-        /*  if UserDefaults.standard.bool(forKey: "didmissPuppup") == true
-         {
-         return [120,tableViewHeight + 120]
-         }
-         else
-         {
-         return [tableViewHeight + 220,tableViewHeight + 220]
-         }*/
-        
-        
-        
-        
-        }
-    }
     var tableViewHeight: CGFloat {
         tableView.layoutIfNeeded()
         
@@ -525,7 +456,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     
 }
 
-// MARK: - UISearchBarDelegate
 
 extension BottomSlideController: UISearchBarDelegate {
     
@@ -533,10 +463,6 @@ extension BottomSlideController: UISearchBarDelegate {
         if let lastStickyPoint = pullUpControllerAllStickyPoints.last {
             pullUpControllerMoveToVisiblePoint(lastStickyPoint, animated: true, completion: nil)
         }
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        view.endEditing(true)
     }
 }
 
@@ -553,6 +479,7 @@ extension UIViewController {
     }
     
 }
+
 extension UIView {
     
     func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
