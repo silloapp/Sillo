@@ -78,7 +78,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("bottom popup appeared")
+        self.tableView.reloadData()
         settingElemets()
     }
     
@@ -291,7 +291,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     }
     
     @objc func addNewSpaceClicked() {
-        let vc = AddNewSpace()
+        let vc = WelcomeToSilloViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -317,12 +317,14 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
+        return organizationData.organizationList.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.selectionStyle = .none
         
+        let organization = organizationData.organizationList[indexPath.row]
+        let organizationName = organizationData.idToName[organization] ?? "My Organization"
         
         cell.labUserName.isHidden = false
         cell.imgUser2.isHidden = true
@@ -331,18 +333,18 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         cell.imgUser.layer.borderWidth = 3.5
         cell.imgUser.layer.borderColor = UIColor.gray.cgColor
         
-        
-        cell.labMessage.text = "Lorem Ispum dollar"
+        cell.labMessage.text = organizationName
         cell.labMessage.textColor = .black
         cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
         
-        cell.labUserName.text = "Lorem Ipsum"
-        cell.labMessage.text = "3 Messages"
+        cell.labUserName.text = organizationName
+        cell.labMessage.text = "" //nothing here
         cell.labMessage.font = UIFont(name: "Apercu-Regular", size: 15)
         
-        if selectIndex == indexPath.row
+        if organization == organizationData.currOrganization
         {
             cell.bgView.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
+            cell.isUserInteractionEnabled = false
         }
         else
         {
@@ -373,10 +375,21 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("did select")
+        self.tableView.reloadData()
         
         selectIndex = indexPath.row
-        self.tableView.reloadData()
+        let nextOrganization = organizationData.organizationList[selectIndex]
+        organizationData.changeOrganization(dest: nextOrganization)
+        UserDefaults.standard.setValue(nextOrganization, forKey: "defaultOrganization")
+        
+        let nextVC = prepareTabVC()
+        nextVC.modalPresentationStyle = .fullScreen
+        
+        let navC = UINavigationController(rootViewController: nextVC)
+        navC.modalPresentationStyle = .fullScreen
+        navC.modalTransitionStyle = .crossDissolve
+        navC.setNavigationBarHidden(true, animated: false)
+        self.present(navC, animated: true, completion: nil)
         
     }
     

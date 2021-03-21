@@ -165,7 +165,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
                       let BottomButton = UIButton()
                     self.insideScrollVw.addSubview(BottomButton)
             BottomButton.backgroundColor = Color.buttonClickable
-            BottomButton.setTitle("Sign out", for: .normal)
+            BottomButton.setTitle("Create New Space", for: .normal)
             BottomButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
             BottomButton.setTitleColor(.white, for: .normal)
             BottomButton.clipsToBounds = true
@@ -230,11 +230,16 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         }
  
 @objc func BottomButtonMethod() {
+    let nextVC = SetupOrganizationViewController()
+    self.navigationController?.pushViewController(nextVC, animated: true)
+    
+    /*
     localUser.signOut()
     let nextVC = StartScreenViewController()
     nextVC.modalPresentationStyle = .fullScreen
     UserDefaults.standard.set(false, forKey: "loggedIn")
     self.present(nextVC, animated: true, completion: nil)
+     */
     
  }
     

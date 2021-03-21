@@ -23,14 +23,14 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     
     private let menuItems = [
-        MenuItem(name: "My Profile", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22), //TODO: replace with actual VC
+        MenuItem(name: "My Profile", nextVC: ProfileSetupViewController(), withArrow: false, fontSize: 22), //TODO: replace with actual VC
         MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "People", nextVC: PeopleVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Notifications", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Quests", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Sign Out", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22)
+        MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
     private let itemProperties = [
@@ -82,11 +82,33 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
-        let vc = menuItems[indexPath.row].nextVC!
-        vc.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationController?.pushViewController(vc, animated: true)
-        //TODO: add Segway into nextVC
+        let selectedMenuItem = menuItems[indexPath.row]
+        switch selectedMenuItem.name{
+        case "My Profile":
+            if let nextVC = selectedMenuItem.nextVC {
+                nextVC.modalPresentationStyle = .fullScreen
+                UserDefaults.standard.set(false, forKey: "loggedIn")
+            
+                self.present(nextVC, animated: true, completion: nil)
+            }
+        case "Sign Out":
+            localUser.signOut()
+            if let nextVC = selectedMenuItem.nextVC {
+                nextVC.modalPresentationStyle = .fullScreen
+                UserDefaults.standard.set(false, forKey: "loggedIn")
+            
+                self.present(nextVC, animated: true, completion: nil)
+            }
+            break
+            
+        default:
+            print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
+            let vc = menuItems[indexPath.row].nextVC!
+            vc.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
+            //TODO: add Segway into nextVC
+            break
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -106,7 +128,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         stack.addArrangedSubview(silloLogo)
         
         let clubName = UILabel()
-        clubName.text = "Berkeley Design"
+        clubName.text = organizationData.currOrganizationName
         clubName.font = Font.bold(22)
         clubName.textColor = Color.teamHeader
         stack.addArrangedSubview(clubName)

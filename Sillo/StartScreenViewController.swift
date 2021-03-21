@@ -48,17 +48,17 @@ class StartScreenViewController: UIViewController {
                 //onboarding finished
                 print("logged in, onboarding finished")
                 
+                if (UserDefaults.standard.string(forKey: "defaultOrganization") != nil) {
+                    organizationData.coldChangeOrganization(dest: UserDefaults.standard.string(forKey: "defaultOrganization"))
+                    return
+                }
+                
                 if !organizationData.organizationList.isEmpty {
                     print(organizationData.organizationList)
                     organizationData.coldChangeOrganization(dest: organizationData.organizationList[0])
                     return //leave this router and await notification coldOrgChangeComplete
                 }
-                /*
-                if (UserDefaults.standard.string(forKey: "defaultOrganization") != nil) {
-                    print("Load in default organization") //TODO: implement this local caching
-                    nextVC = prepareTabVC()
-                }
-                */
+                
                 else {
                     nextVC = WelcomeToSilloViewController()
                 }
@@ -94,7 +94,6 @@ class StartScreenViewController: UIViewController {
     }
     
     @objc func goToMainView(note:NSNotification) {
-        print("GO TO MAIN VIEW")
         let nextVC = prepareTabVC()
         
         let navC = UINavigationController(rootViewController: nextVC)
