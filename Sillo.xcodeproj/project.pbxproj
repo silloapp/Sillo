@@ -64,14 +64,14 @@
 		FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */; };
 		FD7C4F9925FDFC0000231F06 /* ArrayChoiceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */; };
 		FD7C4FA525FE040A00231F06 /* MyConnectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */; };
-		FD7C4FE025FE080700231F06 /* QuestsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4FDF25FE080700231F06 /* QuestsVC.swift */; };
 		FD7C8A8826055C7C00647D1B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C8A8726055C7C00647D1B /* OnboardingViewController.swift */; };
+		FD85041F2606982C0056DC13 /* PeopleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD85041E2606982C0056DC13 /* PeopleVC.swift */; };
 		FD8B839025F4B37E004980AC /* BottomSlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B838F25F4B37E004980AC /* BottomSlideController.swift */; };
 		FD8B839525F4B468004980AC /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B839425F4B468004980AC /* CustomTableViewCell.swift */; };
 		FD93B2D926057BF200CC44AA /* FacebookInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD93B2D626057BF100CC44AA /* FacebookInputBar.swift */; };
 		FD93B2DA26057BF200CC44AA /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD93B2D726057BF100CC44AA /* ChatsViewController.swift */; };
 		FD93B2DB26057BF200CC44AA /* InterChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD93B2D826057BF200CC44AA /* InterChatVC.swift */; };
-		FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */; };
+		FD93B2F02605A09A00CC44AA /* QuestProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD93B2EF2605A09A00CC44AA /* QuestProgressVC.swift */; };
 		FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908125C3EB26009F4F29 /* HomeViewController.swift */; };
 		FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94908625C3EB31009F4F29 /* MessagesViewController.swift */; };
 		FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */; };
@@ -171,14 +171,14 @@
 		FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysShowPopup.swift; sourceTree = "<group>"; };
 		FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyConnectionsVC.swift; sourceTree = "<group>"; };
-		FD7C4FDF25FE080700231F06 /* QuestsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestsVC.swift; sourceTree = "<group>"; };
 		FD7C8A8726055C7C00647D1B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		FD85041E2606982C0056DC13 /* PeopleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleVC.swift; sourceTree = "<group>"; };
 		FD8B838F25F4B37E004980AC /* BottomSlideController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSlideController.swift; sourceTree = "<group>"; };
 		FD8B839425F4B468004980AC /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		FD93B2D626057BF100CC44AA /* FacebookInputBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookInputBar.swift; sourceTree = "<group>"; };
 		FD93B2D726057BF100CC44AA /* ChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		FD93B2D826057BF200CC44AA /* InterChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterChatVC.swift; sourceTree = "<group>"; };
-		FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
+		FD93B2EF2605A09A00CC44AA /* QuestProgressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestProgressVC.swift; sourceTree = "<group>"; };
 		FD94908125C3EB26009F4F29 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FD94908625C3EB31009F4F29 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
@@ -385,14 +385,6 @@
 			path = OrganizationPopup;
 			sourceTree = "<group>";
 		};
-		FD7C8A972605620A00647D1B /* Achievements Tab */ = {
-			isa = PBXGroup;
-			children = (
-				FD94907625C3EABA009F4F29 /* AchievementsViewController.swift */,
-			);
-			path = "Achievements Tab";
-			sourceTree = "<group>";
-		};
 		FD7C8A9E2605623900647D1B /* NewPost Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,7 +417,7 @@
 		FD93B2C0260575C900CC44AA /* Quests Tab */ = {
 			isa = PBXGroup;
 			children = (
-				FD7C4FDF25FE080700231F06 /* QuestsVC.swift */,
+				FD93B2EF2605A09A00CC44AA /* QuestProgressVC.swift */,
 			);
 			path = "Quests Tab";
 			sourceTree = "<group>";
@@ -435,6 +427,7 @@
 			children = (
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
+				FD85041E2606982C0056DC13 /* PeopleVC.swift */,
 			);
 			path = "Teams Tab";
 			sourceTree = "<group>";
@@ -453,11 +446,10 @@
 			isa = PBXGroup;
 			children = (
 				A01CA47325C333080028FCBB /* Home Tab */,
-				FD7C8A972605620A00647D1B /* Achievements Tab */,
+				FD93B2C0260575C900CC44AA /* Quests Tab */,
 				FD7C8A9E2605623900647D1B /* NewPost Tab */,
 				FD7C8AA22605626000647D1B /* MessageList Tab */,
 				FD7C8AA62605628700647D1B /* Settings Tab */,
-				FD93B2C0260575C900CC44AA /* Quests Tab */,
 				FD93B2C72605770300CC44AA /* Teams Tab */,
 			);
 			path = "Main Tab Views";
@@ -843,11 +835,13 @@
 				AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */,
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
 				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
+				FD93B2F02605A09A00CC44AA /* QuestProgressVC.swift in Sources */,
 				AA0A495A25FE141900FDD87F /* NotificationRequestViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				AA8B775825FAE5410032336F /* SetupOrganizationViewController.swift in Sources */,
 				A0A6BFEB25EBA08900F107F4 /* UIView+Snapshot.swift in Sources */,
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
+				FD85041F2606982C0056DC13 /* PeopleVC.swift in Sources */,
 				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				FD8B839025F4B37E004980AC /* BottomSlideController.swift in Sources */,
@@ -868,7 +862,6 @@
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
-				FD7C4FE025FE080700231F06 /* QuestsVC.swift in Sources */,
 				FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */,
 				AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */,
 				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
@@ -877,7 +870,6 @@
 				A0A6BFE325EB9FA500F107F4 /* ProfileHalfVC.swift in Sources */,
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
 				FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */,
-				FD94907725C3EABA009F4F29 /* AchievementsViewController.swift in Sources */,
 				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
