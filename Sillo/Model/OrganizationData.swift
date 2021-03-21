@@ -30,7 +30,7 @@ class OrganizationData {
     // MARK: Creating New Organizations
     func createNewOrganization() {
         let newOrganization = UUID.init().uuidString
-        Constants.db.collection("organizations").document(newOrganization).setData(["admins": [Constants.FIREBASE_USERID], "members": [], "org-name": newOrganizationName!, "posts": [], "image": ""]) { [self] err in
+        Constants.db.collection("organizations").document(newOrganization).setData(["admins": [Constants.FIREBASE_USERID], "members": [], "organization_name": newOrganizationName!, "posts": [], "image": ""]) { [self] err in
             if let err = err {
                 print("error: \(err) org: \(newOrganizationName!) \(newOrganization) not created")
             } else {
@@ -92,7 +92,6 @@ class OrganizationData {
         if currOrganization == dest { return }
         currOrganization = dest
         currOrganizationName = idToName[currOrganization]
-        feed.coldStart() //pull posts
     }
     
     // MARK: fast-set default organization when the app just started (DIFFERENCE IS PULLING FROM THE DATABASE, caveat is nsnotification needed)
@@ -104,7 +103,7 @@ class OrganizationData {
                 if query!.exists {
                     let name = query?.get("organization_name") as! String
                     self.currOrganizationName = name
-                    feed.coldStart() //pull posts
+                    self.idToName[dest] = name
                     print("COMPLETE COLD CHANGE")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ColdOrgChangeComplete"), object: nil)
                 }

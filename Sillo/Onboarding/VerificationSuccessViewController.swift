@@ -9,6 +9,8 @@ import UIKit
 //MARK: figma screen 168
 class VerificationSuccessViewController: UIViewController {
     
+    var notificationReceived = false
+    
     //MARK: init success image
     let successImage: UIImageView = {
         let image = UIImage(named: "wait_success")
@@ -54,12 +56,23 @@ class VerificationSuccessViewController: UIViewController {
         successLabel.topAnchor.constraint(equalTo: successImage.bottomAnchor, constant: 30).isActive = true
         successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-
-        localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
-        return
+        //NOTE: createNewUser should have been called in the previous VC already
+        //localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
+        print("localuser coldstart")
+        localUser.coldStart()
+        
+        //MARK: fallback if no response: reload view
+        DispatchQueue.main.asyncAfter(deadline: .now()+10) {
+            if !self.notificationReceived {
+                self.viewWillAppear(false)
+                self.viewDidLoad()
+            }
+        }
+        return //NOTE: createNewUser should have been called in the previous VC already, we are waiting for a notification to come thru..
     }
     
     @objc func routeUser(note:NSNotification) {
+        self.notificationReceived = true
         if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
             if (Constants.USERNAME == nil) {
                 let nextVC = SetNameViewController()
@@ -79,11 +92,14 @@ class VerificationSuccessViewController: UIViewController {
                 let nextVC = prepareTabVC()
                 nextVC.modalPresentationStyle = .fullScreen
                 self.present(nextVC, animated: true)
+                return
             }
             else {
+                print("route user in verification success, transitio to welcome to sillo")
                 let nextVC = WelcomeToSilloViewController()
                 nextVC.modalPresentationStyle = .fullScreen
                 self.navigationController?.pushViewController(nextVC, animated: true)
+                return
             }
         }
         

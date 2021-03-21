@@ -88,6 +88,7 @@ class LocalUser {
                 }
             }
         }
+        organizationData.changeOrganization(dest: organizationID)
         organizationData.addMemberToOrganization(organizationID: organizationID)
     }
     
@@ -152,5 +153,6 @@ class LocalUser {
     }
         self.invites = []
         self.invitesMapping = [:]
+        UserDefaults.standard.removeObject(forKey: "defaultOrganization")
     }
 }

@@ -54,7 +54,9 @@ class PostHandler {
     
     //MARK: cold start
     func coldStart() {
+        self.posts = [:]
         let organizationID = organizationData.currOrganization ?? "ERROR"
+        print("PULLING POSTS FOR \(organizationID)")
         db.collection("organization_posts").document(organizationID).collection("posts").order(by: "timestamp").limit(to: 15).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")

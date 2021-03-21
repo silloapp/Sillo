@@ -355,8 +355,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                 } else {
                     //log google education sign-in
                     analytics.log_account_creation_google()
-                    
-                    localUser.createNewUser(newUser: Constants.FIREBASE_USERID!)
+                    localUser.createNewUser(newUser: Auth.auth().currentUser!.uid)
                     
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let nextVC = VerificationSuccessViewController()

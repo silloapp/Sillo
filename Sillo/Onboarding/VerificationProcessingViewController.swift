@@ -84,6 +84,9 @@ class VerificationProcessingViewController: UIViewController {
                     //log successful passcode verification
                     analytics.log_passcode_verification_success()
                     
+                    //create new user
+                    localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
+                    
                     // Code verification successful, move to next VC
                     let nextVC = VerificationSuccessViewController()
                     nextVC.modalPresentationStyle = .fullScreen

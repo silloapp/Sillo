@@ -260,7 +260,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         //log sign-in event
                         analytics.log_sign_in_standard()
                         
-                        localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
+                        localUser.createNewUser(newUser:Auth.auth().currentUser!.uid)
                         
                         UserDefaults.standard.set(true, forKey: "loggedIn")
                         
@@ -344,7 +344,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                     //log google education sign-in
                     analytics.log_sign_in_google()
                     
-                    localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
+                    localUser.createNewUser(newUser:Auth.auth().currentUser!.uid)
                     
                     UserDefaults.standard.set(true, forKey: "loggedIn")
                     let nextVC = VerificationSuccessViewController()
