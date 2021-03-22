@@ -11,9 +11,11 @@ import GoogleSignIn
 
 class ProfileSetupViewController: UIViewController{
     
+    var takingProfileSetupRole = true ///this is a switcher value used to define this VC's role as a Profile Setup or Profile Edit view controller
+    
     let pronounValues = ["pronouns not specified", "she/her", "he/him", "they/them"]
     
-    private let name = Auth.auth().currentUser?.displayName
+    private let name = Constants.USERNAME
     var bioText: String = ""
     var pronouns: String = ""
     var restaurants : [String] = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
@@ -333,10 +335,7 @@ class ProfileSetupViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         //reload necessary coming from selecting interest view
         collectionView.reloadData()
-        self.pronouns = ""
-        if self.pronouns != "no pronouns specified" {
-            pronounsTextField.text = self.pronouns
-        }
+        
         bioTextView.text = self.bioText
         for (index, restaurant) in restaurants.enumerated() {
             switch index {
@@ -381,6 +380,9 @@ class ProfileSetupViewController: UIViewController{
         exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
         
         //MARK: header label
+        if (!self.takingProfileSetupRole) {
+            headerLabel.text = "Edit profile"
+        }
         view.addSubview(headerLabel)
         headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
@@ -480,6 +482,9 @@ class ProfileSetupViewController: UIViewController{
         createPronounPicker()
         
         //MARK: pronouns text field
+        print("using pronouns \(self.pronouns)")
+        pronounsTextField.placeholder = self.pronouns
+        pronounsTextField.text = self.pronouns
         scrollView.addSubview(pronounsTextField)
         pronounsTextField.attributedPlaceholder =
             NSAttributedString(string: self.pronouns, attributes: [NSAttributedString.Key.foregroundColor : Color.matte])
@@ -643,6 +648,11 @@ class ProfileSetupViewController: UIViewController{
     
     //User pressed edit profile interests button
     @objc func selectInterests(_:UIImage) {
+        //backup profile info
+        self.pronouns = pronounsTextField.text!
+        self.bioText = bioTextView.text!
+        self.restaurants = collectRestaurantHelper()
+        
         let nextVC = ProfileSetInterestsViewController()
         nextVC.modalPresentationStyle = .automatic
         nextVC.modalTransitionStyle = .coverVertical
@@ -663,10 +673,13 @@ class ProfileSetupViewController: UIViewController{
         }
         
         if (!interests.isEmpty && bioTextView.hasText) {
-            var pronouns = "no pronouns specified"
+            var pronouns = self.pronouns
+            print(self.pronouns)
             //prevents malicious alterations of pronouns
+            print(pronounsTextField.text!)
             if pronounValues.contains(pronounsTextField.text!) {
                 pronouns = pronounsTextField.text!
+                print("pronouns accepted")
             }
             
             let bio = bioTextView.text!
@@ -690,9 +703,15 @@ class ProfileSetupViewController: UIViewController{
             
             userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
             
-            //transition to all set, onboarding finished
-            let nextVC = AllSetViewController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            //transition to all set, onboarding finished, if profile set up role
+            
+            if (!takingProfileSetupRole) {
+                self.navigationController?.popViewController(animated: true)
+            }
+            else {
+                let nextVC = AllSetViewController()
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
         }
         else {
             errorState=true

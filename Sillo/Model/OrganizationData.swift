@@ -144,12 +144,12 @@ class OrganizationData {
                 if let query = query {
                     if query.exists {
                         let name = query.get("organization_name") as! String
-                        print(name)
-                        let imageRef = query.get("image") as! String
                         self.idToName[orgID] = name
+                        let imageRef = query.get("image") as! String
                         if (imageRef != "") {
                             if let resImage = cloudutil.downloadImage(ref: "orgProfiles/\(imageRef)\(Constants.image_extension)") {
                                 self.orgToImage[orgID] = resImage
+                                NotificationCenter.default.post(name: Notification.Name("RefreshOrgPictures"), object: nil)
                             }
                         }
                         else {

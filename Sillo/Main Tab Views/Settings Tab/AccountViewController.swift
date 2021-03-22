@@ -9,7 +9,7 @@ import UIKit
 
 class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let accountEmail: String = "user@placeholder.com"
+    let accountEmail: String = Constants.EMAIL ?? "your email"
     let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }()
     
     private let menuItems = [
-        MenuItem(name: "Delete Account", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17)
+        MenuItem(name: "Delete Account", nextVC: StartScreenViewController(), withArrow: true, fontSize: 17)
     ]
     
     let menuItemTableView = UITableView()
@@ -41,6 +41,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         menuItemTableView.register(TeamCell.self, forCellReuseIdentifier: "contactCell") //TODO: replace identifier
         
         text.text = "If you choose to delete your account, it will be permanently removed from Sillo and you will be removed from all spaces associated with \(accountEmail)"
+        text.textColor = Color.matte
         view.addSubview(text)
         text.topAnchor.constraint(equalTo:menuItemTableView.bottomAnchor, constant: 5).isActive = true
         text.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor, constant: 32).isActive = true
@@ -52,7 +53,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         let label = UILabel()
         label.font = Font.regular(12)
         label.numberOfLines = 3
-        label.text = "If you choose to delete your account, it will be permanently removed from Sillo and you will be removed from all spaces associated with placeholder@placeholder.com"
+        label.text = "If you choose to delete your account, it will be permanently removed from Sillo and you will be removed from all spaces associated with your email"
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -64,6 +65,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! TeamCell
+        cell.backgroundColor = .white
         cell.item = menuItems[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
@@ -71,9 +73,28 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let name = menuItems[indexPath.row].name
-        let nextVC = HomeViewController() //placeholder
+        switch name {
+        case "Delete Account":
+            //log account deletion
+            if let nextVC = menuItems[indexPath.row].nextVC as? StartScreenViewController {
+                print("delete account")
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Are you sure?", message: "Deleting your account will remove you from all Sillo spaces associated with \(self.accountEmail)", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {_ in}))
+                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: {_ in self.deleteHelper(nextVC)}))
+                    self.present(alert, animated: true)
+                }
+            }
+            break
+        default:
+            break
+        }
+
+    }
+    func deleteHelper(_ nextVC: UIViewController) {
         nextVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        self.present(nextVC, animated: true, completion: {analytics.log_delete_account()})
+        localUser.deleteUser()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
