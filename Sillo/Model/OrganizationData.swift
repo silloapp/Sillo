@@ -76,17 +76,24 @@ class OrganizationData {
         let col = Constants.db.collection("invites")
         for address in emails {
             let docRef = col.document(address)
-            var member: [String] = []
             var mapping: [String:String] = [:]
             docRef.getDocument() { (query, err) in
                 if let query = query {
-                    if query.exists {
-                        if let unwrap_member = query.get("members") {member = unwrap_member as! [String]}
-                        if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
-                    }
+                    
                     mapping[organizationID] = organizationName
+                    
+                    if query.exists {
+                        if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
+                        docRef.updateData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
+                    }
+                    else {
+                        //document does not exist
+                        let member: [String] = [organizationID]
+                        docRef.setData(["member": member, "mapping":mapping])
+                    }
+                    
                 }
-                docRef.updateData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
+                
             }
         }
     }
@@ -155,7 +162,7 @@ class OrganizationData {
     
     //MARK: Email Format Validation
     func isValidEmail(_ email: String) -> Bool {
-        //Behind the hood it uses the RFC 5322 reg ex (http://emailregex.com):
+        //Under the hood it uses the RFC 5322 reg ex (http://emailregex.com):
         //https://stackoverflow.com/questions/25471114/how-to-validate-an-e-mail-address-in-swift
         
         let emailRegEx = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +

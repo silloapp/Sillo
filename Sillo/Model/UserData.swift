@@ -74,13 +74,15 @@ class LocalUser {
     func acceptInvite(organizationID:String) {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-            self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
-            self.invitesMapping[organizationID] = nil
+        
+        self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+        
+        //this mapping data would be cleared on refresh
+        //self.invitesMapping[organizationID] = nil
             
-            //delete invite on firebase
-            db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
-        }
+        //delete invite on firebase
+        db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
+        
         addOrganizationtoUser(organizationID: organizationID)
         organizationData.addMemberToOrganization(organizationID: organizationID)
         organizationData.changeOrganization(dest: organizationID)
