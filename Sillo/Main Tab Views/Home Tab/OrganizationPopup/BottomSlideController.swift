@@ -292,7 +292,10 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     
     @objc func addNewSpaceClicked() {
         let vc = WelcomeToSilloViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        let navC = UINavigationController(rootViewController: vc)
+        navC.modalPresentationStyle = .fullScreen
+        self.present(navC,animated: true, completion:nil)
+        //self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func button1dismissMethod() {

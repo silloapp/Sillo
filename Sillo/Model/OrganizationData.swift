@@ -33,16 +33,21 @@ class OrganizationData {
         Constants.db.collection("organizations").document(newOrganization).setData(["admins": [Constants.FIREBASE_USERID], "members": [], "organization_name": newOrganizationName!, "posts": [], "image": ""]) { [self] err in
             if let err = err {
                 print("error: \(err) org: \(newOrganizationName!) \(newOrganization) not created")
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationFail"), object: nil)
+                return
             } else {
                 print("success: created \(newOrganizationName!) \(newOrganization)")
+                addMemberToOrganization(organizationID: newOrganization)// add self to organization
+                localUser.addOrganizationtoUser(organizationID: newOrganization) //add organization to user list
+                changeOrganization(dest: newOrganization) //switch orgs
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
+                
+                if newOrganizationPic != nil {
+                    uploadOrganizationPic(organization: newOrganization, image: newOrganizationPic)
+                }
+                inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
             }
         }
-        idToName[newOrganization] = newOrganizationName
-        changeOrganization(dest: newOrganization)
-        if newOrganizationPic != nil {
-            uploadOrganizationPic(organization: newOrganization, image: newOrganizationPic)
-        }
-        inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
     }
 
     // MARK: Changing Organization Data
@@ -113,7 +118,9 @@ class OrganizationData {
     }
     
     func addMemberToOrganization(organizationID: String) {
-        //add organization to user doc
+        //add user to organization doc
+        idToName[organizationID] = newOrganizationName //add to mapping
+        
         db.collection("organizations").document(organizationID).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {

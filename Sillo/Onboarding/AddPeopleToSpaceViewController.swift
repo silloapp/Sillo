@@ -140,7 +140,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.translatesAutoresizingMaskIntoConstraints = false
         emailTextView.autocorrectionType = .no
         emailTextView.text = "name@domain.com, name@domain.com"
-        emailTextView.backgroundColor = .secondarySystemBackground
+        emailTextView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00)
         emailTextView.textColor = .secondaryLabel
         emailTextView.font = UIFont.preferredFont(forTextStyle: .body)
         emailTextView.layer.cornerRadius = 10
@@ -187,7 +187,18 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     
     
     @objc func nextClicked() {
+        
         organizationData.makeEmailArray(input: emailTextView.text ?? "")
+        let preFilteredEmailCount = emailTextView.text!.split(separator: ",").count
+        if preFilteredEmailCount != organizationData.memberInvites?.count {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Email Typo Detected!", message: "One or more of your emails is mispelled and will not be invited.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                self.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
+        
         let transition = CATransition()
         transition.duration = 0.3
         transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)

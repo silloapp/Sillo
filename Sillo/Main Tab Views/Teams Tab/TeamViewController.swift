@@ -86,17 +86,13 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         switch selectedMenuItem.name{
         case "My Profile":
             if let nextVC = selectedMenuItem.nextVC {
-                nextVC.modalPresentationStyle = .fullScreen
-                UserDefaults.standard.set(false, forKey: "loggedIn")
-            
-                self.present(nextVC, animated: true, completion: nil)
+                self.navigationController?.pushViewController(nextVC, animated: true)
+                break
             }
         case "Sign Out":
             localUser.signOut()
             if let nextVC = selectedMenuItem.nextVC {
                 nextVC.modalPresentationStyle = .fullScreen
-                UserDefaults.standard.set(false, forKey: "loggedIn")
-            
                 self.present(nextVC, animated: true, completion: nil)
             }
             break

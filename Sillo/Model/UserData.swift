@@ -78,18 +78,23 @@ class LocalUser {
             //delete invite
             db.collection("invites").document(myEmail).updateData(["member":self.invites,"mapping":self.invitesMapping])
         }
-        //add organization to user doc
+        addOrganizationtoUser(organizationID: organizationID)
+        organizationData.addMemberToOrganization(organizationID: organizationID)
+        organizationData.changeOrganization(dest: organizationID)
+    }
+    
+    //MARK: add organization to user doc, AND update local copy of organization list
+    func addOrganizationtoUser(organizationID: String) {
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
                     var orgList = query.get("organizations") as! [String]
                     orgList.append(organizationID)
+                    organizationData.organizationList = orgList
                     db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations":orgList])
                 }
             }
         }
-        organizationData.changeOrganization(dest: organizationID)
-        organizationData.addMemberToOrganization(organizationID: organizationID)
     }
     
     //MARK: upload notification token to user document so we can send them notifications mwahah
@@ -154,5 +159,6 @@ class LocalUser {
         self.invites = []
         self.invitesMapping = [:]
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
+        UserDefaults.standard.set(false, forKey: "loggedIn")
     }
 }
