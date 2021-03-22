@@ -145,11 +145,28 @@ class HomeViewController: UIViewController {
     
     @objc func profilePicTapped() {
         
-        blurVw.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
-        blurVw.addGestureRecognizer(tap)
-        addPullUpController(animated: true)
-        NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
+//        blurVw.isUserInteractionEnabled = true
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
+//        blurVw.addGestureRecognizer(tap)
+//        addPullUpController(animated: true)
+//        NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
+        
+        let alertView = AlertView(headingText: "Logout?", messageText: "You will be returned to the login screen.", action1Label: "Cancel", action1Color: Color.burple, action1Completion: {
+            self.dismiss(animated: true, completion: nil)
+        }, action2Label: "Logout", action2Color: .gray, action2Completion: {
+            let auth = Auth.auth()
+            do {
+                try auth.signOut()
+            } catch let error as NSError {
+                // let's hope this never happens and pretend nothing happened
+                print("Error signing out: %@", error)
+            }
+            self.dismiss(animated: true, completion: nil)
+        })
+        alertView.modalPresentationStyle = .overCurrentContext
+        alertView.modalTransitionStyle = .crossDissolve
+        tabBarController?.tabBar.alpha = 0.2
+        self.present(alertView, animated: true, completion: nil)
     }
     
     
