@@ -188,7 +188,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     
     @objc func nextClicked() {
         
-        organizationData.makeEmailArray(input: emailTextView.text ?? "")
+        organizationData.makeEmailArray(input: emailTextView.text.lowercased() ?? "")
         let preFilteredEmailCount = emailTextView.text!.split(separator: ",").count
         if preFilteredEmailCount != organizationData.memberInvites?.count {
             DispatchQueue.main.async {

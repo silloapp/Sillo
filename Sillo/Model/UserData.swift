@@ -74,8 +74,9 @@ class LocalUser {
     func acceptInvite(organizationID:String) {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
-        
-        self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+        }
         
         //this mapping data would be cleared on refresh
         //self.invitesMapping[organizationID] = nil
