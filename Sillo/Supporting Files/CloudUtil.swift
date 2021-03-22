@@ -72,7 +72,7 @@ class CloudUtil {
     }
     
     
-    func downloadImage(ref: String) -> UIImage {
+    func downloadImage(ref: String) -> UIImage? {
         var resultImage = UIImage(named:"placeholder profile")!
         if let cachedVersion = imageCache.object(forKey: ref as NSString) {
             // use the cached version

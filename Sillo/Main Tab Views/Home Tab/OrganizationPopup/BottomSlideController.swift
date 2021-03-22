@@ -292,7 +292,9 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     
     @objc func addNewSpaceClicked() {
         let vc = WelcomeToSilloViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        let navC = UINavigationController(rootViewController: vc)
+        navC.modalPresentationStyle = .fullScreen
+        self.present(navC,animated: true, completion:nil)
     }
     
     @objc func button1dismissMethod() {
@@ -413,7 +415,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         if point > 0 {
             NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
-            //  self.mainView.isUserInteractionEnabled = false
         }
         else {
             NotificationCenter.default.post(name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)

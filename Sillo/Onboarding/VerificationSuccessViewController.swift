@@ -91,6 +91,7 @@ class VerificationSuccessViewController: UIViewController {
                 organizationData.coldChangeOrganization(dest: organizationData.organizationList[0])
                 let nextVC = prepareTabVC()
                 nextVC.modalPresentationStyle = .fullScreen
+                nextVC.modalTransitionStyle = .crossDissolve
                 self.present(nextVC, animated: true)
                 return
             }

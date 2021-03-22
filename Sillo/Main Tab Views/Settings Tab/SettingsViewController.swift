@@ -82,7 +82,6 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             localUser.signOut()
             let nextVC = StartScreenViewController()
             nextVC.modalPresentationStyle = .fullScreen
-            UserDefaults.standard.set(false, forKey: "loggedIn")
             self.present(nextVC, animated: true, completion: nil)
             
         }

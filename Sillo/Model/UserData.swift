@@ -4,8 +4,10 @@
 //
 //  Created by Chi Tsai on 1/17/21.
 //
-import Foundation
+
+import Firebase
 import FirebaseAuth
+import Foundation
 
 var localUser = LocalUser()
 
@@ -72,24 +74,30 @@ class LocalUser {
     func acceptInvite(organizationID:String) {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-            self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
-            self.invitesMapping[organizationID] = nil
-            //delete invite
-            db.collection("invites").document(myEmail).updateData(["member":self.invites,"mapping":self.invitesMapping])
-        }
-        //add organization to user doc
+        
+        self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+        
+        //this mapping data would be cleared on refresh
+        //self.invitesMapping[organizationID] = nil
+            
+        //delete invite on firebase
+        db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
+        
+        addOrganizationtoUser(organizationID: organizationID)
+        organizationData.addMemberToOrganization(organizationID: organizationID)
+        organizationData.changeOrganization(dest: organizationID)
+    }
+    
+    //MARK: add organization to user doc, AND update local copy of organization list
+    func addOrganizationtoUser(organizationID: String) {
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    var orgList = query.get("organizations") as! [String]
-                    orgList.append(organizationID)
-                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations":orgList])
+                    organizationData.organizationList.append(organizationID)
+                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations": FieldValue.arrayUnion([organizationID])])
                 }
             }
         }
-        organizationData.changeOrganization(dest: organizationID)
-        organizationData.addMemberToOrganization(organizationID: organizationID)
     }
     
     //MARK: upload notification token to user document so we can send them notifications mwahah
@@ -154,5 +162,6 @@ class LocalUser {
         self.invites = []
         self.invitesMapping = [:]
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
+        UserDefaults.standard.set(false, forKey: "loggedIn")
     }
 }

@@ -19,6 +19,14 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     let screenSize = UIScreen.main.bounds
     let TopTable = UITableView()
     
+    //MARK: init exit button
+    let exitButton: UIButton = {
+        let btn = UIButton()
+        btn.setBackgroundImage(UIImage(named: "back"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
     var selectedIndx = -1
     
     
@@ -37,7 +45,6 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     //MARK: refresh called
     @objc func refreshInvitesList(note: NSNotification) {
-        print("RELOAD TABLEVIEW")
         self.TopTable.reloadData()
     }
   
@@ -82,7 +89,14 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
 
            ]
             
-
+    // FOR EXIT BUTTON :
+            self.insideScrollVw.addSubview(exitButton)
+            exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+            exitButton.topAnchor.constraint(equalTo: self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+            exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            exitButton.addTarget(self, action: #selector(exitPressed), for: .touchUpInside)
+            
     // FOR TITLE :
             
              self.insideScrollVw.addSubview(titleLabel)
@@ -228,19 +242,27 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             
             
         }
+    
+    @objc func exitPressed() {
+        if organizationData.organizationList.isEmpty {
+            localUser.signOut()
+            let nextVC = StartScreenViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.modalTransitionStyle = .crossDissolve
+            
+            self.present(nextVC, animated: true, completion: nil)
+        }
+        else {
+            let nextVC = prepareTabVC()
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.modalTransitionStyle = .crossDissolve
+            self.present(nextVC, animated: true)
+        }
+    }
  
 @objc func BottomButtonMethod() {
     let nextVC = SetupOrganizationViewController()
     self.navigationController?.pushViewController(nextVC, animated: true)
-    
-    /*
-    localUser.signOut()
-    let nextVC = StartScreenViewController()
-    nextVC.modalPresentationStyle = .fullScreen
-    UserDefaults.standard.set(false, forKey: "loggedIn")
-    self.present(nextVC, animated: true, completion: nil)
-     */
-    
  }
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//

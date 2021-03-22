@@ -16,6 +16,9 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
     var confirmButton = UIButton()
     let memberInvites:[String] = organizationData.memberInvites ?? []
     
+    private var latestButtonPressTimestamp: Date = Date()
+    private var DEBOUNCE_LIMIT: Double = 2.0 //in seconds
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -32,6 +35,8 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.creationSuccess(note:)), name: Notification.Name("OrganizationCreationSuccess"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.creationFail(note:)), name: Notification.Name("OrganizationCreationFail"), object: nil)
     }
     
     func configureNavBar() {
@@ -115,15 +120,34 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
     }
     
     @objc func confirmClicked() {
-        organizationData.createNewOrganization()
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
         
+        if (requestThrottled) {
+            return
+        }
+        self.latestButtonPressTimestamp = Date()
+        
+        organizationData.createNewOrganization()
+        return
+        // TODO: transition to next VC
+    }
+    
+    @objc func creationSuccess(note:NSNotification) {
         let transition = CATransition()
         transition.duration = 0.3
         transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         transition.type = .fade
         self.navigationController?.view.layer.add(transition, forKey: nil)
         
-        // TODO: transition to next VC
+        self.navigationController?.pushViewController(ProfilePromptViewController(), animated: true)
+    }
+    
+    @objc func creationFail(note:NSNotification) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Oops!", message: "Something went wrong with creating your organization. Please try again later.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -133,7 +157,9 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // TODO: change the margins of the text to be spaced out
         let cell = tableView.dequeueReusableCell(withIdentifier: "emailCell", for: indexPath as IndexPath)
+        cell.backgroundColor = .white
         cell.selectionStyle = .none
+        cell.textLabel?.textColor = Color.textSemiBlack
         cell.textLabel?.text = memberInvites[indexPath.row]
         return cell
     }

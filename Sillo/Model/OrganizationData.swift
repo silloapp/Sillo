@@ -33,23 +33,28 @@ class OrganizationData {
         Constants.db.collection("organizations").document(newOrganization).setData(["admins": [Constants.FIREBASE_USERID], "members": [], "organization_name": newOrganizationName!, "posts": [], "image": ""]) { [self] err in
             if let err = err {
                 print("error: \(err) org: \(newOrganizationName!) \(newOrganization) not created")
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationFail"), object: nil)
+                return
             } else {
                 print("success: created \(newOrganizationName!) \(newOrganization)")
+                addMemberToOrganization(organizationID: newOrganization)// add self to organization
+                localUser.addOrganizationtoUser(organizationID: newOrganization) //add organization to user list
+                changeOrganization(dest: newOrganization) //switch orgs
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
+                
+                if newOrganizationPic != nil {
+                    uploadOrganizationPic(organization: newOrganization, image: newOrganizationPic)
+                }
+                inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
             }
         }
-        idToName[newOrganization] = newOrganizationName
-        changeOrganization(dest: newOrganization)
-        if newOrganizationPic != nil {
-            uploadOrganizationPic(organization: newOrganization, image: newOrganizationPic)
-        }
-        inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
     }
 
     // MARK: Changing Organization Data
     func uploadOrganizationPic(organization: String, image: UIImage?) {
         let imageID = UUID.init().uuidString
 
-        let storageRef = Constants.storage.reference(withPath: "images/\(imageID).jpeg")
+        let storageRef = Constants.storage.reference(withPath: "orgProfiles/\(imageID)\(Constants.image_extension)")
         guard let imageData = image!.jpegData(compressionQuality: 0.75) else {return }
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
@@ -61,7 +66,7 @@ class OrganizationData {
             if err != nil {
                 print("Error uploading organization picture")
             } else {
-                orgDoc.updateData(["image": "\(imageID).jpeg"])
+                orgDoc.updateData(["image": "\(imageID)"])
                 print("Added organization image")
             }
         }
@@ -71,18 +76,24 @@ class OrganizationData {
         let col = Constants.db.collection("invites")
         for address in emails {
             let docRef = col.document(address)
-            var member: [String] = []
             var mapping: [String:String] = [:]
             docRef.getDocument() { (query, err) in
                 if let query = query {
                     if query.exists {
-                        if let unwrap_member = query.get("members") {member = unwrap_member as! [String]}
                         if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
+                        mapping[organizationID] = organizationName
+                        docRef.updateData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
+                        
                     }
-                    member.append(organizationID)
-                    mapping[organizationID] = organizationName
+                    else {
+                        //document does not exist
+                        mapping[organizationID] = organizationName
+                        docRef.setData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
+                    }
+                    
+                    
                 }
-                docRef.setData(["member": member, "mapping":mapping], merge: true)
+                
             }
         }
     }
@@ -113,13 +124,14 @@ class OrganizationData {
     }
     
     func addMemberToOrganization(organizationID: String) {
-        //add organization to user doc
+        //add user to organization doc
+        idToName[organizationID] = newOrganizationName //add to mapping
+        
         db.collection("organizations").document(organizationID).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    var memberList = query.get("members") as! [String]
-                    memberList.append(Constants.FIREBASE_USERID!)
-                    db.collection("organizations").document(organizationID).updateData(["members":memberList])
+                    let memberToAdd = Constants.FIREBASE_USERID!
+                    db.collection("organizations").document(organizationID).updateData(["members":FieldValue.arrayUnion([memberToAdd])])
                 }
             }
         }
@@ -136,11 +148,12 @@ class OrganizationData {
                         let imageRef = query.get("image") as! String
                         self.idToName[orgID] = name
                         if (imageRef != "") {
-                            let resImage = cloudutil.downloadImage(ref: imageRef)
-                            self.orgToImage[orgID] = resImage
+                            if let resImage = cloudutil.downloadImage(ref: "orgProfiles/\(imageRef)\(Constants.image_extension)") {
+                                self.orgToImage[orgID] = resImage
+                            }
                         }
                         else {
-                            self.orgToImage[orgID] = UIImage(named:"avatar-1") //set placeholder
+                            self.orgToImage[orgID] = UIImage(named: "avatar-2")
                         }
                     }
                 }
@@ -150,7 +163,7 @@ class OrganizationData {
     
     //MARK: Email Format Validation
     func isValidEmail(_ email: String) -> Bool {
-        //Behind the hood it uses the RFC 5322 reg ex (http://emailregex.com):
+        //Under the hood it uses the RFC 5322 reg ex (http://emailregex.com):
         //https://stackoverflow.com/questions/25471114/how-to-validate-an-e-mail-address-in-swift
         
         let emailRegEx = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
