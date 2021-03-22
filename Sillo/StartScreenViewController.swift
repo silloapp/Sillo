@@ -50,7 +50,6 @@ class StartScreenViewController: UIViewController {
                 
                 if (UserDefaults.standard.string(forKey: "defaultOrganization") != nil) {
                     organizationData.coldChangeOrganization(dest: UserDefaults.standard.string(forKey: "defaultOrganization"))
-                    localUser.coldStart()
                     return
                 }
                 

@@ -294,7 +294,6 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                     if authResult != nil {
                         //log account creation
                         analytics.log_account_creation_standard()
-                        localUser.coldStart()
                         
                         UserDefaults.standard.set(true, forKey: "loggedIn")
                         cloudutil.generateAuthenticationCode()

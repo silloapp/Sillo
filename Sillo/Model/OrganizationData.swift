@@ -54,7 +54,7 @@ class OrganizationData {
     func uploadOrganizationPic(organization: String, image: UIImage?) {
         let imageID = UUID.init().uuidString
 
-        let storageRef = Constants.storage.reference(withPath: "images/\(imageID).jpeg")
+        let storageRef = Constants.storage.reference(withPath: "orgProfiles/\(imageID)\(Constants.image_extension)")
         guard let imageData = image!.jpegData(compressionQuality: 0.75) else {return }
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
@@ -66,7 +66,7 @@ class OrganizationData {
             if err != nil {
                 print("Error uploading organization picture")
             } else {
-                orgDoc.updateData(["image": "\(imageID).jpeg"])
+                orgDoc.updateData(["image": "\(imageID)"])
                 print("Added organization image")
             }
         }
@@ -148,11 +148,12 @@ class OrganizationData {
                         let imageRef = query.get("image") as! String
                         self.idToName[orgID] = name
                         if (imageRef != "") {
-                            let resImage = cloudutil.downloadImage(ref: imageRef)
-                            self.orgToImage[orgID] = resImage
+                            if let resImage = cloudutil.downloadImage(ref: "orgProfiles/\(imageRef)\(Constants.image_extension)") {
+                                self.orgToImage[orgID] = resImage
+                            }
                         }
                         else {
-                            self.orgToImage[orgID] = UIImage(named:"avatar-1") //set placeholder
+                            self.orgToImage[orgID] = UIImage(named: "avatar-2")
                         }
                     }
                 }
