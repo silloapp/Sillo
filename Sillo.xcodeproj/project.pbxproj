@@ -25,6 +25,7 @@
 		A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */; };
 		AA0A495A25FE141900FDD87F /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */; };
 		AA19190E25FF669000180A80 /* StartScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19190D25FF669000180A80 /* StartScreenViewController.swift */; };
+		AA2C87992608408A00B6EC6A /* AnonymousAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C87982608408A00B6EC6A /* AnonymousAssignment.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
 		AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57BA7225E84587001C378B /* ProfilePromptViewController.swift */; };
@@ -130,6 +131,7 @@
 		A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 		AA19190D25FF669000180A80 /* StartScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenViewController.swift; sourceTree = "<group>"; };
+		AA2C87982608408A00B6EC6A /* AnonymousAssignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAssignment.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
 		AA57BA7225E84587001C378B /* ProfilePromptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePromptViewController.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */,
 				FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */,
 				FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */,
+				AA2C87982608408A00B6EC6A /* AnonymousAssignment.swift */,
 			);
 			path = SupportClass;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */,
 				FD94908725C3EB31009F4F29 /* MessagesViewController.swift in Sources */,
 				FD93B2DA26057BF200CC44AA /* ChatsViewController.swift in Sources */,
+				AA2C87992608408A00B6EC6A /* AnonymousAssignment.swift in Sources */,
 				FD94908225C3EB26009F4F29 /* HomeViewController.swift in Sources */,
 				FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */,
 				AADC1A7C260213E2008B0B8F /* PostData.swift in Sources */,
