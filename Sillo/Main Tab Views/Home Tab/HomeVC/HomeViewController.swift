@@ -36,12 +36,18 @@ class HomeViewController: UIViewController {
        postListener?.remove()
      }
     
+    @objc func tabBarOpacityChange(note: NSNotification) {
+        self.tabBarController?.tabBar.alpha = 1
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfHideBlur(notification:)), name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfShowBlur(notification:)), name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshPostTableView"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.tabBarOpacityChange(note:)), name: Notification.Name("PopupDidAppear"), object: nil)
         
         //MARK: attach listener
         let organizationID = organizationData.currOrganization ?? "ERROR"
