@@ -272,7 +272,7 @@ class ProfileVC: UIViewController{
    
     //User pressed exit button
     @objc func exitPressed(_:UIImage) {
-        navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil) ///this is because we're usin this VC for previewing only
     }
 }
 

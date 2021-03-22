@@ -44,9 +44,12 @@ class CloudUtil {
     
     func uploadImages(image: UIImage, ref: String) {
         // Data in memory
-        let croppedImage = image.resized(withPercentage: 0.5)
-        imageCache.setObject(croppedImage!, forKey: ref as NSString) //shove into cache
-        let imageData = croppedImage!.jpegData(compressionQuality: 0.5)!; // 0.7 is JPG quality
+        var croppedImage = image
+        if (image.size.width > 300 && image.size.height > 300) {
+            croppedImage = image.resized(withPercentage: 300 / image.size.width) ?? image
+        }
+        imageCache.setObject(croppedImage, forKey: ref as NSString) //shove into cache
+        let imageData = croppedImage.jpegData(compressionQuality: 1.0)!; // 0.7 is JPG quality
         // Create a reference to the file you want to upload
         let imageRef = storageRef.child(ref)
         
@@ -54,7 +57,7 @@ class CloudUtil {
         let uploadTask = imageRef.putData(imageData, metadata: nil) { (metadata, error) in
           guard let metadata = metadata else {
             // Uh-oh, an error occurred!
-            print("error")
+            print("error uploading.")
             return
           }
           // Metadata contains file metadata such as size, content-type.
@@ -76,6 +79,7 @@ class CloudUtil {
         var resultImage = UIImage(named:"placeholder profile")!
         if let cachedVersion = imageCache.object(forKey: ref as NSString) {
             // use the cached version
+            print("using cached version of image with key \(ref)")
             resultImage = cachedVersion
         }
         else {
