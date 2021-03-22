@@ -164,5 +164,22 @@ class LocalUser {
         self.invitesMapping = [:]
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
         UserDefaults.standard.set(false, forKey: "loggedIn")
+        self.clearConstants()
+    }
+    
+    //sign out helper function
+    func clearConstants() {
+        Constants.me = nil
+        Constants.EMAIL = nil
+        Constants.USERNAME = nil
+        Constants.FIREBASE_USERID = nil
+        Constants.EMAIL = nil
+    }
+    
+    //MARK: delete self
+    func deleteUser() {
+        print("BYE BYE DELETING USER")
+        //call backend function for deletion..
+        self.signOut()
     }
 }
