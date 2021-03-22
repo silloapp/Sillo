@@ -29,6 +29,7 @@ struct Post {
     let postID: String?
     let attachment: String?
     let message: String?
+    let posterUserID: String?
     let posterAlias: String?
     let posterImage: UIImage?
     let date: Date?

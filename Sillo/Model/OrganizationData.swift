@@ -79,18 +79,18 @@ class OrganizationData {
             var mapping: [String:String] = [:]
             docRef.getDocument() { (query, err) in
                 if let query = query {
-                    
-                    mapping[organizationID] = organizationName
-                    
                     if query.exists {
                         if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
+                        mapping[organizationID] = organizationName
                         docRef.updateData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
+                        
                     }
                     else {
                         //document does not exist
-                        let member: [String] = [organizationID]
-                        docRef.setData(["member": member, "mapping":mapping])
+                        mapping[organizationID] = organizationName
+                        docRef.setData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
                     }
+                    
                     
                 }
                 
