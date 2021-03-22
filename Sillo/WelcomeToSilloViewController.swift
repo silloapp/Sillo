@@ -255,6 +255,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         else {
             let nextVC = prepareTabVC()
             nextVC.modalPresentationStyle = .fullScreen
+            nextVC.modalTransitionStyle = .crossDissolve
             self.present(nextVC, animated: true)
         }
     }

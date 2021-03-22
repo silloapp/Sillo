@@ -83,7 +83,8 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMenuItem = menuItems[indexPath.row]
-        switch selectedMenuItem.name{
+        switch selectedMenuItem.name {
+        case "My Profile":
             if let nextVC = selectedMenuItem.nextVC {
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
