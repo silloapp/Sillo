@@ -260,33 +260,21 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         //log sign-in event
                         analytics.log_sign_in_standard()
                         
-                        localUser.createNewUser(newUser:Auth.auth().currentUser!.uid)
-                        
                         UserDefaults.standard.set(true, forKey: "loggedIn")
                         
                         let currentUser = Auth.auth().currentUser!
-                        if (!UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
-                            if (!currentUser.isEmailVerified) {
-                                //email not verified
-                                let nextVC = PasscodeVerificationViewController()
-                                cloudutil.generateAuthenticationCode()
-                                nextVC.modalPresentationStyle = .fullScreen
-                                self.navigationController?.pushViewController(nextVC, animated: true)
-                            }
-                            else if (currentUser.displayName == nil) {
-                                //no display name
-                                let nextVC = SetNameViewController()
-                                nextVC.modalPresentationStyle = .fullScreen
-                                self.navigationController?.pushViewController(nextVC, animated: true)
-                            }
-                            else {
-                                let nextVC = NotificationRequestViewController()
-                                nextVC.modalPresentationStyle = .fullScreen
-                                self.navigationController?.pushViewController(nextVC, animated: true)
-                            }
+                        if (!currentUser.isEmailVerified) {
+                            //email not verified
+                            //localUser.createNewUser(newUser:Auth.auth().currentUser!.uid) is moved to verificationprocessingvc
+                            let nextVC = PasscodeVerificationViewController()
+                            cloudutil.generateAuthenticationCode()
+                            nextVC.modalPresentationStyle = .fullScreen
+                            self.navigationController?.pushViewController(nextVC, animated: true)
                         }
                         else {
-                            //display name set and email verified
+                            //verified, proceed
+                            localUser.createNewUser(newUser:Auth.auth().currentUser!.uid)
+                            
                             let nextVC = VerificationSuccessViewController()
                             nextVC.modalPresentationStyle = .fullScreen
                             self.navigationController?.pushViewController(nextVC, animated: true)
