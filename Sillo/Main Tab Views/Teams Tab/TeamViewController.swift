@@ -84,11 +84,10 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMenuItem = menuItems[indexPath.row]
         switch selectedMenuItem.name{
-        case "My Profile":
             if let nextVC = selectedMenuItem.nextVC {
                 self.navigationController?.pushViewController(nextVC, animated: true)
-                break
             }
+          break
         case "Sign Out":
             localUser.signOut()
             if let nextVC = selectedMenuItem.nextVC {
@@ -96,7 +95,6 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.present(nextVC, animated: true, completion: nil)
             }
             break
-            
         default:
             print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
             let vc = menuItems[indexPath.row].nextVC!

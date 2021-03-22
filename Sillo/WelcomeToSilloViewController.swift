@@ -262,7 +262,6 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
 @objc func BottomButtonMethod() {
     let nextVC = SetupOrganizationViewController()
     self.navigationController?.pushViewController(nextVC, animated: true)
-    
  }
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
