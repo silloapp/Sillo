@@ -92,9 +92,13 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     }
     func deleteHelper(_ nextVC: UIViewController) {
-        nextVC.modalPresentationStyle = .fullScreen
-        self.present(nextVC, animated: true, completion: {analytics.log_delete_account()})
         localUser.deleteUser()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            nextVC.modalPresentationStyle = .fullScreen
+            self.present(nextVC, animated: true, completion: {analytics.log_delete_account()})
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
