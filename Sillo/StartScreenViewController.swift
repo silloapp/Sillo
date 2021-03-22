@@ -37,7 +37,7 @@ class StartScreenViewController: UIViewController {
         logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.20).isActive = true
         logoImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.20).isActive = true
-
+        
         pulsate()
         localUser.coldStart()
         
@@ -79,7 +79,7 @@ class StartScreenViewController: UIViewController {
                 //not yet finished with onboarding, go through steps
                 if (!(Constants.me?.isEmailVerified ?? false)) {
                     //is email verified?
-                    nextVC = ConfirmEmailViewController()
+                    nextVC = PasscodeVerificationViewController()
                     cloudutil.generateAuthenticationCode()
                 }
                 else if (Constants.me?.displayName == nil) {

@@ -58,7 +58,7 @@ class VerificationSuccessViewController: UIViewController {
         
         //NOTE: createNewUser should have been called in the previous VC already
         //localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
-        print("localuser coldstart")
+        
         localUser.coldStart()
         
         //MARK: fallback if no response: reload view

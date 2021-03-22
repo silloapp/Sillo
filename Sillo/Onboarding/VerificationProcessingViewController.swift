@@ -87,6 +87,9 @@ class VerificationProcessingViewController: UIViewController {
                     //create new user
                     localUser.createNewUser(newUser:Auth.auth().currentUser!.uid)
                     
+                    //set logged in
+                    UserDefaults.standard.set(true, forKey: "loggedIn")
+                    
                     // Code verification successful, move to next VC
                     let nextVC = VerificationSuccessViewController()
                     nextVC.modalPresentationStyle = .fullScreen

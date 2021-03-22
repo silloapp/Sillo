@@ -296,8 +296,8 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                         analytics.log_account_creation_standard()
                         
                         UserDefaults.standard.setValue(false, forKey: "finishedOnboarding")
+                        UserDefaults.standard.set(false, forKey: "loggedIn") //verification needed
                         
-                        UserDefaults.standard.set(true, forKey: "loggedIn")
                         cloudutil.generateAuthenticationCode()
                         let nextVC = PasscodeVerificationViewController()
                         nextVC.modalPresentationStyle = .fullScreen
