@@ -20,7 +20,8 @@ struct Message { //testing only
     let name: String?
     let profilePicture: UIImage?
     let message: String?
-    let timeSent: String?
+    let attachment: UIImage?
+    let timestamp: Date?
     let isRead: Bool?
     //TODO: add image/gif, conversationID, whatever else
 }

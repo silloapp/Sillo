@@ -9,24 +9,7 @@ import UIKit
 
 class MessagesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    private let messages = [ //placeholder data, TODO: fetch conversations from firebase
-        Message(alias: "Potato", name: "Alexa", profilePicture: UIImage(named:"avatar-1"), message: "Hey I really like potatoes what abotu you", timeSent: "2.55pm", isRead: false),
-        Message(alias: "Apple Pie", name: "Barnie", profilePicture: UIImage(named:"avatar-2"), message: "BABABAABBANA BANAANAN ABANA BANA!", timeSent: "7.55pm", isRead: true),
-        Message(alias: "Bongo", name: "Sender", profilePicture: UIImage(named:"avatar-3"), message: "I really like candles would you like one here u go", timeSent: "7.55pm", isRead: false),
-        Message(alias: "Bingo", name: "Mickey", profilePicture: UIImage(named:"avatar-1"), message: "Did you know that hippo milk is pink??", timeSent: "7.33pm", isRead: true),
-        Message(alias: "Sink", name: "Siri", profilePicture: UIImage(named:"avatar-3"), message: "my favourite flavour of icecream is giraffe", timeSent: "5.15pm", isRead: false),
-        Message(alias: "Potato", name: "Aqua", profilePicture: UIImage(named:"avatar-1"), message: "baby shark doo doo doo doo do ", timeSent: "2.55pm", isRead: false),
-        Message(alias: "Apple Pie", name: "Bob", profilePicture: UIImage(named:"avatar-2"), message: "whooo is thta girl i see??? staring straight??? back at me", timeSent: "7.55pm", isRead: true),
-        Message(alias: "Bongo", name: "Angel", profilePicture: UIImage(named:"avatar-3"), message: "Houston to Apollo 13 do you copy o", timeSent: "7.55pm", isRead: false),
-        Message(alias: "Bingo", name: "Frances", profilePicture: UIImage(named:"avatar-1"), message: "I have a pencil and my pencil is black", timeSent: "7.33pm", isRead: true),
-        Message(alias: "Sink", name: "Seargant", profilePicture: UIImage(named:"avatar-1"), message: "I rly rly like sillo wbu rbo", timeSent: "5.15pm", isRead: false),
-        Message(alias: "Potato", name: "Aqua", profilePicture: UIImage(named:"avatar-1"), message: "baby shark doo doo doo doo do ", timeSent: "2.55pm", isRead: false),
-        Message(alias: "Apple Pie", name: "Bob", profilePicture: UIImage(named:"avatar-2"), message: "whooo is thta girl i see??? staring straight??? back at me", timeSent: "7.55pm", isRead: true),
-        Message(alias: "Bongo", name: "Angel", profilePicture: UIImage(named:"avatar-3"), message: "Houston to Apollo 13 do you copy o", timeSent: "7.55pm", isRead: false),
-        Message(alias: "Bingo", name: "Frances", profilePicture: UIImage(named:"avatar-1"), message: "I have a pencil and my pencil is black", timeSent: "7.33pm", isRead: true),
-        Message(alias: "Sink", name: "Seargant", profilePicture: UIImage(named:"avatar-1"), message: "I rly rly like sillo wbu rbo", timeSent: "5.15pm", isRead: false),
-                
-    ]
+    private let messages = [Message]()
 
     let cellID = "cellID"
     
