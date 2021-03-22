@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		355E5B67D6565A4C26812B4D /* Pods_Sillo_SilloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F5F4E6BF36F78CCB4A5763 /* Pods_Sillo_SilloUITests.framework */; };
+		68F74F832608290B0023F79B /* ChatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F74F822608290B0023F79B /* ChatData.swift */; };
 		6A74907D4F7B86E6D66BCAE5 /* Pods_Sillo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6944E8B29A3B055FA61ABB /* Pods_Sillo.framework */; };
 		A002D19425D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A002D19325D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift */; };
 		A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46725C32AAA0028FCBB /* AllSetViewController.swift */; };
@@ -110,6 +111,7 @@
 		1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EBAA2DAE90204B4F443FF7A /* Pods-Sillo-SilloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		61F5F4E6BF36F78CCB4A5763 /* Pods_Sillo_SilloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo_SilloUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68F74F822608290B0023F79B /* ChatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatData.swift; sourceTree = "<group>"; };
 		7A6944E8B29A3B055FA61ABB /* Pods_Sillo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sillo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BCA0954960CE21B72418AB6 /* Pods-SilloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.release.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.release.xcconfig"; sourceTree = "<group>"; };
 		82ADEC15985E2EB3E2847F79 /* Pods-SilloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilloTests.debug.xcconfig"; path = "Target Support Files/Pods-SilloTests/Pods-SilloTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				AA8B776225FAE5EE0032336F /* UserData.swift */,
 				AAE02E0726019E2C00BCC72A /* Analytics.swift */,
 				AADC1A7B260213E2008B0B8F /* PostData.swift */,
+				68F74F822608290B0023F79B /* ChatData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -867,6 +870,7 @@
 				A01CA46825C32AAA0028FCBB /* AllSetViewController.swift in Sources */,
 				AA8B776425FAE5EE0032336F /* UserData.swift in Sources */,
 				A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */,
+				68F74F832608290B0023F79B /* ChatData.swift in Sources */,
 				A0A6BFE325EB9FA500F107F4 /* ProfileHalfVC.swift in Sources */,
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
 				FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */,
