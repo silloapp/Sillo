@@ -39,9 +39,26 @@ class LocalUser {
                 }
                 //log creation of new firebase document
                 analytics.log_create_firebase_doc()
+                
+                let userChatsCol = db.collection("user_chats").document(Constants.FIREBASE_USERID!)
+                    .collection("chats")
+                
+                userChatsCol.addSnapshotListener {
+                    (querySnapshot, err) in
+                    guard let documents = querySnapshot?.documents else {
+                        print("Error fetching new chat documents. ")
+                        return
+                    }
+                    
+                    // TODO : get the chatId name, and call add new Chat
+                }
+                    
+                
+                    
             }
             cloudutil.uploadImages(image: UIImage(named:"placeholder profile")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
+                
         }
     }
     }

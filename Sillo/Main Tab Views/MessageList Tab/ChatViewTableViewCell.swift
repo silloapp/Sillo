@@ -8,18 +8,19 @@
 import UIKit
 
 class ChatViewTableViewCell: UITableViewCell {
-    
+    let dateFormatter = DateFormatter()
     var item:Message? {
         didSet {
             guard let msg = item else {return}
             if let name = msg.name {
                 //userName.text = name
-                let stringValue: String = "\(name) · \(msg.timeSent ?? "")"
+                let timeSent = dateFormatter.string(from: msg.timestamp!)
+                let stringValue: String = "\(name) · \(timeSent)"
                 let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
                 //let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-                attributedString.setColor(color: UIColor.lightGray, forText:"· \(msg.timeSent ?? "")")
-                attributedString.setFont(font: Font.regular(17), forText: "· \(msg.timeSent ?? "")")
+                attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeSent)")
+                attributedString.setFont(font: Font.regular(17), forText: "· \(timeSent)")
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
