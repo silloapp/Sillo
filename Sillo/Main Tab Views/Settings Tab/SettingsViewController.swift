@@ -7,8 +7,9 @@
 
 import UIKit
 import SafariServices
+import MessageUI
 
-class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
 
     let header : UIView = {
         let view = UIView()
@@ -74,9 +75,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         if name == "Feedback" {
-            let nextVC = FeedbackViewController()
-            nextVC.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            //let nextVC = FeedbackViewController()
+            //nextVC.modalPresentationStyle = .fullScreen
+            //self.navigationController?.pushViewController(nextVC, animated: true)
+            sendEmail()
         }
         if name == "Log out" {
             localUser.signOut()
@@ -90,6 +92,28 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             nextVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
+    }
+    
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["feedback@sillo.co"])
+            mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
+
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Oops!", message: "Thanks for taking the time to write feedback. It looks like your device does not allow email sending. We'd still appreciate your thoughts at feedback@sillo.co", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                self.present(alert, animated: true)
+            }
+        }
+    }
+
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

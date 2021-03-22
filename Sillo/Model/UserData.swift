@@ -142,7 +142,8 @@ class LocalUser {
     
     //MARK: coldstart
     func coldStart() {
-        if !UserDefaults.standard.bool(forKey: "loggedIn") {
+        if Auth.auth().currentUser == nil || !UserDefaults.standard.bool(forKey: "loggedIn") {
+            UserDefaults.standard.setValue(false, forKey: "loggedIn")
             DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
             }
