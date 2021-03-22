@@ -94,10 +94,12 @@ class AlertView: UIViewController {
     
     @objc func btn1Function() {
         btn1Action()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "PopupDidAppear"), object: nil)
     }
     
     @objc func btn2Function() {
         btn2Action()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "PopupDidAppear"), object: nil)
     }
     
     required init?(coder: NSCoder) {
