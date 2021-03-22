@@ -4,8 +4,10 @@
 //
 //  Created by Chi Tsai on 1/17/21.
 //
-import Foundation
+
+import Firebase
 import FirebaseAuth
+import Foundation
 
 var localUser = LocalUser()
 
@@ -75,8 +77,9 @@ class LocalUser {
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
             self.invitesMapping[organizationID] = nil
-            //delete invite
-            db.collection("invites").document(myEmail).updateData(["member":self.invites,"mapping":self.invitesMapping])
+            
+            //delete invite on firebase
+            db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
         }
         addOrganizationtoUser(organizationID: organizationID)
         organizationData.addMemberToOrganization(organizationID: organizationID)
@@ -88,10 +91,8 @@ class LocalUser {
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    var orgList = query.get("organizations") as! [String]
-                    orgList.append(organizationID)
-                    organizationData.organizationList = orgList
-                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations":orgList])
+                    organizationData.organizationList.append(organizationID)
+                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations": FieldValue.arrayUnion([organizationID])])
                 }
             }
         }

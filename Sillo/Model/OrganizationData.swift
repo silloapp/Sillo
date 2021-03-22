@@ -84,10 +84,9 @@ class OrganizationData {
                         if let unwrap_member = query.get("members") {member = unwrap_member as! [String]}
                         if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
                     }
-                    member.append(organizationID)
                     mapping[organizationID] = organizationName
                 }
-                docRef.setData(["member": member, "mapping":mapping], merge: true)
+                docRef.updateData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
             }
         }
     }
@@ -124,9 +123,8 @@ class OrganizationData {
         db.collection("organizations").document(organizationID).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    var memberList = query.get("members") as! [String]
-                    memberList.append(Constants.FIREBASE_USERID!)
-                    db.collection("organizations").document(organizationID).updateData(["members":memberList])
+                    let memberToAdd = Constants.FIREBASE_USERID!
+                    db.collection("organizations").document(organizationID).updateData(["members":FieldValue.arrayUnion([memberToAdd])])
                 }
             }
         }
