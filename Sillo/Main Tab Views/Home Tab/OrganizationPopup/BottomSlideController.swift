@@ -415,7 +415,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         if point > 0 {
             NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
-            //  self.mainView.isUserInteractionEnabled = false
         }
         else {
             NotificationCenter.default.post(name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
