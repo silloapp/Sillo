@@ -74,8 +74,9 @@ class LocalUser {
     func acceptInvite(organizationID:String) {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
-        
-        self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+        }
         
         //this mapping data would be cleared on refresh
         //self.invitesMapping[organizationID] = nil
@@ -163,5 +164,22 @@ class LocalUser {
         self.invitesMapping = [:]
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
         UserDefaults.standard.set(false, forKey: "loggedIn")
+        self.clearConstants()
+    }
+    
+    //sign out helper function
+    func clearConstants() {
+        Constants.me = nil
+        Constants.EMAIL = nil
+        Constants.USERNAME = nil
+        Constants.FIREBASE_USERID = nil
+        Constants.EMAIL = nil
+    }
+    
+    //MARK: delete self
+    func deleteUser() {
+        print("BYE BYE DELETING USER")
+        //call backend function for deletion..
+        self.signOut()
     }
 }

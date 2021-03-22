@@ -201,7 +201,7 @@ class ProfilePromptViewController: UIViewController {
                 return
             } else {
                 print("Document does not exist, set dummy data in all_orgs")
-                upperUserRef.updateData(["use_separate_profiles":false])
+                upperUserRef.setData(["use_separate_profiles":false])
                 let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
                 userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
             }

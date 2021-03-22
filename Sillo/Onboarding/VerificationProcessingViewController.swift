@@ -85,7 +85,7 @@ class VerificationProcessingViewController: UIViewController {
                     analytics.log_passcode_verification_success()
                     
                     //create new user
-                    localUser.createNewUser(newUser:Constants.FIREBASE_USERID!)
+                    localUser.createNewUser(newUser:Auth.auth().currentUser!.uid)
                     
                     // Code verification successful, move to next VC
                     let nextVC = VerificationSuccessViewController()

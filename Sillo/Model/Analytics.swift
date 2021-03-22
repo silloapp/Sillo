@@ -102,6 +102,13 @@ class EventsHandler {
           ])
     }
     
+    func log_delete_account() {
+        Analytics.logEvent("delete_account", parameters: [
+            "date": Date().debugDescription as NSObject,
+          "description": "user deleted their account." as NSObject
+          ])
+    }
+    
     
     //MARK: PROFILE-RELATED
     

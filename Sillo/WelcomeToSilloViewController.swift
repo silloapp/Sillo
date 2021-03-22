@@ -29,7 +29,6 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     var selectedIndx = -1
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -62,12 +62,17 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         setupDataSource()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfDismissNotification(notification:)), name: Notification.Name("DismissNotificationIdentifier"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrgPictures(notification:)), name: Notification.Name("RefreshOrgPictures"), object: nil)
         
     }
     
     @objc func methodOfDismissNotification(notification: Notification) {
         print("Value of notification : ", notification.object ?? "")
         dismiss()
+    }
+    
+    @objc func refreshOrgPictures(notification: Notification) {
+        self.tableView.reloadData()
     }
     
     func dismiss() {
@@ -334,6 +339,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         cell.imgUser.layer.borderWidth = 3.5
         cell.imgUser.layer.borderColor = UIColor.gray.cgColor
+        cell.imgUser.image = organizationData.orgToImage["organization"] ?? UIImage(named:"avatar-2") //TEMPORARILY HARDCODE
         
         cell.labMessage.text = organizationName
         cell.labMessage.textColor = .black

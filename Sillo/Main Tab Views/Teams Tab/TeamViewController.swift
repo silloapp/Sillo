@@ -4,8 +4,9 @@
 //
 //  Created by Angelica Pan on 2/19/21.
 //
-
+import Firebase
 import UIKit
+
 struct ItemProperty {
     var title: String
     var backgroundImage: UIImage
@@ -84,9 +85,59 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMenuItem = menuItems[indexPath.row]
         switch selectedMenuItem.name {
+        //MARK: pull in profile and allow editing
         case "My Profile":
-            if let nextVC = selectedMenuItem.nextVC {
-                self.navigationController?.pushViewController(nextVC, animated: true)
+            if let nextVC = (selectedMenuItem.nextVC as? ProfileSetupViewController) {
+                //show loading vc while backend business
+                let loadingVC = LoadingViewController()
+                loadingVC.modalPresentationStyle = .overCurrentContext
+                loadingVC.modalTransitionStyle = .crossDissolve
+                self.present(loadingVC, animated: false, completion: nil)
+                
+                var profileDocumentName = "all_orgs"
+                let userID = Constants.FIREBASE_USERID!
+                
+                
+                //get document info
+                let upperUserRef = db.collection("profiles").document(userID)
+                upperUserRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        //document exists, pull separate profile state
+                        let use_separate_profiles = document.get("use_separate_profiles") as! Bool
+                        if (use_separate_profiles) {
+                            profileDocumentName = organizationData.currOrganization ?? "ERROR"
+                        }
+                        let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
+
+                        //actually pull the document
+                        userRef.getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let innerDict = document.data()!
+                                let profilePic = cloudutil.downloadImage(ref: "profiles/\(userID)\(Constants.image_extension)")
+                                
+                                nextVC.pronouns = innerDict["pronouns"] as! String
+                                nextVC.bioText = innerDict["bio"] as! String
+                                nextVC.restaurants = innerDict["restaurants"] as! [String]
+                                nextVC.interests = innerDict["interests"] as! [String]
+                                nextVC.useSeparateProfiles = use_separate_profiles
+                                nextVC.profilePic = profilePic
+                                nextVC.takingProfileSetupRole = false //this is a switcher value
+                                
+                                //log profile editing
+                                analytics.log_edit_profile()
+                                
+                                //transition to next vc
+                                self.navigationController?.pushViewController(nextVC, animated: true)
+                            }
+                            else {
+                                //transition to next vc (blank, because organization-specific profile doesn't exist yet)
+                                self.navigationController?.pushViewController(nextVC, animated: true)
+                            }
+                            //dismiss loading overlay
+                            loadingVC.dismiss(animated: false, completion: nil)
+                        }
+                }
+            }
             }
           break
         case "Sign Out":
