@@ -260,11 +260,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         //log sign-in event
                         analytics.log_sign_in_standard()
                         
-                        UserDefaults.standard.set(true, forKey: "loggedIn")
-                        
                         let currentUser = Auth.auth().currentUser!
                         if (!currentUser.isEmailVerified) {
-                            //email not verified
+                            //email not verified, do not set logged in (it will be set after verification
+                            UserDefaults.standard.set(false, forKey: "loggedIn")
+                            
                             //localUser.createNewUser(newUser:Auth.auth().currentUser!.uid) is moved to verificationprocessingvc
                             let nextVC = PasscodeVerificationViewController()
                             cloudutil.generateAuthenticationCode()
@@ -273,6 +273,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         }
                         else {
                             //verified, proceed
+                            UserDefaults.standard.set(true, forKey: "loggedIn")
+                            
                             localUser.createNewUser(newUser:Auth.auth().currentUser!.uid)
                             
                             let nextVC = VerificationSuccessViewController()

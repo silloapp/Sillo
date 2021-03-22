@@ -162,7 +162,8 @@ class LocalUser {
                     return
                 }
                 else {
-                    //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
+                    //user document not foundm
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
                     return
                 }
             }
