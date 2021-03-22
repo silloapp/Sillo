@@ -27,6 +27,44 @@ class PostHandler {
                 print("successfully added post \(postID)")
             }
         }
+        
+        //log new post in organization history 
+        let userID = Constants.FIREBASE_USERID ?? "ERROR"
+        let orgLogData: [String: Any] = [
+            "eventType": "newPost",
+            "eventDetails":[
+            "postID": postID,
+            "poster": userID,
+            ]
+        ]
+        
+        let orgID = organizationData.currOrganization ?? "ERROR"
+        let orgRef = db.collection("organization_activity").document(orgID).collection("activity")
+        orgRef.document(Date().description).setData(orgLogData) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Successfully logged new post event in org activity!")
+            }
+        }
+        
+        //log new post in individual user activity:
+        let userLogData: [String: Any] = [
+            "eventType": "newPost",
+            "eventDetails":[
+            "postID": postID,
+            "orgID": orgID,
+                    ]
+        ]
+        
+        let userRef = db.collection("users").document(userID).collection("activity")
+        userRef.document(Date().description).setData(userLogData) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Successfully logged new post event in user activity!")
+            }
+        }
     }
     
     //MARK: documentlistener reports new post

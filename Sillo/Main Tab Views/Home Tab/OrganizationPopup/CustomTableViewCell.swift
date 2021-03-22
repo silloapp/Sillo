@@ -97,7 +97,7 @@ class CustomTableViewCell: UITableViewCell {
         labUserName.textAlignment = .left
         
         TITLEconstraints = [
-            labUserName.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: -10),
+            labUserName.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 0),
             labUserName.leftAnchor.constraint(equalTo:  imgUser2.leftAnchor, constant: 70),
             labUserName.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: 20),
             labUserName.heightAnchor.constraint(equalToConstant: 20)
@@ -111,7 +111,7 @@ class CustomTableViewCell: UITableViewCell {
         labMessage.textAlignment = .left
         
         Messageconstraints = [
-            labMessage.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 13),
+            labMessage.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 0),
             labMessage.leftAnchor.constraint(equalTo:  imgUser2.leftAnchor, constant: 70),
             labMessage.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: 20),
             labMessage.heightAnchor.constraint(equalToConstant: 20)
