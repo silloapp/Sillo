@@ -80,7 +80,7 @@ class StartScreenViewController: UIViewController {
                 if (!(Constants.me?.isEmailVerified ?? false)) {
                     //is email verified?
                     nextVC = PasscodeVerificationViewController()
-                    cloudutil.generateAuthenticationCode()
+                    //cloudutil.generateAuthenticationCode()
                 }
                 else if (Constants.me?.displayName == nil) {
                     //is name set?

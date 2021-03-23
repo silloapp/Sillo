@@ -164,6 +164,8 @@ class ProfilePromptViewController: UIViewController {
                 }
             }
             else {
+                //ACTUALLY NO OUTER DOCUMENT EXISTS SET DUMMY
+                
                 //dismiss loading overlay
                 loadingVC.dismiss(animated: false, completion: nil)
                 
