@@ -164,7 +164,15 @@ class ProfilePromptViewController: UIViewController {
                 }
             }
             else {
-                //transition to next vc (blank, because no existing document found)
+                //dismiss loading overlay
+                loadingVC.dismiss(animated: false, completion: nil)
+                
+                print("Document does not exist, set dummy data in all_orgs")
+                upperUserRef.setData(["use_separate_profiles":false])
+                let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
+                userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                
+                //transition to next vc (blank, because no existing profile document found)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
             

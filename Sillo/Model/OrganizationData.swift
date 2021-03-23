@@ -182,3 +182,8 @@ class OrganizationData {
         memberInvites = input.filter {$0 != " "}.components(separatedBy: ",").filter{isValidEmail($0)}
     }
 }
+
+//MARK: sign out, clear organization list and mapping
+func organizationSignOut() {
+    organizationData = OrganizationData()
+}

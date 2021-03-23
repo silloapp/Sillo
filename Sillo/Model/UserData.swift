@@ -103,7 +103,7 @@ class LocalUser {
         
         addOrganizationtoUser(organizationID: organizationID)
         organizationData.addMemberToOrganization(organizationID: organizationID)
-        organizationData.changeOrganization(dest: organizationID)
+        organizationData.coldChangeOrganization(dest: organizationID)
     }
     
     //MARK: add organization to user doc, AND update local copy of organization list
@@ -179,21 +179,13 @@ class LocalUser {
     } catch let signOutError as NSError {
       print ("Error signing out: %@", signOutError)
     }
-        self.invites = []
-        self.invitesMapping = [:]
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
         UserDefaults.standard.set(false, forKey: "loggedIn")
-        self.clearConstants()
+        organizationSignOut()
+        clearUserConstants()
     }
     
-    //sign out helper function
-    func clearConstants() {
-        Constants.me = nil
-        Constants.EMAIL = nil
-        Constants.USERNAME = nil
-        Constants.FIREBASE_USERID = nil
-        Constants.EMAIL = nil
-    }
+
     
     //MARK: delete self
     func deleteUser() {
@@ -201,4 +193,9 @@ class LocalUser {
         //call backend function for deletion..
         self.signOut()
     }
+}
+
+//MARK: sign out helper function, reinstantiate
+func clearUserConstants() {
+    localUser = LocalUser()
 }

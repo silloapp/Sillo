@@ -18,8 +18,8 @@ class ProfileSetupViewController: UIViewController{
     private let name = Constants.USERNAME
     var bioText: String = ""
     var pronouns: String = ""
-    var restaurants : [String] = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
-    var interests : [String] = ["Art", "Baking", "Cooking"]
+    var restaurants : [String] = []
+    var interests : [String] = []
     var useSeparateProfiles: Bool = true
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
