@@ -27,7 +27,8 @@ class HomeViewController: UIViewController {
         return view
     }()
         
-    let blurVw = UIView()
+    let blurEffect = UIBlurEffect(style: .systemMaterialDark)
+    var blurVw = UIVisualEffectView()
     
     //MARK: listener
     private var postListener: ListenerRegistration?
@@ -95,14 +96,18 @@ class HomeViewController: UIViewController {
         
         // MARK: Blur View Constraints
         
+        blurVw = UIVisualEffectView(effect: blurEffect)
+        //always fill the view
+        blurVw.frame = self.view.bounds
+        blurVw.alpha = 0.75
+        blurVw.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(blurVw)
-        blurVw.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
         
         let blurVwconstraints = [
             blurVw.topAnchor.constraint(equalTo: self.view.topAnchor),
             blurVw.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             blurVw.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            blurVw.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            blurVw.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ]
         blurVw.isHidden = true
         
@@ -157,28 +162,29 @@ class HomeViewController: UIViewController {
     
     @objc func profilePicTapped() {
         
-//        blurVw.isUserInteractionEnabled = true
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
-//        blurVw.addGestureRecognizer(tap)
-//        addPullUpController(animated: true)
-//        NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
+        blurVw.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
+        blurVw.addGestureRecognizer(tap)
+        addPullUpController(animated: true)
+        NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
         
-        let alertView = AlertView(headingText: "Community Guidelines Warning", messageText: "This conversation is no longer available. Please review our community guidelines and keep Sillo a safe space. This conversation is no longer available. Please review our community guidelines and keep Sillo a safe space.", action1Label: "Got it", action1Color: Color.burple, action1Completion: {
-            self.dismiss(animated: true, completion: nil)
-        }, action2Label: "Logout", action2Color: .gray, action2Completion: {
-            let auth = Auth.auth()
-            do {
-                try auth.signOut()
-            } catch let error as NSError {
-                // let's hope this never happens and pretend nothing happened
-                print("Error signing out: %@", error)
-            }
-            self.dismiss(animated: true, completion: nil)
-        }, withCancelBtn: false, image: UIImage(named: "sillo-logo"), withOnlyOneAction: true)
-        alertView.modalPresentationStyle = .overCurrentContext
-        alertView.modalTransitionStyle = .crossDissolve
+//        let alertView = AlertView(headingText: "Community Guidelines Warning", messageText: "This conversation is no longer available. Please review our community guidelines and keep Sillo a safe space. This conversation is no longer available. Please review our community guidelines and keep Sillo a safe space.", action1Label: "Got it", action1Color: Color.burple, action1Completion: {
+//            self.dismiss(animated: true, completion: nil)
+//        }, action2Label: "Logout", action2Color: .gray, action2Completion: {
+//            let auth = Auth.auth()
+//            do {
+//                try auth.signOut()
+//            } catch let error as NSError {
+//                // let's hope this never happens and pretend nothing happened
+//                print("Error signing out: %@", error)
+//            }
+//            self.dismiss(animated: true, completion: nil)
+//        }, withCancelBtn: false, image: UIImage(named: "sillo-logo"), withOnlyOneAction: true)
+//        alertView.modalPresentationStyle = .overCurrentContext
+//        alertView.modalTransitionStyle = .crossDissolve
+//
+//        self.present(alertView, animated: true, completion: nil)
 
-        self.present(alertView, animated: true, completion: nil)
     }
     
     
@@ -234,8 +240,6 @@ class HomeViewController: UIViewController {
         feed.sortedPosts = feed.sortPosts()
         self.postsTable.reloadData()
     }
-    
-    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
