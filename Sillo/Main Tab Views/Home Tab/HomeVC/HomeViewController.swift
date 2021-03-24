@@ -51,19 +51,25 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.tabBarOpacityChange(note:)), name: Notification.Name("PopupDidAppear"), object: nil)
         
         //MARK: attach listener
+        feed.posts = [:] //clear posts in memory
         let organizationID = organizationData.currOrganization ?? "ERROR"
-        let reference = db.collection("organization_posts").document(organizationID).collection("posts")
+        let reference = db.collection("organization_posts").document(organizationID).collection("posts").order(by: "timestamp", descending: true).limit(to: feed.postBatchSize)
         postListener = reference.addSnapshotListener { querySnapshot, error in
           guard let snapshot = querySnapshot else {
+            
             print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
             return
           }
-          snapshot.documentChanges.forEach { change in
-            self.handlePostDocumentChange(change)
+            //set most recent snapshot (like a bookmark)
+            feed.snapshot = snapshot
+            
+            //handle document changes
+            snapshot.documentChanges.forEach { change in
+                self.handlePostDocumentChange(change)
             }
         }
         
-        feed.coldStart()
+        //feed.coldStart() //coldstart got deprecated by the snapshot listener
     }
     
     override func viewDidLoad() {
@@ -178,6 +184,7 @@ class HomeViewController: UIViewController {
 //        alertView.modalTransitionStyle = .crossDissolve
 //
 //        self.present(alertView, animated: true, completion: nil)
+
     }
     
     
@@ -274,8 +281,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! HomePostTableViewCell
+        if indexPath.row + 1 == feed.posts.count {
+            //we've reached the end, pull more posts
+            feed.getNextBatch()
+        }
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! HomePostTableViewCell
         cell.item = feed.sortedPosts[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
         return cell

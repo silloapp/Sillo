@@ -83,6 +83,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             insideScrollVw.leftAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leftAnchor, constant: 0),
             insideScrollVw.rightAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.rightAnchor, constant: 0),
             insideScrollVw.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
+
             
             insideScrollVw.heightAnchor.constraint(equalToConstant: 800),
             insideScrollVw.widthAnchor.constraint(equalToConstant: screenWidth)
