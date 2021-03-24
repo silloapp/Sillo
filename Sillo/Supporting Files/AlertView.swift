@@ -62,12 +62,14 @@ class AlertView: UIViewController {
     
     init(headingText: String, messageText: String, action1Label btn1String: String, action1Color btn1Color: UIColor, action1Completion: @escaping () -> Void, action2Label btn2String: String, action2Color btn2Color: UIColor, action2Completion: @escaping () -> Void, withCancelBtn: Bool, image: UIImage?, withOnlyOneAction: Bool) {
         
+        
         btn1Action = action1Completion
         btn2Action = action2Completion
         withCancel = withCancelBtn
         withOneButton = withOnlyOneAction
         
         super.init(nibName: nil, bundle: nil)
+        
         
         if let img = image {
             alertImageView.image = img
@@ -105,7 +107,15 @@ class AlertView: UIViewController {
             blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
             view.addSubview(blurEffectView)
+            blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+            
+            blurEffectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            blurEffectView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            blurEffectView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            blurEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            
             view.sendSubviewToBack(blurEffectView)
+            self.tabBarController?.tabBar.addSubview(blurEffectView)
 
         } else {
             view.backgroundColor = .black

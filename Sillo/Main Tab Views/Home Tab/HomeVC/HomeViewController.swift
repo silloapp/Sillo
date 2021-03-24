@@ -171,14 +171,8 @@ class HomeViewController: UIViewController {
         }, withCancelBtn: false, image: UIImage(named: "sillo-logo"), withOnlyOneAction: true)
         alertView.modalPresentationStyle = .overCurrentContext
         alertView.modalTransitionStyle = .crossDissolve
-        tabBarController?.tabBar.alpha = 0.2
+
         self.present(alertView, animated: true, completion: nil)
-        blurVw.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
-        blurVw.addGestureRecognizer(tap)
-        addPullUpController(animated: true)
-        NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
-        
     }
     
     
