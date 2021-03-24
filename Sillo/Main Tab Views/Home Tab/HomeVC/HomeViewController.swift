@@ -248,15 +248,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         else {
             //MARK: set up fallback if table is empty
-            let noPostsUIView : UIImageView = {
-                let view = UIImageView()
-                let scaling:CGFloat = 0.2
-                view.frame = CGRect(x: 0, y: 0, width: scaling*(tableView.bounds.width), height: scaling*(tableView.frame.height))
-                view.contentMode = .scaleAspectFit
-                let image = UIImage(named:"no-posts")
-                view.image = image
-                return view
+            
+            let noPostsUIView: UIView = {
+                let bigView = UIView()
+                
+                
+                let imageView : UIImageView = {
+                    let view = UIImageView()
+                    let scaling:CGFloat = 0.2
+                    view.frame = CGRect(x: 0, y: 0, width: scaling*(tableView.bounds.width), height: scaling*(tableView.frame.height))
+                    view.clipsToBounds = true
+                    view.contentMode = .scaleAspectFit
+                    let image = UIImage(named:"no-posts")
+                    view.image = image
+                    view.translatesAutoresizingMaskIntoConstraints = false
+                    return view
+                }()
+                bigView.addSubview(imageView)
+                imageView.centerXAnchor.constraint(equalTo: bigView.centerXAnchor).isActive = true
+                imageView.centerYAnchor.constraint(equalTo: bigView.centerYAnchor, constant: -50).isActive = true
+                return bigView
             }()
+            
+
             tableView.backgroundView = noPostsUIView
             return 0
         }

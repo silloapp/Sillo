@@ -11,7 +11,7 @@ import Firebase
 //MARK: figma screen 164, 165
 class PasscodeVerificationViewController: UIViewController {
     
-    private var latestAuthRequestTimestamp: Date = Date()
+    private var latestAuthRequestTimestamp: Date = Date()-5.0
     private var THROTTLE_LIMIT: Double = 5.0 //in seconds
     
     //MARK: init sillo logotype

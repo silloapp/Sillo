@@ -137,6 +137,18 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             loadingVC.dismiss(animated: false, completion: nil)
                         }
                 }
+                    else {
+                        //entire user document does not exist (VERY STRANGE)
+                        print("Document does not exist, set dummy data in all_orgs")
+                        upperUserRef.setData(["use_separate_profiles":false])
+                        let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
+                        userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                        
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                        
+                        //dismiss loading overlay
+                        loadingVC.dismiss(animated: false, completion: nil)
+                    }
             }
             }
           break

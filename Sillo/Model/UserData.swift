@@ -91,19 +91,18 @@ class LocalUser {
     func acceptInvite(organizationID:String) {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
+        
+        //a delay is needed because the table briefly refreshes
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+            self.invitesMapping[organizationID] = nil
+            //delete invite on firebase
+            db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
         }
-        
-        //this mapping data would be cleared on refresh
-        //self.invitesMapping[organizationID] = nil
-            
-        //delete invite on firebase
-        db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
         
         addOrganizationtoUser(organizationID: organizationID)
         organizationData.addMemberToOrganization(organizationID: organizationID)
-        organizationData.changeOrganization(dest: organizationID)
+        organizationData.coldChangeOrganization(dest: organizationID)
     }
     
     //MARK: add organization to user doc, AND update local copy of organization list
@@ -179,21 +178,13 @@ class LocalUser {
     } catch let signOutError as NSError {
       print ("Error signing out: %@", signOutError)
     }
-        self.invites = []
-        self.invitesMapping = [:]
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
         UserDefaults.standard.set(false, forKey: "loggedIn")
-        self.clearConstants()
+        organizationSignOut()
+        clearUserConstants()
     }
     
-    //sign out helper function
-    func clearConstants() {
-        Constants.me = nil
-        Constants.EMAIL = nil
-        Constants.USERNAME = nil
-        Constants.FIREBASE_USERID = nil
-        Constants.EMAIL = nil
-    }
+
     
     //MARK: delete self
     func deleteUser() {
@@ -201,4 +192,9 @@ class LocalUser {
         //call backend function for deletion..
         self.signOut()
     }
+}
+
+//MARK: sign out helper function, reinstantiate
+func clearUserConstants() {
+    localUser = LocalUser()
 }

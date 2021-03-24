@@ -267,7 +267,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                             
                             //localUser.createNewUser(newUser:Auth.auth().currentUser!.uid) is moved to verificationprocessingvc
                             let nextVC = PasscodeVerificationViewController()
-                            cloudutil.generateAuthenticationCode()
+                            //cloudutil.generateAuthenticationCode()
                             nextVC.modalPresentationStyle = .fullScreen
                             self.navigationController?.pushViewController(nextVC, animated: true)
                         }

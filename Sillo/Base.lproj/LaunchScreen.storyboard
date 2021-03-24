@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,20 +16,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="sillo-logo-small" translatesAutoresizingMaskIntoConstraints="NO" id="FE3-a7-eiy">
-                                <rect key="frame" x="142" y="390" width="131" height="116"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sillo-logo-small" translatesAutoresizingMaskIntoConstraints="NO" id="FE3-a7-eiy">
+                                <rect key="frame" x="162" y="403" width="90" height="90"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="116" id="H1s-Kd-M1M"/>
-                                    <constraint firstAttribute="width" constant="131" id="MVf-t1-2WP"/>
+                                    <constraint firstAttribute="width" secondItem="FE3-a7-eiy" secondAttribute="height" multiplier="1:1" id="DwA-IE-ShJ"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="90" id="Odp-FY-owd"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="p2C-F0-3oq"/>
                                 </constraints>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="FE3-a7-eiy" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="W8U-6o-tiC"/>
-                            <constraint firstItem="FE3-a7-eiy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="142" id="bew-o3-Q4z"/>
-                            <constraint firstItem="FE3-a7-eiy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="346" id="fr6-gv-O2P"/>
                             <constraint firstItem="FE3-a7-eiy" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qHi-gy-gVA"/>
                         </constraints>
                     </view>
@@ -42,8 +41,5 @@
     </scenes>
     <resources>
         <image name="sillo-logo-small" width="41" height="40"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
