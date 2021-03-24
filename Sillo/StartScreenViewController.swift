@@ -93,11 +93,10 @@ class StartScreenViewController: UIViewController {
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         
-        }
-        else {
+        } else {
             //not loggedIn
-            nextVC = PageViewController()
-            }
+            nextVC = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        }
         
             let navC = UINavigationController(rootViewController: nextVC)
             navC.modalPresentationStyle = .fullScreen
