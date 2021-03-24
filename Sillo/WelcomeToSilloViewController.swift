@@ -52,8 +52,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
 //===================================*** SETTING CONSTRAINT ***=======================================//
         
         
-        func settingElemets()
-        {
+        func settingElemets() {
     
     // FOR SCROLL :
            

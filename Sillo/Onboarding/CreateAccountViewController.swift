@@ -248,12 +248,10 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         let googleSignIn: UIButton = {
             let button = UIButton()
             let image = UIImage(named:"google-signin")
-            let imagePressed = UIImage(named:"google-signin-pressed")
             button.setBackgroundImage(image, for: .normal)
-            button.setBackgroundImage(imagePressed, for: .highlighted)
             button.addTarget(self, action: #selector(signInButtonPressed(_:)), for: .touchUpInside)
             button.translatesAutoresizingMaskIntoConstraints = false
-            button.imageView?.contentMode = .scaleToFill
+            button.imageView?.contentMode = .scaleAspectFit
             return button
         }()
         scrollView.addSubview(googleSignIn)

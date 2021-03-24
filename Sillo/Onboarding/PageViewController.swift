@@ -44,6 +44,16 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         return button
     }()
     
+    let silloLogo: UIImageView = {
+        let imgV = UIImageView()
+        imgV.contentMode = .scaleAspectFit
+        imgV.image = #imageLiteral(resourceName: "sillo-logo")
+        imgV.translatesAutoresizingMaskIntoConstraints = false
+        return imgV
+    }()
+    
+
+    
     let buttonsStack = UIStackView()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +88,8 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         buttonsStack.distribution = .fillProportionally
         buttonsStack.spacing = 20
         view.addSubview(buttonsStack)
+        view.addSubview(silloLogo)
+        
         
         buttonsStack.addArrangedSubview(getStartedButton)
         buttonsStack.addArrangedSubview(signInButton)
@@ -89,6 +101,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         getStartedButton.widthAnchor.constraint(equalTo: buttonsStack.widthAnchor).isActive = true
         getStartedButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 50/812).isActive = true
         signInButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        silloLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        silloLogo.leadingAnchor.constraint(equalTo: buttonsStack.leadingAnchor).isActive = true
+        silloLogo.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 80/812).isActive = true
+        silloLogo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 138/375).isActive = true
         
     }
     
@@ -114,7 +131,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     func configurePageControl() {
         let initialPage = 0
-//        let page1 = logoOnboardingViewController(_image: UIImage(named: "onboardingSillo")!, _descriptionText: "Connecting the real you.")
+
         let page1 = OnboardingViewController(_image: UIImage(named: "onboarding1")!, _descriptionText: "Spark a conversation in your team anonymously.")
         let page2 = OnboardingViewController(_image: UIImage(named: "onboarding2")!, _descriptionText: "Show yourself only when you are ready.")
         let page3 = OnboardingViewController(_image: UIImage(named: "onboarding3")!, _descriptionText: "Share exclusive deals from nearby restaurants.")
@@ -132,12 +149,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         self.pageControl.currentPage = initialPage
         self.pageControl.currentPageIndicatorTintColor = Color.buttonClickable
         self.pageControl.pageIndicatorTintColor = Color.gray
-//        self.pageControl.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         self.view.addSubview(self.pageControl)
         
         self.pageControl.translatesAutoresizingMaskIntoConstraints = false
         self.pageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -230).isActive = true
+        self.pageControl.topAnchor.constraint(equalTo: buttonsStack.topAnchor, constant: -40).isActive = true
 
         self.pageControl.isUserInteractionEnabled = false
     }
