@@ -188,3 +188,8 @@ class OrganizationData {
         
     }
 }
+
+//MARK: sign out, clear organization list and mapping
+func organizationSignOut() {
+    organizationData = OrganizationData()
+}

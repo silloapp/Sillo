@@ -36,6 +36,8 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshInvitesList(note:)), name: Notification.Name("InvitationsReady"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.inviteAccepted(note:)), name: Notification.Name("ColdOrgChangeComplete"), object: nil)
+        
         localUser.getInvites()
         self.view.backgroundColor = ViewBgColor
         self.navigationController?.navigationBar.isHidden = true
@@ -356,12 +358,12 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             let orgID : String = localUser.invites[selectedIndx]
             
             localUser.acceptInvite(organizationID: orgID)
-            organizationData.changeOrganization(dest: orgID)
-            
-            let nextVC = ProfilePromptViewController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
-          
         }
+    
+    @objc func inviteAccepted(note:NSNotification) {
+        let nextVC = ProfilePromptViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
 
     /*
     // MARK: - Navigation
