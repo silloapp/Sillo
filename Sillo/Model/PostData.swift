@@ -14,6 +14,45 @@ class PostHandler {
     
     var posts = [String:Post]() //a dictionary
     var sortedPosts = [Post]() //a sorted post
+    var snapshot: QuerySnapshot? = nil //post query snapshot
+    var postBatchSize = 15 //number of posts to get per "batch"
+    //MARK: add more posts
+    func getNextBatch() {
+        guard let lastSnapshot = self.snapshot!.documents.last else {
+            // The collection is empty.
+            return
+        }
+        let next = db.collection("organization_posts").document(organizationData.currOrganization!).collection("posts").order(by: "timestamp", descending: true).limit(to: postBatchSize).start(afterDocument: lastSnapshot)
+        next.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    //print("\(document.documentID) => \(document.data())")
+                    let postID = document.documentID
+                    let attachment = document.get("attachment") as! String
+                    let postText = document.get("message") as! String
+                    let posterUserID = document.get("poster") as! String
+                    let posterAlias = document.get("poster_alias") as! String
+                    let posterImage = document.get("poster_image") as! String
+                    let timestamp = document.get("timestamp") as! Timestamp
+                    let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
+                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+                }
+            }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
+        }
+        
+        //MARK: update snapshot listener
+        next.addSnapshotListener { (snapshot, error) in
+            guard let snapshot = snapshot else {
+                print("Error retreving documents: \(error.debugDescription)")
+                return
+            }
+            self.snapshot = snapshot
+        }
+    }
     
     //MARK: add post
     func addPost(attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String) {
@@ -95,7 +134,7 @@ class PostHandler {
         self.posts = [:]
         let organizationID = organizationData.currOrganization ?? "ERROR"
         print("PULLING POSTS FOR \(organizationID)")
-        db.collection("organization_posts").document(organizationID).collection("posts").order(by: "timestamp").limit(to: 15).getDocuments() { (querySnapshot, err) in
+        db.collection("organization_posts").document(organizationID).collection("posts").order(by: "timestamp", descending: true).limit(to: postBatchSize).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
                 return
