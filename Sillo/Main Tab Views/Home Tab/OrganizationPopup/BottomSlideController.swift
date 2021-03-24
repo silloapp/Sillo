@@ -55,7 +55,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         super.viewDidLoad()
         
         portraitSize = CGSize(width: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height),
-                              height: 300)
+                              height: 0)
         landscapeFrame = CGRect(x: 5, y: 50, width: 280, height: 300)
         
         tableView.attach(to: self)
