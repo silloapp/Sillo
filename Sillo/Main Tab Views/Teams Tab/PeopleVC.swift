@@ -15,7 +15,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     let searchView = UIView()
     let searchTf = UITextField()
     let searchImg = UIImageView()
-    var sections = ["Admin (3)","Members (10)"]
+    var sections = ["Admins (\(organizationData.currOrganizationAdmins.count))","Members (\(organizationData.currOrganizationMembers.count))"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,34 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     override func viewWillAppear(_ animated: Bool) {
         self.view.backgroundColor = ViewBgColor
         setNavBar()
+        
+        //attach notification listeners
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didFinishLoadingRoster(note:)), name: Notification.Name("finishLoadingRoster"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didFinishLoadingAdmin(note:)), name: Notification.Name("finishLoadingAdmin"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didFinishLoadingMember(note:)), name: Notification.Name("finishLoadingMember"), object: nil)
+        
+        organizationData.getRoster() //pull roster
+    }
+    
+    @objc func didFinishLoadingRoster(note:NSNotification) {
+        TopTable.reloadData()
+        updateSectionHeaders()
+        
+    }
+
+    
+    @objc func didFinishLoadingAdmin(note:NSNotification) {
+        TopTable.reloadData()
+        updateSectionHeaders()
+    }
+    
+    @objc func didFinishLoadingMember(note:NSNotification) {
+        TopTable.reloadData()
+        updateSectionHeaders()
+    }
+    
+    func updateSectionHeaders() {
+        sections = ["Admins (\(organizationData.currOrganizationAdmins.count))","Members (\(organizationData.currOrganizationMembers.count))"]
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -193,27 +221,44 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0
         {
-            return 3
+            return organizationData.currOrganizationAdmins.count
         }
         else
         {
-            return 10
+            return organizationData.currOrganizationMembers.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .clear
-        cell.selectionStyle = .none
-        print("cell for row")
-        
-        cell.textLabel?.font = UIFont.init(name: "Apercu-Regular", size: 15)
-        cell.textLabel?.textColor = .darkGray
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = "Full Name"
-        
-        return cell
+        if indexPath.section == 0
+        {
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+            
+            cell.textLabel?.font = UIFont.init(name: "Apercu-Regular", size: 15)
+            cell.textLabel?.textColor = .darkGray
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.text = Array(organizationData.currOrganizationAdmins.values)[indexPath.row]
+            
+            return cell
+            
+        }
+        else
+        {
+            print(indexPath.row)
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+            
+            cell.textLabel?.font = UIFont.init(name: "Apercu-Regular", size: 15)
+            cell.textLabel?.textColor = .darkGray
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.text = Array(organizationData.currOrganizationMembers.values)[indexPath.row]
+            
+            return cell
+        }
+
         
     }
     @objc func morebtnMethod(sender:UIButton)
@@ -255,7 +300,7 @@ class HederCell: UITableViewHeaderFooterView {
         contentView.addSubview(myCustomView)
         
         myCustomView.addSubview(titlelbl)
-        titlelbl.text = "Admin (3)"
+        titlelbl.text = "Admin MOOCHI)"
         titlelbl.textColor = .black
         titlelbl.font = UIFont(name: "Apercu-Bold", size: 17)
         
