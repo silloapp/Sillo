@@ -15,16 +15,26 @@ struct MenuItem {
     let fontSize:CGFloat?
 }
 
-struct Message { //testing only
-    let alias: String?
-    let name: String?
-    let profilePicture: UIImage?
+struct Message {
+    let messageId: String?
+    let senderId: String?
     let message: String?
     let attachment: UIImage?
     let timestamp: Date?
     let isRead: Bool?
-    //TODO: add image/gif, conversationID, whatever else
 }
+
+struct Chat {
+    let postId: String?
+    let chatId: String?
+    var recipientImage: UIImage?
+    var recipientImageName: String?
+    let recipientUserId: String?
+    var recipientName: String?
+    var revealed: Bool?
+    var lastMessageSent: Date?
+}
+
 
 struct Post {
     let postID: String?
@@ -33,5 +43,6 @@ struct Post {
     let posterUserID: String?
     let posterAlias: String?
     let posterImage: UIImage?
+    let posterImageName: String?
     let date: Date?
 }

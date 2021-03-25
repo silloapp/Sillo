@@ -45,16 +45,18 @@ class LocalUser {
                 
                 userChatsCol.addSnapshotListener {
                     (querySnapshot, err) in
-                    guard let documents = querySnapshot?.documents else {
-                        print("Error fetching new chat documents. ")
+                    guard let documents = querySnapshot else {
+                        print("Error fetching chat documents.")
                         return
                     }
-                    
-                    // TODO : get the chatId name, and call add new Chat
+                    documents.documentChanges.forEach { diff in
+                        if (diff.type == .modified) {
+                            chatHandler.reorderChat(chatId: diff.document.documentID)
+                        } else if (diff.type == .added) {
+                            chatHandler.addNewChat(chatId: diff.document.documentID)
+                        }
+                    }
                 }
-                    
-                
-                    
             }
             cloudutil.uploadImages(image: UIImage(named:"avatar-4")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
