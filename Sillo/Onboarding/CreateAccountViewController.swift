@@ -306,8 +306,12 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                         errorState=true
                         errorMsg = error!.localizedDescription
                         DispatchQueue.main.async {
-                            let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
+                            let alert = AlertView(headingText: "Oops!", messageText: errorMsg, action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                                self.dismiss(animated: true, completion: nil)
+                            }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                            }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                            alert.modalPresentationStyle = .overCurrentContext
+                            alert.modalTransitionStyle = .crossDissolve
                             self.present(alert, animated: true, completion: nil)
                         }
                     }
@@ -324,8 +328,12 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         }
         if (errorState) {
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                let alert = AlertView(headingText: "Oops!", messageText: errorMsg, action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
                 self.present(alert, animated: true, completion: nil)
             }
         }
@@ -346,11 +354,6 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             Auth.auth().signIn(with: credentials) { (authResult, error) in
                 if let error = error {
                     print(error.localizedDescription)
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
-                        self.present(alert, animated: true, completion: nil)
-                    }
                 } else {
                     //log google education sign-in
                     analytics.log_account_creation_google()
