@@ -300,7 +300,7 @@ class HederCell: UITableViewHeaderFooterView {
         contentView.addSubview(myCustomView)
         
         myCustomView.addSubview(titlelbl)
-        titlelbl.text = "Admin MOOCHI)"
+        titlelbl.text = "Not initialized"
         titlelbl.textColor = .black
         titlelbl.font = UIFont(name: "Apercu-Bold", size: 17)
         
