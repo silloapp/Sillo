@@ -281,8 +281,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row + 1 == feed.posts.count {
-            //we've reached the end, pull more posts
+        if indexPath.row + 5 == feed.posts.count {
+            //we're almost at the end, pull more posts
             feed.getNextBatch()
         }
         
