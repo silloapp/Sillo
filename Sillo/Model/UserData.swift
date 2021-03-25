@@ -56,7 +56,7 @@ class LocalUser {
                 
                     
             }
-            cloudutil.uploadImages(image: UIImage(named:"placeholder profile")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
+            cloudutil.uploadImages(image: UIImage(named:"avatar-4")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
                 
         }
@@ -92,7 +92,7 @@ class LocalUser {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
         
-        //a delay is needed because the table briefly refreshes
+        //a delay is needed because the invites table briefly refreshes
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
             self.invitesMapping[organizationID] = nil
@@ -100,18 +100,20 @@ class LocalUser {
             db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
         }
         
-        addOrganizationtoUser(organizationID: organizationID)
+        addOrganizationtoCurrentUser(organizationID: organizationID, isAdmin: false)
         organizationData.addMemberToOrganization(organizationID: organizationID)
         organizationData.coldChangeOrganization(dest: organizationID)
     }
     
     //MARK: add organization to user doc, AND update local copy of organization list
-    func addOrganizationtoUser(organizationID: String) {
+    func addOrganizationtoCurrentUser(organizationID: String, isAdmin: Bool) {
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
+                    organizationData.adminStatusMap = query.get("admin") as! [String:Bool]
                     organizationData.organizationList.append(organizationID)
-                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations": FieldValue.arrayUnion([organizationID])])
+                    organizationData.adminStatusMap[organizationID] = isAdmin
+                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations": FieldValue.arrayUnion([organizationID]), "admin": organizationData.adminStatusMap])
                 }
             }
         }
@@ -161,7 +163,7 @@ class LocalUser {
                     return
                 }
                 else {
-                    //user document not foundm
+                    //user document not found
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
                     return
                 }
@@ -189,8 +191,11 @@ class LocalUser {
     //MARK: delete self
     func deleteUser() {
         print("BYE BYE DELETING USER")
-        //call backend function for deletion..
-        self.signOut()
+        Constants.me!.delete(completion: nil)
+        UserDefaults.standard.removeObject(forKey: "defaultOrganization")
+        UserDefaults.standard.set(false, forKey: "loggedIn")
+        organizationSignOut()
+        clearUserConstants()
     }
 }
 

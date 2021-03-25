@@ -24,7 +24,7 @@ class ProfileSetupViewController: UIViewController{
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
-    var profilePic = UIImage(named: "placeholder profile")
+    var profilePic = UIImage(named: "avatar-4")
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     

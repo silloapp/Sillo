@@ -202,6 +202,10 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             self.dismiss(animated: true, completion: nil)
             //log new post
             analytics.log_create_post()
+            
+            //update quest if newPost is a subtask
+            userQuests.updateQuestProgress(typeToUpdate: "newPost")
+            
         }
         else {
             DispatchQueue.main.async {

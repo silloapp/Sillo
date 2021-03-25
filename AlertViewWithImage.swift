@@ -1,14 +1,14 @@
 //
-//  AlertView.swift
-//  berkeley-mobile
+//  AlertViewWithImage.swift
+//  
 //
-//  Created by Eashan Mathur on 2/27/21.
-//  Copyright © 2021 ASUC OCTO. All rights reserved.
+//  Created by Angelica Pan on 3/26/21.
 //
+
 
 import UIKit
 
-class AlertView: UIViewController {
+class AlertViewWithImage: UIViewController {
     
     let heading: UILabel = {
         var txt = UILabel()
@@ -169,6 +169,7 @@ class AlertView: UIViewController {
         
         Vstack.addArrangedSubview(heading)
         Vstack.addArrangedSubview(message)
+        Vstack.addArrangedSubview(imageView)
         Vstack.translatesAutoresizingMaskIntoConstraints = false
         
 

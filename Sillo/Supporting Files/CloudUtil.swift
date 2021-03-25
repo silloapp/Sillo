@@ -63,10 +63,8 @@ class CloudUtil {
         storageRef.putData(imageData, metadata:uploadMetaData)
         return
     }
-    
-    
+
     func downloadImage(ref: String, useCache: Bool? = true) -> UIImage? {
-        //var resultImage = UIImage(named:"placeholder profile")!
         var resultImage = UIImage(named:"avatar-4")!
         if let cachedVersion = imageCache.object(forKey: ref as NSString) {
             // use the cached version
