@@ -69,7 +69,6 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         menuItemTableView.register(ImageCell.self, forCellReuseIdentifier: cellID)
     }
     
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
