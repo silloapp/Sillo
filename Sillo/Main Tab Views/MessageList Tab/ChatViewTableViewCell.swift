@@ -9,6 +9,10 @@ import UIKit
 
 class ChatViewTableViewCell: UITableViewCell {
     let dateFormatter = DateFormatter()
+    // TODO: reformat the message below so that it uses chat to determine pfp
+    // since we already stored the other party's image, we shouldn't have to store their pfp
+    // for every message, since it is very inefficient
+    // instead, compare the message sender id to the chat's recipient id and determine the pfp
     var item:Message? {
         didSet {
             guard let msg = item else {return}

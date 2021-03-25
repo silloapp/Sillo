@@ -121,7 +121,7 @@ class PostHandler {
     
     //MARK: build post struct
     func buildPostStruct(postID: String, attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String, date: Date) -> Post {
-        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImage: UIImage(named:posterImageName), date: date)
+        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImage: UIImage(named:posterImageName), posterImageName: posterImageName, date: date)
     }
     
     //MARK: sort by time with recent on top, returns sorted list
