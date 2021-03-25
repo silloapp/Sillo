@@ -56,7 +56,7 @@ class LocalUser {
                 
                     
             }
-            cloudutil.uploadImages(image: UIImage(named:"placeholder profile")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
+            cloudutil.uploadImages(image: UIImage(named:"avatar-4")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
                 
         }
