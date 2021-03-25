@@ -22,7 +22,7 @@ class ProfileVC: UIViewController{
     var bio = "I love the outdoors ⛰️ and fishing 🎣. Thinking of my next adventure ✨ "
     var interests = ["Art", "Baking", "Meditation"]
     var restaurants = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
-    var profilePic = UIImage(named: "placeholder profile") //TODO: replace with profile pic
+    var profilePic = UIImage(named: "avatar-4") //TODO: replace with profile pic
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     

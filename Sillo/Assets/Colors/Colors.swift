@@ -34,10 +34,6 @@ struct Color {
         return UIColor(displayP3Red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
     }
     
-    static var matteBlack: UIColor {
-        return UIColor(displayP3Red: 45/255, green: 44/255, blue: 44/255, alpha: 1.0)
-    }
-    
     static var progressBlue: UIColor {
         return UIColor(displayP3Red: 62/255, green: 139/255, blue: 255/255, alpha: 1.0)
     }

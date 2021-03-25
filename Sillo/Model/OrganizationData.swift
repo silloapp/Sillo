@@ -40,8 +40,8 @@ class OrganizationData {
                 return
             } else {
                 print("success: created \(newOrganizationName!) \(newOrganization)")
-                addMemberToOrganization(organizationID: newOrganization)// add self to organization
-                localUser.addOrganizationtoUser(organizationID: newOrganization) //add organization to user list
+                localUser.addOrganizationtoCurrentUser(organizationID: newOrganization, isAdmin: true) //add organization to user list
+                idToName[newOrganization] = newOrganizationName! //update local copy of mapping
                 changeOrganization(dest: newOrganization) //switch orgs
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
                 
@@ -152,12 +152,17 @@ class OrganizationData {
                 let adminIDs = query.get("admins") as! [String]
                 let memberIDs = query.get("members") as! [String]
                 
+                //do not pull if list of IDs are the same (this will cause mapped names to remain the same until memory is cleared)
+                if adminIDs == Array(self.currOrganizationAdmins.keys) && memberIDs == Array(self.currOrganizationMembers.keys) {
+                    NotificationCenter.default.post(name: Notification.Name("finishLoadingRoster"), object: nil)
+                    return
+                }
+                
                 //pull admin id-name mappings
                 for adminID in adminIDs {
                     db.collection("users").document(adminID).getDocument() {(query, err) in
                         if query != nil && query!.exists {
                             let username = query?.get("username") as! String
-                            print("admin username: \(username)")
                             self.currOrganizationAdmins[adminID] = username
                             NotificationCenter.default.post(name: Notification.Name("finishLoadingAdmin"), object: nil)
                         }
@@ -169,7 +174,6 @@ class OrganizationData {
                     db.collection("users").document(memberID).getDocument() {(query, err) in
                         if query != nil && query!.exists {
                             let username = query?.get("username") as! String
-                            print("member username: \(username)")
                             self.currOrganizationMembers[memberID] = username
                             NotificationCenter.default.post(name: Notification.Name("finishLoadingMember"), object: nil)
                         }
