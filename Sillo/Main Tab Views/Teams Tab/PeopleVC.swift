@@ -10,7 +10,6 @@ import UIKit
 @available(iOS 13.0, *)
 class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
-    
     let TopTable = UITableView()
     let searchView = UIView()
     let searchTf = UITextField()
@@ -38,10 +37,8 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     @objc func didFinishLoadingRoster(note:NSNotification) {
         TopTable.reloadData()
         updateSectionHeaders()
-        
     }
 
-    
     @objc func didFinishLoadingAdmin(note:NSNotification) {
         TopTable.reloadData()
         updateSectionHeaders()
@@ -373,9 +370,7 @@ class HederCell: UITableViewHeaderFooterView {
         
         contentView.layoutIfNeeded()
         
-        
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
