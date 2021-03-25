@@ -543,6 +543,7 @@
 				FD9D92BA25A13B25003C7883 /* Resources */,
 				DCD54740BF7E5A9E4C21BEE6 /* [CP] Embed Pods Frameworks */,
 				B0A4858F0A836FA89E60E600 /* [CP] Copy Pods Resources */,
+				AA4BADD6260C2C8300D52DC3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -771,6 +772,25 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AA4BADD6260C2C8300D52DC3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		B0A4858F0A836FA89E60E600 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
