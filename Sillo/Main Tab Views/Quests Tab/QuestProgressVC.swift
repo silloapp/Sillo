@@ -1,8 +1,8 @@
 //
-//  ProgressVC.swift
-//  WithoutStoryboard
+//  QuestProgressVC.swift
 //
-//  Created by USER on 19/02/21.
+//
+//  Created by Angelica Pan on 3/21/21.
 //
 
 import UIKit
@@ -32,6 +32,10 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         "replyToPost" : "Reply to a post!"
         
     ]
+    
+    //TODO: replace this with firebase reference
+    private var stickerList : [String] = ["coffee", "blush", "donut", "confused", "snooze"]
+    private var nextSticker = "coffee"
     
     //MARK :IBDeclarations:
     
@@ -98,6 +102,8 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+       fetchNextSticker()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshQuestTableView"), object: nil)
         
@@ -217,7 +223,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         self.insideScrollVw.addSubview(lockImage)
         lockImage.image = UIImage(named:"blue lock")
         lockImage.translatesAutoresizingMaskIntoConstraints = false
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(resetQuest(tapGestureRecognizer:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(claimStickerPressed(tapGestureRecognizer:)))
         lockImage.isUserInteractionEnabled = true
         lockImage.addGestureRecognizer(tapGestureRecognizer)
         let lockImageconstraints = [
@@ -461,29 +467,29 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         print("percentage completed: \(percentageCompleted)")
         progressBar.setProgress(percentageCompleted , animated: true)
     }
+
     
-    
-    //fetches current quest progress for user
-    func fetchCurrentQuest()
-    {
-        let docRef = db.collection("quests").document(Constants.FIREBASE_USERID ?? "Placholder")
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                for (i, task) in ["subtask1", "subtask2", "subtask3"].enumerated() {
-                    let taskType = document.get(task) as! String
-                    let progress = document.get("\(task)_progress") as! [String:Int]
-                    let current = progress["current"]!
-                    let target = progress["target"]!
-                    self.subtasks[i] = Subtask(title: self.subtaskTitles[taskType] as! String, type: taskType , current: current, target: target)
-                }
-            } else {
-                print("Was not able to fetch current quest for user!")
-            }
-        }
+    @objc func claimStickerPressed(tapGestureRecognizer: UITapGestureRecognizer) {
+        //reset quest, fetch next sticker, update user's sticker collection
+        resetQuestPopup()
+        fetchNextSticker()
+        updateStickerList()
+        
+        //TODO: what happens if all stickers have been obtained?
+        //displays alert
+        let imageToDisplay = UIImage(named: self.nextSticker)
+        
+        let alert = AlertView(headingText: "Kudos! You completed your quest and unlocked a new sticker!", messageText: "You can use this sticker in posts and messages.", action1Label: "Got it", action1Color: Color.burple, action1Completion: {
+            self.dismiss(animated: true, completion: nil)
+        }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+        }, withCancelBtn: false, image: imageToDisplay, withOnlyOneAction: true)
+        alert.modalPresentationStyle = .overCurrentContext
+        alert.modalTransitionStyle = .crossDissolve
+        self.present(alert, animated: true, completion: nil)
     }
+
     
-    //fetches random subtasks from firebase with random target, sets as subtasks for new quests
-    @objc func resetQuest(tapGestureRecognizer: UITapGestureRecognizer){
+    func resetQuestPopup(){
         //pulls subtask pool, puts local
         let docRef = db.collection("quest_pool").document("subtasks")
         docRef.getDocument { (document, error) in
@@ -508,7 +514,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         //push new quest on firebase (COPY FROM LOCAL TO FIREBASE)
         let questRef = db.collection("quests").document(Constants.FIREBASE_USERID ?? "USER_ID_ERROR")
         questRef.setData([
-            //TODO: replace this from what was fetched from subtask pool
             "subtask1": subtasks[0].type,
             "subtask2": subtasks[1].type,
             "subtask3": subtasks[2].type,
@@ -613,4 +618,44 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
             }
         }
     }
+    
+    func fetchNextSticker() {
+        let docRef = db.collection("users").document(Constants.FIREBASE_USERID ?? "ERROR")
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                var ownedStickers : [String: Bool] = document.get("ownedStickers") as! [String: Bool]
+                for sticker in self.stickerList {
+                    if !ownedStickers.keys.contains(sticker) {
+                        self.nextSticker = sticker
+                        print("next sticker prize for current quest is: \(self.nextSticker)")
+                        break
+                    }
+                }
+            } else {
+                print("Was not able to find document.")
+            }
+        }
+    }
+    
+    func updateStickerList() {
+        let docRef = db.collection("users").document(Constants.FIREBASE_USERID ?? "ERROR")
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                var ownedStickers : [String: Bool] = document.get("ownedStickers") as! [String: Bool]
+                ownedStickers[self.nextSticker] = true //update sticker list
+                docRef.setData([
+                    "ownedStickers": ownedStickers
+                ], merge: true) { err in
+                    if let err = err {
+                        print("Error adding new sticker to user's collection: \(err)")
+                    } else {
+                        print("Successfully added new sticker to user's collection!")
+                    }
+                }
+            } else {
+                print("Was not able to find document.")
+            }
+        }
+    }
+
 }
