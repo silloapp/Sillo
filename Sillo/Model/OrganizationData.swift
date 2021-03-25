@@ -15,6 +15,9 @@ class OrganizationData {
     // MARK: Current Organization Data
     var currOrganization:String? = nil
     var currOrganizationName:String? = nil
+    
+    var currOrganizationAdmins:[String?:String] = [:] //only retrieved when getRoster is called
+    var currOrganizationMembers:[String?:String] = [:] //only retrieved when getRoster is called
 
     // MARK: Newly Created Organization Data
     var newOrganizationName:String? = nil
@@ -103,6 +106,8 @@ class OrganizationData {
         if currOrganization == dest { return }
         currOrganization = dest
         currOrganizationName = idToName[currOrganization]
+        currOrganizationAdmins = [:]
+        currOrganizationMembers = [:]
     }
     
     // MARK: fast-set default organization when the app just started (DIFFERENCE IS PULLING FROM THE DATABASE, caveat is nsnotification needed)
@@ -122,7 +127,7 @@ class OrganizationData {
         }
         
     }
-    
+    //MARK: add member to organization specified by organizationID
     func addMemberToOrganization(organizationID: String) {
         //add user to organization doc
         idToName[organizationID] = newOrganizationName //add to mapping
@@ -132,6 +137,45 @@ class OrganizationData {
                 if query.exists {
                     let memberToAdd = Constants.FIREBASE_USERID!
                     db.collection("organizations").document(organizationID).updateData(["members":FieldValue.arrayUnion([memberToAdd])])
+                }
+            }
+        }
+    }
+    
+    //MARK: get roster for current organization
+    func getRoster() {
+        let organizationID = currOrganization ?? "ERROR"
+        db.collection("organizations").document(organizationID).getDocument() { (query, err) in
+        if let query = query {
+            if query.exists {
+                //pull roster
+                let adminIDs = query.get("admins") as! [String]
+                let memberIDs = query.get("members") as! [String]
+                
+                //pull admin id-name mappings
+                for adminID in adminIDs {
+                    db.collection("users").document(adminID).getDocument() {(query, err) in
+                        if query != nil && query!.exists {
+                            let username = query?.get("username") as! String
+                            print("admin username: \(username)")
+                            self.currOrganizationAdmins[adminID] = username
+                            NotificationCenter.default.post(name: Notification.Name("finishLoadingAdmin"), object: nil)
+                        }
+                    }
+                }
+                
+                //pull member id-name mappings
+                for memberID in memberIDs {
+                    db.collection("users").document(memberID).getDocument() {(query, err) in
+                        if query != nil && query!.exists {
+                            let username = query?.get("username") as! String
+                            print("member username: \(username)")
+                            self.currOrganizationMembers[memberID] = username
+                            NotificationCenter.default.post(name: Notification.Name("finishLoadingMember"), object: nil)
+                        }
+                    }
+                }
+                NotificationCenter.default.post(name: Notification.Name("finishLoadingRoster"), object: nil)
                 }
             }
         }
