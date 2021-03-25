@@ -13,6 +13,7 @@ class AlertView: UIViewController {
     let heading: UILabel = {
         var txt = UILabel()
         txt.font = Font.bold(18)
+        txt.textColor = Color.matte
         txt.numberOfLines = 0
         txt.textAlignment = .center
         txt.translatesAutoresizingMaskIntoConstraints = false
@@ -22,6 +23,7 @@ class AlertView: UIViewController {
     let message: UILabel = {
         var txt = UILabel()
         txt.font = Font.regular(15)
+        txt.textColor = Color.matte
         txt.numberOfLines = 0
         txt.textAlignment = .center
         txt.translatesAutoresizingMaskIntoConstraints = false

@@ -176,7 +176,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
             }
             else {
                 self.prefilledText+=email
-                self.emailTextView.textColor = Color.matteBlack
+                self.emailTextView.textColor = Color.matte
                 self.emailTextView.text = self.prefilledText
                 self.nextButton.isEnabled = true
                 self.nextButton.backgroundColor = Color.buttonClickable
@@ -192,8 +192,25 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         let preFilteredEmailCount = emailTextView.text!.split(separator: ",").count
         if preFilteredEmailCount != organizationData.memberInvites?.count {
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Email Typo Detected!", message: "One or more of your emails is mispelled and will not be invited.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                let alert = AlertView(headingText: "Email Typo Detected!", messageText: "One or more of your emails is mispelled and will not be invited.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
+                self.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
+        
+        if organizationData.memberInvites!.contains(Constants.EMAIL!) {
+            DispatchQueue.main.async {
+                let alert = AlertView(headingText: "Inviting yourself?", messageText: "There's no need to invite yourself, you're automatically included as the admin of your new space.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
                 self.present(alert, animated: true, completion: nil)
             }
             return
@@ -219,7 +236,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         emailTextView.text = self.prefilledText
-        emailTextView.textColor = Color.matteBlack
+        emailTextView.textColor = Color.matte
     }
     
     func textViewDidChange(_ textView: UITextView) {

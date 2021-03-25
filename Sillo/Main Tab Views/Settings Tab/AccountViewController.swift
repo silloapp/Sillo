@@ -79,10 +79,16 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             if let nextVC = menuItems[indexPath.row].nextVC as? StartScreenViewController {
                 print("delete account")
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Are you sure?", message: "Deleting your account will remove you from all Sillo spaces associated with \(self.accountEmail)", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {_ in}))
-                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: {_ in self.deleteHelper(nextVC)}))
-                    self.present(alert, animated: true)
+                    let alert = AlertView(headingText: "Are you sure?", messageText: "Deleting your account will remove you from all Sillo spaces associated with \(self.accountEmail)", action1Label: "Delete", action1Color: Color.salmon, action1Completion: {
+                        self.deleteHelper(nextVC)
+                        self.dismiss(animated: true, completion: nil)
+                    }, action2Label: "Cancel", action2Color: .gray, action2Completion: {
+                        self.dismiss(animated: true, completion: nil)
+                    }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+                    alert.modalPresentationStyle = .overCurrentContext
+                    alert.modalTransitionStyle = .crossDissolve
+            
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
             break
