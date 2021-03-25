@@ -229,6 +229,17 @@ class OrganizationData {
     func makeEmailArray(input: String){
         memberInvites = input.filter {$0 != " "}.components(separatedBy: ",").filter{isValidEmail($0)}
     }
+    
+    //adds event to organization activity log
+    //currently supported events: newPost, newConnection, levelUpConnection, replyToPost, friendShipped
+    func logOrgEvent(eventType: String, userID_A: String, userID_B: String){
+        
+    }
+}
+
+//MARK: sign out, clear organization list and mapping
+func organizationSignOut() {
+    organizationData = OrganizationData()
 }
 
 //MARK: sign out, clear organization list and mapping
