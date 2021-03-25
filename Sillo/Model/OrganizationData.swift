@@ -46,7 +46,10 @@ class OrganizationData {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
                 
                 if newOrganizationPic != nil {
-                    uploadOrganizationPic(organization: newOrganization, image: newOrganizationPic)
+                    let imageID = UUID.init().uuidString
+                    uploadOrganizationPicReference(organization: newOrganization, imageID: imageID)
+                    let orgPicRef = "orgProfiles/\(imageID)\(Constants.image_extension)"
+                    cloudutil.uploadImages(image: newOrganizationPic!, ref: orgPicRef)
                 }
                 inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
             }
@@ -54,7 +57,8 @@ class OrganizationData {
     }
 
     // MARK: Changing Organization Data
-    func uploadOrganizationPic(organization: String, image: UIImage?) {
+    func uploadOrganizationPicReference(organization: String, imageID: String) {
+        /* THIS IS HANDLED WITH CLOUDUTIL (resizing is done with CLOUDUTIL so it's actually downloadable)
         let imageID = UUID.init().uuidString
 
         let storageRef = Constants.storage.reference(withPath: "orgProfiles/\(imageID)\(Constants.image_extension)")
@@ -62,7 +66,7 @@ class OrganizationData {
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
         storageRef.putData(imageData, metadata:uploadMetaData)
-
+         */
         let orgDoc = Constants.db.collection("organizations").document(organization)
         orgDoc.getDocument() {
             (query, err) in
@@ -201,7 +205,7 @@ class OrganizationData {
                             }
                         }
                         else {
-                            self.orgToImage[orgID] = UIImage(named: "avatar-2")
+                            self.orgToImage[orgID] = UIImage(named: "avatar-2") //default avatar
                         }
                     }
                 }

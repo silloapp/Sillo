@@ -339,7 +339,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         cell.imgUser.layer.borderWidth = 3.5
         cell.imgUser.layer.borderColor = UIColor.gray.cgColor
-        cell.imgUser.image = organizationData.orgToImage["organization"] ?? UIImage(named:"avatar-2") //TEMPORARILY HARDCODE
+        cell.imgUser.image = organizationData.orgToImage[organization] ?? UIImage(named:"avatar-2") //TEMPORARILY HARDCODE
         
         cell.labMessage.text = organizationName
         cell.labMessage.textColor = .black
