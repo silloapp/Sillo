@@ -30,7 +30,6 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Notifications", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Quests", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
@@ -41,7 +40,6 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"Tech")!),
         ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"Finance")!),
         ItemProperty(title: "Reports", backgroundImage: UIImage(named:"Music")!),
-        ItemProperty(title: "Quests", backgroundImage: UIImage(named:"Baking")!),
         ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"Games")!),
         
     ]
