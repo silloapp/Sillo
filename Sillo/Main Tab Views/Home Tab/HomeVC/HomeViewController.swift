@@ -68,7 +68,7 @@ class HomeViewController: UIViewController {
                 self.handlePostDocumentChange(change)
             }
         }
-        
+        quests.coldStart()
         //feed.coldStart() //coldstart got deprecated by the snapshot listener
     }
     
