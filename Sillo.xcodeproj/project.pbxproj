@@ -24,6 +24,7 @@
 		A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E5925DEE3DE00479E2E /* TeamCell.swift */; };
 		A0B84E6425DEE43500479E2E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6325DEE43500479E2E /* Contact.swift */; };
 		A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */; };
+		AA02F6D8260D601900E24E72 /* QuestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02F6D7260D601900E24E72 /* QuestData.swift */; };
 		AA0A495A25FE141900FDD87F /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */; };
 		AA19190E25FF669000180A80 /* StartScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19190D25FF669000180A80 /* StartScreenViewController.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
@@ -132,6 +133,7 @@
 		A0B84E5925DEE3DE00479E2E /* TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		A0B84E6325DEE43500479E2E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		AA02F6D7260D601900E24E72 /* QuestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestData.swift; sourceTree = "<group>"; };
 		AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 		AA19190D25FF669000180A80 /* StartScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenViewController.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				AAE02E0726019E2C00BCC72A /* Analytics.swift */,
 				AADC1A7B260213E2008B0B8F /* PostData.swift */,
 				68F74F822608290B0023F79B /* ChatData.swift */,
+				AA02F6D7260D601900E24E72 /* QuestData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -843,6 +846,7 @@
 				AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */,
 				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
+				AA02F6D8260D601900E24E72 /* QuestData.swift in Sources */,
 				FD7C4FA525FE040A00231F06 /* MyConnectionsVC.swift in Sources */,
 				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
 				FD7C4F9925FDFC0000231F06 /* ArrayChoiceTableViewController.swift in Sources */,

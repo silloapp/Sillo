@@ -93,7 +93,7 @@ class CustomTableViewCell: UITableViewCell {
         labUserName.text = "Full Name"
         labUserName.backgroundColor = .clear
         labUserName.textColor = .black
-        labUserName.font = UIFont(name: "Apercu-Bold", size: 17)
+        labUserName.font = Font.bold(17)
         labUserName.textAlignment = .left
         
         TITLEconstraints = [
@@ -107,7 +107,7 @@ class CustomTableViewCell: UITableViewCell {
         labMessage.text = "Level 5"
         labMessage.backgroundColor = .clear
         labMessage.textColor = .black
-        labMessage.font = UIFont(name: "Apercu-Regular", size: 12)
+        labMessage.font = Font.regular(12)
         labMessage.textAlignment = .left
         
         Messageconstraints = [

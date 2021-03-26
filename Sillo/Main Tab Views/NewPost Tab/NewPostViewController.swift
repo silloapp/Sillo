@@ -204,7 +204,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             analytics.log_create_post()
             
             //update quest if newPost is a subtask
-            userQuests.updateQuestProgress(typeToUpdate: "newPost")
+            quests.updateQuestProgress(typeToUpdate: "newPost")
             
         }
         else {

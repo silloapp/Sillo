@@ -8,35 +8,7 @@
 import UIKit
 import Firebase
 
-let userQuests = QuestProgressVC()
-
 class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
-    struct Subtask {
-        var title: String
-        var type: String
-        var current: Int
-        var target: Int
-    }
-    //TODO: replaced by firebase fetched data
-    private var subtasks : [Subtask] = [
-        Subtask(title: "Create new posts", type: "newPost", current: 5, target: 5),
-        Subtask(title: "Make new connections", type: "newPost", current: 6, target: 6),
-        Subtask(title: "Level up in a connection", type: "newPost", current: 2, target: 2),
-    ]
-    
-    private var subtaskTitles : [String: String] = [
-        "newPost" : "Create a new post!",
-        "newConnection" : "Make new connections!",
-        "levelUpConnection" : "Level up connections!",
-        "replyToPost" : "Reply to a post!"
-        
-    ]
-    
-    //TODO: replace this with firebase reference
-    private var stickerList : [String] = ["coffee", "blush", "donut", "confused", "snooze"]
-    private var nextSticker = "coffee"
-    
     //MARK :IBDeclarations:
     
     let header : UIView = {
@@ -94,6 +66,8 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     
     var StarsView = UIView()
     
+    var bubbleImageView = UIImageView(image: #imageLiteral(resourceName: "bgStar"))
+    
     //MARK: listener
     private var questListener: ListenerRegistration?
     
@@ -103,7 +77,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         
-       fetchNextSticker()
+        quests.fetchNextSticker()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshQuestTableView"), object: nil)
         
@@ -117,15 +91,17 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
             }
             guard let data = document.data() else {
                 print("Document data was empty.")
+                quests.resetQuestPopup()
                 return
             }
+            
             print("Current data: \(data)")
             for (i, task) in ["subtask1", "subtask2", "subtask3"].enumerated() {
                 let taskType = document.get(task) as! String
                 let progress = document.get("\(task)_progress") as! [String:Int]
                 let current = progress["current"]!
                 let target = progress["target"]!
-                self.subtasks[i] = Subtask(title: self.subtaskTitles[taskType] as! String, type: taskType , current: current, target: target)
+                quests.subtasks[i] = Quests.Subtask(title: quests.subtaskTitles[taskType] as! String, type: taskType , current: current, target: target)
             }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshQuestTableView"), object: nil)
         }
@@ -237,10 +213,10 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
         //MARK: pop up label
         self.insideScrollVw.addSubview(popupLbl)
-        popupLbl.text = "Claim sticker"
+        popupLbl.text = "Tap the lock! ->"
         popupLbl.backgroundColor = UIColor.init(red: 253/255.0, green: 243/255, blue: 223/255.0, alpha: 1)
         popupLbl.textColor = UIColor.init(red: 0/255.0, green: 51/255, blue: 66/255.0, alpha: 1)
-        popupLbl.font = UIFont(name: "Apercu-Regular", size: 16)
+        popupLbl.font = Font.regular(16)
         popupLbl.textAlignment = .center
         popupLbl.clipsToBounds = true
         popupLbl.layer.cornerRadius = 10
@@ -322,7 +298,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         return 100
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return subtasks.count
+        return quests.subtasks.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
@@ -333,12 +309,12 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         //award progress
         cell.imgUser.image = UIImage.init(named: "subtask icon")
         //subtask title
-        cell.labMessage.text = subtasks[indexPath.row].title
+        cell.labMessage.text = quests.subtasks[indexPath.row].title
         cell.labMessage.textColor = UIColor.init(red: 0/255.0, green: 51/255, blue: 66/255.0, alpha: 1)
         cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
         
         //current progress
-        cell.labUserName.text = ("\(subtasks[indexPath.row].current)/\(subtasks[indexPath.row].target)" )
+        cell.labUserName.text = ("\(quests.subtasks[indexPath.row].current)/\(quests.subtasks[indexPath.row].target)" )
         cell.labUserName.textColor = .black
         cell.labUserName.font = UIFont(name: "Apercu-Bold", size: 17)
         cell.labUserName.textAlignment = .right
@@ -374,7 +350,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         cell.contentView.layoutIfNeeded()
         
         //if cell is displaying completed subtask, hide progress and show checkmark for completion
-        if subtasks[indexPath.row].current >= subtasks[indexPath.row].target {
+        if quests.subtasks[indexPath.row].current >= quests.subtasks[indexPath.row].target {
             cell.labUserName.isHidden = true
             cell.checkImg.isHidden = false
         }else{
@@ -412,11 +388,15 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     {
         self.timer = Timer.scheduledTimer(timeInterval: 0.8, target: self,   selector: (#selector(StarsAnimationStarts)), userInfo: nil, repeats: true)
     }
+    func StopFloatingStars()
+    {
+        return //idk how to remove the stars
+    }
     @objc func StarsAnimationStarts()
     {
         //----------------- For  Bubble :
         
-        let bubbleImageView = UIImageView(image: #imageLiteral(resourceName: "bgStar"))
+        self.bubbleImageView = UIImageView(image: #imageLiteral(resourceName: "bgStar"))
         let size = randomFloatBetween(5, and: 30)
         bubbleImageView.frame = CGRect(x: ((lockImage.layer.presentation()?.frame.origin.x)!+80) , y: (lockImage.layer.presentation()?.frame.origin.y ?? 0) + 120, width: size, height: size)
         bubbleImageView.alpha = CGFloat(randomFloatBetween(0.1, and: 1))
@@ -437,13 +417,13 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         CATransaction.setCompletionBlock({
             
             UIView.transition(
-                with: bubbleImageView,
+                with: self.bubbleImageView,
                 duration: 0.2,
                 options: .transitionCrossDissolve,
                 animations: {
-                    bubbleImageView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                    self.bubbleImageView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
                 }) { finished in
-                bubbleImageView.removeFromSuperview()
+                self.bubbleImageView.removeFromSuperview()
             }
         })
         
@@ -463,21 +443,25 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         self.subtaskTableView.reloadData()
         
         //update progress bar
-        let percentageCompleted = getPercentageCompleted(subtasks: subtasks)
+        let percentageCompleted = getPercentageCompleted(subtasks: quests.subtasks)
         print("percentage completed: \(percentageCompleted)")
         progressBar.setProgress(percentageCompleted , animated: true)
     }
 
     
     @objc func claimStickerPressed(tapGestureRecognizer: UITapGestureRecognizer) {
+        //do not allow claiming if subtasks not complete
+        if getPercentageCompleted(subtasks: quests.subtasks) < 1.0 {
+            print("QUESTS NOT COMPLETED")
+            return
+        }
         //reset quest, fetch next sticker, update user's sticker collection
-        resetQuestPopup()
-        fetchNextSticker()
-        updateStickerList()
-        
+        quests.resetQuestPopup()
+        quests.fetchNextSticker()
+        quests.updateStickerList()
         //TODO: what happens if all stickers have been obtained?
         //displays alert
-        let imageToDisplay = UIImage(named: self.nextSticker)
+        let imageToDisplay = UIImage(named: quests.nextSticker)
         
         let alert = AlertView(headingText: "Kudos! You completed your quest and unlocked a new sticker!", messageText: "You can use this sticker in posts and messages.", action1Label: "Got it", action1Color: Color.burple, action1Completion: {
             self.dismiss(animated: true, completion: nil)
@@ -486,47 +470,9 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         alert.modalPresentationStyle = .overCurrentContext
         alert.modalTransitionStyle = .crossDissolve
         self.present(alert, animated: true, completion: nil)
-    }
-
-    
-    func resetQuestPopup(){
-        //pulls subtask pool, puts local
-        let docRef = db.collection("quest_pool").document("subtasks")
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                var subtasks : [[String: Any]] = document.get("subtaskArray") as! [[String:Any]]
-                subtasks = subtasks.shuffled()
-                
-                for i in 0...2 {
-                    let taskType : String = subtasks[i]["subtaskType"] as! String
-                    let minTarget : Int = subtasks[i]["minTarget"] as! Int
-                    let maxTarget : Int = subtasks[i]["maxTarget"] as! Int
-                    let target = Int.random(in: minTarget..<maxTarget)
-                    let taskTitle = subtasks[i]["taskTitle"] as! String
-                    self.subtasks[i] = Subtask(title: self.subtaskTitles[taskType] as! String, type: taskType , current: 0, target: target)
-                }
-            } else {
-                print("Was not able to find quest pool.")
-            }
-        }
         
-        
-        //push new quest on firebase (COPY FROM LOCAL TO FIREBASE)
-        let questRef = db.collection("quests").document(Constants.FIREBASE_USERID ?? "USER_ID_ERROR")
-        questRef.setData([
-            "subtask1": subtasks[0].type,
-            "subtask2": subtasks[1].type,
-            "subtask3": subtasks[2].type,
-            "subtask1_progress" : ["current": 0, "target": subtasks[0].target,],
-            "subtask2_progress" : ["current": 0, "target": subtasks[1].target,],
-            "subtask3_progress" : ["current": 0, "target": subtasks[2].target,],
-        ], merge: true) { err in
-            if let err = err {
-                print("Error resetting quest: \(err)")
-            } else {
-                print("Successfully reset quests!")
-            }
-        }
+        //stop stars animation
+        StopFloatingStars()
     }
     
     func randomFloatBetween(_ smallNumber: CGFloat, and bigNumber: CGFloat) -> CGFloat {
@@ -561,7 +507,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         return stack
     }
     
-    func getPercentageCompleted(subtasks: [Subtask]) -> Float {
+    func getPercentageCompleted(subtasks: [Quests.Subtask]) -> Float {
         var count = 0
         for task in subtasks {
             if ( task.current >= task.target){
@@ -590,72 +536,4 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         logoTeamStack.bottomAnchor.constraint(equalTo: header.bottomAnchor, constant: -15).isActive = true
         logoTeamStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-    
-    func updateQuestProgress(typeToUpdate: String) -> () {
-        let docRef = db.collection("quests").document(Constants.FIREBASE_USERID ?? "ERROR")
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                for task in ["subtask1", "subtask2", "subtask3"] {
-                    let taskType = document.get(task) as! String
-                    if taskType == typeToUpdate {
-                        let progress = document.get("\(task)_progress") as! [String:Int]
-                        let current = progress["current"]!
-                        let target = progress["target"]!
-                        docRef.setData([
-                            "\(task)_progress" : ["current": current + 1, "target": target],
-                        ], merge: true) { err in
-                            if let err = err {
-                                print("Error updating quest progress: \(err)")
-                            } else {
-                                print("Successfully updated quest progress for subtask type: \(typeToUpdate)!")
-                            }
-                        }
-                        break
-                    }
-                }
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
-    func fetchNextSticker() {
-        let docRef = db.collection("users").document(Constants.FIREBASE_USERID ?? "ERROR")
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                var ownedStickers : [String: Bool] = document.get("ownedStickers") as! [String: Bool]
-                for sticker in self.stickerList {
-                    if !ownedStickers.keys.contains(sticker) {
-                        self.nextSticker = sticker
-                        print("next sticker prize for current quest is: \(self.nextSticker)")
-                        break
-                    }
-                }
-            } else {
-                print("Was not able to find document.")
-            }
-        }
-    }
-    
-    func updateStickerList() {
-        let docRef = db.collection("users").document(Constants.FIREBASE_USERID ?? "ERROR")
-        docRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                var ownedStickers : [String: Bool] = document.get("ownedStickers") as! [String: Bool]
-                ownedStickers[self.nextSticker] = true //update sticker list
-                docRef.setData([
-                    "ownedStickers": ownedStickers
-                ], merge: true) { err in
-                    if let err = err {
-                        print("Error adding new sticker to user's collection: \(err)")
-                    } else {
-                        print("Successfully added new sticker to user's collection!")
-                    }
-                }
-            } else {
-                print("Was not able to find document.")
-            }
-        }
-    }
-
 }

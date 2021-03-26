@@ -245,8 +245,3 @@ class OrganizationData {
 func organizationSignOut() {
     organizationData = OrganizationData()
 }
-
-//MARK: sign out, clear organization list and mapping
-func organizationSignOut() {
-    organizationData = OrganizationData()
-}
