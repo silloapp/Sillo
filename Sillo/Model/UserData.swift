@@ -31,7 +31,7 @@ class LocalUser {
                 return
             } else {
                 //create user document
-                docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? ""]) { err in
+                docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? "", "ownedStickers": NSDictionary()]) { err in
                 if let err = err {
                     print("error: \(err) user: \(newUser) \(newUser) not created")
                 } else {
