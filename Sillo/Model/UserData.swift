@@ -31,7 +31,7 @@ class LocalUser {
                 return
             } else {
                 //create user document
-                docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? "", "ownedStickers": NSDictionary()]) { err in
+                docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? "", "ownedStickers": NSDictionary(), "email": Constants.EMAIL ?? ""]) { err in
                 if let err = err {
                     print("error: \(err) user: \(newUser) \(newUser) not created")
                 } else {
@@ -156,6 +156,10 @@ class LocalUser {
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
+                    if query.get("email") == nil {
+                        //late addition, so this will upload email to a user document if it doesn't exist.
+                        db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["email":Constants.EMAIL!]) //update email
+                    }
                     organizationData.adminStatusMap = query.get("admin") as! [String:Bool]
                     organizationData.organizationList = query.get("organizations") as! [String]
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)

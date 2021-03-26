@@ -63,17 +63,21 @@ class CloudUtil {
         storageRef.putData(imageData, metadata:uploadMetaData)
         return
     }
-
+    //MARK: download image
+    //USAGE: call and then check for "refreshPicture" callback, currently returns a placeholder
     func downloadImage(ref: String, useCache: Bool? = true) -> UIImage? {
         var resultImage = UIImage(named:"avatar-4")!
-        if let cachedVersion = imageCache.object(forKey: ref as NSString) {
-            // use the cached version
-            if useCache! == true {
+        /* fk the cache doesn't work.. 
+        if useCache! == true && imageCache.object(forKey: ref as NSString) != nil {
+            if let cachedVersion = imageCache.object(forKey: ref as NSString) {
+                // use the cached version
                 print("using cached version of image with key \(ref)")
-                resultImage = cachedVersion
+                imageCache.setObject(cachedVersion, forKey: ref as NSString)
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "refreshPicture")))
             }
         }
         else {
+            */
             // create it from scratch then store in the cache
             let imageRef = storageRef.child(ref)
             // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
@@ -89,9 +93,8 @@ class CloudUtil {
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "refreshPicture")))
               }
             }
-        }
+        //}
         return resultImage
-        
     }
 }
 
