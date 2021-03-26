@@ -30,6 +30,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     var selectedIndx = -1
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,31 +72,18 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             scrollView.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
             scrollView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
             scrollView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
-            scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ]
         
         self.scrollView.addSubview(insideScrollVw)
         let screenWidth = screenSize.width
         
         
-        let insideScrollViewconstraints = [
-            insideScrollVw.topAnchor.constraint(equalTo:  self.scrollView.contentLayoutGuide.topAnchor, constant: 0),
-            insideScrollVw.leftAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leftAnchor, constant: 0),
-            insideScrollVw.rightAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.rightAnchor, constant: 0),
-            insideScrollVw.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
-
-            
-            insideScrollVw.heightAnchor.constraint(equalToConstant: 800),
-            insideScrollVw.widthAnchor.constraint(equalToConstant: screenWidth)
-            
-        ]
-        
         // FOR EXIT BUTTON :
-        self.insideScrollVw.addSubview(exitButton)
+        view.addSubview(exitButton)
         exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
-        exitButton.topAnchor.constraint(equalTo: self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.addTarget(self, action: #selector(exitPressed), for: .touchUpInside)
         
         // FOR TITLE :
@@ -108,11 +96,10 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         titleLabel.textAlignment = .left
         
         let TITLEconstraints = [
-            titleLabel.topAnchor.constraint(equalTo:  self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 45),
-            titleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
-            titleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 25),
+            titleLabel.topAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.leftAnchor.constraint(equalTo: exitButton.rightAnchor, constant: 20),
+            titleLabel.centerYAnchor.constraint(equalTo: exitButton.centerYAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 25)
-            
         ]
         
         // FOR secondTITLE :
@@ -132,7 +119,6 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             sectitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
             sectitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
             sectitleLabel.heightAnchor.constraint(equalToConstant: 70)
-            
         ]
         
         // FOR BOTTOM TITLE :
@@ -148,11 +134,18 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         bottomtitleLabel.lineBreakMode = .byWordWrapping
         
         let bottomtitleconstraints = [
-            bottomtitleLabel.topAnchor.constraint(equalTo:  self.TopTable.safeAreaLayoutGuide.topAnchor, constant: 325),
+            bottomtitleLabel.topAnchor.constraint(equalTo:  self.insideScrollVw.bottomAnchor, constant: 40),
             bottomtitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
             bottomtitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
             bottomtitleLabel.heightAnchor.constraint(equalToConstant: 50)
-            
+        ]
+        
+        let insideScrollViewconstraints = [
+            insideScrollVw.topAnchor.constraint(equalTo:  titleLabel.bottomAnchor, constant: 100),
+            insideScrollVw.leftAnchor.constraint(equalTo: view.leftAnchor),
+            insideScrollVw.rightAnchor.constraint(equalTo: view.rightAnchor),
+            insideScrollVw.heightAnchor.constraint(equalToConstant: 300),
+            insideScrollVw.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ]
         
         // FOR BOTTOM secondTITLE :
@@ -207,8 +200,9 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         TopTable.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         
         let TopTableconstraints = [
-            TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),  TopTable.leftAnchor.constraint(equalTo: titleLabel.leftAnchor, constant: 0),
-            TopTable.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+            TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),
+            TopTable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            TopTable.widthAnchor.constraint(equalTo: sectitleLabel.widthAnchor, constant: 20),
             TopTable.heightAnchor.constraint(equalToConstant: 300)
         ]
         self.insideScrollVw.addSubview(TopTable)
@@ -218,7 +212,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         
         
-        //-----------for aqctivating constraints:
+        //-----------for activating constraints:
         
         NSLayoutConstraint.activate(scrollViewconstraints)
         NSLayoutConstraint.activate(insideScrollViewconstraints)
@@ -311,19 +305,19 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         let orgID : String = localUser.invites[indexPath.row]
         cell.labMessage.text = localUser.invitesMapping[orgID] ?? "ERROR"
         cell.labMessage.textColor = .black
-        cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
+        cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 22)
         
         cell.img1constraints = [
-            cell.imgUser.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 0),
-            cell.imgUser.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 30),
+            cell.imgUser.centerYAnchor.constraint(equalTo:  cell.centerYAnchor),
+            cell.imgUser.leftAnchor.constraint(equalTo:  cell.leftAnchor, constant: 40),
             cell.imgUser.widthAnchor.constraint(equalToConstant: 60),
             cell.imgUser.heightAnchor.constraint(equalToConstant: 60)
         ]
         
         cell.Messageconstraints = [
-            cell.labMessage.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 0),
-            cell.labMessage.leftAnchor.constraint(equalTo:  cell.imgUser2.leftAnchor, constant: 10),
-            cell.labMessage.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: 20),
+            cell.labMessage.centerYAnchor.constraint(equalTo:  cell.centerYAnchor),
+            cell.labMessage.leftAnchor.constraint(equalTo:  cell.leftAnchor, constant: 110),
+            cell.labMessage.rightAnchor.constraint(equalTo:  cell.rightAnchor, constant: 20),
             cell.labMessage.heightAnchor.constraint(equalToConstant: 20)
         ]
         cell.imgUser.clipsToBounds = true

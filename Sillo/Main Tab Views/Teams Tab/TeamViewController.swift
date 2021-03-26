@@ -13,12 +13,12 @@ struct ItemProperty {
 }
 
 class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
-  
+    
     let cellID = "cellID"
     let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = Color.navBar
+        view.backgroundColor = .white
         return view
     }()
     
@@ -28,7 +28,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "People", nextVC: PeopleVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Notifications", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Notifications", nextVC: NotificationsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Quests", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
@@ -57,23 +57,26 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // remove separators at bottom of tableview
+        
         menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
-        menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 140).isActive = true
-        menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
-        menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
+        menuItemTableView.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        menuItemTableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 330/375).isActive = true
+        menuItemTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
         menuItemTableView.isScrollEnabled = true
         menuItemTableView.dataSource = self
         menuItemTableView.delegate = self
         menuItemTableView.separatorColor = .clear
+        menuItemTableView.showsVerticalScrollIndicator = false
         menuItemTableView.register(ImageCell.self, forCellReuseIdentifier: cellID)
     }
     
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
-   
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ImageCell
         cell.properties = itemProperties[indexPath.row]
@@ -108,7 +111,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             profileDocumentName = organizationData.currOrganization ?? "ERROR"
                         }
                         let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
-
+                        
                         //actually pull the document
                         userRef.getDocument { (document, error) in
                             if let document = document, document.exists {
@@ -136,7 +139,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             //dismiss loading overlay
                             loadingVC.dismiss(animated: false, completion: nil)
                         }
-                }
+                    }
                     else {
                         //entire user document does not exist (VERY STRANGE)
                         print("Document does not exist, set dummy data in all_orgs")
@@ -149,9 +152,9 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         //dismiss loading overlay
                         loadingVC.dismiss(animated: false, completion: nil)
                     }
+                }
             }
-            }
-          break
+            break
         case "Sign Out":
             localUser.signOut()
             if let nextVC = selectedMenuItem.nextVC {
@@ -200,7 +203,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        header.heightAnchor.constraint(equalToConstant: 132).isActive = true
+        header.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 110/812).isActive = true
         
         //app logo and team name stack
         let logoTeamStack = setupPhotoTeamName()
@@ -222,7 +225,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         settingsButton.isUserInteractionEnabled = true
         settingsButton.addGestureRecognizer(tapGestureRecognizer)
         header.addSubview(settingsButton)
-
+        
         settingsButton.rightAnchor.constraint(equalTo: header.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
         settingsButton.centerYAnchor.constraint(equalTo: logoTeamStack.centerYAnchor).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -233,7 +236,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         print("Clicked on Settings! Time to segway into settings VC... ")
         let nextVC = SettingsViewController()
-//        let nextVC = ProfileVC()
+        //        let nextVC = ProfileVC()
         //nextVC.backingImage = self.navigationController?.view.asImage()
         nextVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(nextVC, animated: true)
@@ -241,7 +244,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
 }
 
 class ImageCell: UITableViewCell {
-
+    
     var properties:ItemProperty? {
         didSet {
             guard let properties = properties else { return }
@@ -284,7 +287,7 @@ class ImageCell: UITableViewCell {
         self.contentView.addSubview(containerView)
         self.contentView.addSubview(bgImage)
         
-
+        
         containerView.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 8).isActive = true
         containerView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -8).isActive = true
         containerView.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:5).isActive = true

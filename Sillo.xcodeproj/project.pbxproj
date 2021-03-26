@@ -49,6 +49,7 @@
 		AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADFD2282605F87D00D26DCF /* WelcomeToSilloViewController.swift */; };
 		AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE02E0726019E2C00BCC72A /* Analytics.swift */; };
 		B1AC2219DD77C8E506068AF2 /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */; };
+		FD05F544260D4AFC00BD67A9 /* ToggleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD05F543260D4AFC00BD67A9 /* ToggleTableViewCell.swift */; };
 		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
 		FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */; };
 		FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */; };
@@ -60,6 +61,8 @@
 		FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */; };
 		FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */; };
 		FD1DC5B525E10945007A0E70 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */; };
+		FD3A26C9260CE70B006603D6 /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A26C8260CE70B006603D6 /* NotificationsVC.swift */; };
+		FD3A26D1260CE947006603D6 /* SetupNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A26D0260CE947006603D6 /* SetupNavBar.swift */; };
 		FD7C4F8625FDFB6900231F06 /* AddNewSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F8525FDFB6900231F06 /* AddNewSpace.swift */; };
 		FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */; };
 		FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9525FDFC0000231F06 /* AlwaysShowPopup.swift */; };
@@ -159,6 +162,7 @@
 		AAE02E0726019E2C00BCC72A /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C3E5B7BDD69653A1973E77B0 /* Pods-Sillo-SilloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.release.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F29CDC423F1F6A880C4EFA11 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
+		FD05F543260D4AFC00BD67A9 /* ToggleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleTableViewCell.swift; sourceTree = "<group>"; };
 		FD1D22AB25A19F5700F1636C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium Italic.otf"; sourceTree = "<group>"; };
 		FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium.otf"; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 		FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
 		FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
 		FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		FD3A26C8260CE70B006603D6 /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
+		FD3A26D0260CE947006603D6 /* SetupNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupNavBar.swift; sourceTree = "<group>"; };
 		FD7C4F8525FDFB6900231F06 /* AddNewSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewSpace.swift; sourceTree = "<group>"; };
 		FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayChoiceTableViewController.swift; sourceTree = "<group>"; };
 		FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
@@ -357,11 +363,12 @@
 				FDAEBF642608E75D0084FF47 /* AlertView.swift */,
 				FDAEBF692608E7AF0084FF47 /* ActionButton.swift */,
 				A0B84E6325DEE43500479E2E /* Contact.swift */,
-				FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */,
-				AA8B775C25FAE5BA0032336F /* Constants.swift */,
-				A0A6BFEA25EBA08900F107F4 /* UIView+Snapshot.swift */,
 				AABEC69325A83B7900D89C62 /* CloudUtil.swift */,
 				FD94909825C3FC7D009F4F29 /* CustomNavigationController.swift */,
+				FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */,
+				AA8B775C25FAE5BA0032336F /* Constants.swift */,
+				FD3A26D0260CE947006603D6 /* SetupNavBar.swift */,
+				A0A6BFEA25EBA08900F107F4 /* UIView+Snapshot.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -437,6 +444,8 @@
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
 				FD85041E2606982C0056DC13 /* PeopleVC.swift */,
+				FD3A26C8260CE70B006603D6 /* NotificationsVC.swift */,
+				FD05F543260D4AFC00BD67A9 /* ToggleTableViewCell.swift */,
 			);
 			path = "Teams Tab";
 			sourceTree = "<group>";
@@ -844,8 +853,10 @@
 				AA8B775725FAE5410032336F /* ConfirmEmailViewController.swift in Sources */,
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
 				AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */,
+				FD3A26D1260CE947006603D6 /* SetupNavBar.swift in Sources */,
 				FD93B2F02605A09A00CC44AA /* QuestProgressVC.swift in Sources */,
 				AA0A495A25FE141900FDD87F /* NotificationRequestViewController.swift in Sources */,
+				FD05F544260D4AFC00BD67A9 /* ToggleTableViewCell.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				AA8B775825FAE5410032336F /* SetupOrganizationViewController.swift in Sources */,
 				A0A6BFEB25EBA08900F107F4 /* UIView+Snapshot.swift in Sources */,
@@ -871,6 +882,7 @@
 				AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
+				FD3A26C9260CE70B006603D6 /* NotificationsVC.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 				FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */,
 				AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */,
