@@ -204,7 +204,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         TopTable.separatorStyle = .none
         TopTable.backgroundColor = .clear
         TopTable.bounces = true
-        TopTable.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        TopTable.register(CustomTableViewCell.self, forCellReuseIdentifier: "inviteCell")
         
         let TopTableconstraints = [
             TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),  TopTable.leftAnchor.constraint(equalTo: titleLabel.leftAnchor, constant: 0),
@@ -297,7 +297,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
+        let cell =  tableView.dequeueReusableCell(withIdentifier: "inviteCell", for: indexPath) as! CustomTableViewCell
         cell.selectionStyle = .none
         
         
