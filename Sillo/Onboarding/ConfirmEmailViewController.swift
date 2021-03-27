@@ -11,6 +11,8 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
 
     // MARK: Figma 1224
     
+    var onboardingMode = true
+    
     var bar = UIProgressView()
     var emailTableView = UITableView()
     var confirmButton = UIButton()
@@ -126,10 +128,18 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
             return
         }
         self.latestButtonPressTimestamp = Date()
+        if self.onboardingMode {
+            organizationData.createNewOrganization()
+        }
+        else {
+            // not onboarding mode, invite return to peopleVC
+            organizationData.inviteMembers(organizationID: organizationData.currOrganization!, organizationName: organizationData.currOrganizationName!, emails: memberInvites )
+            let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
+            self.navigationController?.popToViewController(controller!, animated: true)
+            organizationData.memberInvites = []
+        }
         
-        organizationData.createNewOrganization()
         return
-        // TODO: transition to next VC
     }
     
     @objc func creationSuccess(note:NSNotification) {

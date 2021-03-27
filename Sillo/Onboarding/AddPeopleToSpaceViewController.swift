@@ -11,6 +11,8 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
 
     //MARK: Figma #1221
 
+    var onboardingMode = true
+    
     var bar = UIProgressView()
     var orgNameString:String? = nil
     var orgImage:UIImage? = nil
@@ -147,6 +149,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.isScrollEnabled = false
         emailTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         emailTextView.isEditable = true
+        emailTextView.keyboardType = .emailAddress
         
         emailTextView.heightAnchor.constraint(equalTo: textStack.heightAnchor, multiplier: 1).isActive = true
         emailTextView.widthAnchor.constraint(equalTo: textStack.widthAnchor, multiplier: 1).isActive = true
@@ -223,6 +226,10 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         self.navigationController?.view.layer.add(transition, forKey: nil)
 
         let destVC = ConfirmEmailViewController()
+        
+        if (!self.onboardingMode) {
+            destVC.onboardingMode = false
+        }
 
         navigationController?.pushViewController(destVC, animated: false)
     }

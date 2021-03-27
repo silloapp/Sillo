@@ -209,8 +209,12 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         }
         else {
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Empty posts are no fun, write something!", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                let alert = AlertView(headingText: "Empty posts are no fun, write something!", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
                 self.present(alert, animated: true, completion: nil)
             }
             return

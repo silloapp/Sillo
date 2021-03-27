@@ -25,6 +25,7 @@
 		A0B84E6425DEE43500479E2E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6325DEE43500479E2E /* Contact.swift */; };
 		A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */; };
 		AA02F6D8260D601900E24E72 /* QuestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02F6D7260D601900E24E72 /* QuestData.swift */; };
+		AA02F6E3260DE4F100E24E72 /* ManageUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02F6E2260DE4F100E24E72 /* ManageUserViewController.swift */; };
 		AA0A495A25FE141900FDD87F /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */; };
 		AA19190E25FF669000180A80 /* StartScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19190D25FF669000180A80 /* StartScreenViewController.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
@@ -134,6 +135,7 @@
 		A0B84E6325DEE43500479E2E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A0B84E6B25DFB34200479E2E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		AA02F6D7260D601900E24E72 /* QuestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestData.swift; sourceTree = "<group>"; };
+		AA02F6E2260DE4F100E24E72 /* ManageUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUserViewController.swift; sourceTree = "<group>"; };
 		AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 		AA19190D25FF669000180A80 /* StartScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenViewController.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
 				FD85041E2606982C0056DC13 /* PeopleVC.swift */,
+				AA02F6E2260DE4F100E24E72 /* ManageUserViewController.swift */,
 			);
 			path = "Teams Tab";
 			sourceTree = "<group>";
@@ -844,6 +847,7 @@
 				FD1DC5B525E10945007A0E70 /* CustomTabBarController.swift in Sources */,
 				FDB3400425AC09E700097FE1 /* NoInvitesViewController.swift in Sources */,
 				AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */,
+				AA02F6E3260DE4F100E24E72 /* ManageUserViewController.swift in Sources */,
 				FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */,
 				AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */,
 				AA02F6D8260D601900E24E72 /* QuestData.swift in Sources */,
