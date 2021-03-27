@@ -24,8 +24,15 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         super.viewDidLoad()
         view.backgroundColor = .white
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tap)
+        
         setupProgressBar()
         setupView()
+    }
+    @objc func hideKeyboard() {
+        emailTextView.resignFirstResponder()
     }
     
     //MARK: Prevents NavBar header from showing up when going back to root VC
@@ -149,7 +156,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.isScrollEnabled = false
         emailTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         emailTextView.isEditable = true
-        emailTextView.keyboardType = .emailAddress
+        //emailTextView.keyboardType = .emailAddress
         
         emailTextView.heightAnchor.constraint(equalTo: textStack.heightAnchor, multiplier: 1).isActive = true
         emailTextView.widthAnchor.constraint(equalTo: textStack.widthAnchor, multiplier: 1).isActive = true
