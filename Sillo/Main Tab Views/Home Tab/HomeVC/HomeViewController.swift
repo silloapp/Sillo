@@ -30,6 +30,8 @@ class HomeViewController: UIViewController {
     let blurEffect = UIBlurEffect(style: .systemMaterialDark)
     var blurVw = UIVisualEffectView()
     
+    let clubName = UILabel()
+    
     //MARK: listener
     private var postListener: ListenerRegistration?
     
@@ -49,6 +51,8 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshPostTableView"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.tabBarOpacityChange(note:)), name: Notification.Name("PopupDidAppear"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationTitleLabel(notification:)), name: Notification.Name("RefreshOrganizationListing"), object: nil)
         
         //MARK: attach listener
         feed.posts = [:] //clear posts in memory
@@ -70,6 +74,10 @@ class HomeViewController: UIViewController {
         }
         quests.coldStart()
         //feed.coldStart() //coldstart got deprecated by the snapshot listener
+    }
+    
+    @objc func refreshOrganizationTitleLabel(notification:Notification) {
+        clubName.text = organizationData.currOrganizationName ?? "My Organization"
     }
     
     override func viewDidLoad() {
@@ -202,7 +210,6 @@ class HomeViewController: UIViewController {
         silloLogo.contentMode = .scaleAspectFit
         stack.addArrangedSubview(silloLogo)
         
-        let clubName = UILabel()
         clubName.text = organizationData.currOrganizationName ?? "My Organization"
         clubName.font = Font.bold(22)
         clubName.textColor = Color.teamHeader
