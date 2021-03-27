@@ -184,7 +184,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         self.TopTable.register(HederCell.self,
                                forHeaderFooterViewReuseIdentifier: "sectionHeader")
         
-        self.TopTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.TopTable.register(NameCell.self, forCellReuseIdentifier: "nameCell")
         
         let TopTableconstraints = [
             TopTable.topAnchor.constraint(equalTo:   self.view.safeAreaLayoutGuide.topAnchor, constant: 80),
@@ -253,7 +253,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
                    viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                                                                 "sectionHeader") as! HederCell
-        tableView.register(NameCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(NameCell.self, forCellReuseIdentifier: "nameCell")
         view.titlelbl.text = sections[section]
         
         //view.morebtn.addTarget(self, action:#selector(morebtnMethod), for: .touchUpInside)
@@ -329,7 +329,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0
         {
-            let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NameCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameCell
             
             cell.ID = Array(searchResultAdmins.keys)[indexPath.row]
             cell.name = Array(searchResultAdmins.values)[indexPath.row]
@@ -349,7 +349,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         }
         else
         {
-            let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NameCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameCell
             
             cell.ID = Array(searchResultMembers.keys)[indexPath.row]
             cell.name = Array(searchResultMembers.values)[indexPath.row]
