@@ -302,12 +302,12 @@ class OrganizationData {
                         if (imageRef != "") {
                             if let resImage = cloudutil.downloadImage(ref: "orgProfiles/\(imageRef)\(Constants.image_extension)") {
                                 self.orgToImage[orgID] = resImage
-                                NotificationCenter.default.post(name: Notification.Name("RefreshOrgPictures"), object: nil)
                             }
                         }
                         else {
                             self.orgToImage[orgID] = UIImage(named: "avatar-2") //default avatar
                         }
+                        NotificationCenter.default.post(name: Notification.Name("RefreshOrganizationListing"), object: nil)
                     }
                 }
             }
