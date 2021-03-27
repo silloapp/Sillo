@@ -138,6 +138,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isTranslucent = true
         self.view.backgroundColor = ViewBgColor
         setNavBar()
         settingElemets()

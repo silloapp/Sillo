@@ -80,8 +80,10 @@ class HomeViewController: UIViewController {
         overrideUserInterfaceStyle = .light
         setupHeader()
         setupTableView()
+        
         navigationController?.navigationBar.barTintColor = Color.headerBackground
         navigationController?.navigationBar.isTranslucent = false
+        
         addDismissPullUpController(animated: false)
         
     }

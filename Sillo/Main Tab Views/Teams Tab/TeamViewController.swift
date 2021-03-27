@@ -12,7 +12,7 @@ struct ItemProperty {
     var backgroundImage: UIImage
 }
 
-class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
   
     let cellID = "cellID"
     let header : UIView = {
@@ -52,6 +52,8 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         overrideUserInterfaceStyle = .light
         
         setupHeader()
+//        navigationController?.interactivePopGestureRecognizer?.delegate = self
+
         
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // remove separators at bottom of tableview

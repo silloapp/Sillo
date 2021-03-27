@@ -23,7 +23,6 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tap)
@@ -35,23 +34,38 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.resignFirstResponder()
     }
     
-    //MARK: Prevents NavBar header from showing up when going back to root VC
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated);
-        super.viewWillDisappear(animated)
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         populateTextView()
+        setNavBar()
     }
     
-    func configureNavBar() {
+    func setNavBar() {
+        
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.navigationBar.barTintColor = .white
-        view.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = .black
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
+        navigationController?.navigationBar.isTranslucent = false
+        
+        self.title = "People"
+        let textAttributes = [NSAttributedString.Key.foregroundColor:Color.burple]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        //Setting Buttons :
+        
+        let backbutton = UIButton(type: UIButton.ButtonType.custom)
+        backbutton.setImage(UIImage(named: "back"), for: .normal)
+        backbutton.addTarget(self, action:#selector(callMethod), for: .touchUpInside)
+        backbutton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        let barbackbutton = UIBarButtonItem(customView: backbutton)
+        self.navigationItem.leftBarButtonItems = [barbackbutton]
+        
+    }
+    
+    @objc func callMethod() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     
@@ -135,7 +149,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         textStack.distribution = .fillProportionally
         textStack.alignment = .center
         textStack.axis = .horizontal
-        //textStack.spacing = 10
+        //textStack.spacing = 10w
         stack.addArrangedSubview(textStack)
         
         textStack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15).isActive = true
@@ -173,6 +187,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        nextButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 52/810).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
@@ -198,7 +213,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     
     @objc func nextClicked() {
         
-        organizationData.makeEmailArray(input: emailTextView.text.lowercased() ?? "")
+        organizationData.makeEmailArray(input: emailTextView.text.lowercased())
         let preFilteredEmailCount = emailTextView.text!.split(separator: ",").count
         if preFilteredEmailCount != organizationData.memberInvites?.count {
             DispatchQueue.main.async {
@@ -241,12 +256,6 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         navigationController?.pushViewController(destVC, animated: false)
     }
     
-    @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -(keyboardRectangle.height + 8)).isActive = true
-        }
-    }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         emailTextView.text = self.prefilledText
