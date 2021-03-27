@@ -204,7 +204,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(17)
+        label.font = Font.regular(17)
         label.textColor = Color.matte
         label.text = "Interests"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -230,6 +230,7 @@ class ProfileSetupViewController: UIViewController{
         button.titleLabel?.font = Font.bold(20)
         button.setTitleColor(Color.matte, for: .normal)
         button.backgroundColor = Color.textFieldBackground
+        button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(selectInterests(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -331,6 +332,20 @@ class ProfileSetupViewController: UIViewController{
         return button
     }()
     
+    let saveChangesContainer: UIView = {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.translatesAutoresizingMaskIntoConstraints = false
+
+        //set shadow
+        v.layer.shadowRadius = 10
+        v.layer.shadowOpacity = 0.25
+        v.layer.shadowOffset = .zero
+        v.layer.shadowColor = UIColor.black.cgColor
+        v.layer.shadowPath = UIBezierPath(rect: v.layer.bounds.insetBy(dx: 4, dy: 4)).cgPath
+        
+        return v
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         //reload necessary coming from selecting interest view
@@ -351,6 +366,7 @@ class ProfileSetupViewController: UIViewController{
         }
     }
     
+    
     //MARK: VIEWDIDAPPEAR
     override func viewDidAppear(_ animated: Bool) {
         //scrollView.contentSize = CGSize(width: 0, height: 896.0)
@@ -370,13 +386,17 @@ class ProfileSetupViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfilePicture), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
         
         //MARK: exitButton
         view.addSubview(exitButton)
         exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
         exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+//        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+//        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
         
         //MARK: header label
@@ -388,10 +408,17 @@ class ProfileSetupViewController: UIViewController{
         headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         headerLabel.widthAnchor.constraint(equalToConstant: 160).isActive = true
         
+        //MARK: next button container
+        view.addSubview(saveChangesContainer)
+        saveChangesContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        saveChangesContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 80/812).isActive = true
+        saveChangesContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         //MARK: next button
-        view.addSubview(nextButton)
-        nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        saveChangesContainer.addSubview(nextButton)
+        nextButton.centerXAnchor.constraint(equalTo: saveChangesContainer.centerXAnchor).isActive = true
+        nextButton.centerYAnchor.constraint(equalTo: saveChangesContainer.centerYAnchor).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         nextButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         
@@ -410,14 +437,15 @@ class ProfileSetupViewController: UIViewController{
         scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 1.0).isActive = true
         scrollView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20).isActive = true
         scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -1.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        view.sendSubviewToBack(scrollView)
         scrollView.isScrollEnabled = true
         
-        //MARK: drop shadows (not working it seems D: )
-        scrollView.layer.shadowOffset = CGSize(width:0, height:10)
-        scrollView.layer.shadowRadius = 10
-        scrollView.layer.shadowColor = UIColor.black.cgColor
-        scrollView.layer.shadowOpacity = 0.15
+//        //MARK: drop shadows (not working it seems D: )
+//        scrollView.layer.shadowOffset = CGSize(width:0, height:10)
+//        scrollView.layer.shadowRadius = 10
+//        scrollView.layer.shadowColor = UIColor.black.cgColor
+//        scrollView.layer.shadowOpacity = 0.15
         
         //MARK: profilepic
         profilepic.image = profilePic
@@ -594,6 +622,14 @@ class ProfileSetupViewController: UIViewController{
         allOrgSwitch.setOn(isSwitchOn, animated: false)
     }
    
+    
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
+    }
+    
     //MARK: restaurants collector helper
     func collectRestaurantHelper() -> [String] {
         var restaurants:[String] = []

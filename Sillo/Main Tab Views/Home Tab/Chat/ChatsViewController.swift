@@ -104,6 +104,7 @@ final class ChatsViewController: UITableViewController {
         
         self.tableView.separatorStyle = .none
         
+        navigationController?.view.backgroundColor = .white
         
         self.tableView.register(ChatsbleViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.delegate = self
