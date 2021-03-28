@@ -13,12 +13,39 @@ class ChatViewTableViewCell: UITableViewCell {
     // since we already stored the other party's image, we shouldn't have to store their pfp
     // for every message, since it is very inefficient
     // instead, compare the message sender id to the chat's recipient id and determine the pfp
-    var item:Message? {
+    
+    /*
+     struct Message {
+         let senderUserId: String?
+         let message: String?
+         let attachment: UIImage?
+         let timestamp: Date?
+         let isRead: Bool?
+     }
+
+     struct Chat {
+         let postId: String?
+         let chatId: String?
+         let recipientImage: UIImage?
+         let recipientImageName: String?
+         let recipientUserId: String?
+         let recipientName: String?
+         let revealed: Bool?
+     }
+     */
+    var item:Chat? {
         didSet {
-            guard let msg = item else {return}
-            if let name = msg.name {
-                //userName.text = name
-                let timeSent = dateFormatter.string(from: msg.timestamp!)
+            guard let chat = item else {return}
+            
+            //get last message
+            let chatMessages:[Message] = chatHandler.messages[chat.chatId!]!
+            let lastIndex = chatMessages.count - 1
+            let lastMsg:Message = chatMessages[lastIndex]
+            let lastTimestamp = lastMsg.timestamp
+            
+            if let name = chat.recipientName {
+                userName.text = name
+                let timeSent = dateFormatter.string(from: lastTimestamp!)
                 let stringValue: String = "\(name) · \(timeSent)"
                 let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
@@ -26,15 +53,15 @@ class ChatViewTableViewCell: UITableViewCell {
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeSent)")
                 attributedString.setFont(font: Font.regular(17), forText: "· \(timeSent)")
                 userName.attributedText = attributedString
+                
+                if let lastMessageText = lastMsg.message {
+                    message.text = lastMessageText
+                }
+                
             }
-            if let messageText = msg.message {
-                message.text = messageText
-            }
-            if !msg.isRead! {
-                message.font = Font.bold(15)
-            }
-            if msg.profilePicture != nil {
-                profilePic.image = msg.profilePicture
+            
+            if chat.recipientImage != nil {
+                profilePic.image = chat.recipientImage
             }
         }
     }
