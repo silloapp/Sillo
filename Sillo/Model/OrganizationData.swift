@@ -80,29 +80,12 @@ class OrganizationData {
         }
     }
 
+    //MARK: invite members
     func inviteMembers(organizationID:String, organizationName:String, emails:[String]) {
         let col = Constants.db.collection("invites")
         for address in emails {
-            let docRef = col.document(address)
-            var mapping: [String:String] = [:]
-            docRef.getDocument() { (query, err) in
-                if let query = query {
-                    if query.exists {
-                        if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
-                        mapping[organizationID] = organizationName
-                        docRef.updateData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
-                        
-                    }
-                    else {
-                        //document does not exist
-                        mapping[organizationID] = organizationName
-                        docRef.setData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
-                    }
-                    
-                    
-                }
-                
-            }
+            let invitesRef = col.document(address).collection("user_invites").document(organizationID)
+            invitesRef.setData(["name":organizationName, "isAdmin":false, "timestamp":Date()])
         }
     }
 

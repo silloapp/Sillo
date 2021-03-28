@@ -68,8 +68,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     
     var bubbleImageView = UIImageView(image: #imageLiteral(resourceName: "bgStar"))
     
-    let loadingVC = LoadingViewController()
-    
     //MARK: listener
     private var questListener: ListenerRegistration?
     
@@ -82,7 +80,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         quests.fetchNextSticker()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshQuestTableView"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.doneLoadingQuests(note:)), name: Notification.Name("doneLoadingQuests"), object: nil)
         
         //MARK: attach listener
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
@@ -108,19 +105,12 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
                 
             }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshQuestTableView"), object: nil)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "doneLoadingQuests"), object: nil)
         }
         
     }
     
-    @objc func doneLoadingQuests(note:NSNotification) {
-        loadingVC.dismiss(animated: false, completion: nil)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.present(loadingVC, animated: false, completion: nil)
         
         //MARK: set up header
         self.navigationController?.navigationBar.isHidden = true
