@@ -141,6 +141,7 @@ class OrganizationData {
                 if mapping[self.currOrganization!] == true {
                     if self.currOrganization != nil && self.adminStatusMap[self.currOrganization!]! {
                         //update organization roster
+                        db.collection("organizations").document(self.currOrganization!).updateData(["admins":FieldValue.arrayRemove([userID])])
                         db.collection("organizations").document(self.currOrganization!).updateData(["members":FieldValue.arrayRemove([userID])])
                         
                         //update user record
