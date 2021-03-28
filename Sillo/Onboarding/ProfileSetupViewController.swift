@@ -700,8 +700,6 @@ class ProfileSetupViewController: UIViewController{
     //User pressed save changes button
     @objc func saveChanges(_:UIButton) {
         print(cloudutil.uploadImages(image: profilePic!, ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"))
-        var errorState = false
-        var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         
         let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
         
