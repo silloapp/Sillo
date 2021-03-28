@@ -709,57 +709,43 @@ class ProfileSetupViewController: UIViewController{
             return
         }
         
-        if (!interests.isEmpty && bioTextView.hasText) {
-            var pronouns = self.pronouns
-            print(self.pronouns)
-            //prevents malicious alterations of pronouns
-            print(pronounsTextField.text!)
-            if pronounValues.contains(pronounsTextField.text!) {
-                pronouns = pronounsTextField.text!
-                print("pronouns accepted")
-            }
-            
-            let bio = bioTextView.text!
-            
-            self.restaurants = collectRestaurantHelper()
-            self.useSeparateProfiles = !allOrgSwitch.isOn
-            
-            self.latestButtonPressTimestamp = Date()
-            
-            //set the orgaization document to overwrite
-            var profileDocumentName = "all_orgs"
-            if (useSeparateProfiles) {
-                profileDocumentName = organizationData.currOrganization ?? "ERROR"
-            }
-            
-            guard let userID = Auth.auth().currentUser?.uid else { return }
-            let upperUserRef = db.collection("profiles").document(userID)
-            upperUserRef.setData(["use_separate_profiles":useSeparateProfiles])
-            
-            let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
-            
-            userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
-            
-            //transition to all set, onboarding finished, if profile set up role
-            
-            if (!takingProfileSetupRole) {
-                self.navigationController?.popViewController(animated: true)
-            }
-            else {
-                let nextVC = AllSetViewController()
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
+        var pronouns = self.pronouns
+        print(self.pronouns)
+        //prevents malicious alterations of pronouns
+        print(pronounsTextField.text!)
+        if pronounValues.contains(pronounsTextField.text!) {
+            pronouns = pronounsTextField.text!
+            print("pronouns accepted")
+        }
+        
+        let bio = bioTextView.text!
+        
+        self.restaurants = collectRestaurantHelper()
+        self.useSeparateProfiles = !allOrgSwitch.isOn
+        
+        self.latestButtonPressTimestamp = Date()
+        
+        //set the orgaization document to overwrite
+        var profileDocumentName = "all_orgs"
+        if (useSeparateProfiles) {
+            profileDocumentName = organizationData.currOrganization ?? "ERROR"
+        }
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let upperUserRef = db.collection("profiles").document(userID)
+        upperUserRef.setData(["use_separate_profiles":useSeparateProfiles])
+        
+        let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
+        
+        userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
+        
+        //transition to all set, onboarding finished, if profile set up role
+        if (!takingProfileSetupRole) {
+            self.navigationController?.popViewController(animated: true)
         }
         else {
-            errorState=true
-            errorMsg="Please fill out at least your bio and one interest to continue."
-        }
-        if (errorState) {
-            DispatchQueue.main.async {
-                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
-                self.present(alert, animated: true, completion: nil)
-            }
+            let nextVC = AllSetViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
     }
     
