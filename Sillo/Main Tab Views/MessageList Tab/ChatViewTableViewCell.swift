@@ -14,25 +14,6 @@ class ChatViewTableViewCell: UITableViewCell {
     // for every message, since it is very inefficient
     // instead, compare the message sender id to the chat's recipient id and determine the pfp
     
-    /*
-     struct Message {
-         let senderUserId: String?
-         let message: String?
-         let attachment: UIImage?
-         let timestamp: Date?
-         let isRead: Bool?
-     }
-
-     struct Chat {
-         let postId: String?
-         let chatId: String?
-         let recipientImage: UIImage?
-         let recipientImageName: String?
-         let recipientUserId: String?
-         let recipientName: String?
-         let revealed: Bool?
-     }
-     */
     var item:Chat? {
         didSet {
             guard let chat = item else {return}
