@@ -119,12 +119,12 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chatHandler.chatsList.count
+        return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
-        cell.item = Array(chatHandler.chatIdtoChat.values)[indexPath.row]
+        cell.item = messages[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
