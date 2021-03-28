@@ -13,15 +13,14 @@ class ChatViewTableViewCell: UITableViewCell {
     // since we already stored the other party's image, we shouldn't have to store their pfp
     // for every message, since it is very inefficient
     // instead, compare the message sender id to the chat's recipient id and determine the pfp
-    
     var item:Chat? {
         didSet {
             guard let chat = item else {return}
             
-            //get last message
+            //get last message (strong assumption that chatIdtoChat and messages struct are aliged)
+            //also assuming key mappings are the same, and the messages are pre-sorted by timestamp (i really hope they are)
             let chatMessages:[Message] = chatHandler.messages[chat.chatId!]!
-            let lastIndex = chatMessages.count - 1
-            let lastMsg:Message = chatMessages[lastIndex]
+            let lastMsg:Message = chatMessages[chatMessages.count - 1]
             let lastTimestamp = lastMsg.timestamp
             
             if let name = chat.recipientName {
