@@ -222,7 +222,7 @@ class LocalUser {
         }
         
         self.setConstants()
-        localUser.getInvites()
+        // localUser.getInvites()
         
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
