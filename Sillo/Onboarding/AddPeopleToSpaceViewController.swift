@@ -137,7 +137,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         addPhotoImage.clipsToBounds = true
         
         let instructionLabel = UILabel()
-        instructionLabel.text = "Please seperate multiple email addresses with commas"
+        instructionLabel.text = "Please separate multiple email addresses with commas"
         instructionLabel.font = Font.regular(dynamicFontSize(17))
         instructionLabel.adjustsFontSizeToFitWidth = true
         instructionLabel.textColor = Color.textSemiBlack
@@ -217,7 +217,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         let preFilteredEmailCount = emailTextView.text!.split(separator: ",").count
         if preFilteredEmailCount != organizationData.memberInvites?.count {
             DispatchQueue.main.async {
-                let alert = AlertView(headingText: "Email Typo Detected!", messageText: "One or more of your emails is mispelled and will not be invited.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                let alert = AlertView(headingText: "Email Typo Detected!", messageText: "One or more of your emails is misspelled and will not be invited.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                     self.dismiss(animated: true, completion: nil)
                 }, action2Label: "Nil", action2Color: .gray, action2Completion: {
                 }, withCancelBtn: false, image: nil, withOnlyOneAction: true)

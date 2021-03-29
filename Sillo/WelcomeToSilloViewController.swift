@@ -29,7 +29,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     //MARK: init exit button
     let exitButton: UIButton = {
         let btn = UIButton()
-        btn.setBackgroundImage(UIImage(named: "back"), for: .normal)
+        btn.setBackgroundImage(UIImage(named: "closeButton"), for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -42,6 +42,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         // Do any additional setup after loading the view.
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshInvitesList(note:)), name: Notification.Name("InvitationsReady"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.inviteAccepted(note:)), name: Notification.Name("ColdOrgChangeComplete"), object: nil)
@@ -68,6 +69,11 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
                 self.handleInviteChanges(change)
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
     }
     
     //MARK: handle document changes
@@ -115,47 +121,37 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         let screenWidth = screenSize.width
         
         
-        let insideScrollViewconstraints = [
-            insideScrollVw.topAnchor.constraint(equalTo:  self.scrollView.contentLayoutGuide.topAnchor, constant: 0),
-            insideScrollVw.leftAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leftAnchor, constant: 0),
-            insideScrollVw.rightAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.rightAnchor, constant: 0),
-            insideScrollVw.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
-
-            
-            insideScrollVw.heightAnchor.constraint(equalToConstant: 800),
-            insideScrollVw.widthAnchor.constraint(equalToConstant: screenWidth)
-            
-        ]
-        
-        // FOR EXIT BUTTON :
-        self.insideScrollVw.addSubview(exitButton)
-        exitButton.topAnchor.constraint(equalTo: self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 45).isActive = true
-        exitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
-        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        exitButton.addTarget(self, action: #selector(exitPressed), for: .touchUpInside)
-        
         // FOR TITLE :
         
-        self.insideScrollVw.addSubview(titleLabel)
+        self.scrollView.addSubview(titleLabel)
         titleLabel.text = "Welcome to Sillo"
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = Color.burple
-        titleLabel.font = UIFont(name: "Apercu-Bold", size: 22)
+        titleLabel.font = UIFont(name: "Apercu-Bold", size: 24)
         titleLabel.textAlignment = .left
+        titleLabel.textAlignment = .center
         
         let TITLEconstraints = [
-            titleLabel.topAnchor.constraint(equalTo:  self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 45),
-            titleLabel.leftAnchor.constraint(equalTo: exitButton.rightAnchor, constant: 20),
-            titleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 25),
+            titleLabel.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 45),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 184/375),
             titleLabel.heightAnchor.constraint(equalToConstant: 25)
             
         ]
         
+        // FOR EXIT BUTTON :
+        self.view.addSubview(exitButton)
+        exitButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
+        exitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.addTarget(self, action: #selector(exitPressed), for: .touchUpInside)
+        
+        
         // FOR secondTITLE :
         
         let sectitleLabel = UILabel()
-        self.insideScrollVw.addSubview(sectitleLabel)
+        self.scrollView.addSubview(sectitleLabel)
         sectitleLabel.text = "These are spaces you've been invited to. Select the spaces you would like to join. You can always sign in to more later."
         sectitleLabel.backgroundColor = .clear
         sectitleLabel.textColor = .black
@@ -169,13 +165,22 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             sectitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
             sectitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
             sectitleLabel.heightAnchor.constraint(equalToConstant: 70)
-            
         ]
         
+        // FOR INSIDE SCROLL VIEW :
+        
+        let insideScrollViewconstraints = [
+            insideScrollVw.topAnchor.constraint(equalTo:  sectitleLabel.bottomAnchor),
+            insideScrollVw.widthAnchor.constraint(equalTo: sectitleLabel.widthAnchor),
+            insideScrollVw.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            insideScrollVw.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 272/812)
+        ]
+        
+
         // FOR BOTTOM TITLE :
         
         let bottomtitleLabel = UILabel()
-        self.insideScrollVw.addSubview(bottomtitleLabel)
+        self.scrollView.addSubview(bottomtitleLabel)
         bottomtitleLabel.text = "This is a list of all your teams associated with \(Constants.EMAIL ?? "your email")."
         bottomtitleLabel.backgroundColor = .clear
         bottomtitleLabel.textColor = .black
@@ -185,17 +190,18 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         bottomtitleLabel.lineBreakMode = .byWordWrapping
         
         let bottomtitleconstraints = [
-            bottomtitleLabel.topAnchor.constraint(equalTo:  self.TopTable.safeAreaLayoutGuide.topAnchor, constant: 325),
-            bottomtitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
-            bottomtitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+            bottomtitleLabel.topAnchor.constraint(equalTo:  insideScrollVw.bottomAnchor, constant: 25),
+            bottomtitleLabel.leftAnchor.constraint(equalTo: insideScrollVw.leftAnchor),
+            bottomtitleLabel.widthAnchor.constraint(equalTo: insideScrollVw.widthAnchor, constant: -15),
             bottomtitleLabel.heightAnchor.constraint(equalToConstant: 50)
-            
         ]
+        
+
         
         // FOR BOTTOM secondTITLE :
         
         let bottomSectitleLabel = UILabel()
-        self.insideScrollVw.addSubview(bottomSectitleLabel)
+        self.scrollView.addSubview(bottomSectitleLabel)
         bottomSectitleLabel.text = "Don't see what you're looking for? Make sure you've been invited by your team leader."
         bottomSectitleLabel.backgroundColor = .clear
         bottomSectitleLabel.textColor = Color.burple
@@ -205,9 +211,9 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         bottomSectitleLabel.lineBreakMode = .byWordWrapping
         
         let bottomSectitleLabelconstraints = [
-            bottomSectitleLabel.topAnchor.constraint(equalTo:  bottomtitleLabel.topAnchor, constant: 75),
-            bottomSectitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
-            bottomSectitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+            bottomSectitleLabel.topAnchor.constraint(equalTo:  bottomtitleLabel.bottomAnchor, constant: 10),
+            bottomSectitleLabel.leftAnchor.constraint(equalTo: insideScrollVw.leftAnchor),
+            bottomSectitleLabel.widthAnchor.constraint(equalTo: insideScrollVw.widthAnchor, constant: -15),
             bottomSectitleLabel.heightAnchor.constraint(equalToConstant: 50)
             
         ]
@@ -215,7 +221,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         // FOR BOTTOM BUTTON :
         
         let BottomButton = UIButton()
-        self.insideScrollVw.addSubview(BottomButton)
+        self.scrollView.addSubview(BottomButton)
         BottomButton.backgroundColor = Color.buttonClickable
         BottomButton.setTitle("Create New Space", for: .normal)
         BottomButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
@@ -225,9 +231,9 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         
         let BottomButtonconstraints = [
-            BottomButton.topAnchor.constraint(equalTo:  bottomSectitleLabel.topAnchor, constant: 95),
-            BottomButton.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
-            BottomButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
+            BottomButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
+            BottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            BottomButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 305/375),
             BottomButton.heightAnchor.constraint(equalToConstant: 50)
         ]
         
@@ -300,6 +306,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     @objc func BottomButtonMethod() {
         let nextVC = SetupOrganizationViewController()
+        nextVC.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
@@ -405,15 +412,5 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         let nextVC = ProfilePromptViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+
 }

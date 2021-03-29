@@ -21,6 +21,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         etextField.placeholder = " youremail@berkeley.edu"
         etextField.layer.cornerRadius = 10.0;
         etextField.keyboardType = .emailAddress
+        etextField.autocorrectionType = .no
+        etextField.autocapitalizationType = .none
+        etextField.font = Font.regular(17)
         etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         etextField.translatesAutoresizingMaskIntoConstraints = false
         return etextField

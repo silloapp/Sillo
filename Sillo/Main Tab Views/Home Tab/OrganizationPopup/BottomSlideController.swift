@@ -296,8 +296,19 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     }
     
     @objc func addNewSpaceClicked() {
-        let vc = WelcomeToSilloViewController()
-        let navC = UINavigationController(rootViewController: vc)
+        
+//        let nextVC: UIViewController!
+//        if localUser.invites.count > 0 {
+//            print("HAVE INVITES")
+//            nextVC = WelcomeToSilloViewController()
+//        }
+//        else {
+//            //MARK: set up fallback if table is empty
+//            nextVC = WelcomeToSilloNoInviteVC()
+//        }
+        
+        let nextVC = WelcomeToSilloViewController()
+        let navC = UINavigationController(rootViewController: nextVC)
         navC.modalPresentationStyle = .fullScreen
         self.present(navC,animated: true, completion:nil)
     }

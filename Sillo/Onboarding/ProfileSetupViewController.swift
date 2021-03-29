@@ -15,6 +15,13 @@ class ProfileSetupViewController: UIViewController{
     
     let pronounValues = ["pronouns not specified", "she/her", "he/him", "they/them"]
     
+    var hasTopNotch: Bool {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
+        }
+        return false
+    }
+    
     private let name = Constants.USERNAME
     var bioText: String = ""
     var pronouns: String = ""
@@ -410,16 +417,16 @@ class ProfileSetupViewController: UIViewController{
         
         //MARK: next button container
         view.addSubview(saveChangesContainer)
-        saveChangesContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        saveChangesContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         saveChangesContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 80/812).isActive = true
+        saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 90/812).isActive = true
         saveChangesContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         //MARK: next button
         saveChangesContainer.addSubview(nextButton)
         nextButton.centerXAnchor.constraint(equalTo: saveChangesContainer.centerXAnchor).isActive = true
-        nextButton.centerYAnchor.constraint(equalTo: saveChangesContainer.centerYAnchor).isActive = true
-        nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        nextButton.centerYAnchor.constraint(equalTo: saveChangesContainer.centerYAnchor, constant: -10).isActive = true
+        nextButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 50/812).isActive = true
         nextButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         
         //MARK: previewButton

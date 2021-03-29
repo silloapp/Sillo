@@ -24,7 +24,7 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         orgNameField.addTarget(self, action: #selector(self.textFieldDidEndEditing(_:)), for: .editingChanged)
-        
+        navigationController?.navigationBar.isHidden = false
         
         self.imagePicker = UIImagePickerController()
         self.imagePicker.delegate = self
@@ -36,16 +36,16 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
     }
 
     
-    //MARK: Prevents NavBar header from showing up when going back to root VC
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated);
-        super.viewWillDisappear(animated)
-    }
-
+//    //MARK: Prevents NavBar header from showing up when going back to root VC
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.setNavigationBarHidden(true, animated: animated);
+//        super.viewWillDisappear(animated)
+//    }
+//
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        
+
     }
     
     func configureNavBar() {
