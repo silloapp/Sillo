@@ -19,6 +19,13 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     let screenSize = UIScreen.main.bounds
     let TopTable = UITableView()
     
+    //MARK: listener
+    private var inviteListener: ListenerRegistration?
+    
+    deinit {
+       inviteListener?.remove()
+     }
+    
     //MARK: init exit button
     let exitButton: UIButton = {
         let btn = UIButton()
@@ -39,10 +46,40 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshInvitesList(note:)), name: Notification.Name("InvitationsReady"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.inviteAccepted(note:)), name: Notification.Name("ColdOrgChangeComplete"), object: nil)
         
-        localUser.getInvites()
         self.view.backgroundColor = ViewBgColor
         self.navigationController?.navigationBar.isHidden = true
         settingElemets()
+        
+        localUser.invites = [] //must clear otherwise invites will appear more than once
+        //MARK: attach listener
+        let email = Constants.EMAIL ?? ""
+        let reference = db.collection("invites").document(email).collection("user_invites").order(by: "timestamp", descending: true).limit(to: localUser.inviteBatchSize)
+        inviteListener = reference.addSnapshotListener { querySnapshot, error in
+          guard let snapshot = querySnapshot else {
+            
+            print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+            return
+          }
+            //set most recent snapshot (like a bookmark)
+            //feed.snapshot = snapshot
+            
+            //handle document changes
+            snapshot.documentChanges.forEach { change in
+                self.handleInviteChanges(change)
+            }
+        }
+    }
+    
+    //MARK: handle document changes
+    private func handleInviteChanges(_ change: DocumentChange) {
+      switch change.type {
+      case .added:
+        localUser.handleNewInvite(id: change.document.documentID, data: change.document.data())
+      case .removed:
+        localUser.handleDeleteInvite(id: change.document.documentID, data: change.document.data())
+      default:
+        break
+      }
     }
     
     //MARK: refresh called
@@ -92,8 +129,8 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         // FOR EXIT BUTTON :
         self.insideScrollVw.addSubview(exitButton)
-        exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
-        exitButton.topAnchor.constraint(equalTo: self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        exitButton.topAnchor.constraint(equalTo: self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 45).isActive = true
+        exitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
         exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         exitButton.addTarget(self, action: #selector(exitPressed), for: .touchUpInside)
@@ -109,7 +146,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         let TITLEconstraints = [
             titleLabel.topAnchor.constraint(equalTo:  self.insideScrollVw.safeAreaLayoutGuide.topAnchor, constant: 45),
-            titleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+            titleLabel.leftAnchor.constraint(equalTo: exitButton.rightAnchor, constant: 20),
             titleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 25),
             titleLabel.heightAnchor.constraint(equalToConstant: 25)
             
@@ -207,7 +244,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         TopTable.register(CustomTableViewCell.self, forCellReuseIdentifier: "inviteCell")
         
         let TopTableconstraints = [
-            TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),  TopTable.leftAnchor.constraint(equalTo: titleLabel.leftAnchor, constant: 0),
+            TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),  TopTable.leftAnchor.constraint(equalTo: exitButton.leftAnchor, constant: 0),
             TopTable.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
             TopTable.heightAnchor.constraint(equalToConstant: 300)
         ]
@@ -297,6 +334,10 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row + 2 == localUser.invites.count {
+            //we're almost at the end, pull more invites
+            localUser.getNextInvites()
+        }
         let cell =  tableView.dequeueReusableCell(withIdentifier: "inviteCell", for: indexPath) as! CustomTableViewCell
         cell.selectionStyle = .none
         
@@ -309,7 +350,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         cell.imgUser.borderColor = .gray
         
         let orgID : String = localUser.invites[indexPath.row]
-        cell.labMessage.text = localUser.invitesMapping[orgID] ?? "ERROR"
+        cell.labMessage.text = organizationData.idToName[orgID] ?? "ERROR"
         cell.labMessage.textColor = .black
         cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
         
