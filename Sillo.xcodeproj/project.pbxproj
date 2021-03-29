@@ -88,6 +88,7 @@
 		FD9D92E525A13B2A003C7883 /* SilloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9D92E425A13B2A003C7883 /* SilloUITests.swift */; };
 		FDA03F8425CCA09100F5F530 /* Colors+Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA03F8325CCA09100F5F530 /* Colors+Home.swift */; };
 		FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */; };
+		FDA7D34826117FAC0002D724 /* WelcomeToSilloNoInviteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA7D34726117FAC0002D724 /* WelcomeToSilloNoInviteVC.swift */; };
 		FDAC59A225A57DB500BC2110 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC59A125A57DB500BC2110 /* Colors.swift */; };
 		FDAEBF652608E75D0084FF47 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAEBF642608E75D0084FF47 /* AlertView.swift */; };
 		FDAEBF6A2608E7AF0084FF47 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAEBF692608E7AF0084FF47 /* ActionButton.swift */; };
@@ -206,6 +207,7 @@
 		FD9D92E625A13B2A003C7883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDA03F8325CCA09100F5F530 /* Colors+Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Home.swift"; sourceTree = "<group>"; };
 		FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostTableViewCell.swift; sourceTree = "<group>"; };
+		FDA7D34726117FAC0002D724 /* WelcomeToSilloNoInviteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeToSilloNoInviteVC.swift; sourceTree = "<group>"; };
 		FDAC59A125A57DB500BC2110 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		FDAEBF642608E75D0084FF47 /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		FDAEBF692608E7AF0084FF47 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				FD9D92BF25A13B25003C7883 /* AppDelegate.swift */,
 				FD9D92C125A13B25003C7883 /* SceneDelegate.swift */,
 				AA19190D25FF669000180A80 /* StartScreenViewController.swift */,
+				FDA7D34726117FAC0002D724 /* WelcomeToSilloNoInviteVC.swift */,
 				FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */,
 				AADFD2282605F87D00D26DCF /* WelcomeToSilloViewController.swift */,
 				AA89B6A125FB618C00178D94 /* LoadingViewController.swift */,
@@ -907,6 +910,7 @@
 				A0B84E5A25DEE3DF00479E2E /* TeamCell.swift in Sources */,
 				68F74F832608290B0023F79B /* ChatData.swift in Sources */,
 				A0A6BFE325EB9FA500F107F4 /* ProfileHalfVC.swift in Sources */,
+				FDA7D34826117FAC0002D724 /* WelcomeToSilloNoInviteVC.swift in Sources */,
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
 				FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */,
 				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,

@@ -54,6 +54,7 @@ class StartScreenViewController: UIViewController {
     @objc func routeUser(note:NSNotification) {
         self.routedWithinTimeThreshold = true
         var nextVC = UIViewController()
+        nextVC.navigationController?.view.backgroundColor = .white
         if (UserDefaults.standard.bool(forKey: "loggedIn")) {
             //loggedIn
             if (UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
@@ -72,7 +73,18 @@ class StartScreenViewController: UIViewController {
                 }
                 
                 else {
+                    
                     nextVC = WelcomeToSilloViewController()
+
+//                    if localUser.invites.count > 0 {
+//                        print("HAVE INVITES")
+//                        nextVC = WelcomeToSilloViewController()
+//                    }
+//                    else {
+//                        //MARK: set up fallback if table is empty
+//                        nextVC = WelcomeToSilloNoInviteVC()
+//                    }
+                    
                 }
             } else {
                 print("logged in, onboarding unfinished")
