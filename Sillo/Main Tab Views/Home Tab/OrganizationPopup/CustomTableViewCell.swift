@@ -93,11 +93,11 @@ class CustomTableViewCell: UITableViewCell {
         labUserName.text = "Full Name"
         labUserName.backgroundColor = .clear
         labUserName.textColor = .black
-        labUserName.font = UIFont(name: "Apercu-Bold", size: 17)
+        labUserName.font = Font.bold(17)
         labUserName.textAlignment = .left
         
         TITLEconstraints = [
-            labUserName.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: -10),
+            labUserName.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 0),
             labUserName.leftAnchor.constraint(equalTo:  imgUser2.leftAnchor, constant: 70),
             labUserName.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: 20),
             labUserName.heightAnchor.constraint(equalToConstant: 20)
@@ -107,11 +107,11 @@ class CustomTableViewCell: UITableViewCell {
         labMessage.text = "Level 5"
         labMessage.backgroundColor = .clear
         labMessage.textColor = .black
-        labMessage.font = UIFont(name: "Apercu-Regular", size: 12)
+        labMessage.font = Font.regular(12)
         labMessage.textAlignment = .left
         
         Messageconstraints = [
-            labMessage.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 13),
+            labMessage.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 0),
             labMessage.leftAnchor.constraint(equalTo:  imgUser2.leftAnchor, constant: 70),
             labMessage.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: 20),
             labMessage.heightAnchor.constraint(equalToConstant: 20)

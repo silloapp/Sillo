@@ -15,6 +15,13 @@ class ProfileSetupViewController: UIViewController{
     
     let pronounValues = ["pronouns not specified", "she/her", "he/him", "they/them"]
     
+    var hasTopNotch: Bool {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
+        }
+        return false
+    }
+    
     private let name = Constants.USERNAME
     var bioText: String = ""
     var pronouns: String = ""
@@ -24,7 +31,7 @@ class ProfileSetupViewController: UIViewController{
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
-    var profilePic = UIImage(named: "placeholder profile")
+    var profilePic = UIImage(named: "avatar-4")
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     
@@ -204,7 +211,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(17)
+        label.font = Font.regular(17)
         label.textColor = Color.matte
         label.text = "Interests"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -230,6 +237,7 @@ class ProfileSetupViewController: UIViewController{
         button.titleLabel?.font = Font.bold(20)
         button.setTitleColor(Color.matte, for: .normal)
         button.backgroundColor = Color.textFieldBackground
+        button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(selectInterests(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -331,6 +339,20 @@ class ProfileSetupViewController: UIViewController{
         return button
     }()
     
+    let saveChangesContainer: UIView = {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.translatesAutoresizingMaskIntoConstraints = false
+
+        //set shadow
+        v.layer.shadowRadius = 10
+        v.layer.shadowOpacity = 0.25
+        v.layer.shadowOffset = .zero
+        v.layer.shadowColor = UIColor.black.cgColor
+        v.layer.shadowPath = UIBezierPath(rect: v.layer.bounds.insetBy(dx: 4, dy: 4)).cgPath
+        
+        return v
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         //reload necessary coming from selecting interest view
@@ -351,6 +373,7 @@ class ProfileSetupViewController: UIViewController{
         }
     }
     
+    
     //MARK: VIEWDIDAPPEAR
     override func viewDidAppear(_ animated: Bool) {
         //scrollView.contentSize = CGSize(width: 0, height: 896.0)
@@ -370,13 +393,17 @@ class ProfileSetupViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfilePicture), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
         
         //MARK: exitButton
         view.addSubview(exitButton)
         exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
         exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+//        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+//        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
         
         //MARK: header label
@@ -388,11 +415,18 @@ class ProfileSetupViewController: UIViewController{
         headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         headerLabel.widthAnchor.constraint(equalToConstant: 160).isActive = true
         
+        //MARK: next button container
+        view.addSubview(saveChangesContainer)
+        saveChangesContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        saveChangesContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 90/812).isActive = true
+        saveChangesContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         //MARK: next button
-        view.addSubview(nextButton)
-        nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        nextButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        saveChangesContainer.addSubview(nextButton)
+        nextButton.centerXAnchor.constraint(equalTo: saveChangesContainer.centerXAnchor).isActive = true
+        nextButton.centerYAnchor.constraint(equalTo: saveChangesContainer.centerYAnchor, constant: -10).isActive = true
+        nextButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 50/812).isActive = true
         nextButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         
         //MARK: previewButton
@@ -410,14 +444,15 @@ class ProfileSetupViewController: UIViewController{
         scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 1.0).isActive = true
         scrollView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20).isActive = true
         scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -1.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        view.sendSubviewToBack(scrollView)
         scrollView.isScrollEnabled = true
         
-        //MARK: drop shadows (not working it seems D: )
-        scrollView.layer.shadowOffset = CGSize(width:0, height:10)
-        scrollView.layer.shadowRadius = 10
-        scrollView.layer.shadowColor = UIColor.black.cgColor
-        scrollView.layer.shadowOpacity = 0.15
+//        //MARK: drop shadows (not working it seems D: )
+//        scrollView.layer.shadowOffset = CGSize(width:0, height:10)
+//        scrollView.layer.shadowRadius = 10
+//        scrollView.layer.shadowColor = UIColor.black.cgColor
+//        scrollView.layer.shadowOpacity = 0.15
         
         //MARK: profilepic
         profilepic.image = profilePic
@@ -594,6 +629,14 @@ class ProfileSetupViewController: UIViewController{
         allOrgSwitch.setOn(isSwitchOn, animated: false)
     }
    
+    
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
+    }
+    
     //MARK: restaurants collector helper
     func collectRestaurantHelper() -> [String] {
         var restaurants:[String] = []
@@ -620,6 +663,7 @@ class ProfileSetupViewController: UIViewController{
     @objc func refreshProfilePicture(_:UIImage) {
         let profilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"
         self.profilePic = imageCache.object(forKey: profilePictureRef as NSString)
+        //self.profilePic = cloudutil.downloadImage(ref: profilePictureRef)
         self.profilepic.image = profilePic
     }
     
@@ -663,8 +707,6 @@ class ProfileSetupViewController: UIViewController{
     //User pressed save changes button
     @objc func saveChanges(_:UIButton) {
         print(cloudutil.uploadImages(image: profilePic!, ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"))
-        var errorState = false
-        var errorMsg = "Oops, something unexpected happened! Please contact the Sillo team"
         
         let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
         
@@ -672,57 +714,43 @@ class ProfileSetupViewController: UIViewController{
             return
         }
         
-        if (!interests.isEmpty && bioTextView.hasText) {
-            var pronouns = self.pronouns
-            print(self.pronouns)
-            //prevents malicious alterations of pronouns
-            print(pronounsTextField.text!)
-            if pronounValues.contains(pronounsTextField.text!) {
-                pronouns = pronounsTextField.text!
-                print("pronouns accepted")
-            }
-            
-            let bio = bioTextView.text!
-            
-            self.restaurants = collectRestaurantHelper()
-            self.useSeparateProfiles = !allOrgSwitch.isOn
-            
-            self.latestButtonPressTimestamp = Date()
-            
-            //set the orgaization document to overwrite
-            var profileDocumentName = "all_orgs"
-            if (useSeparateProfiles) {
-                profileDocumentName = organizationData.currOrganization ?? "ERROR"
-            }
-            
-            guard let userID = Auth.auth().currentUser?.uid else { return }
-            let upperUserRef = db.collection("profiles").document(userID)
-            upperUserRef.setData(["use_separate_profiles":useSeparateProfiles])
-            
-            let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
-            
-            userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
-            
-            //transition to all set, onboarding finished, if profile set up role
-            
-            if (!takingProfileSetupRole) {
-                self.navigationController?.popViewController(animated: true)
-            }
-            else {
-                let nextVC = AllSetViewController()
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
+        var pronouns = self.pronouns
+        print(self.pronouns)
+        //prevents malicious alterations of pronouns
+        print(pronounsTextField.text!)
+        if pronounValues.contains(pronounsTextField.text!) {
+            pronouns = pronounsTextField.text!
+            print("pronouns accepted")
+        }
+        
+        let bio = bioTextView.text!
+        
+        self.restaurants = collectRestaurantHelper()
+        self.useSeparateProfiles = !allOrgSwitch.isOn
+        
+        self.latestButtonPressTimestamp = Date()
+        
+        //set the orgaization document to overwrite
+        var profileDocumentName = "all_orgs"
+        if (useSeparateProfiles) {
+            profileDocumentName = organizationData.currOrganization ?? "ERROR"
+        }
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let upperUserRef = db.collection("profiles").document(userID)
+        upperUserRef.setData(["use_separate_profiles":useSeparateProfiles])
+        
+        let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
+        
+        userRef.setData(["pronouns":pronouns,"bio":bio,"interests":self.interests,"restaurants":self.restaurants])
+        
+        //transition to all set, onboarding finished, if profile set up role
+        if (!takingProfileSetupRole) {
+            self.navigationController?.popViewController(animated: true)
         }
         else {
-            errorState=true
-            errorMsg="Please fill out at least your bio and one interest to continue."
-        }
-        if (errorState) {
-            DispatchQueue.main.async {
-                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
-                self.present(alert, animated: true, completion: nil)
-            }
+            let nextVC = AllSetViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
     }
     

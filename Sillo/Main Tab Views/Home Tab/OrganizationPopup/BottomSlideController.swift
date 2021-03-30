@@ -62,7 +62,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         setupDataSource()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfDismissNotification(notification:)), name: Notification.Name("DismissNotificationIdentifier"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrgPictures(notification:)), name: Notification.Name("RefreshOrgPictures"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationListing(notification:)), name: Notification.Name("RefreshOrganizationListing"), object: nil)
         
     }
     
@@ -71,7 +71,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         dismiss()
     }
     
-    @objc func refreshOrgPictures(notification: Notification) {
+    @objc func refreshOrganizationListing(notification: Notification) {
         self.tableView.reloadData()
     }
     
@@ -296,8 +296,19 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     }
     
     @objc func addNewSpaceClicked() {
-        let vc = WelcomeToSilloViewController()
-        let navC = UINavigationController(rootViewController: vc)
+        
+//        let nextVC: UIViewController!
+//        if localUser.invites.count > 0 {
+//            print("HAVE INVITES")
+//            nextVC = WelcomeToSilloViewController()
+//        }
+//        else {
+//            //MARK: set up fallback if table is empty
+//            nextVC = WelcomeToSilloNoInviteVC()
+//        }
+        
+        let nextVC = WelcomeToSilloViewController()
+        let navC = UINavigationController(rootViewController: nextVC)
         navC.modalPresentationStyle = .fullScreen
         self.present(navC,animated: true, completion:nil)
     }
@@ -339,7 +350,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         cell.imgUser.layer.borderWidth = 3.5
         cell.imgUser.layer.borderColor = UIColor.gray.cgColor
-        cell.imgUser.image = organizationData.orgToImage["organization"] ?? UIImage(named:"avatar-2") //TEMPORARILY HARDCODE
+        cell.imgUser.image = organizationData.orgToImage[organization] ?? UIImage(named:"avatar-2") //TEMPORARILY HARDCODE
         
         cell.labMessage.text = organizationName
         cell.labMessage.textColor = .black

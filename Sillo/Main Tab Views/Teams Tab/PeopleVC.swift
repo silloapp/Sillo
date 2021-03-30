@@ -2,24 +2,45 @@
 //  PeopleVC.swift
 //  WithoutStoryboard
 //
-//  Created by USER on 18/02/21.
+//  Created by William Loo & Ankit on 18/02/21.
 //
 
 import UIKit
+import Firebase
 
 @available(iOS 13.0, *)
-class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITextFieldDelegate {
     
     let TopTable = UITableView()
     let searchView = UIView()
     let searchTf = UITextField()
     let searchImg = UIImageView()
+    
+    var searchResultAdmins = organizationData.currOrganizationAdmins
+    var searchResultMembers = organizationData.currOrganizationMembers
+    
     var sections = ["Admins (\(organizationData.currOrganizationAdmins.count))","Members (\(organizationData.currOrganizationMembers.count))"]
+    
+    var tap: UIGestureRecognizer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = false
+        
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
+        
         setConstraints()
+        self.searchTf.delegate = self
+    }
+
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,22 +56,29 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     @objc func didFinishLoadingRoster(note:NSNotification) {
+        searchResultAdmins = organizationData.currOrganizationAdmins
+        searchResultMembers = organizationData.currOrganizationMembers
         TopTable.reloadData()
         updateSectionHeaders()
     }
 
     @objc func didFinishLoadingAdmin(note:NSNotification) {
+        searchResultAdmins = organizationData.currOrganizationAdmins
+        searchResultMembers = organizationData.currOrganizationMembers
         TopTable.reloadData()
         updateSectionHeaders()
     }
     
     @objc func didFinishLoadingMember(note:NSNotification) {
+        searchResultAdmins = organizationData.currOrganizationAdmins
+        searchResultMembers = organizationData.currOrganizationMembers
+        
         TopTable.reloadData()
         updateSectionHeaders()
     }
     
     func updateSectionHeaders() {
-        sections = ["Admins (\(organizationData.currOrganizationAdmins.count))","Members (\(organizationData.currOrganizationMembers.count))"]
+        sections = ["Admins (\(searchResultAdmins.count))","Members (\(searchResultMembers.count))"]
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,7 +90,10 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
+        
         self.title = "People"
+        let textAttributes = [NSAttributedString.Key.foregroundColor:Color.burple]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         //Setting Buttons :
         
@@ -73,28 +104,25 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         let barbackbutton = UIBarButtonItem(customView: backbutton)
         self.navigationItem.leftBarButtonItems = [barbackbutton]
         
-        let Imagebutton = UIButton(type: UIButton.ButtonType.custom)
-        Imagebutton.setImage(UIImage(named: "Nathan"), for: .normal)
-        Imagebutton.addTarget(self, action:#selector(callMethod), for: .touchUpInside)
-        Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        Imagebutton.imageView?.contentMode = .scaleAspectFill
-        Imagebutton.imageView?.borderWidth = 2
-        Imagebutton.imageView?.borderColor = UIColor.init(red: 222/255.0, green: 222/255.0, blue: 222/255.0, alpha: 1)
-        Imagebutton.imageView?.clipsToBounds = true
-        Imagebutton.imageView?.layer.cornerRadius = 12
-        
-        let barImagebutton = UIBarButtonItem(customView: Imagebutton)
-        self.navigationItem.rightBarButtonItems = [barImagebutton]
-        
+        //MARK: invitation button (ADMIN STATUS ONLY)
+        if organizationData.adminStatusMap[organizationData.currOrganization!] == true {
+            let inviteButton = UIButton(type: UIButton.ButtonType.custom)
+            inviteButton.setTitle("Invite", for: .normal)
+            inviteButton.titleLabel?.font = Font.bold(17)
+            inviteButton.backgroundColor = Color.buttonClickable
+            inviteButton.addTarget(self, action:#selector(addbtnMethod), for: .touchUpInside)
+            inviteButton.frame = CGRect(x: 0, y: 0, width: 80, height: 20)
+            inviteButton.cornerRadius = 12
+            
+            let barImagebutton = UIBarButtonItem(customView: inviteButton)
+            self.navigationItem.rightBarButtonItems = [barImagebutton]
+        }
         
     }
     //==============================   *** BUTTON ACTIONS ***  ===============================//
     
     @objc func callMethod() {
         self.navigationController?.popViewController(animated: true)
-    }
-    @objc func menuMethod() {
-        
     }
     
     //=============================*** SETTING CONSTRAINTS ***===============================//
@@ -121,7 +149,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         self.searchView.addSubview(searchTf)
         searchTf.attributedPlaceholder = NSAttributedString(string: "Search Name",
                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-        
+        searchTf.addTarget(self, action: #selector(self.searchTextFieldDidChange), for: .editingChanged)
         searchTf.placeholder = "Search name"
         searchTf.textColor = .darkGray
         searchTf.tintColor = themeColor
@@ -156,7 +184,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         self.TopTable.register(HederCell.self,
                                forHeaderFooterViewReuseIdentifier: "sectionHeader")
         
-        self.TopTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.TopTable.register(NameCell.self, forCellReuseIdentifier: "nameCell")
         
         let TopTableconstraints = [
             TopTable.topAnchor.constraint(equalTo:   self.view.safeAreaLayoutGuide.topAnchor, constant: 80),
@@ -186,19 +214,50 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
     }
     
+    //MARK: EXECUTE SEARCH
+    //adapted search from: https://stackoverflow.com/questions/30828074/check-if-array-contains-part-of-a-string-in-swift/57767333
+    @objc func searchTextFieldDidChange() {
+        //reset if empty query
+        let filteredSearchQuery = searchTf.text!.filter {$0 != " "}
+        if filteredSearchQuery == "" || filteredSearchQuery.count == 0 {
+            searchResultAdmins = organizationData.currOrganizationAdmins
+            searchResultMembers = organizationData.currOrganizationMembers
+        }
+        else { //execute search
+            let searchQuery = searchTf.text!
+            searchResultAdmins = organizationData.currOrganizationAdmins.filter({$0.value.lowercased().range(of: searchQuery.lowercased()) != nil})
+            searchResultMembers = organizationData.currOrganizationMembers.filter({$0.value.lowercased().range(of: searchQuery.lowercased()) != nil})
+        }
+        
+        updateSectionHeaders()
+        TopTable.reloadData()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tap!)
+    }
+    
+    //MARK: hide keyboard
+    @objc func hideKeyboard() {
+        searchTf.resignFirstResponder()
+        view.removeGestureRecognizer(self.tap!)
+    }
+    
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
     
-    //MARK :  Table View Delegate Methods:
+    //MARK:  Table View Delegate Methods:
     
     func tableView(_ tableView: UITableView,
                    viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                                                                 "sectionHeader") as! HederCell
+        tableView.register(NameCell.self, forCellReuseIdentifier: "nameCell")
         view.titlelbl.text = sections[section]
         
-        view.morebtn.addTarget(self, action:#selector(morebtnMethod), for: .touchUpInside)
-        view.addbtn.addTarget(self, action:#selector(addbtnMethod), for: .touchUpInside)
+        //view.morebtn.addTarget(self, action:#selector(morebtnMethod), for: .touchUpInside)
+        //view.addbtn.addTarget(self, action:#selector(addbtnMethod), for: .touchUpInside)
         
         return view
     }
@@ -218,59 +277,119 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0
         {
-            return organizationData.currOrganizationAdmins.count
+            return searchResultAdmins.count
         }
         else
         {
-            return organizationData.currOrganizationMembers.count
+            return searchResultMembers.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !organizationData.adminStatusMap[organizationData.currOrganization!]! {
+            return
+        }
+        let cell = tableView.cellForRow(at: indexPath) as! NameCell
+            let userID = cell.ID ?? "NO_ID"
+        
+            let nextVC = ManageUserViewController()
+            let imageRef = "profiles/\(userID)\(Constants.image_extension)"
+            cloudutil.downloadImage(ref: imageRef, useCache: true)
+            nextVC.username = "username goes here"
+            nextVC.email = "no email provided."
+        
+            nextVC.userID = userID
+            
+            db.collection("users").document(userID).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    nextVC.username = query.get("username") as! String
+                    if (query.get("email") != nil) {
+                        nextVC.email = query.get("email") as! String
+                    }
+                    self.navigationController?.pushViewController(nextVC, animated: true)
+                }
+                else {
+                    //document does not exist
+                    DispatchQueue.main.async {
+                        let alert = AlertView(headingText: "User does not exist!", messageText: "This user may have ben removed from your organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                            self.dismiss(animated: true, completion: nil)
+                        }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                        }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                        alert.modalPresentationStyle = .overCurrentContext
+                        alert.modalTransitionStyle = .crossDissolve
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    return
+                }
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0
         {
-            let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameCell
+            
+            cell.ID = Array(searchResultAdmins.keys)[indexPath.row]
+            cell.name = Array(searchResultAdmins.values)[indexPath.row]
+            
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
             
             cell.textLabel?.font = UIFont.init(name: "Apercu-Regular", size: 15)
             cell.textLabel?.textColor = .darkGray
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.text = Array(organizationData.currOrganizationAdmins.values)[indexPath.row]
+            cell.textLabel?.text = cell.name
+            
+
             
             return cell
             
         }
         else
         {
-            print(indexPath.row)
-            let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameCell
+            
+            cell.ID = Array(searchResultMembers.keys)[indexPath.row]
+            cell.name = Array(searchResultMembers.values)[indexPath.row]
+            
             cell.backgroundColor = .clear
             cell.selectionStyle = .none
             
             cell.textLabel?.font = UIFont.init(name: "Apercu-Regular", size: 15)
             cell.textLabel?.textColor = .darkGray
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.text = Array(organizationData.currOrganizationMembers.values)[indexPath.row]
+            cell.textLabel?.text = cell.name
             
             return cell
         }
-
-        
     }
     @objc func morebtnMethod(sender:UIButton)
     {
         print("more button clicked")
+        TopTable.setEditing(!TopTable.isEditing, animated: true)
       
     }
     @objc func addbtnMethod(sender:UIButton)
     {
         print("add button clicked")
+        let nextVC = AddPeopleToSpaceViewController()
+        nextVC.orgNameString = organizationData.currOrganizationName
+        nextVC.orgImage = UIImage(named: "avatar-2")
+        nextVC.onboardingMode = false
+        self.navigationController?.pushViewController(nextVC, animated: true)
         
     }
     
 }
 
+//MARK: namecell
+//quickie override to add attributes
+class NameCell: UITableViewCell {
+    var name: String? = ""
+    var ID: String? = ""
+}
 
 class HederCell: UITableViewHeaderFooterView {
     
@@ -308,7 +427,7 @@ class HederCell: UITableViewHeaderFooterView {
         ]
         
         let moreImg = UIImageView()
-        myCustomView.addSubview(moreImg)
+        //myCustomView.addSubview(moreImg)
         moreImg.image = UIImage.init(named: "more")
         moreImg.isUserInteractionEnabled = false
         
@@ -320,7 +439,7 @@ class HederCell: UITableViewHeaderFooterView {
         ]
         
         let addImg = UIImageView()
-        myCustomView.addSubview(addImg)
+        //myCustomView.addSubview(addImg)
         addImg.image = UIImage.init(named: "add")
         moreImg.isUserInteractionEnabled = false
         
@@ -333,8 +452,8 @@ class HederCell: UITableViewHeaderFooterView {
         ]
         
         
-        myCustomView.addSubview(morebtn)
-        morebtn.backgroundColor = .clear
+        //myCustomView.addSubview(morebtn)
+        //morebtn.backgroundColor = .clear
         
         let morebtnconstraints = [
             morebtn.rightAnchor.constraint(equalTo:myCustomView.rightAnchor, constant: -20),
@@ -344,8 +463,8 @@ class HederCell: UITableViewHeaderFooterView {
         ]
         
         
-        myCustomView.addSubview(addbtn)
-        addbtn.backgroundColor = .clear
+        //myCustomView.addSubview(addbtn)
+        //addbtn.backgroundColor = .clear
         
         let addbtnconstraints = [
             addbtn.rightAnchor.constraint(equalTo:myCustomView.rightAnchor, constant: -70),
@@ -356,10 +475,10 @@ class HederCell: UITableViewHeaderFooterView {
         
         NSLayoutConstraint.activate(myCustomViewconstraints)
         NSLayoutConstraint.activate(titlelblconstraints)
-        NSLayoutConstraint.activate(moreImgconstraints)
-        NSLayoutConstraint.activate(addImgconstraints)
-        NSLayoutConstraint.activate(morebtnconstraints)
-        NSLayoutConstraint.activate(addbtnconstraints)
+        //NSLayoutConstraint.activate(moreImgconstraints)
+        //NSLayoutConstraint.activate(addImgconstraints)
+        //NSLayoutConstraint.activate(morebtnconstraints)
+        //NSLayoutConstraint.activate(addbtnconstraints)
         
         myCustomView.translatesAutoresizingMaskIntoConstraints = false
         titlelbl.translatesAutoresizingMaskIntoConstraints = false

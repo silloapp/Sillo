@@ -54,6 +54,7 @@ class StartScreenViewController: UIViewController {
     @objc func routeUser(note:NSNotification) {
         self.routedWithinTimeThreshold = true
         var nextVC = UIViewController()
+        nextVC.navigationController?.view.backgroundColor = .white
         if (UserDefaults.standard.bool(forKey: "loggedIn")) {
             //loggedIn
             if (UserDefaults.standard.bool(forKey: "finishedOnboarding")) {
@@ -72,7 +73,18 @@ class StartScreenViewController: UIViewController {
                 }
                 
                 else {
+                    
                     nextVC = WelcomeToSilloViewController()
+
+//                    if localUser.invites.count > 0 {
+//                        print("HAVE INVITES")
+//                        nextVC = WelcomeToSilloViewController()
+//                    }
+//                    else {
+//                        //MARK: set up fallback if table is empty
+//                        nextVC = WelcomeToSilloNoInviteVC()
+//                    }
+                    
                 }
             } else {
                 print("logged in, onboarding unfinished")
@@ -92,16 +104,18 @@ class StartScreenViewController: UIViewController {
                 }
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
-        
+            
         } else {
             //not loggedIn
             nextVC = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         }
         
-            let navC = UINavigationController(rootViewController: nextVC)
-            navC.modalPresentationStyle = .fullScreen
-            navC.setNavigationBarHidden(true, animated: false)
-            self.present(navC, animated: true, completion: nil)
+        let navC = UINavigationController(rootViewController: nextVC)
+        navC.view.backgroundColor = .white
+        
+        navC.modalPresentationStyle = .fullScreen
+        navC.setNavigationBarHidden(true, animated: false)
+        self.present(navC, animated: true, completion: nil)
     }
     
     @objc func goToMainView(note:NSNotification) {
@@ -154,18 +168,23 @@ func prepareTabVC() -> UIViewController {
     
     vc1.title = "Home"
     vc1.tabBarItem = icon1
+    vc1.view.backgroundColor = .white
     
     vc2.title = "Achievements"
     vc2.tabBarItem = icon2
+    vc2.view.backgroundColor = .white
     
     vc3.title = "New Post"
     vc3.tabBarItem = icon3
+    vc3.view.backgroundColor = .white
     
     vc4.title = "Team"
     vc4.tabBarItem = icon4
+    vc4.view.backgroundColor = .white
     
     vc5.title = "Messages"
     vc5.tabBarItem = icon5
+    vc5.view.backgroundColor = .white
     
     tabVC.setViewControllers([vc1, vc2, vc3, vc4, vc5], animated: false)
     

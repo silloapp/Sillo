@@ -42,47 +42,42 @@ class CloudUtil {
         }.resume()
     }
     
-    func uploadImages(image: UIImage, ref: String) {
+    func uploadImages(image: UIImage, ref: String, dimension: CGFloat? = 300) {
         // Data in memory
         var croppedImage = image
-        if (image.size.width > 300 && image.size.height > 300) {
-            croppedImage = image.resized(withPercentage: 300 / image.size.width) ?? image
-        }
-        imageCache.setObject(croppedImage, forKey: ref as NSString) //shove into cache
-        let imageData = croppedImage.jpegData(compressionQuality: 1.0)!; // 0.7 is JPG quality
-        // Create a reference to the file you want to upload
-        let imageRef = storageRef.child(ref)
+        let dim = dimension! //force unwrap the dimension value since it's guaranteed
         
-        // Upload the file to the path "images/rivers.jpg"
-        let uploadTask = imageRef.putData(imageData, metadata: nil) { (metadata, error) in
-          guard let metadata = metadata else {
-            // Uh-oh, an error occurred!
-            print("error uploading.")
-            return
-          }
-          // Metadata contains file metadata such as size, content-type.
-          let size = metadata.size
-          // You can also access to download URL after upload.
-            imageRef.downloadURL { (url, error) in
-            guard let downloadURL = url else {
-              // Uh-oh, an error occurred!
-                return
-            }
-            print(downloadURL)
-          }
+        //resize if necessary
+        if (image.size.width > dim && image.size.height > dim) {
+            croppedImage = image.resized(withPercentage: dim / image.size.width) ?? image
         }
+        
+        //shove into cache
+        imageCache.setObject(croppedImage, forKey: ref as NSString)
+        
+        //upload
+        let storageRef = Constants.storage.reference(withPath: ref)
+        guard let imageData = croppedImage.jpegData(compressionQuality: 1.0) else {return }
+        let uploadMetaData = StorageMetadata.init()
+        uploadMetaData.contentType = "image/jpeg"
+        storageRef.putData(imageData, metadata:uploadMetaData)
         return
     }
-    
-    
-    func downloadImage(ref: String) -> UIImage? {
-        var resultImage = UIImage(named:"placeholder profile")!
-        if let cachedVersion = imageCache.object(forKey: ref as NSString) {
-            // use the cached version
-            print("using cached version of image with key \(ref)")
-            resultImage = cachedVersion
+    //MARK: download image
+    //USAGE: call and then check for "refreshPicture" callback, currently returns a placeholder
+    func downloadImage(ref: String, useCache: Bool? = true) -> UIImage? {
+        var resultImage = UIImage(named:"avatar-4")!
+        /* fk the cache doesn't work.. 
+        if useCache! == true && imageCache.object(forKey: ref as NSString) != nil {
+            if let cachedVersion = imageCache.object(forKey: ref as NSString) {
+                // use the cached version
+                print("using cached version of image with key \(ref)")
+                imageCache.setObject(cachedVersion, forKey: ref as NSString)
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "refreshPicture")))
+            }
         }
         else {
+            */
             // create it from scratch then store in the cache
             let imageRef = storageRef.child(ref)
             // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
@@ -98,9 +93,8 @@ class CloudUtil {
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "refreshPicture")))
               }
             }
-        }
+        //}
         return resultImage
-        
     }
 }
 

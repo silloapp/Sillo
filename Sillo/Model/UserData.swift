@@ -14,7 +14,9 @@ var localUser = LocalUser()
 class LocalUser {
     
     var invites: [String] = [] //an array of invitations to organizations
-    var invitesMapping: [String:String] = [:] //an array mapping invitations to orgaization name
+    
+    let inviteBatchSize = 10
+    var snapshot:QuerySnapshot? = nil
     
     // MARK: Creating New User
     func createNewUser(newUser:String) {
@@ -31,7 +33,7 @@ class LocalUser {
                 return
             } else {
                 //create user document
-                docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? ""]) { err in
+                docRef.setData(["admin": NSDictionary(), "organizations": [], "username": Constants.USERNAME ?? "", "ownedStickers": NSDictionary(), "email": Constants.EMAIL ?? ""]) { err in
                 if let err = err {
                     print("error: \(err) user: \(newUser) \(newUser) not created")
                 } else {
@@ -56,7 +58,7 @@ class LocalUser {
                     }
                 }
             }
-            cloudutil.uploadImages(image: UIImage(named:"placeholder profile")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
+            cloudutil.uploadImages(image: UIImage(named:"avatar-4")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
                 
         }
@@ -69,21 +71,84 @@ class LocalUser {
     }
     
     //MARK: get invitations from "invites" db
+    //MARK: DEPRECATED
     func getInvites() {
         if !UserDefaults.standard.bool(forKey: "loggedIn") {
             return
         }
         
         let myEmail = Constants.EMAIL ?? ""
-        db.collection("invites").document(myEmail).getDocument() { (query, err) in
-            if let query = query {
-                if query.exists {
-                    self.invites = query.get("member") as! [String]
-                    self.invitesMapping = query.get("mapping") as! [String:String]
+        self.invites = []
+        
+        db.collection("invites").document(myEmail).collection("user_invites").order(by: "timestamp", descending: true).limit(to: inviteBatchSize).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    //print("\(document.documentID) => \(document.data())")
+                    let organizationID = document.documentID
+                    let organizationName = document.get("name") as! String
+                    self.invites.append(organizationID)
+                    organizationData.idToName[organizationID] = organizationName
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
-                    organizationData.idToName.merge(self.invitesMapping, uniquingKeysWith: {(current, _) in current})
                 }
             }
+        }
+    }
+    
+    //MARK: handle new invite
+    func handleNewInvite(id: String, data: [String:Any]) {
+        let orgID = id
+        let orgName = data["name"] as! String
+        self.invites.append(orgID)
+        organizationData.idToName[orgID] = orgName
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
+    }
+    
+    //MARK: handle deleted invite
+    func handleDeleteInvite(id: String, data: [String:Any]) {
+        let orgID = id
+        if self.invites.contains(orgID) {
+            self.invites.remove(at: self.invites.firstIndex(of: orgID)!)
+        }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
+    }
+    
+    //MARK: get next invites through pagination
+    func getNextInvites() {
+        if self.snapshot == nil {
+            return
+        }
+        guard let lastSnapshot = self.snapshot!.documents.last else {
+            // The collection is empty.
+            return
+        }
+        let email = Constants.EMAIL ?? ""
+        let next = db.collection("invites").document(email).collection("user_invites").order(by: "timestamp", descending: true).limit(to: inviteBatchSize).start(afterDocument: lastSnapshot)
+        next.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    //print("\(document.documentID) => \(document.data())")
+                    let organizationID = document.documentID
+                    let organizationName = document.get("name") as! String
+                    self.invites.append(organizationID)
+                    organizationData.idToName[organizationID] = organizationName
+                }
+            }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
+        }
+        
+        //MARK: update snapshot listener
+        next.addSnapshotListener { (snapshot, error) in
+            guard let snapshot = snapshot else {
+                print("Error retreving documents: \(error.debugDescription)")
+                return
+            }
+            self.snapshot = snapshot
         }
     }
     
@@ -92,26 +157,33 @@ class LocalUser {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
         
-        //a delay is needed because the table briefly refreshes
+        //a delay is needed because the invites table briefly refreshes
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
-            self.invitesMapping[organizationID] = nil
             //delete invite on firebase
-            db.collection("invites").document(myEmail).updateData(["member":FieldValue.arrayRemove([organizationID]),"mapping":self.invitesMapping])
+            db.collection("invites").document(myEmail).collection("user_invites").document(organizationID).delete() {err in
+                if let err = err {
+                    print("could not accept invite, invite document not deleted")
+                }
+                else {
+                    //invitation successfully deleted
+                    self.addOrganizationtoCurrentUser(organizationID: organizationID, isAdmin: false)
+                    organizationData.addMemberToOrganization(organizationID: organizationID)
+                    organizationData.coldChangeOrganization(dest: organizationID) //inside this is a notification to segue
+                }
+            }
         }
-        
-        addOrganizationtoUser(organizationID: organizationID)
-        organizationData.addMemberToOrganization(organizationID: organizationID)
-        organizationData.coldChangeOrganization(dest: organizationID)
     }
     
     //MARK: add organization to user doc, AND update local copy of organization list
-    func addOrganizationtoUser(organizationID: String) {
+    func addOrganizationtoCurrentUser(organizationID: String, isAdmin: Bool) {
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
+                    organizationData.adminStatusMap = query.get("admin") as! [String:Bool]
                     organizationData.organizationList.append(organizationID)
-                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations": FieldValue.arrayUnion([organizationID])])
+                    organizationData.adminStatusMap[organizationID] = isAdmin
+                    db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["organizations": FieldValue.arrayUnion([organizationID]), "admin": organizationData.adminStatusMap])
                 }
             }
         }
@@ -150,10 +222,15 @@ class LocalUser {
         }
         
         self.setConstants()
+        // localUser.getInvites()
         
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
+                    if query.get("email") == nil {
+                        //late addition, so this will upload email to a user document if it doesn't exist.
+                        db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["email":Constants.EMAIL!]) //update email
+                    }
                     organizationData.adminStatusMap = query.get("admin") as! [String:Bool]
                     organizationData.organizationList = query.get("organizations") as! [String]
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
@@ -161,7 +238,7 @@ class LocalUser {
                     return
                 }
                 else {
-                    //user document not foundm
+                    //user document not found
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserLoadingComplete"), object: nil)
                     return
                 }
@@ -189,8 +266,11 @@ class LocalUser {
     //MARK: delete self
     func deleteUser() {
         print("BYE BYE DELETING USER")
-        //call backend function for deletion..
-        self.signOut()
+        Constants.me!.delete(completion: nil)
+        UserDefaults.standard.removeObject(forKey: "defaultOrganization")
+        UserDefaults.standard.set(false, forKey: "loggedIn")
+        organizationSignOut()
+        clearUserConstants()
     }
 }
 

@@ -20,7 +20,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         let etextField = UITextField()
         etextField.placeholder = " youremail@berkeley.edu"
         etextField.layer.cornerRadius = 10.0;
-        //textField.keyboardType = .emailAddress
+        etextField.keyboardType = .emailAddress
+        etextField.autocorrectionType = .no
+        etextField.autocapitalizationType = .none
+        etextField.font = Font.regular(17)
         etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         etextField.translatesAutoresizingMaskIntoConstraints = false
         return etextField
@@ -287,8 +290,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
                         errorState=true
                         errorMsg = error!.localizedDescription
                         DispatchQueue.main.async {
-                            let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
+                            let alert = AlertView(headingText: "Oops!", messageText: errorMsg, action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                                self.dismiss(animated: true, completion: nil)
+                            }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                            }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                            alert.modalPresentationStyle = .overCurrentContext
+                            alert.modalTransitionStyle = .crossDissolve
                             self.present(alert, animated: true, completion: nil)
                         }
                     }
@@ -300,8 +307,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         }
         if (errorState) {
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                let alert = AlertView(headingText: "Oops!", messageText: errorMsg, action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
                 self.present(alert, animated: true, completion: nil)
             }
         }
@@ -316,11 +327,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         //Sign in functionality will be handled here
             if let error = error {
                 print(error.localizedDescription)
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
-                    self.present(alert, animated: true, completion: nil)
-                }
                 return
             }
             guard let auth = user.authentication else { return }
@@ -358,21 +364,29 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             self.latestButtonPressTimestamp = Date()
             let email : String = emailTextField.text!
             Auth.auth().sendPasswordReset(withEmail: email) { error in
+
+            //log password reset
+            analytics.log_forgot_password()
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Password reset requested!", message: "If you have an email linked with Sillo, you will receieve a password reset link.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in }))
+                    let alert = AlertView(headingText: "Password reset requested!", messageText: "If you have an email linked with Sillo, you will receieve a password reset link.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                        self.dismiss(animated: true, completion: nil)
+                    }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                    }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                    alert.modalPresentationStyle = .overCurrentContext
+                    alert.modalTransitionStyle = .crossDissolve
                     self.present(alert, animated: true, completion: nil)
-                    
-                    //log password reset
-                    analytics.log_forgot_password()
                 }
             }
         }
         else {
             errorMsg="Please fill out your email to continue."
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: errorMsg, message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                let alert = AlertView(headingText: "Oops!", messageText: errorMsg, action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
                 self.present(alert, animated: true, completion: nil)
             }
         }

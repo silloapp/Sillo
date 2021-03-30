@@ -11,6 +11,8 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
 
     // MARK: Figma 1224
     
+    var onboardingMode = true
+    
     var bar = UIProgressView()
     var emailTableView = UITableView()
     var confirmButton = UIButton()
@@ -24,6 +26,33 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         view.backgroundColor = .white
         setupProgressBar()
         setUpView()
+        setNavBar()
+    }
+    
+    func setNavBar() {
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
+        navigationController?.navigationBar.isTranslucent = false
+        
+        self.title = "People"
+        let textAttributes = [NSAttributedString.Key.foregroundColor:Color.burple]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        //Setting Buttons :
+        
+        let backbutton = UIButton(type: UIButton.ButtonType.custom)
+        backbutton.setImage(UIImage(named: "back"), for: .normal)
+        backbutton.addTarget(self, action:#selector(callMethod), for: .touchUpInside)
+        backbutton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        let barbackbutton = UIBarButtonItem(customView: backbutton)
+        self.navigationItem.leftBarButtonItems = [barbackbutton]
+        
+    }
+    
+    @objc func callMethod() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     //MARK: Prevents NavBar header from showing up when going back to root VC
@@ -39,12 +68,6 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         NotificationCenter.default.addObserver(self, selector: #selector(self.creationFail(note:)), name: Notification.Name("OrganizationCreationFail"), object: nil)
     }
     
-    func configureNavBar() {
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.navigationBar.barTintColor = .white
-        view.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = .black
-    }
 
     func setupProgressBar() {
         bar.trackTintColor = Color.gray
@@ -97,12 +120,14 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         emailTableView.register(UITableViewCell.self, forCellReuseIdentifier: "emailCell")
         emailTableView.delegate = self
         emailTableView.dataSource = self
+        emailTableView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+
         
         emailTableView.backgroundColor = .white
         emailTableView.tableHeaderView = UIView()
         emailTableView.translatesAutoresizingMaskIntoConstraints = false
 
-        emailTableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
+        emailTableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         emailTableView.topAnchor.constraint(equalTo: stack.bottomAnchor).isActive = true
         emailTableView.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -10).isActive = true
         
@@ -116,7 +141,7 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
         confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         confirmButton.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
-        confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor) .isActive = true
+        confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 5) .isActive = true
     }
     
     @objc func confirmClicked() {
@@ -126,10 +151,18 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
             return
         }
         self.latestButtonPressTimestamp = Date()
+        if self.onboardingMode {
+            organizationData.createNewOrganization()
+        }
+        else {
+            // not onboarding mode, invite return to peopleVC
+            organizationData.inviteMembers(organizationID: organizationData.currOrganization!, organizationName: organizationData.currOrganizationName!, emails: memberInvites )
+            let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
+            self.navigationController?.popToViewController(controller!, animated: true)
+            organizationData.memberInvites = []
+        }
         
-        organizationData.createNewOrganization()
         return
-        // TODO: transition to next VC
     }
     
     @objc func creationSuccess(note:NSNotification) {

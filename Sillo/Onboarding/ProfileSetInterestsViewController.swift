@@ -26,6 +26,15 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         nextVC.interests = selectedInterests
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //prefill the selected collection indices array
+        //(bc collectionview does not load all cells until they appear)
+        for interest in self.selectedInterests {
+            let index = self.interests.firstIndex(of: interest)!
+            self.indexPathOfCellsSelected.append(IndexPath(indexes: [0,index]))
+        }
+    }
     //MARK: viewdidload
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -209,8 +218,8 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
                 cell.backgroundColor = Color.russianDolphinGray
             }
             else {
-                cell.backgroundColor = Color.matteBlack
-                interestLabel.textColor = Color.matteBlack
+                cell.backgroundColor = Color.matte
+                interestLabel.textColor = Color.matte
             }
             
             return cell
@@ -253,12 +262,10 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = false
-        if (selectedInterests.contains(interests[indexPath.item]) && !indexPathOfCellsSelected.contains(indexPath)) {
-            indexPathOfCellsSelected.append(indexPath)
-            }
+            
         if (indexPathOfCellsSelected.contains(indexPath)) {
-            cell.backgroundColor = Color.matteBlack
-            interestLabel.textColor = Color.matteBlack
+            cell.backgroundColor = Color.matte
+            interestLabel.textColor = Color.matte
         }
         else {
             cell.backgroundColor = Color.russianDolphinGray
@@ -301,9 +308,9 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
             selectedInterests.append(interest)
             indexPathOfCellsSelected.append(indexPath)
             
-            cell?.backgroundColor = Color.matteBlack
+            cell?.backgroundColor = Color.matte
             let label = cell?.viewWithTag(100) as? UILabel
-            label?.textColor = Color.matteBlack
+            label?.textColor = Color.matte
         }
         self.selectedInterestCollectionView.reloadData()
         self.interestCollectionView.reloadData()

@@ -40,21 +40,26 @@ class OrganizationData {
                 return
             } else {
                 print("success: created \(newOrganizationName!) \(newOrganization)")
-                addMemberToOrganization(organizationID: newOrganization)// add self to organization
-                localUser.addOrganizationtoUser(organizationID: newOrganization) //add organization to user list
+                localUser.addOrganizationtoCurrentUser(organizationID: newOrganization, isAdmin: true) //add organization to user list
+                idToName[newOrganization] = newOrganizationName! //update local copy of mapping
                 changeOrganization(dest: newOrganization) //switch orgs
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
                 
                 if newOrganizationPic != nil {
-                    uploadOrganizationPic(organization: newOrganization, image: newOrganizationPic)
+                    let imageID = UUID.init().uuidString
+                    uploadOrganizationPicReference(organization: newOrganization, imageID: imageID)
+                    let orgPicRef = "orgProfiles/\(imageID)\(Constants.image_extension)"
+                    cloudutil.uploadImages(image: newOrganizationPic!, ref: orgPicRef)
                 }
                 inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
+                organizationData.memberInvites = []
             }
         }
     }
 
     // MARK: Changing Organization Data
-    func uploadOrganizationPic(organization: String, image: UIImage?) {
+    func uploadOrganizationPicReference(organization: String, imageID: String) {
+        /* THIS IS HANDLED WITH CLOUDUTIL (resizing is done with CLOUDUTIL so it's actually downloadable)
         let imageID = UUID.init().uuidString
 
         let storageRef = Constants.storage.reference(withPath: "orgProfiles/\(imageID)\(Constants.image_extension)")
@@ -62,7 +67,7 @@ class OrganizationData {
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
         storageRef.putData(imageData, metadata:uploadMetaData)
-
+         */
         let orgDoc = Constants.db.collection("organizations").document(organization)
         orgDoc.getDocument() {
             (query, err) in
@@ -75,29 +80,12 @@ class OrganizationData {
         }
     }
 
+    //MARK: invite members
     func inviteMembers(organizationID:String, organizationName:String, emails:[String]) {
         let col = Constants.db.collection("invites")
         for address in emails {
-            let docRef = col.document(address)
-            var mapping: [String:String] = [:]
-            docRef.getDocument() { (query, err) in
-                if let query = query {
-                    if query.exists {
-                        if let unwrap_mapping = query.get("mapping") {mapping = unwrap_mapping as! [String:String]}
-                        mapping[organizationID] = organizationName
-                        docRef.updateData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
-                        
-                    }
-                    else {
-                        //document does not exist
-                        mapping[organizationID] = organizationName
-                        docRef.setData(["member": FieldValue.arrayUnion([organizationID]), "mapping":mapping])
-                    }
-                    
-                    
-                }
-                
-            }
+            let invitesRef = col.document(address).collection("user_invites").document(organizationID)
+            invitesRef.setData(["name":organizationName, "isAdmin":false, "timestamp":Date()])
         }
     }
 
@@ -142,6 +130,101 @@ class OrganizationData {
         }
     }
     
+    //MARK: remove member from current organizationID
+    func removeMemberFromCurrentOrganization(userID:String) {
+        //sensitive area, verify admin status again
+        db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() {(query, err) in
+            if query != nil && query!.exists {
+                let query = query!
+                let mapping = query.get("admin") as! [String:Bool]
+                self.adminStatusMap = mapping
+                if mapping[self.currOrganization!] == true {
+                    if self.currOrganization != nil && self.adminStatusMap[self.currOrganization!]! {
+                        //update organization roster
+                        db.collection("organizations").document(self.currOrganization!).updateData(["admins":FieldValue.arrayRemove([userID])])
+                        db.collection("organizations").document(self.currOrganization!).updateData(["members":FieldValue.arrayRemove([userID])])
+                        
+                        //update user record
+                        db.collection("users").document(userID).getDocument() { (query, err) in
+                            if let query = query {
+                                if query.exists {
+                                    var adminMap = query.get("admin") as! [String:Bool]
+                                    adminMap[self.currOrganization!] = nil
+                                    db.collection("users").document(userID).updateData(["admin": adminMap, "organizations":FieldValue.arrayRemove([self.currOrganization!])])
+                                    NotificationCenter.default.post(name: Notification.Name("finishUserManagementAction"), object: nil)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    //MARK: promote member to admin for current organizationID
+    func promoteMember(_ userID:String) {
+        //sensitive area, verify admin status again
+        db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() {(query, err) in
+            if query != nil && query!.exists {
+                let query = query!
+                let mapping = query.get("admin") as! [String:Bool]
+                self.adminStatusMap = mapping
+                if mapping[self.currOrganization!] == true {
+                    if self.currOrganization != nil && self.adminStatusMap[self.currOrganization!]! && !self.currOrganizationAdmins.keys.contains(userID) {
+                        //update organization roster
+                        db.collection("organizations").document(self.currOrganization!).updateData(["members":FieldValue.arrayRemove([userID])])
+                        db.collection("organizations").document(self.currOrganization!).updateData(["admins":FieldValue.arrayUnion([userID])])
+                        
+                        //update user record
+                        db.collection("users").document(userID).getDocument() { (query, err) in
+                            if let query = query {
+                                if query.exists {
+                                    var adminMap = query.get("admin") as! [String:Bool]
+                                    adminMap[self.currOrganization!] = true
+                                    db.collection("users").document(userID).updateData(["admin": adminMap])
+                                    NotificationCenter.default.post(name: Notification.Name("finishUserManagementAction"), object: nil)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    //MARK: demote member from admin for current organizationID
+    func demoteMember(_ userID:String) {
+        //sensitive area, verify admin status again
+        db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() {(query, err) in
+            if query != nil && query!.exists {
+                let query = query!
+                let mapping = query.get("admin") as! [String:Bool]
+                self.adminStatusMap = mapping
+                if mapping[self.currOrganization!] == true {
+                    if self.currOrganization != nil && self.adminStatusMap[self.currOrganization!]! && self.currOrganizationAdmins.keys.contains(userID) {
+                        //update organization roster
+                        db.collection("organizations").document(self.currOrganization!).updateData(["admins":FieldValue.arrayRemove([userID])])
+                        db.collection("organizations").document(self.currOrganization!).updateData(["members":FieldValue.arrayUnion([userID])])
+                        
+                        //update user record
+                        db.collection("users").document(userID).getDocument() { (query, err) in
+                            if let query = query {
+                                if query.exists {
+                                    var adminMap = query.get("admin") as! [String:Bool]
+                                    adminMap[self.currOrganization!] = false
+                                    db.collection("users").document(userID).updateData(["admin": adminMap])
+                                    NotificationCenter.default.post(name: Notification.Name("finishUserManagementAction"), object: nil)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+
+    }
+    
     //MARK: get roster for current organization
     func getRoster() {
         let organizationID = currOrganization ?? "ERROR"
@@ -152,12 +235,23 @@ class OrganizationData {
                 let adminIDs = query.get("admins") as! [String]
                 let memberIDs = query.get("members") as! [String]
                 
+                //do not pull if list of IDs are the same (this will cause mapped names to remain the same until memory is cleared)
+                let localAdmins = Array(self.currOrganizationAdmins.keys) as! [String]
+                let localMembers = Array(self.currOrganizationMembers.keys) as! [String]
+                if adminIDs.sorted() == localAdmins.sorted() && memberIDs.sorted() == localMembers.sorted() {
+                    NotificationCenter.default.post(name: Notification.Name("finishLoadingRoster"), object: nil)
+                    return
+                }
+                
+                //cold start roster again
+                self.currOrganizationAdmins = [:]
+                self.currOrganizationMembers = [:]
+                
                 //pull admin id-name mappings
                 for adminID in adminIDs {
                     db.collection("users").document(adminID).getDocument() {(query, err) in
                         if query != nil && query!.exists {
                             let username = query?.get("username") as! String
-                            print("admin username: \(username)")
                             self.currOrganizationAdmins[adminID] = username
                             NotificationCenter.default.post(name: Notification.Name("finishLoadingAdmin"), object: nil)
                         }
@@ -169,7 +263,6 @@ class OrganizationData {
                     db.collection("users").document(memberID).getDocument() {(query, err) in
                         if query != nil && query!.exists {
                             let username = query?.get("username") as! String
-                            print("member username: \(username)")
                             self.currOrganizationMembers[memberID] = username
                             NotificationCenter.default.post(name: Notification.Name("finishLoadingMember"), object: nil)
                         }
@@ -193,12 +286,12 @@ class OrganizationData {
                         if (imageRef != "") {
                             if let resImage = cloudutil.downloadImage(ref: "orgProfiles/\(imageRef)\(Constants.image_extension)") {
                                 self.orgToImage[orgID] = resImage
-                                NotificationCenter.default.post(name: Notification.Name("RefreshOrgPictures"), object: nil)
                             }
                         }
                         else {
-                            self.orgToImage[orgID] = UIImage(named: "avatar-2")
+                            self.orgToImage[orgID] = UIImage(named: "avatar-2") //default avatar
                         }
+                        NotificationCenter.default.post(name: Notification.Name("RefreshOrganizationListing"), object: nil)
                     }
                 }
             }
@@ -224,6 +317,12 @@ class OrganizationData {
     
     func makeEmailArray(input: String){
         memberInvites = input.filter {$0 != " "}.components(separatedBy: ",").filter{isValidEmail($0)}
+    }
+    
+    //adds event to organization activity log
+    //currently supported events: newPost, newConnection, levelUpConnection, replyToPost, friendShipped
+    func logOrgEvent(eventType: String, userID_A: String, userID_B: String){
+        
     }
 }
 
