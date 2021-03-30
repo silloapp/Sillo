@@ -75,12 +75,24 @@ final class ChatsViewController: UITableViewController {
     // MARK: - MessageInputBar
     
     private let messageInputBar: MessageInputBar
+    var chatID: String
+    var initPost: Post?
+    //TODO: when a mesage is sent and a conversation is established on firebase, isChat is set to true
+    var isChat: Bool = false
     
     // MARK: Init
     
-    init(messageInputBarStyle: MessageInputBarStyle) {
+    init(messageInputBarStyle: MessageInputBarStyle, chatID: String, post: Post?) {
+        
+        self.chatID = chatID
         self.messageInputBar = messageInputBarStyle.generate()
         super.init(nibName: nil, bundle: nil)
+        
+        if let inputpost = post {
+            print("set init post whose message is \(inputpost.message)")
+            self.initPost = inputpost
+            self.isChat = false
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,9 +100,45 @@ final class ChatsViewController: UITableViewController {
     }
     
     // MARK: - View Life Cycle
+    @objc func refreshChatView(note: NSNotification) {
+        
+        if let post = self.initPost {
+            //convert post into message
+            let firstPost = Message(alias: self.initPost?.posterAlias, name: self.initPost?.posterUserID, profilePicture: self.initPost?.posterImage, message: "refreshed!!!!!", attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+            print(firstPost.message)
+            chatHandler.messages[self.chatID] = [firstPost, firstPost, firstPost, firstPost, firstPost]
+        } else { //else, pull from firebase, since this is an already existing chat
+            print("TODO: pull from firebase")
+            isChat = true
+            let firstPost = Message(alias: self.initPost?.posterAlias, name: self.initPost?.posterUserID, profilePicture: self.initPost?.posterImage, message: "ischat true!!!!!", attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+            print(firstPost.message)
+            chatHandler.messages[self.chatID] = [firstPost, firstPost, firstPost, firstPost, firstPost]
+        }
+        //refresh the subtask table
+        self.tableView.reloadData()
+        print("refreshed the chatView")
+        
+    }
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+        setNavBar()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //if post is not nil, messages are from post. No need to pull from firebase
+        if let post = self.initPost {
+            //convert post into message
+            let firstPost = Message(alias: self.initPost?.posterAlias, name: self.initPost?.posterUserID, profilePicture: self.initPost?.posterImage, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+            print(firstPost.message)
+            chatHandler.messages[self.chatID] = [firstPost, firstPost, firstPost, firstPost, firstPost]
+        } else { //else, pull from firebase, since this is an already existing chat
+            print("TODO: pull from firebase")
+            isChat = true
+        }
         
         //for initialising Table:
         
@@ -172,11 +220,11 @@ final class ChatsViewController: UITableViewController {
     func setNavBar() {
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
-        self.title = "Full Name"
+        self.title = self.initPost?.posterAlias ?? "Full Name"
         
         
         let label = UILabel()
-        label.text = "Full Name"
+        label.text = self.initPost?.posterAlias ?? "Person you are talking to"
         label.textAlignment = .left
         label.textColor = .gray
         label.font = UIFont.init(name: "Apercu-Regular", size: 16)
@@ -234,6 +282,10 @@ final class ChatsViewController: UITableViewController {
     
     
     @objc func backBtnPressed() {
+        if self.initPost != nil && self.isChat == false { // if no chat was ever made, remove from postToChat
+            print("no chat made, set postToChat for this post back to nil")
+            chatHandler.postToChat[(self.initPost?.postID)!] = nil
+        }
         self.navigationController?.popToRootViewController(animated: true)
     }
     
@@ -241,11 +293,7 @@ final class ChatsViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = false
-        setNavBar()
-    }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
     }
@@ -273,7 +321,7 @@ final class ChatsViewController: UITableViewController {
     //    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return chatHandler.messages[self.chatID]?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -287,23 +335,15 @@ final class ChatsViewController: UITableViewController {
         var Rightwidth = CGFloat()
         var leftwidth = CGFloat()
         
-        if indexPath.row % 2 == 0
+        let messageStruct = chatHandler.messages[self.chatID]?[indexPath.row]
+
+        
+        if messageStruct?.alias != initPost?.posterAlias //appears on the right if I sent it
         {
             cell.labLeft.isHidden = true
             cell.labRight.isHidden = false
             
-            if indexPath.row == 0
-            {
-                cell.labRight.text = "OK"
-            }
-            else if indexPath.row == 6
-            {
-                cell.labRight.text = "lorem ispum"
-            }
-            else
-            {
-                cell.labRight.text = "lorem ispum dollar sit lorem ikspum loremm"
-            }
+            cell.labRight.text = messageStruct?.message
             
             Rightheight = cell.labRight.text!.stringHeight + 30
             
@@ -317,11 +357,11 @@ final class ChatsViewController: UITableViewController {
                 Rightwidth = 200
             }
         }
-        else
+        else //appears on the left if other person sends it
         {
             cell.labLeft.isHidden = false
             cell.labRight.isHidden = true
-            cell.labLeft.text = "lorem ispum dollar sit lorem ikspum loremm"
+            cell.labLeft.text = chatHandler.messages[self.chatID]?[indexPath.row].message
             leftheight = cell.labLeft.text!.stringHeight + 30
             
             
@@ -379,6 +419,20 @@ extension ChatsViewController: MessageInputBarDelegate {
         // Use to send the message
         messageInputBar.inputTextView.text = String()
         messageInputBar.invalidatePlugins()
+        print(text)
+        
+        if self.isChat == false { // if this is first reply, create new chat
+            //addChat creates new chat document and adds post and message to doc, and adds chatID to both poster and user's user_chats
+            chatHandler.addChat(post: self.initPost!, message: text, attachment: nil, chatId: self.chatID)
+            self.isChat = true
+        }else {
+            //if this is already a chat, no need to make a new coument or add to user_chats
+            //simply add message to the chat document
+            chatHandler.sendMessage(chatId: self.chatID, message: text, attachment: nil)
+        }
+        
+        //call notification to refresh tableview. refreshTableview checks that is isChat is true, pulls from firebase
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
     }
     
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {

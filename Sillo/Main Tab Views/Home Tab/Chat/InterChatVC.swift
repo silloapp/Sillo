@@ -320,7 +320,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        navigationController.modalPresentationStyle = .fullScreen
 //        self.present(navigationController, animated: true, completion: nil)
         
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook)
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: "PLACEHOLDER_CHATID", post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)
         

@@ -17,8 +17,8 @@ class ChatHandler {
     var messages: [String: [Message]] = [:]
     var postToChat: [String: String] = [:]
     
-    func addChat(post: Post, message: String, attachment: UIImage?) {
-        let chatId = UUID.init().uuidString
+    func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
+        let chatId = chatId
         let userAlias = generateAlias()
         let userImage = generateImageName()
         let messageStruct = createMessage(
@@ -34,7 +34,7 @@ class ChatHandler {
     }
             
     // add chat in user_chats (keeps track of active chats)
-    func updateUserChats(post: Post, message: Message, chatId: String) {
+    private func updateUserChats(post: Post, message: Message, chatId: String) {
         let userId = Constants.FIREBASE_USERID!
         let receipientId = "placeholder"
         
@@ -75,7 +75,7 @@ class ChatHandler {
     
     // create a new chat document that stores messages between users
     // includes the post message and first message sent by user
-    func createChatDocument(chatId: String, post: Post, message: Message) {
+    private func createChatDocument(chatId: String, post: Post, message: Message) {
         let messageSubCol = db.collection("chats").document(chatId)
             .collection("messages")
         
@@ -112,7 +112,7 @@ class ChatHandler {
         }
         
         senderMessageDoc.setData(
-            ["attachment": imagePath!,
+            ["attachment": "",
              "message": message.message!,
              "sender_UID": Constants.FIREBASE_USERID!,
              "timestamp": message.timestamp!]) { err in
@@ -138,7 +138,26 @@ class ChatHandler {
     }
     
     // send message in an existing conversation
-    func sendMessage(chatId: String, message: String, attachment: UIImage) {
+    func sendMessage(chatId: String, message: String, attachment: UIImage?) {
+        let messageSubCol = db.collection("chats").document(chatId)
+            .collection("messages")
+        
+        // write data for OP
+        let opMessageId = UUID.init().uuidString
+        let opMessageDoc = messageSubCol.document(opMessageId)
+        
+        opMessageDoc.setData([
+            "attachment": "", // TODO: upload UIImage to storage, then return the path string
+            "message": message,
+            "sender_UID": Constants.FIREBASE_USERID,
+            "timestamp": Date()
+        ]) { err in
+            if err != nil {
+                print("Error sending message: \(opMessageId)")
+            } else {
+                print("Message document written: \(opMessageId). Contents say: \(message)")
+            }
+        }
         
     }
     
@@ -173,7 +192,7 @@ class ChatHandler {
     }
     
     func generateAlias() -> String {
-        let options: [String] = ["Beets", "Cabbage", "Watermelon", "Bananas", "Oranges", "Apple Pie", "Bongo", "Sink", "Boop"]
+        let options: [String] = ["Beets", "Cabbage", "Watermelon", "Bananas", "Oranges", "Apple Pie", "Bongo", "Sink", "Boop", "Flamingo", "Tiger", "Rabbit", "Rhino", "Eagle", "Tomato", "Dinosaur", "Cherry", "Violin", "Dolphin"]
         return options.randomElement()!
     }
     

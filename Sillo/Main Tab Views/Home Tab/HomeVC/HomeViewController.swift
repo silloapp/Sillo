@@ -295,8 +295,24 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let interChatVC = InterChatVC()
-        self.navigationController?.pushViewController(interChatVC, animated: true)
+//        let interChatVC = InterChatVC()
+//        self.navigationController?.pushViewController(interChatVC, animated: true)
+        var chatId = "ERROR_THIS_SHOULD_BE_REPLACED"
+        let post = feed.sortedPosts[indexPath.row]
+        let postID = post.postID! //existing chat
+        var chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatId, post: nil)
+        if chatHandler.postToChat[postID] != nil {
+            chatId = chatHandler.postToChat[postID]!
+            print("post already mapped to existing chatid.")
+            
+        }else{ //new chat, generate new chat UUID
+            chatId = UUID.init().uuidString
+            chatHandler.postToChat[postID] = chatId
+            print("mapped post to new chatId")
+            chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatId, post: post)
+        }
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(chatVC, animated: true)
     }
 
 }
