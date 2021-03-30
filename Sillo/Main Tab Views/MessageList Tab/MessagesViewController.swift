@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Firebase
 
 class MessagesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    private let messages = [Message]()
+    private var messages = [Message]()
 
     let cellID = "cellID"
     
@@ -27,8 +28,78 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         view.backgroundColor = Color.headerBackground
         return view
     }()
+    
+    //MARK: listener
+    private var messageListListener: ListenerRegistration?
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshMessageListTable"), object: nil)
+        
+        //MARK: attach listener
+        let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
+        let reference = db.collection("user_chats").document(myUserID).collection("chats")
+        
+        
+        messageListListener = reference.addSnapshotListener { querySnapshot, error in
+                guard let documents = querySnapshot?.documents else {
+                    print("Error fetching documents: \(error!)")
+                    return
+                }
+            
+            
+            //update chats list
+            let userID = Constants.FIREBASE_USERID ?? "ERROR"
+            print("PULLING CHAT ID LIST FOR \(userID)")
+            db.collection("user_chats").document(userID).collection("chats").order(by: "timestamp", descending: true).limit(to: 15).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    return
+                } else {
+                    for document in querySnapshot!.documents {
+                        //print("\(document.documentID) => \(document.data())")
+                        let chatID = document.documentID
+                        let timestamp = document.get("timestamp") as! Timestamp
+                        
+                        chatHandler.chatsList.append(chatID)
+                        print("added \(chatID) to chatlist" )
+                        chatHandler.messages[chatID] = []
+                    }
+                }
+            }
+            
+            //gets latest message for each active chat
+            print("chatsList pulled: \(chatHandler.chatsList)")
+            for chatid in chatHandler.chatsList {
+                let doc = db.collection("chats").document(chatid).collection("messages").order(by: "timestamp", descending: true).limit(to:1).getDocuments(){ (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                        return
+                    } else {
+                        
+                        print("number of documents returned in query: \(querySnapshot!.documents.count)")
+                        for document in querySnapshot!.documents {
+                            //print("\(document.documentID) => \(document.data())")
+                            let message = document.get("message") as! String
+                            let sender_UID = document.get("sender_UID") as! String
+                            let timestamp = document.get("timestamp") as! Date
+                            self.messages.append(Message(alias: "Anonymous Person", name: sender_UID, profilePicture: UIImage(named: "avatar-4"), message: message, attachment: UIImage(), timestamp: timestamp, isRead: false))
+                            
+                            print("added message: \(message) to messagelist for chat \(chatid)" )
+                        }
+                    }
+                }
+            }
+            
+            print("num of messages: \(self.messages.count)")
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshQuestTableView"), object: nil)
+            }
+        
+    }
         
     override func viewDidLoad() {
+        
         
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
@@ -116,6 +187,12 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         chatListTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         chatListTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         chatListTable.register(ChatViewTableViewCell.self, forCellReuseIdentifier: cellID)
+    }
+    
+    //MARK: refresh called
+    @objc func refreshTableView(note: NSNotification) {
+        //refresh the subtask table
+        self.chatListTable.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

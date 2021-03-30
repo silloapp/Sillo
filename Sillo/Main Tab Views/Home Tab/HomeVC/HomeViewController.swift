@@ -70,6 +70,7 @@ class HomeViewController: UIViewController {
         }
         quests.coldStart()
         //feed.coldStart() //coldstart got deprecated by the snapshot listener
+        chatHandler.coldStart()
     }
     
     override func viewDidLoad() {
@@ -295,8 +296,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let interChatVC = InterChatVC()
-        self.navigationController?.pushViewController(interChatVC, animated: true)
+//        let interChatVC = InterChatVC()
+//        self.navigationController?.pushViewController(interChatVC, animated: true)
+        var chatId = "ERROR_THIS_SHOULD_BE_REPLACED"
+        if chatHandler.postToChat[feed.sortedPosts[indexPath.row].postID!] != nil {
+            chatId = chatHandler.postToChat[feed.sortedPosts[indexPath.row].postID!]!
+            print("post already mapped to existing chatid.")
+        }else{
+            chatId = UUID.init().uuidString
+            chatHandler.postToChat[feed.sortedPosts[indexPath.row].postID!] = chatId
+            chatHandler.addChat(post: feed.sortedPosts[indexPath.row], message: "NONE", attachment: UIImage())
+            print("mapped post to new chatId")
+        }
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatId: chatId)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(chatVC, animated: true)
     }
 
 }

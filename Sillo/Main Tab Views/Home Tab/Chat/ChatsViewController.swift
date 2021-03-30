@@ -72,6 +72,10 @@ final class ChatsViewController: UITableViewController {
     let users = ["nathantannar4", "SD10"]
     let hastags = ["MessageKit", "MessageInputBar"]
     
+    //MARK: - chatId of this current conversation
+    private var currentChatId = "placeholder chat id"
+    private var currentChatMessages : [Message] = []
+    
     // MARK: - MessageInputBar
     
     private let messageInputBar: MessageInputBar
@@ -83,6 +87,12 @@ final class ChatsViewController: UITableViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    init(messageInputBarStyle: MessageInputBarStyle, chatId: String) {
+        self.messageInputBar = messageInputBarStyle.generate()
+        self.currentChatId = chatId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -91,6 +101,13 @@ final class ChatsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        chatHandler.messages[currentChatId] = [
+//            Message(alias: "Alias", name: "Name", profilePicture: UIImage(named: "avatar-4"), message: "The original Post message", attachment: nil, timestamp: Date(), isRead: false),
+//            Message(alias: "Alias", name: "Name", profilePicture: UIImage(named: "avatar-4"), message: "Some other message!!!!!!", attachment: nil, timestamp: Date(), isRead: false),
+//            Message(alias: "Alias", name: "Name", profilePicture: UIImage(named: "avatar-4"), message: "1Some other message!!!!!!", attachment: nil, timestamp: Date(), isRead: false),
+//            Message(alias: "Alias", name: "Name", profilePicture: UIImage(named: "avatar-4"), message: "2Some other message!!!!!!", attachment: nil, timestamp: Date(), isRead: false)]
+        self.currentChatMessages = getCurrentConversation()
+        
         
         //for initialising Table:
         
@@ -263,6 +280,15 @@ final class ChatsViewController: UITableViewController {
     }
     
     
+    func getCurrentConversation() -> [Message] {
+        let currentConvoID = currentChatId
+        if currentConvoID == ""{
+            return [Message(alias: "NONE", name: "NONE", profilePicture: nil, message: "NONE", attachment: nil, timestamp: Date(), isRead: false)]
+        }
+        
+        return [Message(alias: "BLAHBLAH", name: "NONE", profilePicture: nil, message: "BLAHBLAHBLAH", attachment: nil, timestamp: Date(), isRead: false)]
+    }
+    
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
     
@@ -273,7 +299,7 @@ final class ChatsViewController: UITableViewController {
     //    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.currentChatMessages.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -291,19 +317,20 @@ final class ChatsViewController: UITableViewController {
         {
             cell.labLeft.isHidden = true
             cell.labRight.isHidden = false
-            
-            if indexPath.row == 0
-            {
-                cell.labRight.text = "OK"
-            }
-            else if indexPath.row == 6
-            {
-                cell.labRight.text = "lorem ispum"
-            }
-            else
-            {
-                cell.labRight.text = "lorem ispum dollar sit lorem ikspum loremm"
-            }
+
+//            if indexPath.row == 0
+//            {
+//                cell.labRight.text = "OK"
+//            }
+//            else if indexPath.row == 6
+//            {
+//                cell.labRight.text = "lorem ispum"
+//            }
+//            else
+//            {
+//                cell.labRight.text = "lorem ispum dollar sit lorem ikspum loremm"
+//            }
+            cell.labRight.text = currentChatMessages[indexPath.row].message
             
             Rightheight = cell.labRight.text!.stringHeight + 30
             
@@ -321,7 +348,7 @@ final class ChatsViewController: UITableViewController {
         {
             cell.labLeft.isHidden = false
             cell.labRight.isHidden = true
-            cell.labLeft.text = "lorem ispum dollar sit lorem ikspum loremm"
+            cell.labLeft.text = currentChatMessages[indexPath.row].message
             leftheight = cell.labLeft.text!.stringHeight + 30
             
             
@@ -379,6 +406,7 @@ extension ChatsViewController: MessageInputBarDelegate {
         // Use to send the message
         messageInputBar.inputTextView.text = String()
         messageInputBar.invalidatePlugins()
+        chatHandler.sendMessage(chatId: self.currentChatId, message: text, attachment: UIImage(named:"blush")!)
     }
     
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {
