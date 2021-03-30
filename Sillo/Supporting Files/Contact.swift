@@ -16,6 +16,18 @@ struct MenuItem {
 }
 
 struct Message { //testing only
+//    let alias: String?
+//    let name: String?
+//    let profilePicture: UIImage?
+    let senderID: String?
+    let message: String?
+    let attachment: UIImage?
+    let timestamp: Date?
+    let isRead: Bool?
+    //TODO: add image/gif, conversationID, whatever else
+}
+
+struct ActiveChat { //testing only
     let alias: String?
     let name: String?
     let profilePicture: UIImage?

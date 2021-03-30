@@ -17,14 +17,33 @@ class ChatHandler {
     var messages: [String: [Message]] = [:]
     var postToChat: [String: String] = [:]
     
+    //pulls the chatIds of active chats for this user, sets chandHander.chatsList to this
+    func coldStartChatList() {
+        chatsList = []
+        //updates chatList to contain chatIds of active chats for this user
+        let userID = Constants.FIREBASE_USERID ?? "ERROR"
+        print("PULLING CHAT ID LIST FOR \(userID)")
+        db.collection("user_chats").document(userID).collection("chats").order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    let chatID = document.documentID
+                    chatHandler.chatsList.append(chatID)
+                    print("added \(chatID) to chatlist" )
+                }
+            }
+        }
+     print("chat list contains: \(chatsList)")
+    }
+    
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
         let chatId = chatId
         let userAlias = generateAlias()
         let userImage = generateImageName()
         let messageStruct = createMessage(
-            alias: userAlias,
-            name: Constants.USERNAME!,
-            profilePicture: userImage,
+            senderID: Constants.FIREBASE_USERID ?? "ERROR",
             message: message,
             attachment: attachment,
             timestamp: Date())
@@ -36,15 +55,14 @@ class ChatHandler {
     // add chat in user_chats (keeps track of active chats)
     private func updateUserChats(post: Post, message: Message, chatId: String) {
         let userId = Constants.FIREBASE_USERID!
-        let receipientId = "placeholder"
         
         // adds chat for sender
         let senderChatDoc = db.collection("user_chats").document(userId)
             .collection("chats").document(chatId)
-        
+        let receipientId = post.posterUserID!
         senderChatDoc.setData(
             ["recipient_UID": receipientId,
-             "recipient_img": "placeholder",
+             "recipient_img": "placeholderimg",
              "receipient_name": post.posterAlias!,
              "revealed": false,
              "timestamp": message.timestamp!]) { err in
@@ -84,9 +102,9 @@ class ChatHandler {
         let opMessageDoc = messageSubCol.document(opMessageId)
         
         opMessageDoc.setData([
+            "senderID": post.posterUserID!,
             "attachment": "",
             "message": post.message!,
-            "sender_UID": "placeholder",
             "timestamp": post.date!]) { err in
             if err != nil {
                 print("Error sending message: \(opMessageId)")
@@ -112,9 +130,9 @@ class ChatHandler {
         }
         
         senderMessageDoc.setData(
-            ["attachment": "",
+            ["senderID": Constants.FIREBASE_USERID!,
+            "attachment": "",
              "message": message.message!,
-             "sender_UID": Constants.FIREBASE_USERID!,
              "timestamp": message.timestamp!]) { err in
                 if err != nil {
                     print("Error sending message: \(senderMessageId)")
@@ -147,9 +165,9 @@ class ChatHandler {
         let opMessageDoc = messageSubCol.document(opMessageId)
         
         opMessageDoc.setData([
+            "senderID": Constants.FIREBASE_USERID,
             "attachment": "", // TODO: upload UIImage to storage, then return the path string
             "message": message,
-            "sender_UID": Constants.FIREBASE_USERID,
             "timestamp": Date()
         ]) { err in
             if err != nil {
@@ -170,21 +188,17 @@ class ChatHandler {
     
     // take a new message document, and parses it
     func parseNewChat() -> Message {
-        return Message(alias: nil, name: nil, profilePicture: nil, message: nil, attachment: nil, timestamp: nil, isRead: nil)
+        return Message(senderID: "", message: nil, attachment: nil, timestamp: nil, isRead: nil)
     }
     
     func createMessage(
-        alias: String,
-        name: String,
-        profilePicture: String,
+        senderID: String,
         message: String,
         attachment: UIImage?,
         timestamp: Date) -> Message {
         
         return Message(
-            alias: alias,
-            name: name,
-            profilePicture: UIImage(named: profilePicture),
+            senderID: senderID,
             message: message,
             attachment: attachment,
             timestamp: timestamp,

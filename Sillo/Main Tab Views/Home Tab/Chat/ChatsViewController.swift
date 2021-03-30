@@ -24,6 +24,7 @@
 
 import UIKit
 import MessageInputBar
+import Firebase
 
 enum MessageInputBarStyle: String {
     
@@ -77,8 +78,6 @@ final class ChatsViewController: UITableViewController {
     private let messageInputBar: MessageInputBar
     var chatID: String
     var initPost: Post?
-    //TODO: when a mesage is sent and a conversation is established on firebase, isChat is set to true
-    var isChat: Bool = false
     
     // MARK: Init
     
@@ -91,7 +90,6 @@ final class ChatsViewController: UITableViewController {
         if let inputpost = post {
             print("set init post whose message is \(inputpost.message)")
             self.initPost = inputpost
-            self.isChat = false
         }
     }
     
@@ -102,22 +100,54 @@ final class ChatsViewController: UITableViewController {
     // MARK: - View Life Cycle
     @objc func refreshChatView(note: NSNotification) {
         
-        if let post = self.initPost {
-            //convert post into message
-            let firstPost = Message(alias: self.initPost?.posterAlias, name: self.initPost?.posterUserID, profilePicture: self.initPost?.posterImage, message: "refreshed!!!!!", attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-            print(firstPost.message)
-            chatHandler.messages[self.chatID] = [firstPost, firstPost, firstPost, firstPost, firstPost]
-        } else { //else, pull from firebase, since this is an already existing chat
-            print("TODO: pull from firebase")
-            isChat = true
-            let firstPost = Message(alias: self.initPost?.posterAlias, name: self.initPost?.posterUserID, profilePicture: self.initPost?.posterImage, message: "ischat true!!!!!", attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-            print(firstPost.message)
-            chatHandler.messages[self.chatID] = [firstPost, firstPost, firstPost, firstPost, firstPost]
-        }
+       
         //refresh the subtask table
         self.tableView.reloadData()
         print("refreshed the chatView")
         
+    }
+    
+    private func updateMessages() {
+        if !chatHandler.chatsList.contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
+            //convert post into message
+            let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+            print(firstPost.message)
+            chatHandler.messages[self.chatID] = [firstPost]
+        } else { //else, pull from firebase, since this is an already existing chat
+            //TODO: CHANGE THIS
+            var messages : [Message] = []
+            
+            //gets latest messages for current chat
+            let doc = db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: false).getDocuments(){ (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    return
+                } else {
+                    print("number of documents returned in query: \(querySnapshot!.documents.count)")
+                    for document in querySnapshot!.documents {
+                        let message = document.get("message") as! String
+                        let senderID = document.get("senderID") as! String
+                        guard let stamp = document.get("timestamp") as? Timestamp else {
+                                    return
+                                }
+                        let timestamp = stamp.dateValue()
+                        messages.append(Message(senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false))
+                        print("added message: \(message) to messagelist for chat \(self.chatID)" )
+                    }
+                    
+                    
+                }
+                chatHandler.messages[self.chatID] = messages
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+                //refresh the subtask table
+                self.tableView.reloadData()
+                print("refreshed the chatView")
+            }
+            
+            print("num of messages: \(messages.count)")
+            
+            chatHandler.messages[self.chatID] = messages
+        }
     }
 
     
@@ -129,16 +159,16 @@ final class ChatsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //if post is not nil, messages are from post. No need to pull from firebase
-        if let post = self.initPost {
-            //convert post into message
-            let firstPost = Message(alias: self.initPost?.posterAlias, name: self.initPost?.posterUserID, profilePicture: self.initPost?.posterImage, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-            print(firstPost.message)
-            chatHandler.messages[self.chatID] = [firstPost, firstPost, firstPost, firstPost, firstPost]
-        } else { //else, pull from firebase, since this is an already existing chat
-            print("TODO: pull from firebase")
-            isChat = true
-        }
+//        //if post is not nil, messages are from post. No need to pull from firebase
+//        if let post = self.initPost {
+//            //convert post into message
+//            let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+//            print(firstPost.message)
+//            chatHandler.messages[self.chatID] = [firstPost]
+//        } else { //else, pull from firebase, since this is an already existing chat
+//            print("TODO: pull from firebase")
+//        }
+        updateMessages()
         
         //for initialising Table:
         
@@ -282,7 +312,7 @@ final class ChatsViewController: UITableViewController {
     
     
     @objc func backBtnPressed() {
-        if self.initPost != nil && self.isChat == false { // if no chat was ever made, remove from postToChat
+        if self.initPost != nil && !chatHandler.chatsList.contains(self.chatID) { // if no chat was ever made, remove from postToChat
             print("no chat made, set postToChat for this post back to nil")
             chatHandler.postToChat[(self.initPost?.postID)!] = nil
         }
@@ -338,7 +368,7 @@ final class ChatsViewController: UITableViewController {
         let messageStruct = chatHandler.messages[self.chatID]?[indexPath.row]
 
         
-        if messageStruct?.alias != initPost?.posterAlias //appears on the right if I sent it
+        if messageStruct?.senderID != initPost?.posterUserID //appears on the right if I sent it
         {
             cell.labLeft.isHidden = true
             cell.labRight.isHidden = false
@@ -421,18 +451,19 @@ extension ChatsViewController: MessageInputBarDelegate {
         messageInputBar.invalidatePlugins()
         print(text)
         
-        if self.isChat == false { // if this is first reply, create new chat
+        if !chatHandler.chatsList.contains(chatID){ // if this is first reply, create new chat
             //addChat creates new chat document and adds post and message to doc, and adds chatID to both poster and user's user_chats
             chatHandler.addChat(post: self.initPost!, message: text, attachment: nil, chatId: self.chatID)
-            self.isChat = true
+            //TODO: make sure chatList is up to date and now contains the new chatId
+            chatHandler.chatsList.append(self.chatID)
         }else {
             //if this is already a chat, no need to make a new coument or add to user_chats
             //simply add message to the chat document
             chatHandler.sendMessage(chatId: self.chatID, message: text, attachment: nil)
         }
         
-        //call notification to refresh tableview. refreshTableview checks that is isChat is true, pulls from firebase
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+        //call pulls from firebase, then refreshes tableview as callback
+        updateMessages()
     }
     
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {

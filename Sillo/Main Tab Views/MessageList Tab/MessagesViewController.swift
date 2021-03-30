@@ -9,7 +9,7 @@ import UIKit
 
 class MessagesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    private let messages = [Message]()
+    private let activeChats = [ActiveChat]()
 
     let cellID = "cellID"
     
@@ -119,12 +119,12 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return activeChats.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
-        cell.item = messages[indexPath.row]
+        cell.item = activeChats[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }

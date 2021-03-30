@@ -7,9 +7,10 @@
 
 import UIKit
 
+//these are the cells that will appear in the messages tab. each cell will represent one conversation / active chat
 class ChatViewTableViewCell: UITableViewCell {
     let dateFormatter = DateFormatter()
-    var item:Message? {
+    var item:ActiveChat? {
         didSet {
             guard let msg = item else {return}
             if let name = msg.name {
