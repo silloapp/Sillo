@@ -28,13 +28,21 @@ struct Message { //testing only
 }
 
 struct ActiveChat { //testing only
-    let alias: String?
-    let name: String?
-    let profilePicture: UIImage?
-    let message: String?
-    let attachment: UIImage?
+    let chatID: String?
+    let isRevealed: Bool?
+    
+    let participant1_uid: String?
+    let participant1_name: String?
+    let participant1_profile: String?
+    
+    let participant2_uid: String?
+    let participant2_name: String?
+    let participant2_profile: String?
+    
+    let latest_message: String?
     let timestamp: Date?
     let isRead: Bool?
+    
     //TODO: add image/gif, conversationID, whatever else
 }
 

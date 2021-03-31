@@ -137,7 +137,8 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
-        cell.item = chatHandler.activeChats[indexPath.row]
+        let chatID = chatHandler.chatsList[indexPath.row]
+        cell.item = chatHandler.activeChats[chatID]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
@@ -163,4 +164,19 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
             return 35
         }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let interChatVC = InterChatVC()
+//        self.navigationController?.pushViewController(interChatVC, animated: true)
+
+//        var chatId = chatHandler.activeChats[indexPath.row].chatID
+        
+        let chatID = chatHandler.chatsList[indexPath.row]
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(chatVC, animated: true)
+        
+        
+        
+    }
 }

@@ -14,7 +14,7 @@ let chatHandler = ChatHandler()
 
 class ChatHandler {
     
-    var activeChats = [ActiveChat]()
+    var activeChats = [String: ActiveChat]() // a dictionary mapping active chat to chat id
     var chatsList: [String] = []
     var messages: [String: [Message]] = [:]
     var postToChat: [String: String] = [:]
@@ -50,29 +50,25 @@ class ChatHandler {
         db.collection("chats").document(chatID).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    var alias = ""
-                    let revealed = query.get("revealed") as! Bool
                     let participant1_uid = query.get("participant1_uid") as! String
-                    //todo: if not revealed, display alias, not name
-                    if participant1_uid == Constants.FIREBASE_USERID {
-                        alias = query.get("participant2_name") as! String
-                    }else {
-                        alias = query.get("participant1_name") as! String
-                    }
-                    let name = "Name"
-                    let attachment = UIImage()
-                    let isRead = false
-                    let profilePicture = UIImage(named:"avatar-4") //replacethis
-                    let timestamp = Date(timeIntervalSince1970: TimeInterval((query.get("timestamp") as! Timestamp).seconds)) as! Date
-                    let message = query.get("latest_message") as! String
+                    let participant1_name = query.get("participant1_name") as! String
+                    let participant1_profile = query.get("participant1_profile") as! String
                     
-                    let conversation = ActiveChat(alias: alias, name: name, profilePicture: profilePicture, message: message, attachment: attachment, timestamp: timestamp, isRead: isRead)
-                    self.activeChats.append(conversation)
+                    let participant2_uid = query.get("participant2_uid") as! String
+                    let participant2_name = query.get("participant2_name") as! String
+                    let participant2_profile = query.get("participant2_profile") as! String
+                    
+                    let isRevealed = query.get("isRevealed") as! Bool
+                    let isRead = query.get("isRead") as! Bool
+                    let timestamp = Date(timeIntervalSince1970: TimeInterval((query.get("timestamp") as! Timestamp).seconds))
+                    let latest_message = query.get("latest_message") as! String
+
+                    let conversation = ActiveChat(chatID: chatID, isRevealed: isRevealed, participant1_uid: participant1_uid, participant1_name: participant1_name, participant1_profile: participant1_profile, participant2_uid: participant2_uid, participant2_name: participant2_name, participant2_profile: participant2_profile, latest_message: latest_message, timestamp: timestamp, isRead: isRead)
+                    self.activeChats[chatID] = conversation
                 }
             }
         }
         
-        print("num of active chats is \(self.activeChats.count)")
         
     }
     
@@ -183,16 +179,18 @@ class ChatHandler {
         //write chat metadata
         let chatDoc = db.collection("chats").document(chatId)
         chatDoc.setData([
+            "post_uid": post.postID,
             //participant 1 is the poster
-            "participant1_image": "replace this img",
+            "participant1_profile": "replace this img",
             "participant1_name": post.posterAlias,
             "participant1_uid": post.posterUserID,
             //participant 2 is the person who replied
-            "participant2_image": "participant2",
+            "participant2_profile": "participant2",
             "participant2_name": generateAlias(),
             "participant2_uid": message.senderID,
-            "post_uid": post.postID,
-            "revealed" : false,
+            
+            "isRead" : true,
+            "isRevealed": false,
             "timestamp" : message.timestamp,
             "latest_message": message.message!
             
@@ -220,8 +218,7 @@ class ChatHandler {
     
     // send message in an existing conversation
     func sendMessage(chatId: String, message: String, attachment: UIImage?) {
-        let messageSubCol = db.collection("chats").document(chatId)
-            .collection("messages")
+        let messageSubCol = db.collection("chats").document(chatId).collection("messages")
         
         // write data for OP
         let opMessageId = UUID.init().uuidString
@@ -246,6 +243,8 @@ class ChatHandler {
                 if query.exists {
                     db.collection("chats").document(chatId).updateData(["latest_message": message, "timestamp": Timestamp.init(date: Date())])
                     NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
+                    NotificationCenter.default.post(name: Notification.Name("refreshMessageListView"), object: nil)
+                    
                 }
             }
         }

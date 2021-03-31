@@ -13,26 +13,32 @@ class ChatViewTableViewCell: UITableViewCell {
     var item:ActiveChat? {
         didSet {
             guard let msg = item else {return}
-            if let name = msg.name {
-                //userName.text = name
-                let timeSent = dateFormatter.string(from: msg.timestamp!)
-                let stringValue: String = "\(name) · \(timeSent)"
-                let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
-                let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
-                //let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-                attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeSent)")
-                attributedString.setFont(font: Font.regular(17), forText: "· \(timeSent)")
-                userName.attributedText = attributedString
+            var name = "Diplay name"
+            if msg.participant1_uid != Constants.FIREBASE_USERID {
+                name = msg.participant1_name!
+                //TODO: set profile pic to participant1_profile, and if revealed, show real name not alias
+                profilePic.image = UIImage(named: "avatar-4")
+            }else {
+                name = msg.participant2_name!
+                //TODO: set profil epic to participant2_profile and if revealed show real name not alias
+                profilePic.image = UIImage(named: "avatar-4")
             }
-            if let messageText = msg.message {
+            let timeSent = dateFormatter.string(from: msg.timestamp!)
+            let stringValue: String = "\(name) · \(timeSent)"
+            let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
+            //let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
+            attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeSent)")
+            attributedString.setFont(font: Font.regular(17), forText: "· \(timeSent)")
+            userName.attributedText = attributedString
+          
+            if let messageText = msg.latest_message {
                 message.text = messageText
             }
             if !msg.isRead! {
                 message.font = Font.bold(15)
             }
-            if msg.profilePicture != nil {
-                profilePic.image = msg.profilePicture
-            }
+            
         }
     }
 
