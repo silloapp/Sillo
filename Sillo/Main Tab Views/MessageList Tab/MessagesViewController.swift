@@ -8,8 +8,6 @@
 import UIKit
 
 class MessagesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
-    
-    private let activeChats = [ActiveChat]()
 
     let cellID = "cellID"
     
@@ -27,7 +25,22 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         view.backgroundColor = Color.headerBackground
         return view
     }()
+    
+    @objc func refreshMessageListView(note: NSNotification) {
+        //refresh the subtask table
+        self.chatListTable.reloadData()
+        print("refreshed the messageListView")
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
+        for chatId in chatHandler.chatsList {
+            print(chatId)
+            chatHandler.fetchChatSummary(chatID: chatId)
+        }
+        print("there are this amt of active chats: \(chatHandler.activeChats.count)")
+        NotificationCenter.default.post(name: Notification.Name("refreshMessageListView"), object: nil) //TODO: replace this
+    }
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -119,12 +132,12 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activeChats.count
+        return chatHandler.activeChats.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
-        cell.item = activeChats[indexPath.row]
+        cell.item = chatHandler.activeChats[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }

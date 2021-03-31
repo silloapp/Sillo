@@ -13,6 +13,8 @@ import FirebaseStorage
 let chatHandler = ChatHandler()
 
 class ChatHandler {
+    
+    var activeChats = [ActiveChat]()
     var chatsList: [String] = []
     var messages: [String: [Message]] = [:]
     var postToChat: [String: String] = [:]
@@ -25,17 +27,53 @@ class ChatHandler {
         print("PULLING CHAT ID LIST FOR \(userID)")
         db.collection("user_chats").document(userID).collection("chats").order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
-                print("Error getting documents: \(err)")
+                print("Error getting chatList: \(err)")
                 return
             } else {
                 for document in querySnapshot!.documents {
+                    //updating chat list
                     let chatID = document.documentID
                     chatHandler.chatsList.append(chatID)
-                    print("added \(chatID) to chatlist" )
+                    print("added \(chatID) to chatlist!!!!" )
+                    
                 }
             }
         }
      print("chat list contains: \(chatsList)")
+   
+    }
+    
+    //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
+    func fetchChatSummary(chatID: String) {
+        
+        //update chat metadata for message, latest message time
+        db.collection("chats").document(chatID).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    var alias = ""
+                    let revealed = query.get("revealed") as! Bool
+                    let participant1_uid = query.get("participant1_uid") as! String
+                    //todo: if not revealed, display alias, not name
+                    if participant1_uid == Constants.FIREBASE_USERID {
+                        alias = query.get("participant2_name") as! String
+                    }else {
+                        alias = query.get("participant1_name") as! String
+                    }
+                    let name = "Name"
+                    let attachment = UIImage()
+                    let isRead = false
+                    let profilePicture = UIImage(named:"avatar-4") //replacethis
+                    let timestamp = Date(timeIntervalSince1970: TimeInterval((query.get("timestamp") as! Timestamp).seconds)) as! Date
+                    let message = query.get("latest_message") as! String
+                    
+                    let conversation = ActiveChat(alias: alias, name: name, profilePicture: profilePicture, message: message, attachment: attachment, timestamp: timestamp, isRead: isRead)
+                    self.activeChats.append(conversation)
+                }
+            }
+        }
+        
+        print("num of active chats is \(self.activeChats.count)")
+        
     }
     
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
@@ -94,6 +132,7 @@ class ChatHandler {
     // create a new chat document that stores messages between users
     // includes the post message and first message sent by user
     private func createChatDocument(chatId: String, post: Post, message: Message) {
+        
         let messageSubCol = db.collection("chats").document(chatId)
             .collection("messages")
         
@@ -141,7 +180,31 @@ class ChatHandler {
                 }
         }
         
+        //write chat metadata
+        let chatDoc = db.collection("chats").document(chatId)
+        chatDoc.setData([
+            //participant 1 is the poster
+            "participant1_image": "replace this img",
+            "participant1_name": post.posterAlias,
+            "participant1_uid": post.posterUserID,
+            //participant 2 is the person who replied
+            "participant2_image": "participant2",
+            "participant2_name": generateAlias(),
+            "participant2_uid": message.senderID,
+            "post_uid": post.postID,
+            "revealed" : false,
+            "timestamp" : message.timestamp,
+            "latest_message": message.message!
+            
+        ]){ err in
+            if err != nil {
+                print("Error sending message: \(chatId)")
+            } else {
+                print("Message document written: \(chatId)")
+            }
+        }
         
+        self.fetchChatSummary(chatID: chatId)
         // add query listner for the chat's message collection
         messageSubCol.addSnapshotListener {
             (querySnapshot, err) in
@@ -176,6 +239,18 @@ class ChatHandler {
                 print("Message document written: \(opMessageId). Contents say: \(message)")
             }
         }
+        
+        //update chat metadata for message, latest message time
+        db.collection("chats").document(chatId).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    db.collection("chats").document(chatId).updateData(["latest_message": message, "timestamp": Timestamp.init(date: Date())])
+                    NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
+                }
+            }
+        }
+        
+        self.fetchChatSummary(chatID: chatId)
         
     }
     
