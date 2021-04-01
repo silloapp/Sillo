@@ -311,7 +311,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         alert.modalTransitionStyle = .crossDissolve
         self.present(alert, animated: true, completion: nil)
         } else {
-            let postID = post.postID! //existing chat
+            let postID = post.postID!
+            //existing chat, will be in active chats.
             if chatHandler.postToChat[postID] != nil {
                 chatId = chatHandler.postToChat[postID]!
                 print("post already mapped to existing chatid.")

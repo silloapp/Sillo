@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MessagesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
@@ -26,20 +27,43 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         return view
     }()
     
+    //MARK: listener
+    private var activeChatListener: ListenerRegistration?
+    
     @objc func refreshMessageListView(note: NSNotification) {
         //refresh the subtask table
+        
+        chatHandler.sortedChats = chatHandler.sortActiveChats()
         self.chatListTable.reloadData()
         print("refreshed the messageListView")
         
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
-        for chatId in chatHandler.chatsList {
-            print(chatId)
-            chatHandler.fetchChatSummary(chatID: chatId)
+        //MARK: attach listener
+        let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
+        let reference = db.collection("user_chats").document(myUserID).collection("chats").order(by: "timestamp", descending: true)
+        activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    let chatID = diff.document.documentID
+                    print("New conversation: \(chatID)")
+                    //add or update active chat
+                    chatHandler.fetchChatSummary(chatID: chatID)
+                }
+                if (diff.type == .removed) {
+                    let chatID = diff.document.documentID
+                    print("Removed conversation: \(chatID)")
+                    chatHandler.activeChats[chatID] = nil
+                }
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
         }
-        print("there are this amt of active chats: \(chatHandler.activeChats.count)")
-        NotificationCenter.default.post(name: Notification.Name("refreshMessageListView"), object: nil) //TODO: replace this
+      
     }
     override func viewDidLoad() {
         
@@ -132,12 +156,57 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chatHandler.activeChats.count
+        tableView.backgroundView = nil
+        let activeChats_count = chatHandler.activeChats.count
+        if activeChats_count > 0 {
+            return activeChats_count
+        }
+        else {
+            //MARK: set up fallback if message table is empty
+            
+            let noMessagesUIView: UIView = {
+                let bigView = UIView()
+                let imageView : UIImageView = {
+                    let view = UIImageView()
+                    let scaling:CGFloat = 0.2
+                    view.frame = CGRect(x: 0, y: 0, width: scaling*(tableView.bounds.width), height: scaling*(tableView.frame.height))
+                    view.clipsToBounds = true
+                    view.contentMode = .scaleAspectFit
+                    let image = UIImage(named:"no messages")
+                    view.image = image
+                    view.translatesAutoresizingMaskIntoConstraints = false
+                    return view
+                }()
+                
+                let desc : UILabel = {
+                    let label = UILabel()
+                    label.text = "You have no messages.. yet!"
+                    label.numberOfLines = 2
+                    label.font = Font.bold(22)
+                    label.textColor = Color.matte
+                    label.translatesAutoresizingMaskIntoConstraints = false
+                    return label
+                }()
+                
+                bigView.addSubview(imageView)
+                bigView.addSubview(desc)
+                imageView.centerXAnchor.constraint(equalTo: bigView.centerXAnchor).isActive = true
+                imageView.centerYAnchor.constraint(equalTo: bigView.centerYAnchor, constant: -50).isActive = true
+                desc.centerXAnchor.constraint(equalTo: bigView.centerXAnchor).isActive = true
+                desc.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true
+                return bigView
+            }()
+            
+
+            tableView.backgroundView = noMessagesUIView
+            return 0
+        }
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
-        let chatID = chatHandler.chatsList[indexPath.row]
+        let chatID = chatHandler.sortedChats[indexPath.row].chatID ?? "ERROR"
         cell.item = chatHandler.activeChats[chatID]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
@@ -145,7 +214,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return 70
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -153,7 +222,10 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         
             let label = UILabel()
             label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
-            label.text = "Today"
+            label.text = ""
+            if chatHandler.sortedChats.count > 0 {
+            label.text = "Today" //TODO: change this when viewing older messages
+            }
             label.font = Font.bold(20)
             label.textColor = UIColor.black
             headerView.addSubview(label)
@@ -166,12 +238,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let interChatVC = InterChatVC()
-//        self.navigationController?.pushViewController(interChatVC, animated: true)
-
-//        var chatId = chatHandler.activeChats[indexPath.row].chatID
-        
-        let chatID = chatHandler.chatsList[indexPath.row]
+        let chatID = chatHandler.sortedChats[indexPath.row].chatID ?? "ERROR"
         let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)

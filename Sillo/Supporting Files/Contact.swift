@@ -28,6 +28,7 @@ struct Message { //testing only
 }
 
 struct ActiveChat { //testing only
+    let postID: String?
     let chatID: String?
     let isRevealed: Bool?
     

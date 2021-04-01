@@ -70,14 +70,19 @@ final class ChatsViewController: UITableViewController {
      }()*/
     
     let screenSize = UIScreen.main.bounds
-    let users = ["nathantannar4", "SD10"]
-    let hastags = ["MessageKit", "MessageInputBar"]
     
     // MARK: - MessageInputBar
     
     private let messageInputBar: MessageInputBar
     var chatID: String
     var initPost: Post?
+    
+    let header : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = Color.headerBackground
+        return view
+    }()
     
     // MARK: Init
     
@@ -103,12 +108,14 @@ final class ChatsViewController: UITableViewController {
        
         //refresh the subtask table
         self.tableView.reloadData()
+        //scrolls to bottom row when new message added
+        self.tableView.scrollToBottomRow()
         print("refreshed the chatView")
         
     }
     
     private func updateMessages() {
-        if !chatHandler.chatsList.contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
+        if !Array(chatHandler.activeChats.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
             //convert post into message
             let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
             print(firstPost.message)
@@ -159,15 +166,6 @@ final class ChatsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        //if post is not nil, messages are from post. No need to pull from firebase
-//        if let post = self.initPost {
-//            //convert post into message
-//            let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-//            print(firstPost.message)
-//            chatHandler.messages[self.chatID] = [firstPost]
-//        } else { //else, pull from firebase, since this is an already existing chat
-//            print("TODO: pull from firebase")
-//        }
         updateMessages()
         
         //for initialising Table:
@@ -248,16 +246,23 @@ final class ChatsViewController: UITableViewController {
         self.tableView.contentInset = .zero
     }
     func setNavBar() {
+        
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
         self.title = self.initPost?.posterAlias ?? "Full Name"
         
-        
+        //NAME OF PERSON YOU'RE TALKING TO
         let label = UILabel()
-        label.text = self.initPost?.posterAlias ?? "Person you are talking to"
+        var person = "Name of person you're talking to"
+        if chatHandler.activeChats[chatID]?.participant1_uid != Constants.FIREBASE_USERID {
+            person = chatHandler.activeChats[chatID]?.participant1_name ?? "ERROR"
+        }else {
+            person = chatHandler.activeChats[chatID]?.participant2_name ?? "ERROR"
+        }
+        label.text = self.initPost?.posterAlias ?? person
         label.textAlignment = .left
-        label.textColor = .gray
-        label.font = UIFont.init(name: "Apercu-Regular", size: 16)
+        label.textColor = Color.matte
+        label.font = Font.bold(20)
         
         self.navigationItem.titleView = label
         
@@ -280,7 +285,7 @@ final class ChatsViewController: UITableViewController {
         let barbackbutton = UIBarButtonItem(customView: backbutton)
         
         let Imagebutton = UIButton(type: UIButton.ButtonType.custom)
-        Imagebutton.setImage(UIImage(named: "Nathan"), for: .normal)
+        Imagebutton.setImage(UIImage(named: "avatar-4"), for: .normal)
         Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         //    Imagebutton.clipsToBounds = true
@@ -312,7 +317,7 @@ final class ChatsViewController: UITableViewController {
     
     
     @objc func backBtnPressed() {
-        if self.initPost != nil && !chatHandler.chatsList.contains(self.chatID) { // if no chat was ever made, remove from postToChat
+        if self.initPost != nil && !Array(chatHandler.activeChats.keys).contains(self.chatID) { // if no chat was ever made, remove from postToChat
             print("no chat made, set postToChat for this post back to nil")
             chatHandler.postToChat[(self.initPost?.postID)!] = nil
         }
@@ -451,11 +456,11 @@ extension ChatsViewController: MessageInputBarDelegate {
         messageInputBar.invalidatePlugins()
         print(text)
         
-        if !chatHandler.chatsList.contains(chatID){ // if this is first reply, create new chat
+        if !chatHandler.activeChats.keys.contains(chatID){ // if this is first reply, create new chat
             //addChat creates new chat document and adds post and message to doc, and adds chatID to both poster and user's user_chats
             chatHandler.addChat(post: self.initPost!, message: text, attachment: nil, chatId: self.chatID)
             //TODO: make sure chatList is up to date and now contains the new chatId
-            chatHandler.chatsList.append(self.chatID)
+//            chatHandler.activeChats[chatID] =
         }else {
             //if this is already a chat, no need to make a new coument or add to user_chats
             //simply add message to the chat document
@@ -647,5 +652,44 @@ extension String {
         let constraintRect = CGSize(width: UIScreen.main.bounds.width, height: .greatestFiniteMagnitude)
         let boundingBox = self.trimmingCharacters(in: .whitespacesAndNewlines).boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)], context: nil)
         return boundingBox.height
+    }
+}
+
+extension UITableView {
+    func scrollToBottomRow() {
+        DispatchQueue.main.async {
+            guard self.numberOfSections > 0 else { return }
+
+            // Make an attempt to use the bottom-most section with at least one row
+            var section = max(self.numberOfSections - 1, 0)
+            var row = max(self.numberOfRows(inSection: section) - 1, 0)
+            var indexPath = IndexPath(row: row, section: section)
+
+            // Ensure the index path is valid, otherwise use the section above (sections can
+            // contain 0 rows which leads to an invalid index path)
+            while !self.indexPathIsValid(indexPath) {
+                section = max(section - 1, 0)
+                row = max(self.numberOfRows(inSection: section) - 1, 0)
+                indexPath = IndexPath(row: row, section: section)
+
+                // If we're down to the last section, attempt to use the first row
+                if indexPath.section == 0 {
+                    indexPath = IndexPath(row: 0, section: 0)
+                    break
+                }
+            }
+
+            // In the case that [0, 0] is valid (perhaps no data source?), ensure we don't encounter an
+            // exception here
+            guard self.indexPathIsValid(indexPath) else { return }
+
+            self.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+
+    func indexPathIsValid(_ indexPath: IndexPath) -> Bool {
+        let section = indexPath.section
+        let row = indexPath.row
+        return section < self.numberOfSections && row < self.numberOfRows(inSection: section)
     }
 }

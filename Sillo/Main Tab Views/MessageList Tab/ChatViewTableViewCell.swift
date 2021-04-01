@@ -23,13 +23,17 @@ class ChatViewTableViewCell: UITableViewCell {
                 //TODO: set profil epic to participant2_profile and if revealed show real name not alias
                 profilePic.image = UIImage(named: "avatar-4")
             }
-            let timeSent = dateFormatter.string(from: msg.timestamp!)
-            let stringValue: String = "\(name) · \(timeSent)"
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "h:mm a" //12 hr time
+            dateFormatter.timeZone = TimeZone.current
+            let timeStampString = dateFormatter.string(from: msg.timestamp!)
+
+            let stringValue: String = "\(name) · \(timeStampString)"
             let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
             //let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
-            attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeSent)")
-            attributedString.setFont(font: Font.regular(17), forText: "· \(timeSent)")
+            attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
+            attributedString.setFont(font: Font.regular(17), forText: "· \(timeStampString)")
             userName.attributedText = attributedString
           
             if let messageText = msg.latest_message {

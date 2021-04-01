@@ -15,32 +15,38 @@ let chatHandler = ChatHandler()
 class ChatHandler {
     
     var activeChats = [String: ActiveChat]() // a dictionary mapping active chat to chat id
-    var chatsList: [String] = []
+    var sortedChats = [ActiveChat]() // sorted chatIds to display in messagelistVC
+    //var chatsList: [String] = []
     var messages: [String: [Message]] = [:]
     var postToChat: [String: String] = [:]
     
     //pulls the chatIds of active chats for this user, sets chandHander.chatsList to this
-    func coldStartChatList() {
-        chatsList = []
-        //updates chatList to contain chatIds of active chats for this user
-        let userID = Constants.FIREBASE_USERID ?? "ERROR"
-        print("PULLING CHAT ID LIST FOR \(userID)")
-        db.collection("user_chats").document(userID).collection("chats").order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting chatList: \(err)")
-                return
-            } else {
-                for document in querySnapshot!.documents {
-                    //updating chat list
-                    let chatID = document.documentID
-                    chatHandler.chatsList.append(chatID)
-                    print("added \(chatID) to chatlist!!!!" )
-                    
-                }
-            }
-        }
-     print("chat list contains: \(chatsList)")
-   
+//    func coldStartChatList() {
+//        chatsList = []
+//        //updates chatList to contain chatIds of active chats for this user
+//        let userID = Constants.FIREBASE_USERID ?? "ERROR"
+//        print("PULLING CHAT ID LIST FOR \(userID)")
+//        db.collection("user_chats").document(userID).collection("chats").order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
+//            if let err = err {
+//                print("Error getting chatList: \(err)")
+//                return
+//            } else {
+//                for document in querySnapshot!.documents {
+//                    //updating chat list
+//                    let chatID = document.documentID
+//                    chatHandler.chatsList.append(chatID)
+//                    print("added \(chatID) to chatlist!!!!" )
+//
+//                }
+//            }
+//        }
+//     print("chat list contains: \(chatsList)")
+//
+//    }
+
+    //MARK: sort by time with recent on top, returns sorted list
+    func sortActiveChats() -> [ActiveChat] {
+        return activeChats.values.sorted(by: { $0.timestamp! > $1.timestamp! })
     }
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
@@ -50,6 +56,7 @@ class ChatHandler {
         db.collection("chats").document(chatID).getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
+                    let postID = query.get("postID") as! String
                     let participant1_uid = query.get("participant1_uid") as! String
                     let participant1_name = query.get("participant1_name") as! String
                     let participant1_profile = query.get("participant1_profile") as! String
@@ -62,9 +69,10 @@ class ChatHandler {
                     let isRead = query.get("isRead") as! Bool
                     let timestamp = Date(timeIntervalSince1970: TimeInterval((query.get("timestamp") as! Timestamp).seconds))
                     let latest_message = query.get("latest_message") as! String
-
-                    let conversation = ActiveChat(chatID: chatID, isRevealed: isRevealed, participant1_uid: participant1_uid, participant1_name: participant1_name, participant1_profile: participant1_profile, participant2_uid: participant2_uid, participant2_name: participant2_name, participant2_profile: participant2_profile, latest_message: latest_message, timestamp: timestamp, isRead: isRead)
+                    
+                    let conversation = ActiveChat(postID: postID, chatID: chatID, isRevealed: isRevealed, participant1_uid: participant1_uid, participant1_name: participant1_name, participant1_profile: participant1_profile, participant2_uid: participant2_uid, participant2_name: participant2_name, participant2_profile: participant2_profile, latest_message: latest_message, timestamp: timestamp, isRead: isRead)
                     self.activeChats[chatID] = conversation
+                    self.postToChat[postID] = chatID
                 }
             }
         }
@@ -72,6 +80,7 @@ class ChatHandler {
         
     }
     
+    //creates a 
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
         let chatId = chatId
         let userAlias = generateAlias()
@@ -179,7 +188,7 @@ class ChatHandler {
         //write chat metadata
         let chatDoc = db.collection("chats").document(chatId)
         chatDoc.setData([
-            "post_uid": post.postID,
+            "postID": post.postID,
             //participant 1 is the poster
             "participant1_profile": "replace this img",
             "participant1_name": post.posterAlias,
@@ -202,7 +211,8 @@ class ChatHandler {
             }
         }
         
-        self.fetchChatSummary(chatID: chatId)
+        NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
+
         // add query listner for the chat's message collection
         messageSubCol.addSnapshotListener {
             (querySnapshot, err) in
@@ -243,7 +253,6 @@ class ChatHandler {
                 if query.exists {
                     db.collection("chats").document(chatId).updateData(["latest_message": message, "timestamp": Timestamp.init(date: Date())])
                     NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
-                    NotificationCenter.default.post(name: Notification.Name("refreshMessageListView"), object: nil)
                     
                 }
             }

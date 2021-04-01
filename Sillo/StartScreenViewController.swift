@@ -40,7 +40,6 @@ class StartScreenViewController: UIViewController {
         
         pulsate()
         localUser.coldStart()
-        chatHandler.coldStartChatList()
         
         //MARK: fallback code to inform beta tester of issue.
         //issue at hand: somethign is wrong with authentication or network issue, and the trigger isn't being fired..
