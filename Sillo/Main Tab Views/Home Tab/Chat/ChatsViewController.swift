@@ -77,6 +77,9 @@ final class ChatsViewController: UITableViewController {
     var chatID: String
     var initPost: Post?
     
+    //MARK: listener
+    private var messageListener: ListenerRegistration?
+    
     let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +128,7 @@ final class ChatsViewController: UITableViewController {
             var messages : [Message] = []
             
             //gets latest messages for current chat
+            //add listener
             let doc = db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: false).getDocuments(){ (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -162,6 +166,47 @@ final class ChatsViewController: UITableViewController {
         self.navigationController?.navigationBar.isHidden = false
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
+        
+        // add query listner for the chat's message collection
+        let messageSubCol = db.collection("chats").document(chatID)
+            .collection("messages")
+        messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    let messageID = diff.document.documentID
+                    print("New message: \(messageID)")
+                    //add or update active chat
+                    let message = diff.document.get("message") as! String
+                    let senderID = diff.document.get("senderID") as! String
+                    guard let stamp = diff.document.get("timestamp") as? Timestamp else {
+                                return
+                            }
+                    let timestamp = stamp.dateValue()
+                    let msg = Message(senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
+                    //do not append msg twice
+                    if !chatHandler.messages[self.chatID]!.contains(msg){ //ratchet, maybe use dict instead
+                        chatHandler.messages[self.chatID]?.append(msg)
+                        print("added message: \(message) to messagelist for chat \(self.chatID)" )
+                    }
+                    
+                }
+                if (diff.type) == .modified {
+                    //not implemented yet, need to change data struct first to map not array
+                }
+                if (diff.type == .removed) {
+                    let messageID = diff.document.documentID
+                    print("Removed msg: \(messageID)")
+                    //not implemented yet, need to change data struct first to map not array
+//
+                }
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+            }
+        }
+
     }
     
     override func viewDidLoad() {

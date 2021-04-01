@@ -217,44 +217,6 @@ class ChatHandler {
         
     }
     
-    func attachChatListener(chatID: String) {
-        // add query listner for the chat's message collection
-        let messageSubCol = db.collection("chats").document(chatID)
-            .collection("messages")
-        messageSubCol.addSnapshotListener {
-            (querySnapshot, err) in
-            guard let snapshot = querySnapshot else {
-                print("Error fetching snapshots: \(err!)")
-                return
-            }
-            
-            snapshot.documentChanges.forEach { diff in
-                if (diff.type == .added) {
-                    let chatID = diff.document.documentID
-                    print("New active chat: \(chatID)")
-                    //add or update active chat
-                    chatHandler.fetchChatSummary(chatID: chatID)
-                }
-                
-                if (diff.type == .modified) {
-                    let chatID = diff.document.documentID
-                    print("Modified active chat: \(chatID)")
-                    chatHandler.fetchChatSummary(chatID: chatID)
-                }
-                
-                if (diff.type == .removed) {
-                    let chatID = diff.document.documentID
-                    print("Deleted active chat: \(chatID)")
-                    chatHandler.activeChats[chatID] = nil
-                }
-            }
-            
-            
-            // TODO : fetch new messages, create struct, and add to list/dict in call back
-            // add sender alias, name, and pfp in backend
-        }
-    }
-    
     // send message in an existing conversation
     func sendMessage(chatId: String, message: String, attachment: UIImage?) {
         let messageSubCol = db.collection("chats").document(chatId).collection("messages")
@@ -281,7 +243,6 @@ class ChatHandler {
             if let query = query {
                 if query.exists {
                     db.collection("chats").document(chatId).updateData(["latest_message": message, "timestamp": Timestamp.init(date: Date())])
-//                    NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
                     NotificationCenter.default.post(name: Notification.Name("refreshMessageListView"), object: nil)
                     
                 }

@@ -54,7 +54,6 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
                     print("New conversation: \(chatID)")
                     //add or update active chat
                     chatHandler.fetchChatSummary(chatID: chatID)
-                    chatHandler.attachChatListener(chatID: chatID)
                 }
                 if (diff.type == .removed) {
                     let chatID = diff.document.documentID

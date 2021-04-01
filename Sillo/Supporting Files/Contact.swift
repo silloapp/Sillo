@@ -15,7 +15,7 @@ struct MenuItem {
     let fontSize:CGFloat?
 }
 
-struct Message { //testing only
+struct Message:Equatable { //testing only
 //    let alias: String?
 //    let name: String?
 //    let profilePicture: UIImage?
