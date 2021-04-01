@@ -459,6 +459,8 @@ final class ChatsViewController: UITableViewController {
         print("height",chatHeight)
         print("width", chatWidth)
         
+      
+
         cell.ViewRightconstraints = [
             cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
             cell.ViewRight.widthAnchor.constraint(equalToConstant: chatWidth),
@@ -475,9 +477,30 @@ final class ChatsViewController: UITableViewController {
             cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20),
             cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
         ]
-        
         NSLayoutConstraint.activate(cell.ViewRightconstraints)
         NSLayoutConstraint.activate(cell.Viewleftconstraints)
+        
+        cell.labRightconstraints = [
+            cell.labRight.centerYAnchor.constraint(equalTo: cell.ViewRight.centerYAnchor),
+//            cell.labRight.centerXAnchor.constraint(equalTo: cell.ViewRight.centerXAnchor),
+//            cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8),
+//            cell.labRight.leftAnchor.constraint(equalTo:  cell.ViewRight.leftAnchor, constant: 8),
+
+            cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8),
+//            cell.labRight.bottomAnchor.constraint(equalTo:  cell.ViewRight.bottomAnchor, constant: -8)
+        ]
+        cell.labLeftconstraints = [
+            cell.labLeft.centerYAnchor.constraint(equalTo: cell.Viewleft.centerYAnchor),
+//        cell.labLeft.centerXAnchor.constraint(equalTo: cell.Viewleft.centerXAnchor),
+//            cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8),
+//            cell.labLeft.rightAnchor.constraint(equalTo:  cell.Viewleft.rightAnchor, constant: -8),
+//
+            cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8),
+//            cell.labLeft.bottomAnchor.constraint(equalTo:  Viewleft.bottomAnchor, constant: -8)
+        ]
+        
+        NSLayoutConstraint.activate(cell.labRightconstraints)
+        NSLayoutConstraint.activate(cell.labLeftconstraints)
         
         cell.contentView.layoutIfNeeded()
         
@@ -580,25 +603,13 @@ class ChatsbleViewCell: UITableViewCell {
         ViewRight.backgroundColor = hexStringToUIColor(hex: "#E7EFFB")
         ViewRight.layer.cornerRadius = 17
         
-        ViewRightconstraints = [
-            ViewRight.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 8),
-            ViewRight.widthAnchor.constraint(equalToConstant: 200),
-            ViewRight.heightAnchor.constraint(equalToConstant: 80),
-            ViewRight.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: -15),
-            ViewRight.bottomAnchor.constraint(equalTo:  contentView.bottomAnchor, constant: -8)
-        ]
+        
         
         contentView.addSubview(Viewleft)
         Viewleft.backgroundColor = UIColor.init(red: 253/255.0, green: 242/255.0, blue: 220/255.0, alpha: 1)
         Viewleft.layer.cornerRadius = 17
         
-        Viewleftconstraints = [
-            Viewleft.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 8),
-            Viewleft.heightAnchor.constraint(equalToConstant: 80),
-            Viewleft.widthAnchor.constraint(equalToConstant: 200),
-            Viewleft.leftAnchor.constraint(equalTo:  contentView.leftAnchor, constant: 15),
-            Viewleft.bottomAnchor.constraint(equalTo:  contentView.bottomAnchor, constant: -8)
-        ]
+        
         
         
         // FOR LABELS :
@@ -614,15 +625,7 @@ class ChatsbleViewCell: UITableViewCell {
         labRight.clipsToBounds = true
         // labRight.layer.cornerRadius = 17
         
-        labRightconstraints = [
-            labRight.centerYAnchor.constraint(equalTo: ViewRight.centerYAnchor),
-            labRight.centerXAnchor.constraint(equalTo: ViewRight.centerXAnchor)
-//            labRight.topAnchor.constraint(equalTo:  ViewRight.topAnchor, constant: 8),
-//            labRight.leftAnchor.constraint(equalTo:  ViewRight.leftAnchor, constant: 8),
 
-            labRight.rightAnchor.constraint(equalTo:  ViewRight.rightAnchor, constant: -8),
-//            labRight.bottomAnchor.constraint(equalTo:  ViewRight.bottomAnchor, constant: -8)
-        ]
         
         Viewleft.addSubview(labLeft)
         labLeft.backgroundColor = UIColor.init(red: 253/255.0, green: 242/255.0, blue: 220/255.0, alpha: 1)
@@ -634,28 +637,55 @@ class ChatsbleViewCell: UITableViewCell {
         labLeft.clipsToBounds = true
         //labLeft.layer.cornerRadius = 17
         
-        labLeftconstraints = [
-        
-        labLeft.centerYAnchor.constraint(equalTo: Viewleft.centerYAnchor),
-        labLeft.centerXAnchor.constraint(equalTo: Viewleft.centerXAnchor)
-//            labLeft.topAnchor.constraint(equalTo:  Viewleft.topAnchor, constant: 8),
-//            labLeft.rightAnchor.constraint(equalTo:  Viewleft.rightAnchor, constant: -8),
-//
-//            labLeft.leftAnchor.constraint(equalTo:  Viewleft.leftAnchor, constant: 8),
-//            labLeft.bottomAnchor.constraint(equalTo:  Viewleft.bottomAnchor, constant: -8)
-        ]
-        
         labRight.lineBreakMode = .byWordWrapping
         labLeft.lineBreakMode = .byWordWrapping
         
+//        labRightconstraints = [
+//            labRight.centerYAnchor.constraint(equalTo: ViewRight.centerYAnchor),
+////            labRight.centerXAnchor.constraint(equalTo: ViewRight.centerXAnchor),
+////            labRight.topAnchor.constraint(equalTo:  ViewRight.topAnchor, constant: 8),
+////            labRight.leftAnchor.constraint(equalTo:  ViewRight.leftAnchor, constant: 8),
+//
+//            labRight.rightAnchor.constraint(equalTo:  ViewRight.rightAnchor, constant: -8),
+////            labRight.bottomAnchor.constraint(equalTo:  ViewRight.bottomAnchor, constant: -8)
+//        ]
+//        labLeftconstraints = [
+//        labLeft.centerYAnchor.constraint(equalTo: Viewleft.centerYAnchor),
+////        labLeft.centerXAnchor.constraint(equalTo: Viewleft.centerXAnchor),
+////            labLeft.topAnchor.constraint(equalTo:  Viewleft.topAnchor, constant: 8),
+////            labLeft.rightAnchor.constraint(equalTo:  Viewleft.rightAnchor, constant: -8),
+////
+//            labLeft.leftAnchor.constraint(equalTo:  Viewleft.leftAnchor, constant: 8),
+////            labLeft.bottomAnchor.constraint(equalTo:  Viewleft.bottomAnchor, constant: -8)
+//        ]
+//
+//        NSLayoutConstraint.activate(labRightconstraints)
+//        NSLayoutConstraint.activate(labLeftconstraints)
+        
+      
+        
         // LAYOUT VIEW:
         
+//        ViewRightconstraints = [
+//            ViewRight.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 8),
+//            ViewRight.widthAnchor.constraint(equalToConstant: 200),
+//            ViewRight.heightAnchor.constraint(equalToConstant: 80),
+//            ViewRight.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: -15),
+//            ViewRight.bottomAnchor.constraint(equalTo:  contentView.bottomAnchor, constant: -8)
+//        ]
+//
+//        Viewleftconstraints = [
+//            Viewleft.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 8),
+//            Viewleft.heightAnchor.constraint(equalToConstant: 80),
+//            Viewleft.widthAnchor.constraint(equalToConstant: 200),
+//            Viewleft.leftAnchor.constraint(equalTo:  contentView.leftAnchor, constant: 15),
+//            Viewleft.bottomAnchor.constraint(equalTo:  contentView.bottomAnchor, constant: -8)
+//        ]
+//
+//        NSLayoutConstraint.activate(Viewleftconstraints)
+//        NSLayoutConstraint.activate(ViewRightconstraints)
         
-        NSLayoutConstraint.activate(Viewleftconstraints)
-        NSLayoutConstraint.activate(ViewRightconstraints)
         
-        NSLayoutConstraint.activate(labRightconstraints)
-        NSLayoutConstraint.activate(labLeftconstraints)
         
         
         ViewRight.translatesAutoresizingMaskIntoConstraints = false
