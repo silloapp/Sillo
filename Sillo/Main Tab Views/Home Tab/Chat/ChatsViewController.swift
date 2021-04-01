@@ -249,18 +249,17 @@ final class ChatsViewController: UITableViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
-        self.title = self.initPost?.posterAlias ?? "Full Name"
         
-        //NAME OF PERSON YOU'RE TALKING TO
+        //Set name and picture of person you're conversing with on header
         let label = UILabel()
-        var profilePicName = "avatar-4"
-        var person = "Name of person you're talking to"
+        var profilePicName = "TODO: replace this depending if revealed"
+        var person = "TODO: replace this depending if revealed"
         if chatHandler.activeChats[chatID]?.participant1_uid != Constants.FIREBASE_USERID {
-            person = chatHandler.activeChats[chatID]?.participant1_name ?? "ERROR"
-            profilePicName = chatHandler.activeChats[chatID]?.participant1_profile ?? "ERROR"
+            person = chatHandler.activeChats[chatID]?.participant1_name ?? "ERROR_FETCHING_NAME"
+            profilePicName = chatHandler.activeChats[chatID]?.participant1_profile ?? self.initPost?.posterImageName as! String
         }else {
-            person = chatHandler.activeChats[chatID]?.participant2_name ?? "ERROR"
-            profilePicName = chatHandler.activeChats[chatID]?.participant2_profile ?? "ERROR"
+            person = chatHandler.activeChats[chatID]?.participant2_name ?? "ERROR_FETCHING_NAME"
+            profilePicName = chatHandler.activeChats[chatID]?.participant2_profile ?? self.initPost?.posterImageName as! String
         }
         label.text = self.initPost?.posterAlias ?? person
         label.textAlignment = .left

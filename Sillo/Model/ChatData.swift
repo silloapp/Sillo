@@ -10,7 +10,7 @@ import UIKit
 import FirebaseFirestore
 import FirebaseStorage
 
-let chatHandler = ChatHandler()
+var chatHandler = ChatHandler()
 
 class ChatHandler {
     
