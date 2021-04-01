@@ -409,67 +409,60 @@ final class ChatsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChatsbleViewCell
         cell.selectionStyle = .none
-        print("cell for row")
-        
-        var Rightheight = CGFloat()
-        var leftheight = CGFloat()
-        
-        var Rightwidth = CGFloat()
-        var leftwidth = CGFloat()
-        
+       
         let messageStruct = chatHandler.messages[self.chatID]?[indexPath.row]
 
-        
-        if messageStruct?.senderID == Constants.FIREBASE_USERID! //appears on the right if I sent it
-        {
+        //appears on the right if I sent it
+        if messageStruct?.senderID == Constants.FIREBASE_USERID! {
             cell.labLeft.isHidden = true
             cell.labRight.isHidden = false
-            
+            cell.Viewleft.isHidden = true
+            cell.ViewRight.isHidden = false
             cell.labRight.text = messageStruct?.message
-            
-            Rightheight = cell.labRight.text!.stringHeight + 30
-            
-            let RightW = cell.labRight.text!.stringWidth
-            if RightW <= 200
-            {
-                Rightwidth = RightW + 30
-            }
-            else
-            {
-                Rightwidth = 200
-            }
-        }
-        else //appears on the left if other person sends it
-        {
+        } else {//appears on the left if other person sends it
             cell.labLeft.isHidden = false
             cell.labRight.isHidden = true
-            cell.labLeft.text = chatHandler.messages[self.chatID]?[indexPath.row].message
-            leftheight = cell.labLeft.text!.stringHeight + 30
-            
-            
-            let leftW = cell.labLeft.text!.stringWidth + 30
-            if leftW <= 200
-            {
-                leftwidth = leftW
-            }
-            else
-            {
-                leftwidth = 200
-            }
-            
+            cell.Viewleft.isHidden = false
+            cell.ViewRight.isHidden = true
+            cell.labLeft.text = messageStruct?.message
         }
         
+        
+        let stringWidth = messageStruct?.message?.stringWidth
+        let maxWidth = CGFloat(200)
+        var chatWidth = CGFloat()
+        
+        if stringWidth! <= maxWidth{
+            chatWidth = stringWidth! + 30
+        } else {
+            chatWidth = maxWidth
+        }
+    
+        
+        //HEIGHT
+        //TODO: rn maximizes width, but later on get diff levels to balance out.
+        var chatHeight = CGFloat()
+        let stringHeight =  messageStruct?.message?.stringHeight
+        //there is no max height for chat, but we will use a multiplier
+        var multiplier = 1
+        if (stringWidth! > maxWidth) {
+            multiplier = Int((stringWidth! / maxWidth ).rounded(.up))
+        }
+        chatHeight = (stringHeight! * CGFloat(multiplier)) + 30
+        
+       
         //        let Rightheight = (cell.labRight.maxNumberOfLines*20) + 50
         //        let leftheight = (cell.labLeft.maxNumberOfLines*20) + 50
         
         
-        print("Rightheight",Rightheight)
-        print("leftheight",leftheight)
+       
+        print("height",chatHeight)
+        print("width", chatWidth)
         
         cell.ViewRightconstraints = [
             cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.ViewRight.widthAnchor.constraint(equalToConstant: Rightwidth),
-            cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(Rightheight)),
+            cell.ViewRight.widthAnchor.constraint(equalToConstant: chatWidth),
+            cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)),
             cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20),
             cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
         ]
@@ -477,8 +470,8 @@ final class ChatsViewController: UITableViewController {
         
         cell.Viewleftconstraints = [
             cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(leftheight)),
-            cell.Viewleft.widthAnchor.constraint(equalToConstant: leftwidth),
+            cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)),
+            cell.Viewleft.widthAnchor.constraint(equalToConstant: chatWidth),
             cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20),
             cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
         ]
@@ -559,10 +552,11 @@ extension ChatsViewController: UIImagePickerControllerDelegate, UINavigationCont
 
 class ChatsbleViewCell: UITableViewCell {
     
-    
+    //the text
     let labRight = UILabel()
     let labLeft = UILabel()
     
+    //the bubble
     let Viewleft = UIView()
     let ViewRight = UIView()
     
@@ -578,15 +572,12 @@ class ChatsbleViewCell: UITableViewCell {
         self.backgroundColor = .clear
         contentView.backgroundColor = .clear
         
+        
+        
         // for views:
         
         contentView.addSubview(ViewRight)
-        // labRight.backgroundColor = UIColor.init(red: 231/255/0, green: 239/255.0, blue: 251/255.0, alpha: 0.7)
         ViewRight.backgroundColor = hexStringToUIColor(hex: "#E7EFFB")
-        
-        // labRight.text = "lorem ispum dollar sit lorem ikspum lorem lore"
-        //  labRight.backgroundColor = .clear
-        
         ViewRight.layer.cornerRadius = 17
         
         ViewRightconstraints = [
@@ -616,42 +607,42 @@ class ChatsbleViewCell: UITableViewCell {
         ViewRight.addSubview(labRight)
         // labRight.backgroundColor = UIColor.init(red: 231/255/0, green: 239/255.0, blue: 251/255.0, alpha: 0.7)
         labRight.backgroundColor = hexStringToUIColor(hex: "#E7EFFB")
-        
-        // labRight.text = "lorem ispum dollar sit lorem ikspum lorem lore"
-        //  labRight.backgroundColor = .clear
         labRight.textColor = .black
         labRight.font = UIFont(name: "Apercu-Regular", size: 15)
         labRight.numberOfLines = 0
-        labRight.textAlignment = .center
+        labRight.textAlignment = .right
         labRight.clipsToBounds = true
         // labRight.layer.cornerRadius = 17
         
         labRightconstraints = [
-            labRight.topAnchor.constraint(equalTo:  ViewRight.topAnchor, constant: 8),
-            labRight.leftAnchor.constraint(equalTo:  ViewRight.leftAnchor, constant: 8),
-            
+            labRight.centerYAnchor.constraint(equalTo: ViewRight.centerYAnchor),
+            labRight.centerXAnchor.constraint(equalTo: ViewRight.centerXAnchor)
+//            labRight.topAnchor.constraint(equalTo:  ViewRight.topAnchor, constant: 8),
+//            labRight.leftAnchor.constraint(equalTo:  ViewRight.leftAnchor, constant: 8),
+
             labRight.rightAnchor.constraint(equalTo:  ViewRight.rightAnchor, constant: -8),
-            labRight.bottomAnchor.constraint(equalTo:  ViewRight.bottomAnchor, constant: -8)
+//            labRight.bottomAnchor.constraint(equalTo:  ViewRight.bottomAnchor, constant: -8)
         ]
         
         Viewleft.addSubview(labLeft)
         labLeft.backgroundColor = UIColor.init(red: 253/255.0, green: 242/255.0, blue: 220/255.0, alpha: 1)
-        // labLeft.text = "lorem ispum dollar sit lorem ikspum lorem ispum dollar sit lorem"
-        // labLeft.backgroundColor = .clear
         labLeft.textColor = .black
         labLeft.font = UIFont(name: "Apercu-Regular", size: 15)
-        labLeft.textAlignment = .center
+        labLeft.textAlignment = .left
         labLeft.numberOfLines = 0
         
         labLeft.clipsToBounds = true
         //labLeft.layer.cornerRadius = 17
         
         labLeftconstraints = [
-            labLeft.topAnchor.constraint(equalTo:  Viewleft.topAnchor, constant: 8),
-            labLeft.rightAnchor.constraint(equalTo:  Viewleft.rightAnchor, constant: -8),
-            
-            labLeft.leftAnchor.constraint(equalTo:  Viewleft.leftAnchor, constant: 8),
-            labLeft.bottomAnchor.constraint(equalTo:  Viewleft.bottomAnchor, constant: -8)
+        
+        labLeft.centerYAnchor.constraint(equalTo: Viewleft.centerYAnchor),
+        labLeft.centerXAnchor.constraint(equalTo: Viewleft.centerXAnchor)
+//            labLeft.topAnchor.constraint(equalTo:  Viewleft.topAnchor, constant: 8),
+//            labLeft.rightAnchor.constraint(equalTo:  Viewleft.rightAnchor, constant: -8),
+//
+//            labLeft.leftAnchor.constraint(equalTo:  Viewleft.leftAnchor, constant: 8),
+//            labLeft.bottomAnchor.constraint(equalTo:  Viewleft.bottomAnchor, constant: -8)
         ]
         
         labRight.lineBreakMode = .byWordWrapping
