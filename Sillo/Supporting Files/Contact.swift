@@ -53,6 +53,6 @@ struct Post {
     let message: String?
     let posterUserID: String?
     let posterAlias: String?
-    let posterImage: UIImage?
+    let posterImageName: String? // changed this to string
     let date: Date?
 }

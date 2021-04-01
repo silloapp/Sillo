@@ -77,6 +77,7 @@ class ChatHandler {
             }
         }
         
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
         
     }
     
@@ -105,7 +106,7 @@ class ChatHandler {
         let receipientId = post.posterUserID!
         senderChatDoc.setData(
             ["recipient_UID": receipientId,
-             "recipient_img": "placeholderimg",
+             "recipient_img": post.posterImageName ?? "ERROR",
              "receipient_name": post.posterAlias!,
              "revealed": false,
              "timestamp": message.timestamp!]) { err in
@@ -122,8 +123,8 @@ class ChatHandler {
         
         recipientChatDoc.setData(
             ["recipient_UID": userId,
-             "recipient_img": "placeholder",
-             "receipient_name": post.posterAlias!,
+             "recipient_img": generateImageName(),
+             "receipient_name": generateAlias(),
              "revealed": false,
              "timestamp": message.timestamp!]) {err in
             if err != nil {
@@ -190,11 +191,11 @@ class ChatHandler {
         chatDoc.setData([
             "postID": post.postID,
             //participant 1 is the poster
-            "participant1_profile": "replace this img",
+            "participant1_profile": post.posterImageName,
             "participant1_name": post.posterAlias,
             "participant1_uid": post.posterUserID,
             //participant 2 is the person who replied
-            "participant2_profile": "participant2",
+            "participant2_profile": generateImageName(),
             "participant2_name": generateAlias(),
             "participant2_uid": message.senderID,
             
@@ -213,13 +214,41 @@ class ChatHandler {
         
         NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
 
+        
+    }
+    
+    func attachChatListener(chatID: String) {
         // add query listner for the chat's message collection
+        let messageSubCol = db.collection("chats").document(chatID)
+            .collection("messages")
         messageSubCol.addSnapshotListener {
             (querySnapshot, err) in
-            guard let documents = querySnapshot?.documents else {
-                print("Error fetching new messages documents for chat \(chatId)")
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(err!)")
                 return
             }
+            
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    let chatID = diff.document.documentID
+                    print("New active chat: \(chatID)")
+                    //add or update active chat
+                    chatHandler.fetchChatSummary(chatID: chatID)
+                }
+                
+                if (diff.type == .modified) {
+                    let chatID = diff.document.documentID
+                    print("Modified active chat: \(chatID)")
+                    chatHandler.fetchChatSummary(chatID: chatID)
+                }
+                
+                if (diff.type == .removed) {
+                    let chatID = diff.document.documentID
+                    print("Deleted active chat: \(chatID)")
+                    chatHandler.activeChats[chatID] = nil
+                }
+            }
+            
             
             // TODO : fetch new messages, create struct, and add to list/dict in call back
             // add sender alias, name, and pfp in backend
@@ -252,7 +281,8 @@ class ChatHandler {
             if let query = query {
                 if query.exists {
                     db.collection("chats").document(chatId).updateData(["latest_message": message, "timestamp": Timestamp.init(date: Date())])
-                    NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
+//                    NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
+                    NotificationCenter.default.post(name: Notification.Name("refreshMessageListView"), object: nil)
                     
                 }
             }

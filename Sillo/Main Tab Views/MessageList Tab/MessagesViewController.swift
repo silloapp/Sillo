@@ -40,7 +40,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
-        //MARK: attach listener
+        //MARK: attach listener for added and removed chats :::: for modified chat, will have to map it back to chats not user chats. maybe be able to see changes in user_chats so i don't have to do this? for example add isRead
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
         let reference = db.collection("user_chats").document(myUserID).collection("chats").order(by: "timestamp", descending: true)
         activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
@@ -54,6 +54,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
                     print("New conversation: \(chatID)")
                     //add or update active chat
                     chatHandler.fetchChatSummary(chatID: chatID)
+                    chatHandler.attachChatListener(chatID: chatID)
                 }
                 if (diff.type == .removed) {
                     let chatID = diff.document.documentID

@@ -35,10 +35,10 @@ class PostHandler {
                     let postText = document.get("message") as! String
                     let posterUserID = document.get("poster") as! String
                     let posterAlias = document.get("poster_alias") as! String
-                    let posterImage = document.get("poster_image") as! String
+                    let posterImageName = document.get("poster_image") as! String
                     let timestamp = document.get("timestamp") as! Timestamp
                     let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
-                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
                 }
             }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
@@ -114,11 +114,11 @@ class PostHandler {
         let postText = data["message"] as! String
         let posterUserID = data["poster"] as! String
         let posterAlias = data["poster_alias"] as! String
-        let posterImage = data["poster_image"] as! String
+        let posterImageName = data["poster_image"] as! String
         let timestamp = data["timestamp"] as! Timestamp
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
-        self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+        self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
     }
@@ -146,11 +146,11 @@ class PostHandler {
                     let postText = document.get("message") as! String
                     let posterUserID = document.get("poster") as! String
                     let posterAlias = document.get("poster_alias") as! String
-                    let posterImage = document.get("poster_image") as! String
+                    let posterImageName = document.get("poster_image") as! String
                     let timestamp = document.get("timestamp") as! Timestamp
                     let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
                     
-                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
                 }
             }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
@@ -159,7 +159,7 @@ class PostHandler {
     
     //MARK: build post struct
     func buildPostStruct(postID: String, attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String, date: Date) -> Post {
-        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImage: UIImage(named:posterImageName), date: date)
+        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
     }
     
     //MARK: sort by time with recent on top, returns sorted list

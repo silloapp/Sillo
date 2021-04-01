@@ -253,11 +253,14 @@ final class ChatsViewController: UITableViewController {
         
         //NAME OF PERSON YOU'RE TALKING TO
         let label = UILabel()
+        var profilePicName = "avatar-4"
         var person = "Name of person you're talking to"
         if chatHandler.activeChats[chatID]?.participant1_uid != Constants.FIREBASE_USERID {
             person = chatHandler.activeChats[chatID]?.participant1_name ?? "ERROR"
+            profilePicName = chatHandler.activeChats[chatID]?.participant1_profile ?? "ERROR"
         }else {
             person = chatHandler.activeChats[chatID]?.participant2_name ?? "ERROR"
+            profilePicName = chatHandler.activeChats[chatID]?.participant2_profile ?? "ERROR"
         }
         label.text = self.initPost?.posterAlias ?? person
         label.textAlignment = .left
@@ -285,7 +288,7 @@ final class ChatsViewController: UITableViewController {
         let barbackbutton = UIBarButtonItem(customView: backbutton)
         
         let Imagebutton = UIButton(type: UIButton.ButtonType.custom)
-        Imagebutton.setImage(UIImage(named: "avatar-4"), for: .normal)
+        Imagebutton.setImage(UIImage(named: profilePicName), for: .normal)
         Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         //    Imagebutton.clipsToBounds = true
@@ -373,7 +376,7 @@ final class ChatsViewController: UITableViewController {
         let messageStruct = chatHandler.messages[self.chatID]?[indexPath.row]
 
         
-        if messageStruct?.senderID != initPost?.posterUserID //appears on the right if I sent it
+        if messageStruct?.senderID == Constants.FIREBASE_USERID! //appears on the right if I sent it
         {
             cell.labLeft.isHidden = true
             cell.labRight.isHidden = false

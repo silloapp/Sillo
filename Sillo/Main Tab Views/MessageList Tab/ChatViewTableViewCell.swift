@@ -17,11 +17,11 @@ class ChatViewTableViewCell: UITableViewCell {
             if msg.participant1_uid != Constants.FIREBASE_USERID {
                 name = msg.participant1_name!
                 //TODO: set profile pic to participant1_profile, and if revealed, show real name not alias
-                profilePic.image = UIImage(named: "avatar-4")
+                profilePic.image = UIImage(named: msg.participant1_profile ?? "avatar-4")
             }else {
                 name = msg.participant2_name!
                 //TODO: set profil epic to participant2_profile and if revealed show real name not alias
-                profilePic.image = UIImage(named: "avatar-4")
+                profilePic.image = UIImage(named: msg.participant2_profile ?? "avatar-4")
             }
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h:mm a" //12 hr time

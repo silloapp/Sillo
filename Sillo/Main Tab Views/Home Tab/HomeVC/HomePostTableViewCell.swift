@@ -30,8 +30,8 @@ class HomePostTableViewCell: UITableViewCell {
                 message.text = messageText
             }
             
-            if msg.posterImage != nil {
-                profilePic.image = msg.posterImage
+            if let imgName = msg.posterImageName  {
+                profilePic.image = UIImage(named: imgName)
             }
         }
     }
