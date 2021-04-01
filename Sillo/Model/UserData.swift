@@ -259,6 +259,7 @@ class LocalUser {
         UserDefaults.standard.set(false, forKey: "loggedIn")
         organizationSignOut()
         clearUserConstants()
+        chatHandler.clearChatData()
     }
     
 

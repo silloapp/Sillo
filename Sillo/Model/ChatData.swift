@@ -327,4 +327,10 @@ class ChatHandler {
         let options: [String] = ["1","2","3","4"]
         return "avatar-\(options.randomElement()!)"
     }
+    
+    //MARK: sign out helper function, reinstantiate
+    func clearChatData() {
+        chatHandler = ChatHandler()
+    }
+
 }
