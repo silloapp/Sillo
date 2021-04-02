@@ -10,23 +10,15 @@ import UIKit
 //these are the cells that will appear in the messages tab. each cell will represent one conversation / active chat
 class ChatViewTableViewCell: UITableViewCell {
     let dateFormatter = DateFormatter()
-    var item:ActiveChat? {
+    var item:ChatMetadata? {
         didSet {
             guard let msg = item else {return}
-            var name = "Diplay name"
-            if msg.participant1_uid != Constants.FIREBASE_USERID {
-                name = msg.participant1_name!
-                //TODO: set profile pic to participant1_profile, and if revealed, show real name not alias
-                profilePic.image = UIImage(named: msg.participant1_profile ?? "avatar-4")
-            }else {
-                name = msg.participant2_name!
-                //TODO: set profil epic to participant2_profile and if revealed show real name not alias
-                profilePic.image = UIImage(named: msg.participant2_profile ?? "avatar-4")
-            }
+            var name = msg.recipient_name!
+            profilePic.image = UIImage(named: msg.recipient_image ?? "avatar-4")
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h:mm a" //12 hr time
             dateFormatter.timeZone = TimeZone.current
-            let timeStampString = dateFormatter.string(from: msg.timestamp!)
+            let timeStampString = dateFormatter.string(from: msg.latestMessageTimestamp!)
 
             let stringValue: String = "\(name) · \(timeStampString)"
             let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
@@ -36,9 +28,22 @@ class ChatViewTableViewCell: UITableViewCell {
             attributedString.setFont(font: Font.regular(17), forText: "· \(timeStampString)")
             userName.attributedText = attributedString
           
-            if let messageText = msg.latest_message {
-                message.text = messageText
+//            if let messageText = msg.latest_message {
+//                message.text = messageText
+//            }
+            
+            message.text = ""
+            let chatID = msg.chatID
+            db.collection("chats").document(chatID!).collection("messages").order(by: "timestamp", descending: true).limit(to: 1).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    return
+                } else {
+                    let latestMessageDoc = querySnapshot!.documents[0]
+                    self.message.text = latestMessageDoc.get("message") as? String
+                }
             }
+            
             if !msg.isRead! {
                 message.font = Font.bold(15)
             }

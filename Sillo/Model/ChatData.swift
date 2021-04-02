@@ -14,135 +14,230 @@ var chatHandler = ChatHandler()
 
 class ChatHandler {
     
-    var activeChats = [String: ActiveChat]() // a dictionary mapping active chat to chat id
-    var sortedChats = [ActiveChat]() // sorted chatIds to display in messagelistVC
-    //var chatsList: [String] = []
-    var messages: [String: [Message]] = [:]
-    var postToChat: [String: String] = [:]
     
-    //pulls the chatIds of active chats for this user, sets chandHander.chatsList to this
-//    func coldStartChatList() {
-//        chatsList = []
-//        //updates chatList to contain chatIds of active chats for this user
-//        let userID = Constants.FIREBASE_USERID ?? "ERROR"
-//        print("PULLING CHAT ID LIST FOR \(userID)")
-//        db.collection("user_chats").document(userID).collection("chats").order(by: "timestamp", descending: true).getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print("Error getting chatList: \(err)")
-//                return
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    //updating chat list
-//                    let chatID = document.documentID
-//                    chatHandler.chatsList.append(chatID)
-//                    print("added \(chatID) to chatlist!!!!" )
-//
-//                }
-//            }
-//        }
-//     print("chat list contains: \(chatsList)")
-//
-//    }
+    //TODO: need a better way of checking postToChat, maybe add it to user_chats?
+    var chatMetadata = [String: ChatMetadata]() // a dictionary mapping chatid to chat metadata
+    var sortedChatMetadata = [ChatMetadata]() // sorted chatMetadata
+    
+    var messages: [String: [Message]] = [:] //a dictionary mapping chatid to chat messages
+    var postToChat: [String: String] = [:]
 
-    //MARK: sort by time with recent on top, returns sorted list
-    func sortActiveChats() -> [ActiveChat] {
-        return activeChats.values.sorted(by: { $0.timestamp! > $1.timestamp! })
-    }
+
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
-    func fetchChatSummary(chatID: String) {
+    
+    
+    // for new or update
+    func handleNewUserChat(chatID: String, data: [String:Any]) {
+        let postID = data["postID"] as! String
+        let isRead = data["isRead"] as! Bool
+        let isRevealed = data["isRevealed"] as! Bool
+        let latestMessageTimestamp = data["latestMessageTimestamp"] as! Timestamp
+        let recipient_image = data["recipient_image"] as! String
+        let recipient_name = data["recipient_name"] as! String
+        let recipient_uid = data["recipient_uid"] as! String
+        let timestamp = data["timestamp"] as! Timestamp
         
-        //update chat metadata for message, latest message time
-        db.collection("chats").document(chatID).getDocument() { (query, err) in
-            if let query = query {
-                if query.exists {
-                    let postID = query.get("postID") as! String
-                    let participant1_uid = query.get("participant1_uid") as! String
-                    let participant1_name = query.get("participant1_name") as! String
-                    let participant1_profile = query.get("participant1_profile") as! String
-                    
-                    let participant2_uid = query.get("participant2_uid") as! String
-                    let participant2_name = query.get("participant2_name") as! String
-                    let participant2_profile = query.get("participant2_profile") as! String
-                    
-                    let isRevealed = query.get("isRevealed") as! Bool
-                    let isRead = query.get("isRead") as! Bool
-                    let timestamp = Date(timeIntervalSince1970: TimeInterval((query.get("timestamp") as! Timestamp).seconds))
-                    let latest_message = query.get("latest_message") as! String
-                    
-                    let conversation = ActiveChat(postID: postID, chatID: chatID, isRevealed: isRevealed, participant1_uid: participant1_uid, participant1_name: participant1_name, participant1_profile: participant1_profile, participant2_uid: participant2_uid, participant2_name: participant2_name, participant2_profile: participant2_profile, latest_message: latest_message, timestamp: timestamp, isRead: isRead)
-                    self.activeChats[chatID] = conversation
-                    self.postToChat[postID] = chatID
-                }
-            }
-        }
+        let latestMessageDate = Date(timeIntervalSince1970: TimeInterval(latestMessageTimestamp.seconds))
+        let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
+        
+        //update chat metadata
+        self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
+        
+        //update post to chat mapping
+        self.postToChat[postID] = chatID
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
-        
     }
     
-    //creates a 
+    //MARK: documentlistener reports deleted post
+    func handleDeleteUserChat(chatID: String, data: [String:Any]) {
+        let postID = data["postID"] as! String
+        
+        //update chat metadata
+        self.chatMetadata.removeValue(forKey: chatID)
+        
+        //upadte post to chat mapping
+        self.postToChat.removeValue(forKey: postID)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
+    }
+    
+
+    
+    //NOTES: only two public functions, you're either creating a new chat (ADD), or replying to an already existing one(UPDATE)
+    
+    //creates a new chat document with mesages
+    //adds to user_chats
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
-        let chatId = chatId
-        let userAlias = generateAlias()
-        let userImage = generateImageName()
+        let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
         let messageStruct = createMessage(
-            senderID: Constants.FIREBASE_USERID ?? "ERROR",
+            senderID: userID,
             message: message,
             attachment: attachment,
             timestamp: Date())
         
-        updateUserChats(post: post, message: messageStruct, chatId: chatId)
+        addUserChats(chatId: chatId, post: post)
         createChatDocument(chatId: chatId, post: post, message: messageStruct)
     }
-            
-    // add chat in user_chats (keeps track of active chats)
-    private func updateUserChats(post: Post, message: Message, chatId: String) {
-        let userId = Constants.FIREBASE_USERID!
+    
+    
+    //Sends a message in an existing conversation, updates user_chats for both parties
+    func sendMessage(chatId: String, message: String, attachment: UIImage?, recipientID: String) {
+        let messageSubCol = db.collection("chats").document(chatId).collection("messages")
         
-        // adds chat for sender
-        let senderChatDoc = db.collection("user_chats").document(userId)
-            .collection("chats").document(chatId)
-        let receipientId = post.posterUserID!
-        senderChatDoc.setData(
-            ["recipient_UID": receipientId,
-             "recipient_img": post.posterImageName ?? "ERROR",
-             "receipient_name": post.posterAlias!,
-             "revealed": false,
-             "timestamp": message.timestamp!]) { err in
+        //MARK: add message document to chat
+        let opMessageId = UUID.init().uuidString
+        let opMessageDoc = messageSubCol.document(opMessageId)
+        
+        opMessageDoc.setData([
+            "senderID": Constants.FIREBASE_USERID,
+            "attachment": "", // TODO: upload UIImage to storage, then return the path string
+            "message": message,
+            "timestamp": Date()
+        ]) { err in
             if err != nil {
-                print("Error adding chat \(chatId) in userchats for sender")
+                print("Error sending message: \(opMessageId)")
             } else {
-                print("Added chat \(chatId) for sender")
+                print("Message document written: \(opMessageId). Contents say: \(message)")
             }
         }
         
-        // adds chat for recipient
-        let recipientChatDoc = db.collection("user_chats").document(receipientId)
-            .collection("chats").document(chatId)
+        //update user_chat for sender and for recipient
+        let userID = Constants.FIREBASE_USERID!
+        print("recipientID is ", recipientID)
+        updateUserChats(senderID: userID, recipientID: recipientID, chatId: chatId)
+    }
+    
+    
+    // user only reads chat, marks own user_chats to show isRead = true
+    func readChat(userID: String, chatId: String) {
         
-        recipientChatDoc.setData(
-            ["recipient_UID": userId,
-             "recipient_img": generateImageName(),
-             "receipient_name": generateAlias(),
-             "revealed": false,
-             "timestamp": message.timestamp!]) {err in
-            if err != nil {
-                print("Error adding chat \(chatId) in userchats for recipient")
-            } else {
-                print("Added chat \(chatId) for recipient")
+        //MARK: update user_chat for sender
+        let senderChatDoc = db.collection("user_chats").document(userID)
+            .collection("chats").document(chatId)
+       
+        senderChatDoc.getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    senderChatDoc.updateData([
+                        "isRead": true,
+                    ])
+                }
             }
         }
     }
+        
     
-    // create a new chat document that stores messages between users
+    
+    
+    /////// HELPER FUNCTIONS FOR CHAT BELOW //////////////////////////////
+    
+    
+    //adds chat to user_chat for both parties
+    private func addUserChats(chatId: String, post: Post) {
+        let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
+        
+        //MARK: create user_chat for sender
+        let senderChatDoc = db.collection("user_chats").document(userID)
+            .collection("chats").document(chatId)
+        senderChatDoc.setData([
+            "postID" : post.postID,
+            "recipient_uid": post.posterUserID!,
+            "recipient_name" : post.posterAlias!,
+            "recipient_image": post.posterImageName!,
+            "latestMessageTimestamp": Date(),
+            "isRevealed": false,
+            "isRead" : true,
+            "timestamp": Timestamp.init(date: Date())
+            
+        ]){ err in
+            if err != nil {
+                print("Error adding to user_chat: \(chatId)")
+            } else {
+                print("User_chat written: \(chatId)")
+            }
+        }
+       
+       
+        //MARK: create user_chat for recipient
+        let recipientChatDoc = db.collection("user_chats").document(post.posterUserID!)
+            .collection("chats").document(chatId)
+        recipientChatDoc.setData([
+            "postID" : post.postID,
+            "recipient_uid": userID,
+            "recipient_name" : generateAlias(),
+            "recipient_image": generateImageName(),
+            "latestMessageTimestamp": Date(),
+            "isRevealed": false,
+            "isRead" : false,
+            "timestamp": Timestamp.init(date: Date())
+        ]){ err in
+            if err != nil {
+                print("Error adding to user_chat: \(chatId)")
+            } else {
+                print("User_chat written:  \(chatId)")
+            }
+        }
+    }
+            
+    // updates chat in user_chats for both parties (latest msg time etc)
+    private func updateUserChats(senderID: String, recipientID: String, chatId: String) {
+        
+        //MARK: update user_chat for sender
+        let senderChatDoc = db.collection("user_chats").document(senderID)
+            .collection("chats").document(chatId)
+       
+        senderChatDoc.getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    senderChatDoc.updateData([
+                        "isRead": true,
+                        "latestMessageTimestamp": Timestamp.init(date: Date())
+                    ])
+                }
+            }
+        }
+        
+        //MARK: update user_chat for recipient
+        let recipientChatDoc = db.collection("user_chats").document(senderID)
+            .collection("chats").document(chatId)
+       
+        recipientChatDoc.getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    db.collection("chats").document(chatId).updateData([
+                        "isRead": false,
+                        "latestMessageTimestamp": Timestamp.init(date: Date())
+                    ])
+                }
+            }
+        }
+
+    }
+    
+    // creates a new chat document
     // includes the post message and first message sent by user
     private func createChatDocument(chatId: String, post: Post, message: Message) {
+        
+        //MARK: write chat document
+        let chatDoc = db.collection("chats").document(chatId)
+        chatDoc.setData([
+            "postID": post.postID,
+            "timestamp" : message.timestamp,
+            "latest_message": message.message!
+            
+        ]){ err in
+            if err != nil {
+                print("Error sending message: \(chatId)")
+            } else {
+                print("Message document written: \(chatId)")
+            }
+        }
         
         let messageSubCol = db.collection("chats").document(chatId)
             .collection("messages")
         
-        // write data for OP
+        //MARK: add original post as first message to document
         let opMessageId = UUID.init().uuidString
         let opMessageDoc = messageSubCol.document(opMessageId)
         
@@ -158,8 +253,7 @@ class ChatHandler {
             }
         }
         
-        
-        // write data for user's reply
+        //MARK: add reply as message to document
         let senderMessageId = UUID.init().uuidString
         let senderMessageDoc = messageSubCol.document(senderMessageId)
         
@@ -185,80 +279,11 @@ class ChatHandler {
                     print("Message document written: \(senderMessageId)")
                 }
         }
-        
-        //write chat metadata
-        let chatDoc = db.collection("chats").document(chatId)
-        chatDoc.setData([
-            "postID": post.postID,
-            //participant 1 is the poster
-            "participant1_profile": post.posterImageName,
-            "participant1_name": post.posterAlias,
-            "participant1_uid": post.posterUserID,
-            //participant 2 is the person who replied
-            "participant2_profile": generateImageName(),
-            "participant2_name": generateAlias(),
-            "participant2_uid": message.senderID,
-            
-            "isRead" : true,
-            "isRevealed": false,
-            "timestamp" : message.timestamp,
-            "latest_message": message.message!
-            
-        ]){ err in
-            if err != nil {
-                print("Error sending message: \(chatId)")
-            } else {
-                print("Message document written: \(chatId)")
-            }
-        }
-        
-        NotificationCenter.default.post(name: Notification.Name("refreshChatView"), object: nil) //TODO: replace this
-
-        
     }
     
-    // send message in an existing conversation
-    func sendMessage(chatId: String, message: String, attachment: UIImage?) {
-        let messageSubCol = db.collection("chats").document(chatId).collection("messages")
-        
-        // write data for OP
-        let opMessageId = UUID.init().uuidString
-        let opMessageDoc = messageSubCol.document(opMessageId)
-        
-        opMessageDoc.setData([
-            "senderID": Constants.FIREBASE_USERID,
-            "attachment": "", // TODO: upload UIImage to storage, then return the path string
-            "message": message,
-            "timestamp": Date()
-        ]) { err in
-            if err != nil {
-                print("Error sending message: \(opMessageId)")
-            } else {
-                print("Message document written: \(opMessageId). Contents say: \(message)")
-            }
-        }
-        
-        //update chat metadata for message, latest message time
-        db.collection("chats").document(chatId).getDocument() { (query, err) in
-            if let query = query {
-                if query.exists {
-                    db.collection("chats").document(chatId).updateData(["latest_message": message, "timestamp": Timestamp.init(date: Date())])
-                    NotificationCenter.default.post(name: Notification.Name("refreshMessageListView"), object: nil)
-                    
-                }
-            }
-        }
-        
-        self.fetchChatSummary(chatID: chatId)
-        
-    }
     
-    // RECIPIENT: when a new chat request comes in
-    // 1. get the chat documents and get the messages
-    // 2. add listener to the chat's message subcollection
-    func addNewChat(chatId: String) {
-        
-    }
+    ////////////////////////////////   UTILITY FUNCTIONS BELOW /////////////////////////////   /////////////////////////////   /////////////////////////////   /////////////////////////////
+    
     
     // take a new message document, and parses it
     func parseNewChat() -> Message {
@@ -287,6 +312,15 @@ class ChatHandler {
     func generateImageName() -> String {
         let options: [String] = ["1","2","3","4"]
         return "avatar-\(options.randomElement()!)"
+    }
+    
+    //MARK: sort by time with recent on top, returns sorted list
+    func sortChatMetadata() -> [ChatMetadata] {
+        return chatMetadata.values.sorted(by: { $0.latestMessageTimestamp! > $1.latestMessageTimestamp! })
+    }
+    
+    func sortMessages(messages: [Message]) -> [Message] {
+        return messages.sorted(by: { $0.timestamp! < $1.timestamp! })
     }
     
     //MARK: sign out helper function, reinstantiate

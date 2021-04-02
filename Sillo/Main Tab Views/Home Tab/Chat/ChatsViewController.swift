@@ -107,8 +107,6 @@ final class ChatsViewController: UITableViewController {
     
     // MARK: - View Life Cycle
     @objc func refreshChatView(note: NSNotification) {
-        
-       
         //refresh the subtask table
         self.tableView.reloadData()
         //scrolls to bottom row when new message added
@@ -117,66 +115,82 @@ final class ChatsViewController: UITableViewController {
         
     }
     
-    private func updateMessages() {
-        if !Array(chatHandler.activeChats.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
-            //convert post into message
-            let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-            print(firstPost.message)
-            chatHandler.messages[self.chatID] = [firstPost]
-        } else { //else, pull from firebase, since this is an already existing chat
-            //TODO: CHANGE THIS
-            var messages : [Message] = []
-            
-            //gets latest messages for current chat
-            //add listener
-            let doc = db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: false).getDocuments(){ (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                    return
-                } else {
-                    print("number of documents returned in query: \(querySnapshot!.documents.count)")
-                    for document in querySnapshot!.documents {
-                        let message = document.get("message") as! String
-                        let senderID = document.get("senderID") as! String
-                        guard let stamp = document.get("timestamp") as? Timestamp else {
-                                    return
-                                }
-                        let timestamp = stamp.dateValue()
-                        messages.append(Message(senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false))
-                        print("added message: \(message) to messagelist for chat \(self.chatID)" )
-                    }
-                    
-                    
-                }
-                chatHandler.messages[self.chatID] = messages
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
-                //refresh the subtask table
-                self.tableView.reloadData()
-                print("refreshed the chatView")
-            }
-            
-            print("num of messages: \(messages.count)")
-            
-            chatHandler.messages[self.chatID] = messages
-        }
-    }
+//    private func updateMessages() {
+//        if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
+//            //convert post into message
+//            let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+//            print(firstPost.message)
+//            chatHandler.messages[self.chatID] = [firstPost]
+//        } else { //else, pull from firebase, since this is an already existing chat
+//            //TODO: CHANGE THIS
+//            var messages : [Message] = []
+//
+//            //gets latest messages for current chat
+//            //add listener
+//            let doc = db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: false).getDocuments(){ (querySnapshot, err) in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                    return
+//                } else {
+//                    print("number of documents returned in query: \(querySnapshot!.documents.count)")
+//                    for document in querySnapshot!.documents {
+//                        let message = document.get("message") as! String
+//                        let senderID = document.get("senderID") as! String
+//                        guard let stamp = document.get("timestamp") as? Timestamp else {
+//                                    return
+//                                }
+//                        let timestamp = stamp.dateValue()
+//                        messages.append(Message(senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false))
+//                        print("added message: \(message) to messagelist for chat \(self.chatID)" )
+//                    }
+//
+//
+//                }
+//                chatHandler.messages[self.chatID] = messages
+//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+//                //refresh the subtask table
+//                self.tableView.reloadData()
+//                print("refreshed the chatView")
+//            }
+//
+//            print("num of messages: \(messages.count)")
+//
+//            chatHandler.messages[self.chatID] = messages
+//        }
+//    }
 
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        //now that message has been opened, mark as read for user
+        chatHandler.readChat(userID: Constants.FIREBASE_USERID!, chatId: self.chatID)
+        
+        
         self.navigationController?.navigationBar.isHidden = false
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
         
+        if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
+             //convert post into message
+            
+        
+            let msg = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(), timestamp: self.initPost?.date, isRead: false)
+             let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+             chatHandler.messages[self.chatID] = [firstPost]
+        }else { //avoid appending the first post twice
+            chatHandler.messages[self.chatID] = []
+        }
+        
         // add query listner for the chat's message collection
         let messageSubCol = db.collection("chats").document(chatID)
-            .collection("messages")
+            .collection("messages").order(by: "timestamp", descending: false)
         messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(error!)")
                 return
             }
             snapshot.documentChanges.forEach { diff in
-                if (diff.type == .added) {
+                if (diff.type == .added || diff.type == .modified) {
                     let messageID = diff.document.documentID
                     print("New message: \(messageID)")
                     //add or update active chat
@@ -187,15 +201,21 @@ final class ChatsViewController: UITableViewController {
                             }
                     let timestamp = stamp.dateValue()
                     let msg = Message(senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
-                    //do not append msg twice
-                    if !chatHandler.messages[self.chatID]!.contains(msg){ //ratchet, maybe use dict instead
-                        chatHandler.messages[self.chatID]?.append(msg)
-                        print("added message: \(message) to messagelist for chat \(self.chatID)" )
+                    
+                    
+                    if let messageList = chatHandler.messages[self.chatID] {
+                        //do not append msg twice
+                        //CONTAINS MSG IS FLAWED CAUSING THE DOUBLE POST MSG BUG
+                        //ALTERNATIVE FIX MAKE SURE ALL FIELDS IN MSG IS CONSISTENT
+                        //OR ADD MSG IG into the message struct and check if the message id is already contained in the meantime
+                        //this is def source of bug
+                        if !chatHandler.messages[self.chatID]!.contains(msg){ //ratchet, maybe use dict instead
+                            chatHandler.messages[self.chatID]?.append(msg)
+                            print("added message: \(message) to messagelist for chat \(self.chatID)" )
+                        }
                     }
                     
-                }
-                if (diff.type) == .modified {
-                    //not implemented yet, need to change data struct first to map not array
+                    
                 }
                 if (diff.type == .removed) {
                     let messageID = diff.document.documentID
@@ -211,7 +231,7 @@ final class ChatsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateMessages()
+        //updateMessages()
         
         //for initialising Table:
         
@@ -297,15 +317,8 @@ final class ChatsViewController: UITableViewController {
         
         //Set name and picture of person you're conversing with on header
         let label = UILabel()
-        var profilePicName = "TODO: replace this depending if revealed"
-        var person = "TODO: replace this depending if revealed"
-        if chatHandler.activeChats[chatID]?.participant1_uid != Constants.FIREBASE_USERID {
-            person = chatHandler.activeChats[chatID]?.participant1_name ?? "ERROR_FETCHING_NAME"
-            profilePicName = chatHandler.activeChats[chatID]?.participant1_profile ?? self.initPost?.posterImageName as! String
-        }else {
-            person = chatHandler.activeChats[chatID]?.participant2_name ?? "ERROR_FETCHING_NAME"
-            profilePicName = chatHandler.activeChats[chatID]?.participant2_profile ?? self.initPost?.posterImageName as! String
-        }
+        var profilePicName = chatHandler.chatMetadata[chatID]?.recipient_image ?? self.initPost?.posterImageName
+        var person = chatHandler.chatMetadata[chatID]?.recipient_name ?? self.initPost?.posterAlias!
         label.text = self.initPost?.posterAlias ?? person
         label.textAlignment = .left
         label.textColor = Color.matte
@@ -332,7 +345,7 @@ final class ChatsViewController: UITableViewController {
         let barbackbutton = UIBarButtonItem(customView: backbutton)
         
         let Imagebutton = UIButton(type: UIButton.ButtonType.custom)
-        Imagebutton.setImage(UIImage(named: profilePicName), for: .normal)
+        Imagebutton.setImage(UIImage(named: profilePicName!), for: .normal)
         Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         //    Imagebutton.clipsToBounds = true
@@ -364,7 +377,7 @@ final class ChatsViewController: UITableViewController {
     
     
     @objc func backBtnPressed() {
-        if self.initPost != nil && !Array(chatHandler.activeChats.keys).contains(self.chatID) { // if no chat was ever made, remove from postToChat
+        if self.initPost != nil && !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { // if no chat was ever made, remove from postToChat
             print("no chat made, set postToChat for this post back to nil")
             chatHandler.postToChat[(self.initPost?.postID)!] = nil
         }
@@ -409,8 +422,12 @@ final class ChatsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChatsbleViewCell
         cell.selectionStyle = .none
-       
-        let messageStruct = chatHandler.messages[self.chatID]?[indexPath.row]
+        
+        //TDO: sort this by time
+        //all messages
+        let messagesList = chatHandler.messages[self.chatID]
+        //single message
+        let messageStruct = messagesList?[indexPath.row]
 
         //appears on the right if I sent it
         if messageStruct?.senderID == Constants.FIREBASE_USERID! {
@@ -513,7 +530,7 @@ extension ChatsViewController: MessageInputBarDelegate {
         messageInputBar.invalidatePlugins()
         print(text)
         
-        if !chatHandler.activeChats.keys.contains(chatID){ // if this is first reply, create new chat
+        if !chatHandler.chatMetadata.keys.contains(chatID){ // if this is first reply, create new chat
             //addChat creates new chat document and adds post and message to doc, and adds chatID to both poster and user's user_chats
             chatHandler.addChat(post: self.initPost!, message: text, attachment: nil, chatId: self.chatID)
             //TODO: make sure chatList is up to date and now contains the new chatId
@@ -521,11 +538,11 @@ extension ChatsViewController: MessageInputBarDelegate {
         }else {
             //if this is already a chat, no need to make a new coument or add to user_chats
             //simply add message to the chat document
-            chatHandler.sendMessage(chatId: self.chatID, message: text, attachment: nil)
+            chatHandler.sendMessage(chatId: self.chatID, message: text, attachment: nil, recipientID: "TODO: replace this")
         }
         
         //call pulls from firebase, then refreshes tableview as callback
-        updateMessages()
+        //updateMessages()
     }
     
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {

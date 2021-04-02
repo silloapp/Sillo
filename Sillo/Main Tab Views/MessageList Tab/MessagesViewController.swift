@@ -31,16 +31,13 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     private var activeChatListener: ListenerRegistration?
     
     @objc func refreshMessageListView(note: NSNotification) {
-        //refresh the subtask table
-        
-        chatHandler.sortedChats = chatHandler.sortActiveChats()
+        chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
         self.chatListTable.reloadData()
         print("refreshed the messageListView")
         
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
-        //MARK: attach listener for added and removed chats :::: for modified chat, will have to map it back to chats not user chats. maybe be able to see changes in user_chats so i don't have to do this? for example add isRead
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
         let reference = db.collection("user_chats").document(myUserID).collection("chats").order(by: "timestamp", descending: true)
         activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
@@ -48,20 +45,25 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
                 print("Error fetching snapshots: \(error!)")
                 return
             }
+            
             snapshot.documentChanges.forEach { diff in
                 if (diff.type == .added) {
                     let chatID = diff.document.documentID
                     print("New conversation: \(chatID)")
                     //add or update active chat
-                    chatHandler.fetchChatSummary(chatID: chatID)
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                }
+                if (diff.type == .modified) {
+                    let chatID = diff.document.documentID
+                    print("updated active chat: \(chatID)")
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
                 }
                 if (diff.type == .removed) {
                     let chatID = diff.document.documentID
                     print("Removed conversation: \(chatID)")
-                    chatHandler.activeChats[chatID] = nil
+                    chatHandler.chatMetadata[chatID] = nil
                 }
             }
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
         }
       
     }
@@ -157,7 +159,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.backgroundView = nil
-        let activeChats_count = chatHandler.activeChats.count
+        let activeChats_count = chatHandler.chatMetadata.count
         if activeChats_count > 0 {
             return activeChats_count
         }
@@ -206,8 +208,8 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
-        let chatID = chatHandler.sortedChats[indexPath.row].chatID ?? "ERROR"
-        cell.item = chatHandler.activeChats[chatID]
+        let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
+        cell.item = chatHandler.chatMetadata[chatID]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
@@ -223,7 +225,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
             let label = UILabel()
             label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
             label.text = ""
-            if chatHandler.sortedChats.count > 0 {
+            if chatHandler.sortedChatMetadata.count > 0 {
             label.text = "Today" //TODO: change this when viewing older messages
             }
             label.font = Font.bold(20)
@@ -238,7 +240,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let chatID = chatHandler.sortedChats[indexPath.row].chatID ?? "ERROR"
+        let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
         let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)

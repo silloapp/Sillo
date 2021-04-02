@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 struct MenuItem {
     let name:String?
@@ -16,35 +17,25 @@ struct MenuItem {
 }
 
 struct Message:Equatable { //testing only
-//    let alias: String?
-//    let name: String?
-//    let profilePicture: UIImage?
     let senderID: String?
     let message: String?
     let attachment: UIImage?
     let timestamp: Date?
-    let isRead: Bool?
-    //TODO: add image/gif, conversationID, whatever else
+    let isRead: Bool? //todo: remove this? 
 }
 
-struct ActiveChat { //testing only
-    let postID: String?
+struct ChatMetadata {
+
     let chatID: String?
-    let isRevealed: Bool?
+    let postID: String?
     
-    let participant1_uid: String?
-    let participant1_name: String?
-    let participant1_profile: String?
-    
-    let participant2_uid: String?
-    let participant2_name: String?
-    let participant2_profile: String?
-    
-    let latest_message: String?
-    let timestamp: Date?
     let isRead: Bool?
-    
-    //TODO: add image/gif, conversationID, whatever else
+    let isRevealed: Bool?
+    let latestMessageTimestamp: Date?
+    let recipient_image : String?
+    let recipient_name : String?
+    let recipient_uid : String?
+    let timestamp : Date?
 }
 
 struct Post {
