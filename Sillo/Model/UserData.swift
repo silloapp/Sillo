@@ -162,7 +162,7 @@ class LocalUser {
             self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
             //delete invite on firebase
             db.collection("invites").document(myEmail).collection("user_invites").document(organizationID).delete() {err in
-                if let err = err {
+                if err != nil {
                     print("could not accept invite, invite document not deleted")
                 }
                 else {
