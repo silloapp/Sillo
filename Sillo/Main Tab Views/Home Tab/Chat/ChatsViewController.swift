@@ -433,7 +433,9 @@ final class ChatsViewController: UITableViewController {
         var chatWidth = CGFloat()
         
         if stringWidth! <= maxWidth{
-            chatWidth = stringWidth! + 30
+            //looks like stringWidth extension is flawed???
+            //chatWidth = stringWidth! + 30
+            chatWidth = maxWidth
         } else {
             chatWidth = maxWidth
         }
@@ -448,7 +450,8 @@ final class ChatsViewController: UITableViewController {
         if (stringWidth! > maxWidth) {
             multiplier = Int((stringWidth! / maxWidth ).rounded(.up))
         }
-        chatHeight = (stringHeight! * CGFloat(multiplier)) + 30
+        //chatHeight = (stringHeight! * CGFloat(multiplier)) + 30
+        chatHeight = 60
         
        
         //        let Rightheight = (cell.labRight.maxNumberOfLines*20) + 50
@@ -456,51 +459,42 @@ final class ChatsViewController: UITableViewController {
         
         
        
-        print("height",chatHeight)
-        print("width", chatWidth)
+        print("height:",chatHeight)
+        print("width:", chatWidth)
         
       
 
-        cell.ViewRightconstraints = [
-            cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.ViewRight.widthAnchor.constraint(equalToConstant: chatWidth),
-            cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)),
-            cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20),
-            cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
-        ]
-        
-        
-        cell.Viewleftconstraints = [
-            cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)),
-            cell.Viewleft.widthAnchor.constraint(equalToConstant: chatWidth),
-            cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20),
-            cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
-        ]
-        NSLayoutConstraint.activate(cell.ViewRightconstraints)
-        NSLayoutConstraint.activate(cell.Viewleftconstraints)
-        
-        cell.labRightconstraints = [
-            cell.labRight.centerYAnchor.constraint(equalTo: cell.ViewRight.centerYAnchor),
-//            cell.labRight.centerXAnchor.constraint(equalTo: cell.ViewRight.centerXAnchor),
-//            cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8),
-//            cell.labRight.leftAnchor.constraint(equalTo:  cell.ViewRight.leftAnchor, constant: 8),
 
-            cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8),
-//            cell.labRight.bottomAnchor.constraint(equalTo:  cell.ViewRight.bottomAnchor, constant: -8)
-        ]
-        cell.labLeftconstraints = [
-            cell.labLeft.centerYAnchor.constraint(equalTo: cell.Viewleft.centerYAnchor),
-//        cell.labLeft.centerXAnchor.constraint(equalTo: cell.Viewleft.centerXAnchor),
-//            cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8),
-//            cell.labLeft.rightAnchor.constraint(equalTo:  cell.Viewleft.rightAnchor, constant: -8),
-//
-            cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8),
-//            cell.labLeft.bottomAnchor.constraint(equalTo:  Viewleft.bottomAnchor, constant: -8)
-        ]
+            cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
+            cell.ViewRight.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
+            cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20).isActive = true
+            
         
-        NSLayoutConstraint.activate(cell.labRightconstraints)
-        NSLayoutConstraint.activate(cell.labLeftconstraints)
+        cell.labRight.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
+        cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8).isActive = true
+        cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8).isActive = true
+    
+   
+            cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
+           
+            cell.Viewleft.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
+            cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
+            
+        
+            
+      
+
+            cell.labLeft.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
+            cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
+            cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8).isActive = true
+        
+        
+        //experiment with these two
+        cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
+        cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
+        
+        cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
+        cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
         
         cell.contentView.layoutIfNeeded()
         
