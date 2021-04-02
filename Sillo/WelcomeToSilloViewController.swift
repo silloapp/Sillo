@@ -408,7 +408,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         // switch organizations for the user, and take them to home screen.
         if organizationData.idToName.keys.contains(orgID) {
             DispatchQueue.main.async {
-                let alert = AlertView(headingText: "Organization Joined!", messageText: "You have already joined this organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                let alert = AlertView(headingText: "Organization Already Joined!", messageText: "You have already joined this organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                     self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);self.exitPressed()
                 }, action2Label: "Nil", action2Color: .gray, action2Completion: {
                 }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
