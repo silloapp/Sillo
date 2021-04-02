@@ -79,6 +79,9 @@ final class ChatsViewController: UITableViewController {
     
     //MARK: listener
     private var messageListener: ListenerRegistration?
+    deinit {
+       messageListener?.remove()
+     }
     
     let header : UIView = {
         let view = UIView()

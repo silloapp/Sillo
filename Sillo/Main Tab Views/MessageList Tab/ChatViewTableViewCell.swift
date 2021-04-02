@@ -36,6 +36,10 @@ class ChatViewTableViewCell: UITableViewCell {
             
             if !msg.isRead! {
                 message.font = Font.bold(15)
+                message.textColor = Color.burple // just for visibility  / testing purposes
+            } else {
+                message.font = Font.regular(15)
+                message.textColor = Color.matte
             }
             
         }

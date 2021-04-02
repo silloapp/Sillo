@@ -27,7 +27,7 @@ class ChatHandler {
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
     
     
-    // for new or update
+    // for new
     func handleNewUserChat(chatID: String, data: [String:Any]) {
         let postID = data["postID"] as! String
         let isRead = data["isRead"] as! Bool
@@ -42,24 +42,28 @@ class ChatHandler {
         let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
         //get the latest message for this chat
+        //SLOW???
         var latest_message = "Replace this "
         db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: true).limit(to: 1).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
                 return
             } else {
-                let newestMessageDoc = querySnapshot!.documents[0]
+                let newestMessageDoc = querySnapshot!.documents[0] // THE MESSAGE DOC DOES NOT EXIST YET BU THE TIME USER_CHAT IS UPDATED
                 latest_message = newestMessageDoc.get("message") as! String
+                
+                //wait until this is finished // asynchronous later
+                //update chat metadata
+                self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latest_message: latest_message, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
+                
+                //update post to chat mapping
+                self.postToChat[postID] = chatID
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
             }
         }
         
-        //update chat metadata
-        self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latest_message: latest_message, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
         
-        //update post to chat mapping
-        self.postToChat[postID] = chatID
-        
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
     }
     
     //MARK: documentlistener reports deleted post
@@ -88,8 +92,8 @@ class ChatHandler {
             attachment: attachment,
             timestamp: Date())
         
-        addUserChats(chatId: chatId, post: post)
         createChatDocument(chatId: chatId, post: post, message: messageStruct)
+        addUserChats(chatId: chatId, post: post)
     }
     
     
@@ -124,16 +128,17 @@ class ChatHandler {
     // user only reads chat, marks own user_chats to show isRead = true
     func readChat(userID: String, chatId: String) {
         
-        //MARK: update user_chat for sender
-        let senderChatDoc = db.collection("user_chats").document(userID)
+        //MARK: update user_chat for user
+        let myChatDoc = db.collection("user_chats").document(userID)
             .collection("chats").document(chatId)
        
-        senderChatDoc.getDocument() { (query, err) in
+        myChatDoc.getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    senderChatDoc.updateData([
+                    myChatDoc.updateData([
                         "isRead": true,
                     ])
+                    print("marked conversation \(chatId) as read.")
                 }
             }
         }
@@ -211,7 +216,7 @@ class ChatHandler {
         }
         
         //MARK: update user_chat for recipient
-        let recipientChatDoc = db.collection("user_chats").document(senderID)
+        let recipientChatDoc = db.collection("user_chats").document(recipientID)
             .collection("chats").document(chatId)
        
         recipientChatDoc.getDocument() { (query, err) in

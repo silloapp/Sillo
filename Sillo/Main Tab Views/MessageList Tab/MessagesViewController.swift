@@ -30,6 +30,10 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: listener
     private var activeChatListener: ListenerRegistration?
     
+    deinit {
+       activeChatListener?.remove()
+     }
+    
     @objc func refreshMessageListView(note: NSNotification) {
         chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
         self.chatListTable.reloadData()
@@ -62,6 +66,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
                     let chatID = diff.document.documentID
                     print("Removed conversation: \(chatID)")
                     chatHandler.chatMetadata[chatID] = nil
+                    chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
                 }
             }
         }
