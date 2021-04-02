@@ -31,6 +31,7 @@ struct ChatMetadata {
     
     let isRead: Bool?
     let isRevealed: Bool?
+    let latest_message: String? // this will be pulled from chat document
     let latestMessageTimestamp: Date?
     let recipient_image : String?
     let recipient_name : String?

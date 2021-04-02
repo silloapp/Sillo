@@ -32,17 +32,7 @@ class ChatViewTableViewCell: UITableViewCell {
 //                message.text = messageText
 //            }
             
-            message.text = ""
-            let chatID = msg.chatID
-            db.collection("chats").document(chatID!).collection("messages").order(by: "timestamp", descending: true).limit(to: 1).getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                    return
-                } else {
-                    let latestMessageDoc = querySnapshot!.documents[0]
-                    self.message.text = latestMessageDoc.get("message") as? String
-                }
-            }
+            message.text = msg.latest_message!
             
             if !msg.isRead! {
                 message.font = Font.bold(15)

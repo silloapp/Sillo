@@ -41,8 +41,20 @@ class ChatHandler {
         let latestMessageDate = Date(timeIntervalSince1970: TimeInterval(latestMessageTimestamp.seconds))
         let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
+        //get the latest message for this chat
+        var latest_message = "Replace this "
+        db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: true).limit(to: 1).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            } else {
+                let newestMessageDoc = querySnapshot!.documents[0]
+                latest_message = newestMessageDoc.get("message") as! String
+            }
+        }
+        
         //update chat metadata
-        self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
+        self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latest_message: latest_message, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
         
         //update post to chat mapping
         self.postToChat[postID] = chatID
