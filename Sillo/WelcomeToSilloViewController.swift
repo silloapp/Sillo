@@ -405,6 +405,31 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         self.TopTable.reloadData()
         let orgID : String = localUser.invites[selectedIndx]
         
+        // do not allow joining an organization you're already a part of
+        // switch organizations for the user, and take them to home screen.
+        if organizationData.idToName.keys.contains(orgID) {
+            DispatchQueue.main.async {
+                let alert = AlertView(headingText: "Organization Joined!", messageText: "You have already joined this organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);self.exitPressed()
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
+                self.present(alert, animated: true, completion: nil)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                //delete invite on firebase
+                db.collection("invites").document(Constants.EMAIL!).collection("user_invites").document(orgID).delete() {err in
+                    if err != nil {
+                        print("could not accept invite, invite document not deleted")
+                    }
+                    else {
+                        print("delete invite successful")
+                    }
+                }
+            }
+            return
+        }
         localUser.acceptInvite(organizationID: orgID)
     }
     
