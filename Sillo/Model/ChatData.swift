@@ -22,7 +22,21 @@ class ChatHandler {
     var messages: [String: [Message]] = [:] //a dictionary mapping chatid to chat messages
     var postToChat: [String: String] = [:]
 
-
+    //MARK: coldstart (pull metadata only)
+    func coldStart() {
+        let currentUserID = Constants.FIREBASE_USERID ?? "ERROR"
+        let currentOrganization = organizationData.currOrganization ?? "NO_ORG"
+        db.collection("user_chats").document(currentUserID).collection(currentOrganization).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting chat metadata documents: \(err)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    self.handleNewUserChat(chatID: document.documentID, data: document.data())
+                }
+            }
+        }
+    }
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
     
@@ -62,8 +76,6 @@ class ChatHandler {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
             }
         }
-        
-        
     }
     
     //MARK: documentlistener reports deleted post
@@ -86,7 +98,8 @@ class ChatHandler {
     //adds to user_chats
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
         let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
-        let messageStruct = createMessage(
+        let messageID = UUID.init().uuidString
+        let messageStruct = createMessage(messageID: messageID,
             senderID: userID,
             message: message,
             attachment: attachment,
@@ -304,16 +317,18 @@ class ChatHandler {
     
     // take a new message document, and parses it
     func parseNewChat() -> Message {
-        return Message(senderID: "", message: nil, attachment: nil, timestamp: nil, isRead: nil)
+        return Message(messageID: "", senderID: "", message: nil, attachment: nil, timestamp: nil, isRead: nil)
     }
     
     func createMessage(
+        messageID: String,
         senderID: String,
         message: String,
         attachment: UIImage?,
         timestamp: Date) -> Message {
         
         return Message(
+            messageID: messageID,
             senderID: senderID,
             message: message,
             attachment: attachment,

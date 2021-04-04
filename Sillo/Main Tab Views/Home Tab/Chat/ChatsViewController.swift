@@ -161,7 +161,6 @@ final class ChatsViewController: UITableViewController {
 //            chatHandler.messages[self.chatID] = messages
 //        }
 //    }
-
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -176,9 +175,8 @@ final class ChatsViewController: UITableViewController {
         if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
              //convert post into message
             
-        
-            let msg = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(), timestamp: self.initPost?.date, isRead: false)
-             let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+            //let msg = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(), timestamp: self.initPost?.date, isRead: false)
+            let firstPost = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
              chatHandler.messages[self.chatID] = [firstPost]
         }else { //avoid appending the first post twice
             chatHandler.messages[self.chatID] = []
@@ -203,22 +201,19 @@ final class ChatsViewController: UITableViewController {
                                 return
                             }
                     let timestamp = stamp.dateValue()
-                    let msg = Message(senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
+                    let msg = Message(messageID: messageID, senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
                     
-                    
-                    if let messageList = chatHandler.messages[self.chatID] {
+                    if chatHandler.messages[self.chatID] != nil {
                         //do not append msg twice
                         //CONTAINS MSG IS FLAWED CAUSING THE DOUBLE POST MSG BUG
                         //ALTERNATIVE FIX MAKE SURE ALL FIELDS IN MSG IS CONSISTENT
                         //OR ADD MSG IG into the message struct and check if the message id is already contained in the meantime
                         //this is def source of bug
-                        if !chatHandler.messages[self.chatID]!.contains(msg){ //ratchet, maybe use dict instead
+                        if !chatHandler.messages[self.chatID]!.contains(msg) {
                             chatHandler.messages[self.chatID]?.append(msg)
                             print("added message: \(message) to messagelist for chat \(self.chatID)" )
                         }
                     }
-                    
-                    
                 }
                 if (diff.type == .removed) {
                     let messageID = diff.document.documentID
@@ -534,10 +529,16 @@ extension ChatsViewController: MessageInputBarDelegate {
         print(text)
         
         if !chatHandler.chatMetadata.keys.contains(chatID){ // if this is first reply, create new chat
+            //clear the dummy, the new REAL messages (including the initial message) will come thru
+            chatHandler.messages[self.chatID] = []
+            
             //addChat creates new chat document and adds post and message to doc, and adds chatID to both poster and user's user_chats
             chatHandler.addChat(post: self.initPost!, message: text, attachment: nil, chatId: self.chatID)
-            //TODO: make sure chatList is up to date and now contains the new chatId
-//            chatHandler.activeChats[chatID] =
+            
+            //add metadata so we don't have to go through this again (next call with go straight into else)
+            chatHandler.chatMetadata[chatID] = ChatMetadata(chatID: chatID, postID: initPost?.postID, isRead: true, isRevealed: false, latest_message: text, latestMessageTimestamp: Date(), recipient_image: initPost?.posterImageName, recipient_name: initPost?.posterAlias, recipient_uid: initPost?.posterUserID, timestamp: Date())
+            
+            //TODO: make sure chatList is up to date and now contains the new chatID
         }else {
             //if this is already a chat, no need to make a new coument or add to user_chats
             //simply add message to the chat document

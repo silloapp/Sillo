@@ -18,6 +18,7 @@ struct MenuItem {
 
 //MARK: a single chat message
 struct Message:Equatable { //testing only
+    let messageID: String?
     let senderID: String?
     let message: String?
     let attachment: UIImage?
@@ -25,7 +26,7 @@ struct Message:Equatable { //testing only
     let isRead: Bool? //todo: remove this?
     
     static func == (lhs: Message, rhs: Message) -> Bool {
-        return lhs.timestamp == rhs.timestamp && lhs.senderID == rhs.senderID
+        return lhs.messageID == rhs.messageID
     }
 }
 
