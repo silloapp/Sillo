@@ -246,9 +246,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
-        let postID = chatHandler.sortedChatMetadata[indexPath.row].postID ?? "ERROR"
-        let associatedPost = feed.posts[postID] ?? nil
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: associatedPost)
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)
         

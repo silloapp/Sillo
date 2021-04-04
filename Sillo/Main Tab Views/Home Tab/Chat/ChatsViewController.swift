@@ -547,7 +547,7 @@ extension ChatsViewController: MessageInputBarDelegate {
         }else {
             //if this is already a chat, no need to make a new coument or add to user_chats
             //simply add message to the chat document
-            let recipientID = self.initPost?.posterUserID ?? "ERROR"
+            let recipientID = chatHandler.chatMetadata[self.chatID]!.recipient_uid!
             chatHandler.sendMessage(chatId: self.chatID, message: text, attachment: nil, recipientID: recipientID)
         }
         
