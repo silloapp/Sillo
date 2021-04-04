@@ -69,6 +69,7 @@ class ChatHandler {
                 //wait until this is finished // asynchronous later
                 //update chat metadata
                 self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latest_message: latest_message, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
+                self.sortedChatMetadata = self.sortChatMetadata()
                 
                 //update post to chat mapping
                 self.postToChat[postID] = chatID
@@ -133,7 +134,6 @@ class ChatHandler {
         
         //update user_chat for sender and for recipient
         let userID = Constants.FIREBASE_USERID!
-        print("recipientID is ", recipientID)
         updateUserChats(senderID: userID, recipientID: recipientID, chatId: chatId)
     }
     
@@ -212,7 +212,7 @@ class ChatHandler {
             
     // updates chat in user_chats for both parties (latest msg time etc)
     private func updateUserChats(senderID: String, recipientID: String, chatId: String) {
-        
+        print("UPDATE USER CHAT: \(senderID) -> \(recipientID)")
         //MARK: update user_chat for sender
         let senderChatDoc = db.collection("user_chats").document(senderID)
             .collection(organizationData.currOrganization!).document(chatId)
@@ -235,7 +235,7 @@ class ChatHandler {
         recipientChatDoc.getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    db.collection("chats").document(chatId).updateData([
+                    recipientChatDoc.updateData([
                         "isRead": false,
                         "latestMessageTimestamp": Timestamp.init(date: Date())
                     ])

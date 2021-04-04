@@ -96,6 +96,8 @@ final class ChatsViewController: UITableViewController {
         
         self.chatID = chatID
         self.messageInputBar = messageInputBarStyle.generate()
+        self.messageInputBar.inputTextView.textColor = .black
+        
         super.init(nibName: nil, bundle: nil)
         
         if let inputpost = post {
@@ -211,6 +213,10 @@ final class ChatsViewController: UITableViewController {
                         //this is def source of bug
                         if !chatHandler.messages[self.chatID]!.contains(msg) {
                             chatHandler.messages[self.chatID]?.append(msg)
+                            
+                            //sort messages (if no guarantee of sorting order, we should do it here)
+                            //chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
+                            
                             print("added message: \(message) to messagelist for chat \(self.chatID)" )
                         }
                     }
@@ -421,9 +427,8 @@ final class ChatsViewController: UITableViewController {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChatsbleViewCell
         cell.selectionStyle = .none
         
-        //TDO: sort this by time
         //all messages
-        let messagesList = chatHandler.messages[self.chatID]
+        var messagesList = chatHandler.messages[self.chatID]
         //single message
         let messageStruct = messagesList?[indexPath.row]
 
@@ -542,7 +547,8 @@ extension ChatsViewController: MessageInputBarDelegate {
         }else {
             //if this is already a chat, no need to make a new coument or add to user_chats
             //simply add message to the chat document
-            chatHandler.sendMessage(chatId: self.chatID, message: text, attachment: nil, recipientID: "TODO: replace this")
+            let recipientID = self.initPost?.posterUserID ?? "ERROR"
+            chatHandler.sendMessage(chatId: self.chatID, message: text, attachment: nil, recipientID: recipientID)
         }
         
         //call pulls from firebase, then refreshes tableview as callback
