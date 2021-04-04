@@ -16,14 +16,21 @@ struct MenuItem {
     let fontSize:CGFloat?
 }
 
+//MARK: a single chat message
 struct Message:Equatable { //testing only
+    let messageID: String?
     let senderID: String?
     let message: String?
     let attachment: UIImage?
     let timestamp: Date?
-    let isRead: Bool? //todo: remove this? 
+    let isRead: Bool? //todo: remove this?
+    
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.messageID == rhs.messageID
+    }
 }
 
+//MARK: a summary of the conversation
 struct ChatMetadata {
 
     let chatID: String?
@@ -37,6 +44,10 @@ struct ChatMetadata {
     let recipient_name : String?
     let recipient_uid : String?
     let timestamp : Date?
+    
+    static func == (lhs: ChatMetadata, rhs: ChatMetadata) -> Bool {
+        return lhs.chatID == rhs.chatID && lhs.postID == rhs.postID
+    }
 }
 
 struct Post {

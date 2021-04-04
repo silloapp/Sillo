@@ -22,7 +22,21 @@ class ChatHandler {
     var messages: [String: [Message]] = [:] //a dictionary mapping chatid to chat messages
     var postToChat: [String: String] = [:]
 
-
+    //MARK: coldstart (pull metadata only)
+    func coldStart() {
+        let currentUserID = Constants.FIREBASE_USERID ?? "ERROR"
+        let currentOrganization = organizationData.currOrganization ?? "NO_ORG"
+        db.collection("user_chats").document(currentUserID).collection(currentOrganization).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting chat metadata documents: \(err)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    self.handleNewUserChat(chatID: document.documentID, data: document.data())
+                }
+            }
+        }
+    }
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
     
@@ -55,6 +69,7 @@ class ChatHandler {
                 //wait until this is finished // asynchronous later
                 //update chat metadata
                 self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latest_message: latest_message, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
+                self.sortedChatMetadata = self.sortChatMetadata()
                 
                 //update post to chat mapping
                 self.postToChat[postID] = chatID
@@ -62,8 +77,6 @@ class ChatHandler {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
             }
         }
-        
-        
     }
     
     //MARK: documentlistener reports deleted post
@@ -86,7 +99,8 @@ class ChatHandler {
     //adds to user_chats
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
         let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
-        let messageStruct = createMessage(
+        let messageID = UUID.init().uuidString
+        let messageStruct = createMessage(messageID: messageID,
             senderID: userID,
             message: message,
             attachment: attachment,
@@ -120,7 +134,6 @@ class ChatHandler {
         
         //update user_chat for sender and for recipient
         let userID = Constants.FIREBASE_USERID!
-        print("recipientID is ", recipientID)
         updateUserChats(senderID: userID, recipientID: recipientID, chatId: chatId)
     }
     
@@ -130,7 +143,7 @@ class ChatHandler {
         
         //MARK: update user_chat for user
         let myChatDoc = db.collection("user_chats").document(userID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
        
         myChatDoc.getDocument() { (query, err) in
             if let query = query {
@@ -156,7 +169,7 @@ class ChatHandler {
         
         //MARK: create user_chat for sender
         let senderChatDoc = db.collection("user_chats").document(userID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
         senderChatDoc.setData([
             "postID" : post.postID,
             "recipient_uid": post.posterUserID!,
@@ -178,7 +191,7 @@ class ChatHandler {
        
         //MARK: create user_chat for recipient
         let recipientChatDoc = db.collection("user_chats").document(post.posterUserID!)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
         recipientChatDoc.setData([
             "postID" : post.postID,
             "recipient_uid": userID,
@@ -199,10 +212,10 @@ class ChatHandler {
             
     // updates chat in user_chats for both parties (latest msg time etc)
     private func updateUserChats(senderID: String, recipientID: String, chatId: String) {
-        
+        print("UPDATE USER CHAT: \(senderID) -> \(recipientID)")
         //MARK: update user_chat for sender
         let senderChatDoc = db.collection("user_chats").document(senderID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
        
         senderChatDoc.getDocument() { (query, err) in
             if let query = query {
@@ -217,12 +230,12 @@ class ChatHandler {
         
         //MARK: update user_chat for recipient
         let recipientChatDoc = db.collection("user_chats").document(recipientID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
        
         recipientChatDoc.getDocument() { (query, err) in
             if let query = query {
                 if query.exists {
-                    db.collection("chats").document(chatId).updateData([
+                    recipientChatDoc.updateData([
                         "isRead": false,
                         "latestMessageTimestamp": Timestamp.init(date: Date())
                     ])
@@ -304,16 +317,18 @@ class ChatHandler {
     
     // take a new message document, and parses it
     func parseNewChat() -> Message {
-        return Message(senderID: "", message: nil, attachment: nil, timestamp: nil, isRead: nil)
+        return Message(messageID: "", senderID: "", message: nil, attachment: nil, timestamp: nil, isRead: nil)
     }
     
     func createMessage(
+        messageID: String,
         senderID: String,
         message: String,
         attachment: UIImage?,
         timestamp: Date) -> Message {
         
         return Message(
+            messageID: messageID,
             senderID: senderID,
             message: message,
             attachment: attachment,

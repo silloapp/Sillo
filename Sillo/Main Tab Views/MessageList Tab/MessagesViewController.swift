@@ -43,7 +43,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
-        let reference = db.collection("user_chats").document(myUserID).collection("chats").order(by: "timestamp", descending: true)
+        let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true)
         activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(error!)")
@@ -246,7 +246,9 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
+        let postID = chatHandler.sortedChatMetadata[indexPath.row].postID ?? "ERROR"
+        let associatedPost = feed.posts[postID] ?? nil
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: associatedPost)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)
         

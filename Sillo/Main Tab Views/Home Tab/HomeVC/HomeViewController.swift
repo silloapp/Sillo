@@ -69,6 +69,7 @@ class HomeViewController: UIViewController {
             }
         }
         quests.coldStart()
+        chatHandler.coldStart()
     }
     
     override func viewDidLoad() {
