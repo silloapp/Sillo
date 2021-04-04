@@ -43,7 +43,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
-        let reference = db.collection("user_chats").document(myUserID).collection("chats").order(by: "timestamp", descending: true)
+        let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true)
         activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(error!)")

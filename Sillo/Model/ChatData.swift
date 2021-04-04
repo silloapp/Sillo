@@ -130,7 +130,7 @@ class ChatHandler {
         
         //MARK: update user_chat for user
         let myChatDoc = db.collection("user_chats").document(userID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
        
         myChatDoc.getDocument() { (query, err) in
             if let query = query {
@@ -156,7 +156,7 @@ class ChatHandler {
         
         //MARK: create user_chat for sender
         let senderChatDoc = db.collection("user_chats").document(userID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
         senderChatDoc.setData([
             "postID" : post.postID,
             "recipient_uid": post.posterUserID!,
@@ -178,7 +178,7 @@ class ChatHandler {
        
         //MARK: create user_chat for recipient
         let recipientChatDoc = db.collection("user_chats").document(post.posterUserID!)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
         recipientChatDoc.setData([
             "postID" : post.postID,
             "recipient_uid": userID,
@@ -202,7 +202,7 @@ class ChatHandler {
         
         //MARK: update user_chat for sender
         let senderChatDoc = db.collection("user_chats").document(senderID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
        
         senderChatDoc.getDocument() { (query, err) in
             if let query = query {
@@ -217,7 +217,7 @@ class ChatHandler {
         
         //MARK: update user_chat for recipient
         let recipientChatDoc = db.collection("user_chats").document(recipientID)
-            .collection("chats").document(chatId)
+            .collection(organizationData.currOrganization!).document(chatId)
        
         recipientChatDoc.getDocument() { (query, err) in
             if let query = query {
