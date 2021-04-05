@@ -540,6 +540,9 @@ extension ChatsViewController: MessageInputBarDelegate {
             //addChat creates new chat document and adds post and message to doc, and adds chatID to both poster and user's user_chats
             chatHandler.addChat(post: self.initPost!, message: text, attachment: nil, chatId: self.chatID)
             
+            //log chat creation
+            analytics.log_create_chat()
+            
             //add metadata so we don't have to go through this again (next call with go straight into else)
             chatHandler.chatMetadata[chatID] = ChatMetadata(chatID: chatID, postID: initPost?.postID, isRead: true, isRevealed: false, latest_message: text, latestMessageTimestamp: Date(), recipient_image: initPost?.posterImageName, recipient_name: initPost?.posterAlias, recipient_uid: initPost?.posterUserID, timestamp: Date())
             

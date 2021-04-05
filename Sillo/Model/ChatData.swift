@@ -119,6 +119,9 @@ class ChatHandler {
         let opMessageId = UUID.init().uuidString
         let opMessageDoc = messageSubCol.document(opMessageId)
         
+        //MARK: update latest chat message
+        db.collection("chats").document(chatId).updateData(["latest_message":message])
+        
         opMessageDoc.setData([
             "senderID": Constants.FIREBASE_USERID,
             "attachment": "", // TODO: upload UIImage to storage, then return the path string
@@ -135,6 +138,9 @@ class ChatHandler {
         //update user_chat for sender and for recipient
         let userID = Constants.FIREBASE_USERID!
         updateUserChats(senderID: userID, recipientID: recipientID, chatId: chatId)
+        
+        //analytics log chat message
+        analytics.log_send_chat_message()
     }
     
     
