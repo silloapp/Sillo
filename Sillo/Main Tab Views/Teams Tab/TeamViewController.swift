@@ -28,7 +28,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "People", nextVC: PeopleVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Notifications", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
@@ -36,9 +36,9 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let itemProperties = [
         ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"team-1")!),
         ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"team-2")!),
-        ItemProperty(title: "People", backgroundImage: UIImage(named:"team-3")!),
-        ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-4")!),
-        ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-5")!),
+        ItemProperty(title: "People", backgroundImage: UIImage(named:"team-5")!),
+        ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-3")!),
+        ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-4")!),
         ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team-6")!),
         ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"team-7")!),
         
@@ -52,13 +52,11 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         overrideUserInterfaceStyle = .light
         
         setupHeader()
-//        navigationController?.interactivePopGestureRecognizer?.delegate = self
-
         
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // remove separators at bottom of tableview
         menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
-        menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 140).isActive = true
+        menuItemTableView.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
         menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
         menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
         menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
