@@ -34,13 +34,13 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     ]
     
     private let itemProperties = [
-        ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"Photography")!),
-        ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"Dance")!),
-        ItemProperty(title: "People", backgroundImage: UIImage(named:"Meditation")!),
-        ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"Tech")!),
-        ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"Finance")!),
-        ItemProperty(title: "Reports", backgroundImage: UIImage(named:"Music")!),
-        ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"Games")!),
+        ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"team-1")!),
+        ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"team-2")!),
+        ItemProperty(title: "People", backgroundImage: UIImage(named:"team-3")!),
+        ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-4")!),
+        ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-5")!),
+        ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team-6")!),
+        ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"team-7")!),
         
     ]
     
@@ -64,6 +64,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         menuItemTableView.isScrollEnabled = true
         menuItemTableView.dataSource = self
+        menuItemTableView.showsVerticalScrollIndicator = false
         menuItemTableView.delegate = self
         menuItemTableView.separatorColor = .clear
         menuItemTableView.register(ImageCell.self, forCellReuseIdentifier: cellID)
