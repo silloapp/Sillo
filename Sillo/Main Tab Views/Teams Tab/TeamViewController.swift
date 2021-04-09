@@ -198,7 +198,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        header.heightAnchor.constraint(equalToConstant: 132).isActive = true
+        header.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 110/812).isActive = true
         
         //app logo and team name stack
         let logoTeamStack = setupPhotoTeamName()
