@@ -123,6 +123,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
         
+        
         //MARK: newPost headerview
         view.addSubview(newPostButton)
         newPostButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true

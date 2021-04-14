@@ -170,7 +170,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.isScrollEnabled = true
         emailTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         emailTextView.isEditable = true
-        //emailTextView.keyboardType = .emailAddress
+        emailTextView.keyboardType = .emailAddress
         
         emailTextView.heightAnchor.constraint(equalTo: textStack.heightAnchor, multiplier: 1).isActive = true
         emailTextView.widthAnchor.constraint(equalTo: textStack.widthAnchor, multiplier: 1).isActive = true
