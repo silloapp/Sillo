@@ -162,10 +162,23 @@ class ChatHandler {
             }
         }
     }
+    
+    // user  deletes a conversation, we remove chat metadata from user's user_chats
+    func deleteConversation(chatID: String, userID: String) {
         
-    
-    
-    
+        //MARK: deletes document corresponding to conversation in user_chat for user
+        let myChatDoc = db.collection("user_chats").document(userID)
+            .collection(organizationData.currOrganization!).document(chatID)
+        
+        myChatDoc.delete() { err in
+            if let err = err {
+                print("Error removing chat document: \(err)")
+            } else {
+                print("Chat document successfully removed!")
+            }
+        }
+    }
+        
     /////// HELPER FUNCTIONS FOR CHAT BELOW //////////////////////////////
     
     

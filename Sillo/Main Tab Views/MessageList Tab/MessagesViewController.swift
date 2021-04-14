@@ -280,4 +280,23 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         
         
     }
+    
+    //swipe to delete
+     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("deleting this !!!!!!")
+//            objects.remove(at: indexPath.row)
+            
+            //delete chat for self
+            
+            let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
+            let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
+            chatHandler.deleteConversation(chatID: chatID, userID: userID)
+//
+//
+            
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
 }

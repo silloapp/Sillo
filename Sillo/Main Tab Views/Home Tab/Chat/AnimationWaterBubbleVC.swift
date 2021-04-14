@@ -32,6 +32,20 @@ class AnimationWaterBubbleVC: UIViewController {
     let screenSize = UIScreen.main.bounds
     var change:CGFloat = 0.01
     var wave: WaveAnimationView!
+    
+    let chatID: String
+    
+    init(chatID: String) {
+        
+        self.chatID = chatID
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 
 
     override func viewDidLoad() {
@@ -66,7 +80,14 @@ class AnimationWaterBubbleVC: UIViewController {
     
     // MARK: -============================= Fluid animation ===============================
     
-  
+
+    
+    @objc func continuePressed(_ tapRecognizer: UITapGestureRecognizer) {
+        print("DISPLAY CHAT VC NOW!!!!! PLEASE")
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(chatVC, animated: true)
+    }
    
     func settingElemets()
     {
@@ -90,7 +111,7 @@ class AnimationWaterBubbleVC: UIViewController {
         
  
     self.view.addSubview(UpperProfileImg)
-        UpperProfileImg.image = #imageLiteral(resourceName: "roundCutimg")
+        UpperProfileImg.image = UIImage(named: "avatar-1")
 
    let UpperProfileImgconstraints = [
     UpperProfileImg.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 30),
@@ -100,7 +121,7 @@ class AnimationWaterBubbleVC: UIViewController {
        ]
          
         self.BgimageVw.addSubview(lowerProfileImg)
-        lowerProfileImg.image = #imageLiteral(resourceName: "profile")
+        lowerProfileImg.image = UIImage(named:"avatar-2")
         lowerProfileImg.clipsToBounds = true
         lowerProfileImg.layer.cornerRadius = 25
        
@@ -120,12 +141,21 @@ class AnimationWaterBubbleVC: UIViewController {
         ContinueBtn.titleLabel?.font = UIFont.init(name: "Apercu-Regular", size: 16)
         ContinueBtn.titleLabel?.textAlignment = .center
         
+        
         let ContinueBtnconstraints = [
         ContinueBtn.bottomAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
         ContinueBtn.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
         ContinueBtn.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 25),
         ContinueBtn.heightAnchor.constraint(equalToConstant: 45)
            ]
+        
+//        ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchUpInside)
+//        ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchDown)
+        
+        let continueTap = UITapGestureRecognizer(target: self, action: #selector(continuePressed(_:)))
+        continueTap.cancelsTouchesInView = false;
+        ContinueBtn.addGestureRecognizer(continueTap)
+        ContinueBtn.isUserInteractionEnabled = true
     
         
         starCountLbl.text = "+25"
@@ -158,7 +188,7 @@ class AnimationWaterBubbleVC: UIViewController {
         
         
         self.BgimageVw.addSubview(starImg)
-           starImg.image = #imageLiteral(resourceName: "star")
+        starImg.image = UIImage(named:"bgStar")
           starImg.contentMode = .scaleAspectFit
           
          let starImgconstraints = [
@@ -169,8 +199,8 @@ class AnimationWaterBubbleVC: UIViewController {
              ]
           
         self.view.addSubview(titlelbl)
-        
-        titlelbl.text = "Lorem Ipsum Dolar Sit Amet! Lorem Ipsum!"
+        let recipientName = "Kevin Nguyen" //to do: replace this
+        titlelbl.text = "Kudos! Here's to a connection with \(recipientName)"
         titlelbl.textColor = themeColor
         titlelbl.font = UIFont.init(name: "Apercu-Bold", size: 17)
         titlelbl.numberOfLines = 0
@@ -226,7 +256,7 @@ class AnimationWaterBubbleVC: UIViewController {
     
      
         self.RiseUpimageVw.layer.borderColor = UIColor.white.cgColor
-        UIView.animate(withDuration: 18) { [self] in
+        UIView.animate(withDuration: 9) { [self] in
 
             self.RiseUpimageVw.transform = CGAffineTransform(translationX:0 , y: -(screenSize.height+screenSize.height))
             self.RiseUpimageVwTop.transform = CGAffineTransform(translationX:0 , y: -(screenSize.height+screenSize.height))
@@ -235,13 +265,13 @@ class AnimationWaterBubbleVC: UIViewController {
        }
 
         
-        self.timerFluid = Timer.scheduledTimer(timeInterval: 10.0, target: self,   selector: (#selector(ShowElements)), userInfo: nil, repeats: false)
+        self.timerFluid = Timer.scheduledTimer(timeInterval: 5.0, target: self,   selector: (#selector(ShowElements)), userInfo: nil, repeats: false)
      
     }
     
     @objc func ShowElements()
   {
-        self.timer = Timer.scheduledTimer(timeInterval: 0.3, target: self,   selector: (#selector(StarsAnimationStarts)), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self,   selector: (#selector(StarsAnimationStarts)), userInfo: nil, repeats: true)
     }
         
     @objc func StarsAnimationStarts()
@@ -251,7 +281,7 @@ class AnimationWaterBubbleVC: UIViewController {
         
 //----------------- For  Bubble :
         
-        let bubbleImageView = UIImageView(image: #imageLiteral(resourceName: "star"))
+        let bubbleImageView = UIImageView(image: UIImage(named:"bgStar"))
         let size = randomFloatBetween(5, and: 30)
         bubbleImageView.frame = CGRect(x: (lowerProfileImg.layer.presentation()?.frame.origin.x ?? 0) , y: (lowerProfileImg.layer.presentation()?.frame.origin.y ?? 0) + 80, width: size, height: size)
         bubbleImageView.alpha = CGFloat(randomFloatBetween(0.1, and: 1))
@@ -304,6 +334,7 @@ class AnimationWaterBubbleVC: UIViewController {
         return multiplication + smallNumber
       
     }
+
         
         
 

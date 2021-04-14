@@ -416,10 +416,10 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        let navigationController = UINavigationController(rootViewController: chatVC)
 //        navigationController.modalPresentationStyle = .fullScreen
 //        self.present(navigationController, animated: true, completion: nil)
-        print("chat pressed! TODO: display revealVC")
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
+        print("revealVC pressed! TODO: display revealVC")
+        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(chatVC, animated: true)
+        self.navigationController?.pushViewController(revealVC, animated: true)
         
     }
     
