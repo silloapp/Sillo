@@ -224,32 +224,59 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         return 70
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let headerView = UIView.init(frame: CGRect.init(x: 25, y: 0, width: tableView.frame.width, height: 50))
-        
-            let label = UILabel()
-            label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
-            label.text = ""
-            if chatHandler.sortedChatMetadata.count > 0 {
-            label.text = "Today" //TODO: change this when viewing older messages
-            }
-            label.font = Font.bold(20)
-            label.textColor = UIColor.black
-            headerView.addSubview(label)
-
-            return headerView
-        }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 35
-        }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//            let headerView = UIView.init(frame: CGRect.init(x: 25, y: 0, width: tableView.frame.width, height: 50))
+//
+//            let label = UILabel()
+//            label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
+//            label.text = ""
+//            if chatHandler.sortedChatMetadata.count > 0 {
+//            label.text = "Today" //TODO: change this when viewing older messages
+//            }
+//            label.font = Font.bold(20)
+//            label.textColor = UIColor.black
+//            headerView.addSubview(label)
+//
+//            return headerView
+//        }
+//
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//            return 35
+//        }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(chatVC, animated: true)
+        var isPoster = true
+        db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: false).limit(to: 1).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            } else {
+                let firstMessageDoc = querySnapshot!.documents[0] // THE MESSAGE DOC DOES NOT EXIST YET BU THE TIME USER_CHAT IS UPDATED
+                let senderID = firstMessageDoc.get("senderID") as! String
+                if senderID == Constants.FIREBASE_USERID {
+                    isPoster = true
+                    
+                } else {
+                    isPoster = false
+                }
+            }
+        }
         
+        let isRevealed = chatHandler.sortedChatMetadata[indexPath.row].isRevealed
+        if isPoster && !isRevealed!{
+            //if not yet revealed and is poster, poster will accept / decline message and be shown the interchatVC
+            let interchatVC = InterChatVC(chatID: chatID, post: nil)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(interchatVC, animated: true)
+        }else{
+            let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(chatVC, animated: true)
+            
+        }
+        
+       
         
         
     }

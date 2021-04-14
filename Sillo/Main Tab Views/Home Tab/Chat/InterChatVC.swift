@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
@@ -16,10 +17,112 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     let TopTable = UITableView()
     var stackView = UIStackView()
     
-    var rightArr = [ "lorem ispum dollar sit","lorem ispum dollar sit"]
+    var chatID: String
+    var initPost: Post?
     
-    var leftArr = [ "lorem fanyyyy dollar gromm lorem buzzz","lorem fanyyyy dollar gromm lorem buzzz"]
+    //MARK: listener
+    private var messageListener: ListenerRegistration?
+    deinit {
+       messageListener?.remove()
+     }
     
+    
+    init(chatID: String, post: Post?) {
+        
+        self.chatID = chatID
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        if let inputpost = post {
+            print("set init post whose message is \(inputpost.message)")
+            self.initPost = inputpost
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func refreshChatView(note: NSNotification) {
+        //refresh the subtask table
+        self.TopTable.reloadData()
+        //scrolls to bottom row when new message added
+        self.TopTable.scrollToBottomRow()
+        print("refreshed the chatView")
+        
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) { self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.view.backgroundColor = ViewBgColor
+        settingElemets()
+        forStsBar()
+//        //now that message has been opened, mark as read for user
+//        chatHandler.readChat(userID: Constants.FIREBASE_USERID!, chatId: self.chatID)
+        
+        
+        self.navigationController?.navigationBar.isHidden = true
+        setNavBar()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
+        
+        if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
+             //convert post into message
+            
+            //let msg = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(), timestamp: self.initPost?.date, isRead: false)
+            let firstPost = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+             chatHandler.messages[self.chatID] = [firstPost]
+        }else { //avoid appending the first post twice
+            chatHandler.messages[self.chatID] = []
+        }
+        
+        // add query listner for the chat's message collection
+        let messageSubCol = db.collection("chats").document(chatID)
+            .collection("messages").order(by: "timestamp", descending: false)
+        messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added || diff.type == .modified) {
+                    let messageID = diff.document.documentID
+                    print("New message: \(messageID)")
+                    //add or update active chat
+                    let message = diff.document.get("message") as! String
+                    let senderID = diff.document.get("senderID") as! String
+                    guard let stamp = diff.document.get("timestamp") as? Timestamp else {
+                                return
+                            }
+                    let timestamp = stamp.dateValue()
+                    let msg = Message(messageID: messageID, senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
+                    
+                    if chatHandler.messages[self.chatID] != nil {
+                        //do not append msg twice
+                        //CONTAINS MSG IS FLAWED CAUSING THE DOUBLE POST MSG BUG
+                        //ALTERNATIVE FIX MAKE SURE ALL FIELDS IN MSG IS CONSISTENT
+                        //OR ADD MSG IG into the message struct and check if the message id is already contained in the meantime
+                        //this is def source of bug
+                        if !chatHandler.messages[self.chatID]!.contains(msg) {
+                            chatHandler.messages[self.chatID]?.append(msg)
+                            
+                            //sort messages (if no guarantee of sorting order, we should do it here)
+                            //chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
+                            
+                            print("added message: \(message) to messagelist for chat \(self.chatID)" )
+                        }
+                    }
+                }
+                if (diff.type == .removed) {
+                    let messageID = diff.document.documentID
+                    print("Removed msg: \(messageID)")
+                    //not implemented yet, need to change data struct first to map not array
+//
+                }
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -136,14 +239,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     @objc func menuMethod() {
         self.navigationController?.popViewController(animated: true)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.view.backgroundColor = ViewBgColor
-        setNavBar()
-        settingElemets()
-        forStsBar()
-    }
+  
     func forStsBar()
     {
         if #available(iOS 13.0, *) {
@@ -312,6 +408,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     //MARK: Chat or delete pressed
     @objc func deletePressed() {
         self.navigationController?.popViewController(animated: true)
+        print("delete pressed")
     }
     
     @objc func chatPressed() {
@@ -319,8 +416,8 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        let navigationController = UINavigationController(rootViewController: chatVC)
 //        navigationController.modalPresentationStyle = .fullScreen
 //        self.present(navigationController, animated: true, completion: nil)
-        
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: "PLACEHOLDER_CHATID", post: nil)
+        print("chat pressed! TODO: display revealVC")
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)
         
@@ -330,89 +427,99 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
 
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return chatHandler.messages[self.chatID]?.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChatsbleViewCell
         cell.selectionStyle = .none
-        print("cell for row")
         
-        var Rightheight = CGFloat()
-        var leftheight = CGFloat()
-        
-        var Rightwidth = CGFloat()
-        var leftwidth = CGFloat()
-        
-  
-        if indexPath.row % 2 == 0
-        {
+        //all messages
+        var messagesList = chatHandler.messages[self.chatID]
+        //single message
+        let messageStruct = messagesList?[indexPath.row]
+
+        //appears on the right if I sent it
+        if messageStruct?.senderID == Constants.FIREBASE_USERID! {
             cell.labLeft.isHidden = true
             cell.labRight.isHidden = false
-            cell.labRight.text = rightArr[indexPath.row]
-            cell.labRight.text = "lorem ispum"
-            
-            Rightheight = cell.labRight.text!.stringHeight + 30
-            
-            let RightW = cell.labRight.text!.stringWidth
-            if RightW <= 200
-            {
-                Rightwidth = RightW + 30
-            }
-            else
-            {
-                Rightwidth = 200
-            }
-             
-        }
-        
-        else {
-            cell.labLeft.text = "lorem ispum dollar sit lorem ikspum loremm"
-            
+            cell.Viewleft.isHidden = true
+            cell.ViewRight.isHidden = false
+            cell.labRight.text = messageStruct?.message
+        } else {//appears on the left if other person sends it
             cell.labLeft.isHidden = false
             cell.labRight.isHidden = true
-            cell.labLeft.text = leftArr[indexPath.row]
-            
-            let leftW = cell.labLeft.text!.stringWidth + 30
-            if leftW <= 200
-            {
-                leftwidth = leftW
-            }
-            else
-            {
-                leftwidth = 200
-            }
-            
+            cell.Viewleft.isHidden = false
+            cell.ViewRight.isHidden = true
+            cell.labLeft.text = messageStruct?.message
         }
         
         
-        print("Rightheight",Rightheight)
-        print("leftheight",leftheight)
+        let stringWidth = messageStruct?.message?.stringWidth
+        let maxWidth = CGFloat(200)
+        var chatWidth = CGFloat()
         
+        if stringWidth! <= maxWidth{
+            //looks like stringWidth extension is flawed???
+            //chatWidth = stringWidth! + 30
+            chatWidth = maxWidth
+        } else {
+            chatWidth = maxWidth
+        }
+    
+        
+        //HEIGHT
+        //TODO: rn maximizes width, but later on get diff levels to balance out.
+        var chatHeight = CGFloat()
+        let stringHeight =  messageStruct?.message?.stringHeight
+        //there is no max height for chat, but we will use a multiplier
+        var multiplier = 1
+        if (stringWidth! > maxWidth) {
+            multiplier = Int((stringWidth! / maxWidth ).rounded(.up))
+        }
+        chatHeight = 60
+        
+ 
+       
+        print("height:",chatHeight)
+        print("width:", chatWidth)
+        
+      
 
-        cell.ViewRightconstraints = [
-            cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.ViewRight.widthAnchor.constraint(equalToConstant: Rightwidth),
-            cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(Rightheight)),
-            cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20),
-            cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
-        ]
+
+            cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
+            cell.ViewRight.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
+            cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20).isActive = true
+            
+        
+        cell.labRight.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
+        cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8).isActive = true
+        cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8).isActive = true
+    
+   
+            cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
+           
+            cell.Viewleft.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
+            cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
+            
+        
+            
+      
+
+            cell.labLeft.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
+            cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
+            cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8).isActive = true
         
         
-        cell.Viewleftconstraints = [
-            cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(leftheight)),
-            cell.Viewleft.widthAnchor.constraint(equalToConstant: leftwidth),
-            cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20),
-            cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
-        ]
+        //experiment with these two
+        cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
+        cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
         
-        NSLayoutConstraint.activate(cell.ViewRightconstraints)
-        NSLayoutConstraint.activate(cell.Viewleftconstraints)
+        cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
+        cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
         
         cell.contentView.layoutIfNeeded()
-        
         
         return cell
         

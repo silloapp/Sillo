@@ -120,49 +120,7 @@ final class ChatsViewController: UITableViewController {
         
     }
     
-//    private func updateMessages() {
-//        if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
-//            //convert post into message
-//            let firstPost = Message(senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-//            print(firstPost.message)
-//            chatHandler.messages[self.chatID] = [firstPost]
-//        } else { //else, pull from firebase, since this is an already existing chat
-//            //TODO: CHANGE THIS
-//            var messages : [Message] = []
-//
-//            //gets latest messages for current chat
-//            //add listener
-//            let doc = db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: false).getDocuments(){ (querySnapshot, err) in
-//                if let err = err {
-//                    print("Error getting documents: \(err)")
-//                    return
-//                } else {
-//                    print("number of documents returned in query: \(querySnapshot!.documents.count)")
-//                    for document in querySnapshot!.documents {
-//                        let message = document.get("message") as! String
-//                        let senderID = document.get("senderID") as! String
-//                        guard let stamp = document.get("timestamp") as? Timestamp else {
-//                                    return
-//                                }
-//                        let timestamp = stamp.dateValue()
-//                        messages.append(Message(senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false))
-//                        print("added message: \(message) to messagelist for chat \(self.chatID)" )
-//                    }
-//
-//
-//                }
-//                chatHandler.messages[self.chatID] = messages
-//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
-//                //refresh the subtask table
-//                self.tableView.reloadData()
-//                print("refreshed the chatView")
-//            }
-//
-//            print("num of messages: \(messages.count)")
-//
-//            chatHandler.messages[self.chatID] = messages
-//        }
-//    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         
