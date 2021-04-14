@@ -8,11 +8,13 @@
 import Firebase
 import GiphyUISDK
 import UIKit
+import FloatingPanel
 
 
 class NewPostViewController: UIViewController, UITextViewDelegate {
     
     var posterImageName: String = "avatar-1"
+    let stickerFloatingPanel = FloatingPanelController()
     
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
@@ -106,6 +108,16 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         // Do any additional setup after loading the view.
         addHomeView()
         Giphy.configure(apiKey: "Z5AW2zezCf4gtUQEOh379fYxxqfLzPYX")
+        
+        stickerFloatingPanel.delegate = self
+        stickerFloatingPanel.isRemovalInteractionEnabled = true
+        
+        let apperance = SurfaceAppearance()
+        apperance.cornerRadius = 25
+        stickerFloatingPanel.surfaceView.appearance = apperance
+        let contentVC = StickerPickerViewController()
+        stickerFloatingPanel.set(contentViewController: contentVC)
+        stickerFloatingPanel.track(scrollView: contentVC.stickerCollectionView!)
     }
     
     func addHomeView() {
@@ -146,7 +158,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         posterImageName = generatePosterImageName()
         profilepic.image = UIImage(named:"\(posterImageName)")
         
-        //textiview
+        //textView
         view.addSubview(textView)
         textView.leadingAnchor.constraint(equalTo: profilepic.leadingAnchor, constant: 50).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
@@ -171,6 +183,11 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             textView.textColor = UIColor.black
             newPostButton.backgroundColor = Color.buttonClickable
         }
+        stickerFloatingPanel.willMove(toParent: nil)
+        stickerFloatingPanel.hide(animated: true) {
+            self.stickerFloatingPanel.dismiss(animated: true, completion: nil)
+        }
+
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -257,7 +274,9 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     //User pressed sticker button
     @objc func addStickerPressed(_:UIButton) {
-        print("TODO: bring up sillo sticker half VC")
+        
+        textView.resignFirstResponder()
+        self.present(stickerFloatingPanel, animated: true, completion: nil)
     }
 
 }
@@ -369,4 +388,11 @@ extension UITabBarController {
     var isTabBarHidden: Bool {
         return !tabBar.frame.intersects(view.frame)
     }
+}
+
+
+extension NewPostViewController: FloatingPanelControllerDelegate {
+    
+    
+    
 }
