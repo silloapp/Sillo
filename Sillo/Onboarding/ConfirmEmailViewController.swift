@@ -120,16 +120,17 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         emailTableView.register(UITableViewCell.self, forCellReuseIdentifier: "emailCell")
         emailTableView.delegate = self
         emailTableView.dataSource = self
-        emailTableView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
-
+        emailTableView.contentSize = CGSize(width: self.view.safeAreaLayoutGuide.layoutFrame.width, height: emailTableView.contentSize.height);
+        emailTableView.alwaysBounceHorizontal = false
         
         emailTableView.backgroundColor = .white
         emailTableView.tableHeaderView = UIView()
         emailTableView.translatesAutoresizingMaskIntoConstraints = false
 
-        emailTableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
+        emailTableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9).isActive = true
         emailTableView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.65).isActive = true
         emailTableView.topAnchor.constraint(equalTo: stack.bottomAnchor).isActive = true
+        emailTableView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         confirmButton.backgroundColor = Color.buttonClickable
         confirmButton.setTitle("Confirm", for: .normal)
