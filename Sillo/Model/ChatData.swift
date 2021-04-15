@@ -75,11 +75,12 @@ class ChatHandler {
                 self.postToChat[postID] = chatID
                 
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
             }
         }
     }
     
-    //MARK: documentlistener reports deleted post
+    //MARK: documentlistener reports deleted chat
     func handleDeleteUserChat(chatID: String, data: [String:Any]) {
         let postID = data["postID"] as! String
         
@@ -93,7 +94,7 @@ class ChatHandler {
     
 
     
-    //NOTES: only two public functions, you're either creating a new chat (ADD), or replying to an already existing one(UPDATE)
+    //NOTES: only three public functions, you're either creating a new chat (ADD), or replying to an already existing one(UPDATE), or reading a message (mark as read), and delete conversation from firebase, AND reveal
     
     //creates a new chat document with mesages
     //adds to user_chats
@@ -158,6 +159,59 @@ class ChatHandler {
                         "isRead": true,
                     ])
                     print("marked conversation \(chatId) as read.")
+                }
+            }
+        }
+    }
+    
+    func revealChat(chatId: String) {
+        let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING MY USER ID"
+        let recipientID = chatMetadata[chatId]?.recipient_uid ?? "ERROR FETCHING RECIPIENT USER ID"
+        
+        db.collection("users").document(recipientID).getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                  
+                    let recipientName = query.get("username") as! String
+                    
+                    //MARK: update user_chat for user
+                    let myChatDoc = db.collection("user_chats").document(userID)
+                        .collection(organizationData.currOrganization!).document(chatId)
+                   
+                    //update user's own chat metadata
+                    myChatDoc.getDocument() { (query, err) in
+                        if let query = query {
+                            if query.exists {
+                                myChatDoc.updateData([
+                                    "isRevealed" : true,
+                                    "recipient_img" : "",
+                                    "recipient_name" : recipientName
+                                ])
+                                print("revealed for self.")
+                            }
+                        }
+                    }
+        
+                } else {
+                    print("could not find document")
+                }
+            }
+        }
+
+        
+        
+        //update other person's chat metadata
+        let recipientChatDoc = db.collection("user_chats").document(recipientID).collection(organizationData.currOrganization!).document(chatId)
+       
+        recipientChatDoc.getDocument() { (query, err) in
+            if let query = query {
+                if query.exists {
+                    recipientChatDoc.updateData([
+                        "isRevealed" : true,
+                        "recipient_img" : "",
+                        "recipient_name" : Constants.USERNAME
+                    ])
+                    print("revealed for recipient.")
                 }
             }
         }

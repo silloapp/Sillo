@@ -350,7 +350,10 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     @objc func chatPressed() {
-        print("DISPLAY CHAT VC NOW!!!!! PLEASE")
+        
+        //do da big reveal
+        chatHandler.revealChat(chatId: self.chatID)
+    
         let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)

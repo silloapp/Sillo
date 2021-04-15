@@ -14,7 +14,11 @@ class ChatViewTableViewCell: UITableViewCell {
         didSet {
             guard let msg = item else {return}
             var name = msg.recipient_name!
+            
             profilePic.image = UIImage(named: msg.recipient_image ?? "avatar-4")
+            if msg.isRevealed! { //TODO: use person's profile pic
+                profilePic.image =  cloudutil.downloadImage(ref: "profiles/\(msg.recipient_uid!)\(Constants.image_extension)")
+            }
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h:mm a" //12 hr time
             dateFormatter.timeZone = TimeZone.current
@@ -97,10 +101,22 @@ class ChatViewTableViewCell: UITableViewCell {
     }()
    
     
+    //notification callback for refreshing profile picture
+    @objc func refreshProfilePicture(_:UIImage) {
+        let profilePictureRef = "profiles/\(item?.recipient_uid)\(Constants.image_extension)"
+        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)
+        profilePic.image = cachedImage
+    }
+
+    
    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProfilePicture), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
         self.contentView.addSubview(profilePic)
         profilePic.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true

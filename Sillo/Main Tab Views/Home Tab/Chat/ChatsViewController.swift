@@ -78,10 +78,16 @@ final class ChatsViewController: UITableViewController {
     var initPost: Post?
     
     //MARK: listener
+    private var activeChatListener: ListenerRegistration?
     private var messageListener: ListenerRegistration?
     deinit {
        messageListener?.remove()
+        activeChatListener?.remove()
      }
+    
+    let Imagebutton : UIButton = {
+       return UIButton(type: UIButton.ButtonType.custom)
+    } ()
     
     let header : UIView = {
         let view = UIView()
@@ -114,11 +120,20 @@ final class ChatsViewController: UITableViewController {
     @objc func refreshChatView(note: NSNotification) {
         //refresh the subtask table
         self.tableView.reloadData()
+        setNavBar()
         //scrolls to bottom row when new message added
         self.tableView.scrollToBottomRow()
         print("refreshed the chatView")
         
     }
+    
+    //notification callback for refreshing profile picture
+    @objc func refreshPic(_:UIImage) {
+        let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)"
+        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)
+        Imagebutton.setImage(cachedImage, for: .normal)
+    }
+
     
 
     
@@ -131,6 +146,7 @@ final class ChatsViewController: UITableViewController {
         self.navigationController?.navigationBar.isHidden = false
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
         if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
              //convert post into message
@@ -141,6 +157,39 @@ final class ChatsViewController: UITableViewController {
         }else { //avoid appending the first post twice
             chatHandler.messages[self.chatID] = []
         }
+        
+        //add listener to chat metadata (for reveals)
+        let reference = db.collection("user_chats").document(Constants.FIREBASE_USERID!).collection(organizationData.currOrganization!)
+            activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    let chatID = diff.document.documentID
+                    print("New conversation: \(chatID)")
+                    //add or update active chat
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                }
+                if (diff.type == .modified) {
+                    //THIS ONE
+                    let chatID = diff.document.documentID
+                    print("updated active chat for REVEAL!!!!!: \(chatID)")
+                    //add or update active chat
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                    
+                }
+                if (diff.type == .removed) {
+                    let chatID = diff.document.documentID
+                    print("Removed conversation: \(chatID)")
+                    chatHandler.chatMetadata[chatID] = nil
+                    chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+                }
+            }
+        }
+        
         
         // add query listner for the chat's message collection
         let messageSubCol = db.collection("chats").document(chatID)
@@ -279,9 +328,10 @@ final class ChatsViewController: UITableViewController {
         
         //Set name and picture of person you're conversing with on header
         let label = UILabel()
+        //todo: replace with revealed
         var profilePicName = chatHandler.chatMetadata[chatID]?.recipient_image ?? self.initPost?.posterImageName
         var person = chatHandler.chatMetadata[chatID]?.recipient_name ?? self.initPost?.posterAlias!
-        label.text = self.initPost?.posterAlias ?? person
+        label.text = person
         label.textAlignment = .left
         label.textColor = Color.matte
         label.font = Font.bold(20)
@@ -306,8 +356,16 @@ final class ChatsViewController: UITableViewController {
         backbutton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         let barbackbutton = UIBarButtonItem(customView: backbutton)
         
-        let Imagebutton = UIButton(type: UIButton.ButtonType.custom)
+        
         Imagebutton.setImage(UIImage(named: profilePicName!), for: .normal)
+        
+        if chatHandler.chatMetadata[self.chatID] != nil {
+            if chatHandler.chatMetadata[self.chatID]!.isRevealed! {
+                let firebaseImage = cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid)\(Constants.image_extension)")
+                Imagebutton.setImage(firebaseImage, for: .normal)
+            }
+        }
+
         Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         //    Imagebutton.clipsToBounds = true

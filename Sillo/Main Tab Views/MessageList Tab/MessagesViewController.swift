@@ -248,12 +248,13 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
         var isPoster = true
+        //IS FETCHING IS POSTER TOO SLOW? todo: maybe add new field to chat metadata containing info
         db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: false).limit(to: 1).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
                 return
             } else {
-                let firstMessageDoc = querySnapshot!.documents[0] // THE MESSAGE DOC DOES NOT EXIST YET BU THE TIME USER_CHAT IS UPDATED
+                let firstMessageDoc = querySnapshot!.documents[0]
                 let senderID = firstMessageDoc.get("senderID") as! String
                 if senderID == Constants.FIREBASE_USERID {
                     isPoster = true
@@ -264,16 +265,20 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         
-        let isRevealed = chatHandler.sortedChatMetadata[indexPath.row].isRevealed
-        if isPoster && !isRevealed!{
+        let isRevealed = chatHandler.chatMetadata[chatID]?.isRevealed
+        print(isPoster, "is poster")
+        print(isRevealed, "isRevealed")
+        if isRevealed!{
+            let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(chatVC, animated: true)
+
+        }else if isPoster && !isRevealed!{
+            
             //if not yet revealed and is poster, poster will accept / decline message and be shown the interchatVC
             let interchatVC = InterChatVC(chatID: chatID, post: nil)
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(interchatVC, animated: true)
-        }else{
-            let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
-            self.navigationController?.isNavigationBarHidden = false
-            self.navigationController?.pushViewController(chatVC, animated: true)
             
         }
         
