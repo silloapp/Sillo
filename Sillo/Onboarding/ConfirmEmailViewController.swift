@@ -18,7 +18,7 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
     var confirmButton = UIButton()
     let memberInvites:[String] = organizationData.memberInvites ?? []
     
-    private var latestButtonPressTimestamp: Date = Date()-2.0
+    private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 2.0 //in seconds
     
     override func viewDidLoad() {
@@ -120,17 +120,16 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         emailTableView.register(UITableViewCell.self, forCellReuseIdentifier: "emailCell")
         emailTableView.delegate = self
         emailTableView.dataSource = self
-        emailTableView.contentSize = CGSize(width: self.view.safeAreaLayoutGuide.layoutFrame.width, height: emailTableView.contentSize.height);
-        emailTableView.alwaysBounceHorizontal = false
+        emailTableView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+
         
         emailTableView.backgroundColor = .white
         emailTableView.tableHeaderView = UIView()
         emailTableView.translatesAutoresizingMaskIntoConstraints = false
 
-        emailTableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9).isActive = true
-        emailTableView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.65).isActive = true
+        emailTableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         emailTableView.topAnchor.constraint(equalTo: stack.bottomAnchor).isActive = true
-        emailTableView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        emailTableView.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -10).isActive = true
         
         confirmButton.backgroundColor = Color.buttonClickable
         confirmButton.setTitle("Confirm", for: .normal)
@@ -142,8 +141,7 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
         confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         confirmButton.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
-        confirmButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 52/810).isActive = true
-        confirmButton.topAnchor.constraint(equalTo: emailTableView.bottomAnchor, constant: 10).isActive = true
+        confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 5) .isActive = true
     }
     
     @objc func confirmClicked() {
