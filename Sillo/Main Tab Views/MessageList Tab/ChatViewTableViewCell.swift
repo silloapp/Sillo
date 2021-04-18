@@ -17,7 +17,14 @@ class ChatViewTableViewCell: UITableViewCell {
             
             profilePic.image = UIImage(named: msg.recipient_image ?? "avatar-4")
             if msg.isRevealed! { //TODO: use person's profile pic
-                profilePic.image =  cloudutil.downloadImage(ref: "profiles/\(msg.recipient_uid!)\(Constants.image_extension)")
+                let imageRef:NSString = "profiles/\(msg.recipient_uid!)\(Constants.image_extension)" as NSString
+                if imageCache.object(forKey: imageRef) != nil {
+                    let cachedImage = imageCache.object(forKey: imageRef)
+                    profilePic.image =  cachedImage
+                }
+                else {
+                    profilePic.image =  cloudutil.downloadImage(ref: imageRef as String)
+                }
             }
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h:mm a" //12 hr time
@@ -103,9 +110,14 @@ class ChatViewTableViewCell: UITableViewCell {
     
     //notification callback for refreshing profile picture
     @objc func refreshProfilePicture(_:UIImage) {
-        let profilePictureRef = "profiles/\(item?.recipient_uid)\(Constants.image_extension)"
-        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)
-        profilePic.image = cachedImage
+        let msg = self.item!
+        profilePic.image = UIImage(named: msg.recipient_image ?? "avatar-4")
+        
+        if msg.isRevealed! {
+            let profilePictureRef = "profiles/\(item?.recipient_uid ?? "")\(Constants.image_extension)"
+            let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)
+            profilePic.image = cachedImage
+        }
     }
 
     
@@ -123,6 +135,15 @@ class ChatViewTableViewCell: UITableViewCell {
         profilePic.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 25).isActive = true
         profilePic.heightAnchor.constraint(equalToConstant: 50).isActive = true
         profilePic.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        //MARK: profile pic masking
+        /*
+        let maskImageView = UIImageView()
+        maskImageView.contentMode = .scaleAspectFit
+        maskImageView.image = UIImage(named: "profile_mask")
+        maskImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        profilePic.mask = maskImageView
+        */
         
         //stackview containing name and unread status
         let nameStack = UIStackView()

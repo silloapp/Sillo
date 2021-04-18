@@ -130,7 +130,8 @@ final class ChatsViewController: UITableViewController {
     //notification callback for refreshing profile picture
     @objc func refreshPic(_:UIImage) {
         let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)"
-        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)
+        
+        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString) ?? UIImage(named:"avatar-1")!
         Imagebutton.setImage(cachedImage, for: .normal)
     }
 
@@ -361,17 +362,34 @@ final class ChatsViewController: UITableViewController {
         
         if chatHandler.chatMetadata[self.chatID] != nil {
             if chatHandler.chatMetadata[self.chatID]!.isRevealed! {
-                let firebaseImage = cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid)\(Constants.image_extension)")
-                Imagebutton.setImage(firebaseImage, for: .normal)
+                let picRef:NSString = "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)" as NSString
+                var firebaseImage:UIImage? = nil
+                if (imageCache.object(forKey: picRef) != nil) {
+                    firebaseImage = imageCache.object(forKey: picRef)
+                }
+                else {
+                    firebaseImage = cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
+                }
+                Imagebutton.setImage(firebaseImage!, for: .normal)
             }
         }
 
         Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        //    Imagebutton.clipsToBounds = true
-        //    Imagebutton.layer.cornerRadius = 20
+        Imagebutton.clipsToBounds = true
         Imagebutton.imageView?.contentMode = .scaleAspectFill
+        Imagebutton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        Imagebutton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        //MARK: profile pic masking
+        let maskImageView = UIImageView()
+        maskImageView.contentMode = .scaleAspectFit
+        maskImageView.image = UIImage(named: "profile_mask")
+        maskImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        Imagebutton.mask = maskImageView
+        
         let barImagebutton = UIBarButtonItem(customView: Imagebutton)
+        
         
         /* let titlebutton = UIButton(type: UIButton.ButtonType.custom)
          titlebutton.setTitle("Full Name", for: .normal)
