@@ -294,7 +294,12 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         
             let nextVC = ManageUserViewController()
             let imageRef = "profiles/\(userID)\(Constants.image_extension)"
-            cloudutil.downloadImage(ref: imageRef, useCache: true)
+            if imageCache.object(forKey: imageRef as! NSString) == nil {
+                cloudutil.downloadImage(ref: imageRef, useCache: true)
+            }
+            else {
+                nextVC.profilePic = imageCache.object(forKey: imageRef as NSString) ?? UIImage(named:"avatar-4")!
+            }
             nextVC.username = "username goes here"
             nextVC.email = "no email provided."
         
