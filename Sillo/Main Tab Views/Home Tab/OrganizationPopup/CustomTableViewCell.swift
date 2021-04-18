@@ -56,8 +56,7 @@ class CustomTableViewCell: UITableViewCell {
             imgUser.widthAnchor.constraint(equalToConstant: 40),
             imgUser.heightAnchor.constraint(equalToConstant: 40)
         ]
-        imgUser.layer.cornerRadius = 20
-        imgUser.clipsToBounds = true
+//        imgUser.clipsToBounds = true
         
         contentView.addSubview(imgUser2)
         imgUser2.image = UIImage.init(named: "smiley")

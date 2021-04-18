@@ -156,7 +156,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         chatListTable.dataSource = self
         view.addSubview(chatListTable)
         view.sendSubviewToBack(chatListTable)
-        chatListTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        chatListTable.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         chatListTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         chatListTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         chatListTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true

@@ -85,6 +85,13 @@ final class ChatsViewController: UITableViewController {
         activeChatListener?.remove()
     }
     
+    let appearance : UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        return appearance
+    }()
+    
     let Imagebutton : UIButton = {
         return UIButton(type: UIButton.ButtonType.custom)
     } ()
@@ -142,6 +149,9 @@ final class ChatsViewController: UITableViewController {
         
         
         self.navigationController?.navigationBar.isHidden = false
+     
+        
+        
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
@@ -300,7 +310,7 @@ final class ChatsViewController: UITableViewController {
         self.tableView.contentInset = .zero
     }
     func setNavBar() {
-        
+        navigationController?.navigationBar.standardAppearance = self.appearance
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
         
@@ -448,7 +458,7 @@ final class ChatsViewController: UITableViewController {
         
         
         cell.labRight.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
-        cell.ViewRight.widthAnchor.constraint(equalTo:cell.labRight.widthAnchor,constant: 15).isActive = true
+        cell.ViewRight.widthAnchor.constraint(equalTo:cell.labRight.widthAnchor,constant: 20).isActive = true
         cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8).isActive = true
         cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8).isActive = true
         
@@ -458,7 +468,7 @@ final class ChatsViewController: UITableViewController {
         cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
         
         cell.labLeft.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
-        cell.Viewleft.widthAnchor.constraint(equalTo:cell.labLeft.widthAnchor,constant: 15).isActive = true
+        cell.Viewleft.widthAnchor.constraint(equalTo:cell.labLeft.widthAnchor,constant: 20).isActive = true
         cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
         cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8).isActive = true
         

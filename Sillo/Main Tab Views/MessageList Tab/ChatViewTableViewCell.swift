@@ -41,11 +41,7 @@ class ChatViewTableViewCell: UITableViewCell {
             userName.attributedText = attributedString
             
             timestamp.text = " · \(timeStampString)"
-          
-//            if let messageText = msg.latest_message {
-//                message.text = messageText
-//            }
-            
+    
             message.text = msg.latest_message!
             
             if !msg.isRead! {

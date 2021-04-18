@@ -10,6 +10,7 @@ import Firebase
 
 class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
+    
     //MARK :IBDeclarations:
     
     let screenSize = UIScreen.main.bounds
@@ -19,6 +20,13 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     var chatID: String
     var initPost: Post?
+    
+    let appearance : UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        return appearance
+    }()
     
     //MARK: listener
     private var messageListener: ListenerRegistration?
@@ -58,9 +66,11 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     override func viewWillAppear(_ animated: Bool) { self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.isTranslucent = true
+        
+        
         self.view.backgroundColor = ViewBgColor
         settingElemets()
-        forStsBar()
+        //forStsBar()
         self.navigationController?.navigationBar.isHidden = false
         setNavBar2()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
@@ -119,6 +129,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     
     func setNavBar2() {
+        navigationController?.navigationBar.standardAppearance = self.appearance
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
         
@@ -223,7 +234,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         titleLabel.textAlignment = .center
         
         let TITLEconstraints = [
-            titleLabel.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
             titleLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
             titleLabel.heightAnchor.constraint(equalToConstant: 25)
             
@@ -239,7 +250,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         bottomMsg.text = "Reply to see who is messaging you. They won't know who you are until you've responded."
         bottomMsg.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         bottomMsg.textColor = UIColor.gray
-        bottomMsg.font = UIFont(name: "Apercu-Medium", size: 15)
+        bottomMsg.font = UIFont(name: "Apercu-Medium", size: 17)
         bottomMsg.textAlignment = .center
         bottomMsg.numberOfLines = 0
         bottomMsg.lineBreakMode = .byWordWrapping
@@ -256,7 +267,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         stackView.axis  = NSLayoutConstraint.Axis.horizontal
         stackView.spacing = 10
-        stackView.backgroundColor = .lightGray
+        stackView.backgroundColor = UIColor.gray
         
         let stackViewconstraints = [
             self.stackView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
@@ -310,7 +321,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         TopTable.register(ChatsbleViewCell.self, forCellReuseIdentifier: "cell")
         
         let TopTableconstraints = [
-            self.TopTable.topAnchor.constraint(equalTo:  self.titleLabel.bottomAnchor, constant: 20),
+            self.TopTable.topAnchor.constraint(equalTo:  self.titleLabel.bottomAnchor, constant: 0),
             self.TopTable.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
             self.TopTable.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
             self.TopTable.bottomAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.bottomAnchor, constant: -150)

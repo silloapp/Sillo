@@ -130,8 +130,9 @@ open class MessageInputBar: UIView {
             .configure {
                 $0.setSize(CGSize(width: 52, height: 36), animated: false)
                 $0.isEnabled = false
-                $0.title = "Send"
+                $0.title = ""
                 $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+                $0.image = UIImage.init(named: "send")
             }.onTouchUpInside {
                 $0.messageInputBar?.didSelectSendButton()
         }
@@ -343,7 +344,7 @@ open class MessageInputBar: UIView {
         addSubview(backgroundView)
         addSubview(topStackView)
         addSubview(contentView)
-        addSubview(separatorLine)
+        //addSubview(separatorLine)
         contentView.addSubview(inputTextView)
         contentView.addSubview(leftStackView)
         contentView.addSubview(rightStackView)

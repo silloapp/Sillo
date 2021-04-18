@@ -160,7 +160,7 @@ class AnimationWaterBubbleVC: UIViewController {
         ContinueBtn.isUserInteractionEnabled = true
         
         
-        starCountLbl.text = "+25"
+        starCountLbl.text = "+25" //TODO: replace this
         starCountLbl.textColor = .black
         starCountLbl.font = UIFont.init(name: "Apercu-Regular", size: 16)
         starCountLbl.numberOfLines = 1
@@ -174,7 +174,7 @@ class AnimationWaterBubbleVC: UIViewController {
         self.BgimageVw.addSubview(revealingNumberLbl)
         self.BgimageVw.addSubview(starCountLbl)
         
-        revealingNumberLbl.text = "5"
+        revealingNumberLbl.text = "5" //TODO: replace this once connections are implemented
         revealingNumberLbl.textColor = .white
         revealingNumberLbl.font = UIFont.init(name: "Apercu-Bold", size: 300)
         revealingNumberLbl.numberOfLines = 1
@@ -199,8 +199,8 @@ class AnimationWaterBubbleVC: UIViewController {
         ]
         
         self.view.addSubview(titlelbl)
-        let recipientName = "Kevin Nguyen" //to do: replace this
-        titlelbl.text = "Kudos! Here's to a connection with \(recipientName)"
+        let recipientName = chatHandler.chatMetadata[chatID]?.recipient_name ?? "a new friend"
+        titlelbl.text = "Kudos! Here's to a connection with \(recipientName)! 🎉 "
         titlelbl.textColor = themeColor
         titlelbl.font = UIFont.init(name: "Apercu-Bold", size: 17)
         titlelbl.numberOfLines = 0

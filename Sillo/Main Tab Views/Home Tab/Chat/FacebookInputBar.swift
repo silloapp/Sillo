@@ -37,6 +37,7 @@ class FacebookInputBar: MessageInputBar,UITextViewDelegate {
     }
     
     func configure() {
+        self.shadowColor = .none
         backgroundView.backgroundColor = ViewBgColor
         let button = InputBarButtonItem()
         button.setSize(CGSize(width: 0, height: 0), animated: false)
@@ -44,15 +45,15 @@ class FacebookInputBar: MessageInputBar,UITextViewDelegate {
         button.imageView?.contentMode = .scaleAspectFit
         button.tintColor = UIColor(red: 0, green: 122/255, blue: 1, alpha: 1)
         inputTextView.backgroundColor = UIColor(red: 242/255, green: 244/255, blue: 244/255, alpha: 1)
-        inputTextView.placeholder = "Reply..."
-        inputTextView.placeholderTextColor = .black
+        inputTextView.placeholder = "Say something nice..."
+        inputTextView.placeholderTextColor = UIColor.lightGray
         
-        inputTextView.font = UIFont.systemFont(ofSize: 16)
+        inputTextView.font = Font.regular(16)
         inputTextView.delegate = self
        
         inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
-        inputTextView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
+        inputTextView.layer.borderColor = .none
         inputTextView.layer.borderWidth = 0.0
         inputTextView.layer.cornerRadius = 16.0
         inputTextView.layer.masksToBounds = true
@@ -60,6 +61,7 @@ class FacebookInputBar: MessageInputBar,UITextViewDelegate {
         setLeftStackViewWidthConstant(to: 10, animated: false)
         setStackViewItems([button], forStack: .left, animated: false)
         sendButton.setSize(CGSize(width: 52, height: 36), animated: false)
+        sendButton.titleLabel?.font = Font.bold(15)
     }
     
     //func textViewDidEndEditing(_ textView: UITextView) {
