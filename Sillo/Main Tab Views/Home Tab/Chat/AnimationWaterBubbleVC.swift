@@ -82,8 +82,8 @@ class AnimationWaterBubbleVC: UIViewController {
     
     
     
-    @objc func continuePressed(_ tapRecognizer: UITapGestureRecognizer) {
-        print("DISPLAY CHAT VC NOW!!!!! PLEASE")
+    @objc func continuePressed() {
+        print("its working!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)
@@ -133,7 +133,9 @@ class AnimationWaterBubbleVC: UIViewController {
         ]
         
         
-        self.BgimageVw.addSubview(ContinueBtn)
+//        self.BgimageVw.addSubview(ContinueBtn)
+        self.view.addSubview(ContinueBtn)
+        self.view.bringSubviewToFront(ContinueBtn)
         ContinueBtn.backgroundColor = themeColor
         ContinueBtn.setTitle("Continue", for: .normal)
         ContinueBtn.setTitleColor(.white, for: .normal)
@@ -149,12 +151,12 @@ class AnimationWaterBubbleVC: UIViewController {
             ContinueBtn.heightAnchor.constraint(equalToConstant: 45)
         ]
         
-        //        ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchUpInside)
-        //        ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchDown)
+        ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchUpInside)
+       ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchDown)
         
-        let continueTap = UITapGestureRecognizer(target: self, action: #selector(continuePressed(_:)))
-        continueTap.cancelsTouchesInView = false;
-        ContinueBtn.addGestureRecognizer(continueTap)
+//        let continueTap = UITapGestureRecognizer(target: self, action: #selector(continuePressed(_:)))
+//        continueTap.cancelsTouchesInView = false;
+//        ContinueBtn.addGestureRecognizer(continueTap)
         ContinueBtn.isUserInteractionEnabled = true
         
         
