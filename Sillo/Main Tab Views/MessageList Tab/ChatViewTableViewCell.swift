@@ -66,6 +66,8 @@ class ChatViewTableViewCell: UITableViewCell {
     let profilePic: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        imageView.layer.cornerRadius = 10
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

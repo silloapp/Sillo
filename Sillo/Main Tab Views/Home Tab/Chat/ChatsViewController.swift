@@ -81,12 +81,12 @@ final class ChatsViewController: UITableViewController {
     private var activeChatListener: ListenerRegistration?
     private var messageListener: ListenerRegistration?
     deinit {
-       messageListener?.remove()
+        messageListener?.remove()
         activeChatListener?.remove()
-     }
+    }
     
     let Imagebutton : UIButton = {
-       return UIButton(type: UIButton.ButtonType.custom)
+        return UIButton(type: UIButton.ButtonType.custom)
     } ()
     
     let header : UIView = {
@@ -134,9 +134,6 @@ final class ChatsViewController: UITableViewController {
         let cachedImage = imageCache.object(forKey: profilePictureRef as NSString) ?? UIImage(named:"avatar-1")!
         Imagebutton.setImage(cachedImage, for: .normal)
     }
-
-    
-
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -150,18 +147,18 @@ final class ChatsViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
         if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
-             //convert post into message
+            //convert post into message
             
             //let msg = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(), timestamp: self.initPost?.date, isRead: false)
             let firstPost = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-             chatHandler.messages[self.chatID] = [firstPost]
+            chatHandler.messages[self.chatID] = [firstPost]
         }else { //avoid appending the first post twice
             chatHandler.messages[self.chatID] = []
         }
         
         //add listener to chat metadata (for reveals)
         let reference = db.collection("user_chats").document(Constants.FIREBASE_USERID!).collection(organizationData.currOrganization!)
-            activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
+        activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(error!)")
                 return
@@ -208,8 +205,8 @@ final class ChatsViewController: UITableViewController {
                     let message = diff.document.get("message") as! String
                     let senderID = diff.document.get("senderID") as! String
                     guard let stamp = diff.document.get("timestamp") as? Timestamp else {
-                                return
-                            }
+                        return
+                    }
                     let timestamp = stamp.dateValue()
                     let msg = Message(messageID: messageID, senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
                     
@@ -233,12 +230,12 @@ final class ChatsViewController: UITableViewController {
                     let messageID = diff.document.documentID
                     print("Removed msg: \(messageID)")
                     //not implemented yet, need to change data struct first to map not array
-//
+                    //
                 }
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
             }
         }
-
+        
     }
     
     override func viewDidLoad() {
@@ -249,10 +246,6 @@ final class ChatsViewController: UITableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        //  self.tableView.frame = CGRect(x: 0, y: 200, width: screenSize.width, height: screenSize.height)
-        
-        // automaticallyAdjustsScrollViewInsets = false
         
         
         self.tableView.separatorStyle = .none
@@ -270,12 +263,6 @@ final class ChatsViewController: UITableViewController {
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        //        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-        //            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        //        }
-        
-        // self.tableView.contentInset = UIEdgeInsets(top: 120, left: 0, bottom: 0, right: 0)
     }
     @objc private func keyboardWillShow(notification: NSNotification) {
         
@@ -305,16 +292,6 @@ final class ChatsViewController: UITableViewController {
             }
         }
         
-        
-        
-        //        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-        //
-        //
-        //
-        //            print("keyboardSize.height",keyboardSize.height)
-        //
-        //            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        // }
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
@@ -373,32 +350,17 @@ final class ChatsViewController: UITableViewController {
                 Imagebutton.setImage(firebaseImage!, for: .normal)
             }
         }
-
+        
         Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         Imagebutton.clipsToBounds = true
         Imagebutton.imageView?.contentMode = .scaleAspectFill
         Imagebutton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         Imagebutton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        //MARK: profile pic masking
-        let maskImageView = UIImageView()
-        maskImageView.contentMode = .scaleAspectFit
-        maskImageView.image = UIImage(named: "profile_mask")
-        maskImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        Imagebutton.mask = maskImageView
+        Imagebutton.layer.cornerRadius = 10
+        Imagebutton.layer.masksToBounds = true
         
         let barImagebutton = UIBarButtonItem(customView: Imagebutton)
-        
-        
-        /* let titlebutton = UIButton(type: UIButton.ButtonType.custom)
-         titlebutton.setTitle("Full Name", for: .normal)
-         titlebutton.setTitleColor(.gray, for: .normal)
-         titlebutton.titleLabel?.font = UIFont.init(name: "Apercu-Regular", size: 16)
-         titlebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-         titlebutton.imageView?.contentMode = .scaleAspectFill
-         let bartitlebutton = UIBarButtonItem(customView: Imagebutton)*/
-        
         
         self.navigationItem.leftBarButtonItems = [barbackbutton,barImagebutton]
         
@@ -426,7 +388,7 @@ final class ChatsViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
     }
@@ -448,10 +410,6 @@ final class ChatsViewController: UITableViewController {
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
     
     //MARK :  Table View Delegate Methods:
-    
-    //    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //       return 90
-    //    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chatHandler.messages[self.chatID]?.count ?? 0
@@ -484,71 +442,31 @@ final class ChatsViewController: UITableViewController {
         
         let stringWidth = messageStruct?.message?.stringWidth
         let maxWidth = CGFloat(200)
-        var chatWidth = CGFloat()
+        cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
         
-        if stringWidth! <= maxWidth{
-            //looks like stringWidth extension is flawed???
-            //chatWidth = stringWidth! + 30
-            chatWidth = maxWidth
-        } else {
-            chatWidth = maxWidth
-        }
-    
-        
-        //HEIGHT
-        //TODO: rn maximizes width, but later on get diff levels to balance out.
-        var chatHeight = CGFloat()
-        let stringHeight =  messageStruct?.message?.stringHeight
-        //there is no max height for chat, but we will use a multiplier
-        var multiplier = 1
-        if (stringWidth! > maxWidth) {
-            multiplier = Int((stringWidth! / maxWidth ).rounded(.up))
-        }
-        //chatHeight = (stringHeight! * CGFloat(multiplier)) + 30
-        chatHeight = 60
-        
-       
-        //        let Rightheight = (cell.labRight.maxNumberOfLines*20) + 50
-        //        let leftheight = (cell.labLeft.maxNumberOfLines*20) + 50
+        cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20).isActive = true
         
         
-       
-        print("height:",chatHeight)
-        print("width:", chatWidth)
-        
-      
-
-
-            cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
-            cell.ViewRight.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
-            cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20).isActive = true
-            
-        
-        cell.labRight.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
+        cell.labRight.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        cell.ViewRight.widthAnchor.constraint(equalTo:cell.labRight.widthAnchor,constant: 15).isActive = true
         cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8).isActive = true
         cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8).isActive = true
-    
-   
-            cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
-           
-            cell.Viewleft.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
-            cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
-            
         
-            
-      
+        
+        cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
+        
+        cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
+        
+        cell.labLeft.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        cell.Viewleft.widthAnchor.constraint(equalTo:cell.labLeft.widthAnchor,constant: 15).isActive = true
+        cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
+        cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8).isActive = true
+        
+        cell.labRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -14).isActive = true
+        cell.labLeft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -14).isActive = true
 
-            cell.labLeft.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
-            cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
-            cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8).isActive = true
-        
-        
-        //experiment with these two
-        cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
-        cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
-        
-        cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
-        cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
+        cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.labRight.bottomAnchor, constant: 8).isActive = true
+        cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.labLeft.bottomAnchor, constant: 8).isActive = true
         
         cell.contentView.layoutIfNeeded()
         
@@ -653,106 +571,38 @@ class ChatsbleViewCell: UITableViewCell {
         self.backgroundColor = .clear
         contentView.backgroundColor = .clear
         
-        
-        
         // for views:
-        
         contentView.addSubview(ViewRight)
         ViewRight.backgroundColor = hexStringToUIColor(hex: "#E7EFFB")
         ViewRight.layer.cornerRadius = 17
-        
-        
-        
+      
         contentView.addSubview(Viewleft)
         Viewleft.backgroundColor = UIColor.init(red: 253/255.0, green: 242/255.0, blue: 220/255.0, alpha: 1)
         Viewleft.layer.cornerRadius = 17
         
-        
-        
-        
         // FOR LABELS :
-        
-        
         ViewRight.addSubview(labRight)
-        // labRight.backgroundColor = UIColor.init(red: 231/255/0, green: 239/255.0, blue: 251/255.0, alpha: 0.7)
-        labRight.backgroundColor = hexStringToUIColor(hex: "#E7EFFB")
         labRight.textColor = .black
         labRight.font = UIFont(name: "Apercu-Regular", size: 15)
         labRight.numberOfLines = 0
         labRight.textAlignment = .right
         labRight.clipsToBounds = true
-        // labRight.layer.cornerRadius = 17
-        
-
         
         Viewleft.addSubview(labLeft)
-        labLeft.backgroundColor = UIColor.init(red: 253/255.0, green: 242/255.0, blue: 220/255.0, alpha: 1)
         labLeft.textColor = .black
         labLeft.font = UIFont(name: "Apercu-Regular", size: 15)
         labLeft.textAlignment = .left
         labLeft.numberOfLines = 0
-        
         labLeft.clipsToBounds = true
-        //labLeft.layer.cornerRadius = 17
-        
         labRight.lineBreakMode = .byWordWrapping
         labLeft.lineBreakMode = .byWordWrapping
-        
-//        labRightconstraints = [
-//            labRight.centerYAnchor.constraint(equalTo: ViewRight.centerYAnchor),
-////            labRight.centerXAnchor.constraint(equalTo: ViewRight.centerXAnchor),
-////            labRight.topAnchor.constraint(equalTo:  ViewRight.topAnchor, constant: 8),
-////            labRight.leftAnchor.constraint(equalTo:  ViewRight.leftAnchor, constant: 8),
-//
-//            labRight.rightAnchor.constraint(equalTo:  ViewRight.rightAnchor, constant: -8),
-////            labRight.bottomAnchor.constraint(equalTo:  ViewRight.bottomAnchor, constant: -8)
-//        ]
-//        labLeftconstraints = [
-//        labLeft.centerYAnchor.constraint(equalTo: Viewleft.centerYAnchor),
-////        labLeft.centerXAnchor.constraint(equalTo: Viewleft.centerXAnchor),
-////            labLeft.topAnchor.constraint(equalTo:  Viewleft.topAnchor, constant: 8),
-////            labLeft.rightAnchor.constraint(equalTo:  Viewleft.rightAnchor, constant: -8),
-////
-//            labLeft.leftAnchor.constraint(equalTo:  Viewleft.leftAnchor, constant: 8),
-////            labLeft.bottomAnchor.constraint(equalTo:  Viewleft.bottomAnchor, constant: -8)
-//        ]
-//
-//        NSLayoutConstraint.activate(labRightconstraints)
-//        NSLayoutConstraint.activate(labLeftconstraints)
-        
-      
-        
-        // LAYOUT VIEW:
-        
-//        ViewRightconstraints = [
-//            ViewRight.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 8),
-//            ViewRight.widthAnchor.constraint(equalToConstant: 200),
-//            ViewRight.heightAnchor.constraint(equalToConstant: 80),
-//            ViewRight.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: -15),
-//            ViewRight.bottomAnchor.constraint(equalTo:  contentView.bottomAnchor, constant: -8)
-//        ]
-//
-//        Viewleftconstraints = [
-//            Viewleft.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 8),
-//            Viewleft.heightAnchor.constraint(equalToConstant: 80),
-//            Viewleft.widthAnchor.constraint(equalToConstant: 200),
-//            Viewleft.leftAnchor.constraint(equalTo:  contentView.leftAnchor, constant: 15),
-//            Viewleft.bottomAnchor.constraint(equalTo:  contentView.bottomAnchor, constant: -8)
-//        ]
-//
-//        NSLayoutConstraint.activate(Viewleftconstraints)
-//        NSLayoutConstraint.activate(ViewRightconstraints)
-        
-        
-        
         
         ViewRight.translatesAutoresizingMaskIntoConstraints = false
         Viewleft.translatesAutoresizingMaskIntoConstraints = false
         
         labRight.translatesAutoresizingMaskIntoConstraints = false
         labLeft.translatesAutoresizingMaskIntoConstraints = false
-        
-        
+    
         contentView.layoutIfNeeded()
         
     }
@@ -770,13 +620,13 @@ class ChatsbleViewCell: UITableViewCell {
 extension String {
     var stringWidth: CGFloat {
         let constraintRect = CGSize(width: UIScreen.main.bounds.width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.trimmingCharacters(in: .whitespacesAndNewlines).boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)], context: nil)
+        let boundingBox = self.trimmingCharacters(in: .whitespacesAndNewlines).boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: UIFont(name: "Apercu-Regular", size: 15)], context: nil)
         return boundingBox.width
     }
     
     var stringHeight: CGFloat {
         let constraintRect = CGSize(width: UIScreen.main.bounds.width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.trimmingCharacters(in: .whitespacesAndNewlines).boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)], context: nil)
+        let boundingBox = self.trimmingCharacters(in: .whitespacesAndNewlines).boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedString.Key.font: UIFont(name: "Apercu-Regular", size: 15)], context: nil)
         return boundingBox.height
     }
 }
@@ -785,34 +635,34 @@ extension UITableView {
     func scrollToBottomRow() {
         DispatchQueue.main.async {
             guard self.numberOfSections > 0 else { return }
-
+            
             // Make an attempt to use the bottom-most section with at least one row
             var section = max(self.numberOfSections - 1, 0)
             var row = max(self.numberOfRows(inSection: section) - 1, 0)
             var indexPath = IndexPath(row: row, section: section)
-
+            
             // Ensure the index path is valid, otherwise use the section above (sections can
             // contain 0 rows which leads to an invalid index path)
             while !self.indexPathIsValid(indexPath) {
                 section = max(section - 1, 0)
                 row = max(self.numberOfRows(inSection: section) - 1, 0)
                 indexPath = IndexPath(row: row, section: section)
-
+                
                 // If we're down to the last section, attempt to use the first row
                 if indexPath.section == 0 {
                     indexPath = IndexPath(row: 0, section: 0)
                     break
                 }
             }
-
+            
             // In the case that [0, 0] is valid (perhaps no data source?), ensure we don't encounter an
             // exception here
             guard self.indexPathIsValid(indexPath) else { return }
-
+            
             self.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
-
+    
     func indexPathIsValid(_ indexPath: IndexPath) -> Bool {
         let section = indexPath.section
         let row = indexPath.row

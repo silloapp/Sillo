@@ -156,6 +156,8 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         Imagebutton.imageView?.contentMode = .scaleAspectFill
+        Imagebutton.layer.cornerRadius = 10
+        Imagebutton.layer.masksToBounds = true
         let barImagebutton = UIBarButtonItem(customView: Imagebutton)
         
         self.navigationItem.leftBarButtonItems = [barbackbutton,barImagebutton]
@@ -380,7 +382,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         var messagesList = chatHandler.messages[self.chatID]
         //single message
         let messageStruct = messagesList?[indexPath.row]
-        
+
         //appears on the right if I sent it
         if messageStruct?.senderID == Constants.FIREBASE_USERID! {
             cell.labLeft.isHidden = true
@@ -399,59 +401,31 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         let stringWidth = messageStruct?.message?.stringWidth
         let maxWidth = CGFloat(200)
-        var chatWidth = CGFloat()
-        
-        if stringWidth! <= maxWidth{
-            //looks like stringWidth extension is flawed???
-            //chatWidth = stringWidth! + 30
-            chatWidth = maxWidth
-        } else {
-            chatWidth = maxWidth
-        }
-        
-        
-        //HEIGHT
-        //TODO: rn maximizes width, but later on get diff levels to balance out.
-        var chatHeight = CGFloat()
-        let stringHeight =  messageStruct?.message?.stringHeight
-        //there is no max height for chat, but we will use a multiplier
-        var multiplier = 1
-        if (stringWidth! > maxWidth) {
-            multiplier = Int((stringWidth! / maxWidth ).rounded(.up))
-        }
-        chatHeight = 60
-        
-        
-        
-        print("height:",chatHeight)
-        print("width:", chatWidth)
-        
         cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
-        cell.ViewRight.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
+        
         cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20).isActive = true
         
-        cell.labRight.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
+        
+        cell.labRight.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        cell.ViewRight.widthAnchor.constraint(equalTo:cell.labRight.widthAnchor,constant: 15).isActive = true
         cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8).isActive = true
         cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8).isActive = true
         
         
         cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
         
-        cell.Viewleft.widthAnchor.constraint(equalToConstant: chatWidth + 30).isActive = true
         cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
         
-        
-        cell.labLeft.widthAnchor.constraint(equalToConstant: chatWidth).isActive = true
+        cell.labLeft.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        cell.Viewleft.widthAnchor.constraint(equalTo:cell.labLeft.widthAnchor,constant: 15).isActive = true
         cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
         cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8).isActive = true
         
-        
-        //experiment with these two
-        cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
-        cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8).isActive = true
-        
-        cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
-        cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(chatHeight)).isActive = true
+        cell.labRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -14).isActive = true
+        cell.labLeft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -14).isActive = true
+
+        cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.labRight.bottomAnchor, constant: 8).isActive = true
+        cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.labLeft.bottomAnchor, constant: 8).isActive = true
         
         cell.contentView.layoutIfNeeded()
         
