@@ -96,6 +96,7 @@ class OrganizationData {
         currOrganizationName = idToName[currOrganization]
         currOrganizationAdmins = [:]
         currOrganizationMembers = [:]
+        chatHandler.clearChatData()
     }
     
     // MARK: fast-set default organization when the app just started (DIFFERENCE IS PULLING FROM THE DATABASE, caveat is nsnotification needed)

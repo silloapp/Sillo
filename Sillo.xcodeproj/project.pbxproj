@@ -93,6 +93,8 @@
 		FDAEBF652608E75D0084FF47 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAEBF642608E75D0084FF47 /* AlertView.swift */; };
 		FDAEBF6A2608E7AF0084FF47 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAEBF692608E7AF0084FF47 /* ActionButton.swift */; };
 		FDB3400425AC09E700097FE1 /* NoInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */; };
+		FDB818572626C5A70089E9A2 /* WaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */; };
+		FDB818582626C5A70089E9A2 /* AnimationWaterBubbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */; };
 		FDEBE945261EF49F0084AB12 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -213,6 +215,9 @@
 		FDAEBF642608E75D0084FF47 /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		FDAEBF692608E7AF0084FF47 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInvitesViewController.swift; sourceTree = "<group>"; };
+		FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveAnimationView.swift; sourceTree = "<group>"; };
+		FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationWaterBubbleVC.swift; sourceTree = "<group>"; };
+		FDB818562626C5A70089E9A2 /* WaveAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveAnimationView.h; sourceTree = "<group>"; };
 		FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -458,6 +463,9 @@
 				FD93B2D726057BF100CC44AA /* ChatsViewController.swift */,
 				FD93B2D626057BF100CC44AA /* FacebookInputBar.swift */,
 				FD93B2D826057BF200CC44AA /* InterChatVC.swift */,
+				FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */,
+				FDB818562626C5A70089E9A2 /* WaveAnimationView.h */,
+				FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -883,6 +891,7 @@
 				AA0A495A25FE141900FDD87F /* NotificationRequestViewController.swift in Sources */,
 				AABEC69625A83B7900D89C62 /* CloudUtil.swift in Sources */,
 				AA8B775825FAE5410032336F /* SetupOrganizationViewController.swift in Sources */,
+				FDB818582626C5A70089E9A2 /* AnimationWaterBubbleVC.swift in Sources */,
 				A0A6BFEB25EBA08900F107F4 /* UIView+Snapshot.swift in Sources */,
 				FD94909925C3FC7D009F4F29 /* CustomNavigationController.swift in Sources */,
 				FD85041F2606982C0056DC13 /* PeopleVC.swift in Sources */,
@@ -892,6 +901,7 @@
 				FDAEBF652608E75D0084FF47 /* AlertView.swift in Sources */,
 				A0334B6B25F5D6F1008A05F8 /* ProfileVC.swift in Sources */,
 				A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */,
+				FDB818572626C5A70089E9A2 /* WaveAnimationView.swift in Sources */,
 				A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */,
 				FD8B839525F4B468004980AC /* CustomTableViewCell.swift in Sources */,
 				FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */,

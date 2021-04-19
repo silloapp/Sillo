@@ -308,16 +308,27 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         cell.labUserName.isHidden = false
         
         //award progress
+        let taskType = quests.subtasks[indexPath.row].type
+        
         cell.imgUser.image = UIImage.init(named: "subtask icon")
+        
+        if taskType == "newPost" {
+            cell.imgUser.image = UIImage(named: "pencil")
+        } else if taskType == "newConnection" {
+            cell.imgUser.image = UIImage(named:"party popper")
+        } else if taskType == "levelUpConnection" {
+            cell.imgUser.image = UIImage(named:"celebrate")
+        }
+        
         //subtask title
         cell.labMessage.text = quests.subtasks[indexPath.row].title
-        cell.labMessage.textColor = UIColor.init(red: 0/255.0, green: 51/255, blue: 66/255.0, alpha: 1)
-        cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
+        cell.labMessage.textColor = Color.matte
+        cell.labMessage.font = Font.medium(17)
         
         //current progress
         cell.labUserName.text = ("\(quests.subtasks[indexPath.row].current)/\(quests.subtasks[indexPath.row].target)" )
-        cell.labUserName.textColor = .black
-        cell.labUserName.font = UIFont(name: "Apercu-Bold", size: 17)
+        cell.labUserName.textColor = Color.matte
+        cell.labUserName.font = Font.medium(17)
         cell.labUserName.textAlignment = .right
         
         //check mark

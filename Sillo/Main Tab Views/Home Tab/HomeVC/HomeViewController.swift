@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
             }
         }
         quests.coldStart()
-        //feed.coldStart() //coldstart got deprecated by the snapshot listener
+        chatHandler.coldStart()
     }
     
     override func viewDidLoad() {
@@ -295,8 +295,42 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let interChatVC = InterChatVC()
-        self.navigationController?.pushViewController(interChatVC, animated: true)
+//        let interChatVC = InterChatVC()
+//        self.navigationController?.pushViewController(interChatVC, animated: true)
+
+        
+        var chatId = "ERROR_THIS_SHOULD_BE_REPLACED"
+        let post = feed.sortedPosts[indexPath.row]
+        
+        //if user is replying to their own post, display alertview
+        if post.posterUserID == Constants.FIREBASE_USERID {
+        let alert = AlertView(headingText: "Woops, you can't reply to a post you wrote yoursef!", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+            self.dismiss(animated: true, completion: nil)
+        }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+        }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+        alert.modalPresentationStyle = .overCurrentContext
+        alert.modalTransitionStyle = .crossDissolve
+        self.present(alert, animated: true, completion: nil)
+        } else {
+            let postID = post.postID!
+            //existing chat, will be in active chats.
+            if chatHandler.postToChat[postID] != nil {
+                chatId = chatHandler.postToChat[postID]!
+                print("post already mapped to existing chatid.")
+                
+            }else{ //new chat, generate new chat UUID
+                chatId = UUID.init().uuidString
+                chatHandler.postToChat[postID] = chatId
+                print("mapped post to new chatId")
+            }
+            
+            let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatId, post: post)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(chatVC, animated: true)
+        }
+        
+        
+        
     }
 
 }

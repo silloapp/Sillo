@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import Firebase
 
 class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+    
     
     //MARK :IBDeclarations:
     
@@ -16,134 +18,172 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     let TopTable = UITableView()
     var stackView = UIStackView()
     
-    var rightArr = [ "lorem ispum dollar sit","lorem ispum dollar sit"]
+    var chatID: String
+    var initPost: Post?
     
-    var leftArr = [ "lorem fanyyyy dollar gromm lorem buzzz","lorem fanyyyy dollar gromm lorem buzzz"]
+    let appearance : UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        return appearance
+    }()
     
+    //MARK: listener
+    private var messageListener: ListenerRegistration?
+    deinit {
+        messageListener?.remove()
+    }
+    
+    
+    init(chatID: String, post: Post?) {
+        
+        self.chatID = chatID
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        if let inputpost = post {
+            print("set init post whose message is \(inputpost.message)")
+            self.initPost = inputpost
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func refreshChatView(note: NSNotification) {
+        //refresh the subtask table
+        self.TopTable.reloadData()
+        //scrolls to bottom row when new message added
+        self.TopTable.scrollToBottomRow()
+        print("refreshed the chatView")
+        
+    }
+    //how to make this conditional?
+//    override func viewWillDisappear(_ animated: Bool) {
+//        navigationController?.isNavigationBarHidden = true
+//    }
+    
+    override func viewWillAppear(_ animated: Bool) { self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isTranslucent = true
+        
+        
+        self.view.backgroundColor = ViewBgColor
+        settingElemets()
+        //forStsBar()
+        self.navigationController?.navigationBar.isHidden = false
+        setNavBar2()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
+        
+        if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) {
+            let firstPost = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
+            chatHandler.messages[self.chatID] = [firstPost]
+        }else {
+            chatHandler.messages[self.chatID] = []
+        }
+        
+        // add query listner for the chat's message collection
+        let messageSubCol = db.collection("chats").document(chatID)
+            .collection("messages").order(by: "timestamp", descending: false)
+        messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added || diff.type == .modified) {
+                    let messageID = diff.document.documentID
+                    print("New message: \(messageID)")
+                    //add or update active chat
+                    let message = diff.document.get("message") as! String
+                    let senderID = diff.document.get("senderID") as! String
+                    guard let stamp = diff.document.get("timestamp") as? Timestamp else {
+                        return
+                    }
+                    let timestamp = stamp.dateValue()
+                    let msg = Message(messageID: messageID, senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
+                    
+                    if chatHandler.messages[self.chatID] != nil {
+                        if !chatHandler.messages[self.chatID]!.contains(msg) {
+                            chatHandler.messages[self.chatID]?.append(msg)
+                            print("added message: \(message) to messagelist for chat \(self.chatID)" )
+                        }
+                    }
+                }
+                if (diff.type == .removed) {
+                    let messageID = diff.document.documentID
+                    print("Removed msg: \(messageID)")
+                }
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func setNavBar() {
+    @objc func backBtnPressed() {
+        navigationController?.isNavigationBarHidden = true
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    
+    func setNavBar2() {
+        navigationController?.navigationBar.standardAppearance = self.appearance
+        navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
+        navigationController?.navigationBar.isTranslucent = false
         
-        //-------------------------For top bar:
-        
-        let TopbarView = UIView()
-        
-        TopbarView.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
-        self.view.addSubview(TopbarView)
-        
-        let TopbarViewconstraints = [
-            TopbarView.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            TopbarView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
-            TopbarView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
-            TopbarView.heightAnchor.constraint(equalToConstant: 60)
-            
-        ]
-        let Backbutton = UIButton()
-        
-        Backbutton.setImage(UIImage(named: "back"), for: .normal)
-        Backbutton.addTarget(self, action:#selector(callMethod), for: .touchUpInside)
-        
-        TopbarView.addSubview(Backbutton)
-        
-        let Backbuttonconstraints = [
-            Backbutton.centerYAnchor.constraint(equalTo:  TopbarView.centerYAnchor, constant: 0),
-            Backbutton.leftAnchor.constraint(equalTo: TopbarView.leftAnchor, constant: 20),
-            Backbutton.widthAnchor.constraint(equalToConstant: 30),
-            Backbutton.heightAnchor.constraint(equalToConstant: 30)
-        ]
-        
-        let menubutton = UIButton()
-        
-        menubutton.setImage(UIImage(named: "menu"), for: .normal)
-        menubutton.addTarget(self, action:#selector(menuMethod), for: .touchUpInside)
-        
-        TopbarView.addSubview(menubutton)
-        
-        let menubuttonconstraints = [
-            menubutton.centerYAnchor.constraint(equalTo:  TopbarView.centerYAnchor, constant: 0),
-            menubutton.rightAnchor.constraint(equalTo: TopbarView.rightAnchor, constant: -20),
-            menubutton.widthAnchor.constraint(equalToConstant: 30),
-            menubutton.heightAnchor.constraint(equalToConstant: 30)
-        ]
-        
-        let profileImg = UIImageView()
-        profileImg.image = UIImage.init(named: "profile")
-        TopbarView.addSubview(profileImg)
-        
-        let profileImgconstraints = [
-            profileImg.centerYAnchor.constraint(equalTo:  TopbarView.centerYAnchor, constant: 0),
-            profileImg.leftAnchor.constraint(equalTo: Backbutton.leftAnchor, constant: 50),
-            profileImg.widthAnchor.constraint(equalToConstant: 40),
-            profileImg.heightAnchor.constraint(equalToConstant: 40)
-        ]
-        profileImg.clipsToBounds = true
-        profileImg.layer.cornerRadius = 20
-        
+        //Set name and picture of person you're conversing with on header
         let label = UILabel()
-        label.text = "Full Name"
+        var profilePicName = chatHandler.chatMetadata[chatID]?.recipient_image ?? self.initPost?.posterImageName
+        var person = chatHandler.chatMetadata[chatID]?.recipient_name ?? self.initPost?.posterAlias!
+        label.text = self.initPost?.posterAlias ?? person
         label.textAlignment = .left
-        label.textColor = .black
-        label.font = UIFont.init(name: "Apercu-Regular", size: 16)
-        TopbarView.addSubview(label)
+        label.textColor = Color.matte
+        label.font = Font.bold(20)
         
-        let labelconstraints = [
-            label.centerYAnchor.constraint(equalTo:  TopbarView.centerYAnchor, constant: -12),
-            label.leftAnchor.constraint(equalTo: profileImg.leftAnchor, constant: 52),
-            label.heightAnchor.constraint(equalToConstant: 20)
-        ]
+        self.navigationItem.titleView = label
         
-        let sublabel = UILabel()
-        sublabel.text = "3 shared connections"
-        sublabel.textAlignment = .left
-        sublabel.textColor = .black
-        sublabel.font = UIFont.init(name: "Apercu-Regular", size: 16)
-        TopbarView.addSubview(sublabel)
+        label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: label.superview, attribute: .centerX, multiplier: 1, constant: -120))
+        label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .width, relatedBy: .equal, toItem: label.superview, attribute: .width, multiplier: 0.5, constant: 0))
+        label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: label.superview, attribute: .centerY, multiplier: 1, constant: 0))
+        label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: label.superview, attribute: .height, multiplier: 1, constant: 0))
         
-        let sublabelconstraints = [
-            sublabel.centerYAnchor.constraint(equalTo:  TopbarView.centerYAnchor, constant: 8),
-            sublabel.leftAnchor.constraint(equalTo: profileImg.leftAnchor, constant: 52),
-            sublabel.heightAnchor.constraint(equalToConstant: 20)
-        ]
-        
-        
-        
-        
-        //--------------------- for activationg constartints:
-        
-        NSLayoutConstraint.activate(TopbarViewconstraints)
-        NSLayoutConstraint.activate(Backbuttonconstraints)
-        NSLayoutConstraint.activate(profileImgconstraints)
-        NSLayoutConstraint.activate(labelconstraints)
-        NSLayoutConstraint.activate(menubuttonconstraints)
-        NSLayoutConstraint.activate(sublabelconstraints)
+        //  NSLayoutConstraint.activate(BottomTableconstraints)
         
         self.view.layoutIfNeeded()
-        
-        TopbarView.translatesAutoresizingMaskIntoConstraints = false
-        Backbutton.translatesAutoresizingMaskIntoConstraints = false
-        profileImg.translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
-        menubutton.translatesAutoresizingMaskIntoConstraints = false
-        sublabel.translatesAutoresizingMaskIntoConstraints = false
         
         
-    }
-    @objc func callMethod() {
-        self.navigationController?.popViewController(animated: true)
+        //setting buttons
+        let backbutton = UIButton(type: UIButton.ButtonType.custom)
+        backbutton.setImage(UIImage(named: "back"), for: .normal)
+        backbutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
+        backbutton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        let barbackbutton = UIBarButtonItem(customView: backbutton)
+        
+        let Imagebutton = UIButton(type: UIButton.ButtonType.custom)
+        Imagebutton.setImage(UIImage(named: profilePicName!), for: .normal)
+        Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
+        Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        Imagebutton.imageView?.contentMode = .scaleAspectFill
+        Imagebutton.layer.cornerRadius = 10
+        Imagebutton.layer.masksToBounds = true
+        let barImagebutton = UIBarButtonItem(customView: Imagebutton)
+        
+        self.navigationItem.leftBarButtonItems = [barbackbutton,barImagebutton]
+        
+        let Rightbutton2 = UIButton(type: UIButton.ButtonType.custom)
+        Rightbutton2.setImage(UIImage(named: "menu"), for: .normal)
+        Rightbutton2.addTarget(self, action:#selector(menuMethod), for: .touchUpInside)
+        Rightbutton2.frame = CGRect(x: 0, y: 0, width: 20, height: 30)
+        let barRightbutton2 = UIBarButtonItem(customView: Rightbutton2)
+        self.navigationItem.rightBarButtonItems = [barRightbutton2]
     }
     @objc func menuMethod() {
         self.navigationController?.popViewController(animated: true)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.view.backgroundColor = ViewBgColor
-        setNavBar()
-        settingElemets()
-        forStsBar()
-    }
+    
     func forStsBar()
     {
         if #available(iOS 13.0, *) {
@@ -179,14 +219,22 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         // FOR TITLE :
         
         self.view.addSubview(titleLabel)
-        titleLabel.text = "April 3.10:00 PM"
+        let date = chatHandler.chatMetadata[chatID]?.latestMessageTimestamp!
+        
+        // Create Date Formatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .short
+
+        titleLabel.text = dateFormatter.string(from: date!)
         titleLabel.backgroundColor = .clear
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont(name: "Apercu-Regular", size: 17)
+        titleLabel.textColor = UIColor.lightGray
+        titleLabel.font = UIFont(name: "Apercu-Regular", size: 15)
         titleLabel.textAlignment = .center
         
         let TITLEconstraints = [
-            titleLabel.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            titleLabel.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
             titleLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
             titleLabel.heightAnchor.constraint(equalToConstant: 25)
             
@@ -201,8 +249,8 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         self.view.addSubview(bottomMsg)
         bottomMsg.text = "Reply to see who is messaging you. They won't know who you are until you've responded."
         bottomMsg.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
-        bottomMsg.textColor = .black
-        bottomMsg.font = UIFont(name: "Apercu-Medium", size: 18)
+        bottomMsg.textColor = UIColor.gray
+        bottomMsg.font = UIFont(name: "Apercu-Medium", size: 17)
         bottomMsg.textAlignment = .center
         bottomMsg.numberOfLines = 0
         bottomMsg.lineBreakMode = .byWordWrapping
@@ -219,7 +267,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         stackView.axis  = NSLayoutConstraint.Axis.horizontal
         stackView.spacing = 10
-        stackView.backgroundColor = .lightGray
+        stackView.backgroundColor = UIColor.gray
         
         let stackViewconstraints = [
             self.stackView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
@@ -233,7 +281,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         let deleteChatBtn = UIButton()
         deleteChatBtn.setTitle("Delete", for: .normal)
         deleteChatBtn.setTitleColor(.black, for: .normal)
-        deleteChatBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 17)
+        deleteChatBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 15)
         //TODO: Delete chat in backend
         deleteChatBtn.backgroundColor = ViewBgColor
         deleteChatBtn.addTarget(self, action: #selector(deletePressed), for: .touchUpInside)
@@ -241,7 +289,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         let chatAcceptBtn = UIButton()
         chatAcceptBtn.setTitle("Chat", for: .normal)
         chatAcceptBtn.setTitleColor(themeColor, for: .normal)
-        chatAcceptBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 17)
+        chatAcceptBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 15)
         chatAcceptBtn.backgroundColor = ViewBgColor
         chatAcceptBtn.addTarget(self, action: #selector(chatPressed), for: .touchUpInside)
         
@@ -269,14 +317,13 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         TopTable.separatorStyle = .none
         TopTable.backgroundColor = .clear
         TopTable.bounces = true
-        TopTable.isScrollEnabled = false
+        TopTable.isScrollEnabled = true
         TopTable.register(ChatsbleViewCell.self, forCellReuseIdentifier: "cell")
         
         let TopTableconstraints = [
-            self.TopTable.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 120),
+            self.TopTable.topAnchor.constraint(equalTo:  self.titleLabel.bottomAnchor, constant: 0),
             self.TopTable.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
             self.TopTable.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
-            // self.TopTable.heightAnchor.constraint(equalToConstant: 350)
             self.TopTable.bottomAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.bottomAnchor, constant: -150)
         ]
         self.view.addSubview(TopTable)
@@ -312,107 +359,86 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     //MARK: Chat or delete pressed
     @objc func deletePressed() {
         self.navigationController?.popViewController(animated: true)
+        print("delete pressed")
     }
     
     @objc func chatPressed() {
-//        let chatVC = ChatsViewController(messageInputBarStyle: .facebook)
-//        let navigationController = UINavigationController(rootViewController: chatVC)
-//        navigationController.modalPresentationStyle = .fullScreen
-//        self.present(navigationController, animated: true, completion: nil)
         
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook)
+        //do da big reveal
+        chatHandler.revealChat(chatId: self.chatID)
+    
+//        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
+//        self.navigationController?.isNavigationBarHidden = false
+//        self.navigationController?.pushViewController(chatVC, animated: true)
+//        print("revealVC pressed! TODO: display revealVC")
+        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(chatVC, animated: true)
+        self.navigationController?.pushViewController(revealVC, animated: true)
         
     }
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
     
-
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return chatHandler.messages[self.chatID]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChatsbleViewCell
         cell.selectionStyle = .none
-        print("cell for row")
         
-        var Rightheight = CGFloat()
-        var leftheight = CGFloat()
-        
-        var Rightwidth = CGFloat()
-        var leftwidth = CGFloat()
-        
-  
-        if indexPath.row % 2 == 0
-        {
+        //all messages
+        var messagesList = chatHandler.messages[self.chatID]
+        //single message
+        let messageStruct = messagesList?[indexPath.row]
+
+        //appears on the right if I sent it
+        if messageStruct?.senderID == Constants.FIREBASE_USERID! {
             cell.labLeft.isHidden = true
             cell.labRight.isHidden = false
-            cell.labRight.text = rightArr[indexPath.row]
-            cell.labRight.text = "lorem ispum"
-            
-            Rightheight = cell.labRight.text!.stringHeight + 30
-            
-            let RightW = cell.labRight.text!.stringWidth
-            if RightW <= 200
-            {
-                Rightwidth = RightW + 30
-            }
-            else
-            {
-                Rightwidth = 200
-            }
-             
-        }
-        
-        else {
-            cell.labLeft.text = "lorem ispum dollar sit lorem ikspum loremm"
-            
+            cell.Viewleft.isHidden = true
+            cell.ViewRight.isHidden = false
+            cell.labRight.text = messageStruct?.message
+        } else {//appears on the left if other person sends it
             cell.labLeft.isHidden = false
             cell.labRight.isHidden = true
-            cell.labLeft.text = leftArr[indexPath.row]
-            
-            let leftW = cell.labLeft.text!.stringWidth + 30
-            if leftW <= 200
-            {
-                leftwidth = leftW
-            }
-            else
-            {
-                leftwidth = 200
-            }
-            
+            cell.Viewleft.isHidden = false
+            cell.ViewRight.isHidden = true
+            cell.labLeft.text = messageStruct?.message
         }
         
         
-        print("Rightheight",Rightheight)
-        print("leftheight",leftheight)
+        let stringWidth = messageStruct?.message?.stringWidth
+        let maxWidth = CGFloat(200)
+        cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
         
+        cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20).isActive = true
+        
+        
+        cell.labRight.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        cell.ViewRight.widthAnchor.constraint(equalTo:cell.labRight.widthAnchor,constant: 15).isActive = true
+        cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8).isActive = true
+        cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8).isActive = true
+        
+        
+        cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
+        
+        cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
+        
+        cell.labLeft.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        cell.Viewleft.widthAnchor.constraint(equalTo:cell.labLeft.widthAnchor,constant: 15).isActive = true
+        cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
+        cell.labLeft.leftAnchor.constraint(equalTo:  cell.Viewleft.leftAnchor, constant: 8).isActive = true
+        
+        cell.labRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -14).isActive = true
+        cell.labLeft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -14).isActive = true
 
-        cell.ViewRightconstraints = [
-            cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.ViewRight.widthAnchor.constraint(equalToConstant: Rightwidth),
-            cell.ViewRight.heightAnchor.constraint(equalToConstant: CGFloat(Rightheight)),
-            cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20),
-            cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
-        ]
-        
-        
-        cell.Viewleftconstraints = [
-            cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8),
-            cell.Viewleft.heightAnchor.constraint(equalToConstant: CGFloat(leftheight)),
-            cell.Viewleft.widthAnchor.constraint(equalToConstant: leftwidth),
-            cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20),
-            cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.contentView.bottomAnchor, constant: -8)
-        ]
-        
-        NSLayoutConstraint.activate(cell.ViewRightconstraints)
-        NSLayoutConstraint.activate(cell.Viewleftconstraints)
+        cell.ViewRight.bottomAnchor.constraint(equalTo:  cell.labRight.bottomAnchor, constant: 8).isActive = true
+        cell.Viewleft.bottomAnchor.constraint(equalTo:  cell.labLeft.bottomAnchor, constant: 8).isActive = true
         
         cell.contentView.layoutIfNeeded()
-        
         
         return cell
         

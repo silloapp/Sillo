@@ -95,7 +95,6 @@ class NotificationRequestViewController: UIViewController {
     @objc func enableTapped(_:UIButton) {
         registerForPushNotifications()
         UserDefaults.standard.set(true, forKey: "finishedOnboarding")
-        showNextVC()
     }
     
     @objc func skipTapped(_:UIButton) {

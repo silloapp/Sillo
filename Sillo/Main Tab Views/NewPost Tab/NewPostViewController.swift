@@ -144,7 +144,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         profilepic.topAnchor.constraint(equalTo: headerLabel.topAnchor, constant: 50).isActive = true
         profilepic.widthAnchor.constraint(equalToConstant: 35).isActive = true
         profilepic.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        posterImageName = generatePosterImageName()
+        posterImageName = chatHandler.generateImageName()
         profilepic.image = UIImage(named:"\(posterImageName)")
         
         //textiview
@@ -197,7 +197,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             self.latestButtonPressTimestamp = Date()
             let attachment = media?.id ?? ""
             let poster = Constants.FIREBASE_USERID!
-            let poster_alias = generatePosterAlias()
+            let poster_alias = chatHandler.generateAlias()
             
             feed.addPost(attachment: attachment, postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
             self.dismiss(animated: true, completion: nil)
@@ -223,16 +223,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         
     }
     
-    func generatePosterAlias() -> String {
-        let options: [String] = ["Beets", "Cabbage", "Watermelon", "Bananas", "Oranges", "Apple Pie", "Bongo", "Sink", "Boop"]
-        return options.randomElement()!
-    }
-    
-    func generatePosterImageName() -> String {
-        let options: [String] = ["1","2","3","4"]
-        return "avatar-\(options.randomElement()!)"
-        
-    }
+
     
     
     //User pressed exit button
