@@ -366,10 +366,15 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         //do da big reveal
         chatHandler.revealChat(chatId: self.chatID)
-    
-        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
+    //REVEAL VC WILL BE CALLED AFTER NOTIFICATION ONCE THE CHAT METADATA HAS BEEN UPDATED TO CONTAIN THE REVEAL IDENTITIES, THIS IS TO AVOID HAVING ANON NAME ON THERE
+        
+//        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
+//        self.navigationController?.isNavigationBarHidden = false
+//        self.navigationController?.pushViewController(revealVC, animated: true)
+        
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID, post: nil)
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(revealVC, animated: true)
+        self.navigationController?.pushViewController(chatVC, animated: true)
         
     }
     
