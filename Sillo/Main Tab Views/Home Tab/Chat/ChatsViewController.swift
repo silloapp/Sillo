@@ -401,6 +401,9 @@ final class ChatsViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
+        print("DEINIT")
+        messageListener?.remove()
+        activeChatListener?.remove()
     }
     
     override func viewDidAppear(_ animated: Bool) {
