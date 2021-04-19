@@ -83,7 +83,6 @@ class AnimationWaterBubbleVC: UIViewController {
     
     
     @objc func continuePressed() {
-        print("its working!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(chatVC, animated: true)

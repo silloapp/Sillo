@@ -367,10 +367,6 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         //do da big reveal
         chatHandler.revealChat(chatId: self.chatID)
     
-//        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
-//        self.navigationController?.isNavigationBarHidden = false
-//        self.navigationController?.pushViewController(chatVC, animated: true)
-//        print("revealVC pressed! TODO: display revealVC")
         let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(revealVC, animated: true)

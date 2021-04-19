@@ -55,6 +55,8 @@ class ChatHandler {
         let latestMessageDate = Date(timeIntervalSince1970: TimeInterval(latestMessageTimestamp.seconds))
         let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
+
+        
         //get the latest message for this chat
         //SLOW???
         var latest_message = "Replace this "
@@ -65,6 +67,11 @@ class ChatHandler {
             } else {
                 let newestMessageDoc = querySnapshot!.documents[0] // THE MESSAGE DOC DOES NOT EXIST YET BU THE TIME USER_CHAT IS UPDATED
                 latest_message = newestMessageDoc.get("message") as! String
+                
+                if isRevealed == true && self.chatMetadata[chatID]?.isRevealed == false { //if reveal changes to true, display the revealVC
+                    print("this sohould happen only ONCE")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "revealUser"), object: nil)
+                }
                 
                 //wait until this is finished // asynchronous later
                 //update chat metadata
