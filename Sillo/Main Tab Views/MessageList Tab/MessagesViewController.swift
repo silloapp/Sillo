@@ -34,6 +34,10 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
        activeChatListener?.remove()
      }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        activeChatListener?.remove()
+    }
+    
     @objc func refreshMessageListView(note: NSNotification) {
         chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
         self.chatListTable.reloadData()
