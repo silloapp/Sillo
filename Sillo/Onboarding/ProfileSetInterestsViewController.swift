@@ -215,7 +215,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
 
             //set color matteBlack is not a dummy cell, grey otherwise
             if (indexPath.item >= selectedInterests.count) {
-                cell.backgroundColor = Color.russianDolphinGray
+                cell.backgroundColor = Color.russiandolphin
             }
             else {
                 cell.backgroundColor = Color.matte
@@ -268,7 +268,8 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
             interestLabel.textColor = Color.matte
         }
         else {
-            cell.backgroundColor = Color.russianDolphinGray
+            cell.backgroundColor = Color.russiandolphin
+            interestLabel.textColor = Color.darkerRussianDolphinGray
         }
         
         return cell
@@ -287,9 +288,9 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
             indexPathOfCellsSelected.remove(at: index!)
             selectedInterests.remove(at: index!)
             
-            cell?.backgroundColor = Color.russianDolphinGray
+            cell?.backgroundColor = Color.russiandolphin
             let label = cell?.viewWithTag(100) as? UILabel
-            label?.textColor = Color.russianDolphinGray
+            label?.textColor = Color.darkerRussianDolphinGray
         }
         else {
             //tapped item is not yet in data structure, evict last item, and include tapped item.
@@ -300,9 +301,9 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
                 let removed_index: IndexPath = indexPathOfCellsSelected.popLast()!
                 let removed_cell = collectionView.cellForItem(at: removed_index)
                 
-                removed_cell?.backgroundColor = Color.russianDolphinGray
+                removed_cell?.backgroundColor = Color.russiandolphin
                 let label = removed_cell?.viewWithTag(100) as? UILabel
-                label?.textColor = Color.russianDolphinGray
+                label?.textColor = Color.darkerRussianDolphinGray
             }
             //append tapped item to data structure
             selectedInterests.append(interest)

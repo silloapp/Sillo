@@ -24,10 +24,10 @@ class OnboardingViewController: UIViewController {
     
     let descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
-        descriptionLabel.font = Font.regular(22)
-        descriptionLabel.textColor = .black
+        descriptionLabel.font = Font.bold(30)
+        descriptionLabel.textColor = Color.burple
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        descriptionLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         descriptionLabel.textAlignment = .center
         descriptionLabel.adjustsFontSizeToFitWidth = true
         return descriptionLabel
@@ -58,7 +58,7 @@ class OnboardingViewController: UIViewController {
         stack.axis = .vertical
         stack.alignment = .center
         stack.distribution = .fillProportionally
-        stack.spacing = 15
+        stack.spacing = 20
         view.addSubview(stack)
         
         stack.addArrangedSubview(onboardingImage)
@@ -68,8 +68,8 @@ class OnboardingViewController: UIViewController {
         
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stack.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        stack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
+        stack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 280/375).isActive = true
         stack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 400/812).isActive = true
         
         

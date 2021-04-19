@@ -204,35 +204,33 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         buttonPlus.backgroundColor = .clear
         buttonPlus.setTitle("+", for: .normal)
         buttonPlus.titleLabel?.font = UIFont.init(name: "Apercu-Bold", size: 60)
-        // buttonPlus.setTitleColor(UIColor.init(red: 242/255, green: 244/255, blue: 244/255, alpha: 1), for: .normal)
-        
-        buttonPlus.setTitleColor(.lightGray, for: .normal)
-        buttonPlus.alpha = 0.6
+        buttonPlus.addTarget(self, action: #selector(addNewSpaceClicked), for: .touchUpInside)
+        buttonPlus.setTitleColor(hexStringToUIColor(hex: "E0E0E0"), for: .normal)
         buttonPlus.isUserInteractionEnabled = true
         
         let buttonPlusconstraints = [
-            buttonPlus.topAnchor.constraint(equalTo:  self.tableView.safeAreaLayoutGuide.topAnchor, constant: 300),
+            buttonPlus.topAnchor.constraint(equalTo:  self.tableView.bottomAnchor, constant: 5),
             buttonPlus.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 25),
             buttonPlus.widthAnchor.constraint(equalToConstant: 60),
             buttonPlus.heightAnchor.constraint(equalToConstant: 60)
         ]
         
         
-        let bottomlbl = UIButton()
+        let addSpaceButton = UIButton()
         
-        self.secondPreviewView.addSubview(bottomlbl)
+        self.secondPreviewView.addSubview(addSpaceButton)
         buttonPlus.backgroundColor = .clear
         
-        bottomlbl.setTitle("Add a space", for: .normal)
-        bottomlbl.setTitleColor(.black, for: .normal)
-        bottomlbl.titleLabel?.font = Font.bold(17)
-        bottomlbl.titleLabel?.textAlignment = .left
-        bottomlbl.addTarget(self, action: #selector(addNewSpaceClicked), for: .touchUpInside)
+        addSpaceButton.setTitle("Add a space", for: .normal)
+        addSpaceButton.setTitleColor(.black, for: .normal)
+        addSpaceButton.titleLabel?.font = Font.bold(17)
+        addSpaceButton.titleLabel?.textAlignment = .left
+        addSpaceButton.addTarget(self, action: #selector(addNewSpaceClicked), for: .touchUpInside)
         
         let bottomlblconstraints = [
-            bottomlbl.centerYAnchor.constraint(equalTo:  buttonPlus.centerYAnchor, constant: 0),
-            bottomlbl.leftAnchor.constraint(equalTo: buttonPlus.rightAnchor, constant: 15),
-            bottomlbl.heightAnchor.constraint(equalToConstant: 60)
+            addSpaceButton.centerYAnchor.constraint(equalTo:  buttonPlus.centerYAnchor, constant: 0),
+            addSpaceButton.leftAnchor.constraint(equalTo: buttonPlus.rightAnchor, constant: 15),
+            addSpaceButton.heightAnchor.constraint(equalToConstant: 60)
         ]
         
         let button2dismiss = UIButton()
@@ -291,7 +289,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         button1dismiss.translatesAutoresizingMaskIntoConstraints = false
         button2dismiss.translatesAutoresizingMaskIntoConstraints = false
         buttonPlus.translatesAutoresizingMaskIntoConstraints = false
-        bottomlbl.translatesAutoresizingMaskIntoConstraints = false
+        addSpaceButton.translatesAutoresizingMaskIntoConstraints = false
         
     }
     
