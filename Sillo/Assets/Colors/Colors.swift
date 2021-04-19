@@ -18,8 +18,8 @@ struct Color {
         return UIColor(displayP3Red: 224/255, green: 224/255, blue: 224/255, alpha: 1.0)
     }
     
-    static var russianDolphinGray: UIColor {
-        return UIColor(displayP3Red: 211/255, green: 211/255, blue: 211/255, alpha: 1.0)
+    static var darkerRussianDolphinGray: UIColor {
+        return UIColor(displayP3Red: 149/255, green: 149/255, blue: 145/255, alpha: 1.0)
     }
     
     static var buttonClickable: UIColor {
@@ -83,5 +83,5 @@ struct Color {
     
     static var salmon: UIColor {
         return UIColor(red: 0.96, green: 0.55, blue: 0.52, alpha: 1.00)
-    } 
+    }
 }

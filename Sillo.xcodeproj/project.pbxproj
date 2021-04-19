@@ -95,6 +95,7 @@
 		FDB3400425AC09E700097FE1 /* NoInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */; };
 		FDB818572626C5A70089E9A2 /* WaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */; };
 		FDB818582626C5A70089E9A2 /* AnimationWaterBubbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */; };
+		FDEBE945261EF49F0084AB12 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +218,7 @@
 		FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveAnimationView.swift; sourceTree = "<group>"; };
 		FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationWaterBubbleVC.swift; sourceTree = "<group>"; };
 		FDB818562626C5A70089E9A2 /* WaveAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveAnimationView.h; sourceTree = "<group>"; };
+		FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -447,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
+				FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */,
 				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
 				FD85041E2606982C0056DC13 /* PeopleVC.swift */,
 				AA02F6E2260DE4F100E24E72 /* ManageUserViewController.swift */,
@@ -877,6 +880,7 @@
 				FD9D92C025A13B25003C7883 /* AppDelegate.swift in Sources */,
 				FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */,
 				AA57BA7B25E87078001C378B /* ProfileSetupViewController.swift in Sources */,
+				FDEBE945261EF49F0084AB12 /* NotificationsViewController.swift in Sources */,
 				FD93B2DB26057BF200CC44AA /* InterChatVC.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
 				FD7C8A8826055C7C00647D1B /* OnboardingViewController.swift in Sources */,
@@ -1096,6 +1100,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sillo/Sillo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 9Z82JGWWDM;
 				INFOPLIST_FILE = Sillo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1120,6 +1125,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sillo/Sillo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 9Z82JGWWDM;
 				INFOPLIST_FILE = Sillo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
