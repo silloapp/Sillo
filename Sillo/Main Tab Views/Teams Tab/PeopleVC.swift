@@ -27,6 +27,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         let appearance = UINavigationBarAppearance()
         appearance.shadowImage = nil
         appearance.shadowColor = nil
+        appearance.backgroundColor = Color.headerBackground
         return appearance
     }()
     

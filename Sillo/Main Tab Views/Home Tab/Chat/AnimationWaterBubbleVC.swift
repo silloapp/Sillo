@@ -155,7 +155,7 @@ class AnimationWaterBubbleVC: UIViewController {
         let mypicRef:NSString = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)" as NSString
         var myfirebaseImage = UIImage(named:"avatar-10")
         if (imageCache.object(forKey: mypicRef) != nil) {
-            myfirebaseImage = imageCache.object(forKey: picRef)
+            myfirebaseImage = imageCache.object(forKey: mypicRef)
         }
         else {
             myfirebaseImage = cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)")
@@ -195,7 +195,6 @@ class AnimationWaterBubbleVC: UIViewController {
         ]
         
         ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchUpInside)
-       ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchDown)
         
 //        let continueTap = UITapGestureRecognizer(target: self, action: #selector(continuePressed(_:)))
 //        continueTap.cancelsTouchesInView = false;
