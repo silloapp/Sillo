@@ -151,11 +151,19 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
           break
         case "Sign Out":
-            localUser.signOut()
-            if let nextVC = selectedMenuItem.nextVC {
-                nextVC.modalPresentationStyle = .fullScreen
-                self.present(nextVC, animated: true, completion: nil)
-            }
+            let alertVC = AlertView(headingText: "Log out?", messageText: "", action1Label: "Log out", action1Color: Color.salmon, action1Completion: {
+                localUser.signOut()
+                if let nextVC = selectedMenuItem.nextVC {
+                    nextVC.modalPresentationStyle = .fullScreen
+                    self.present(nextVC, animated: true, completion: nil)
+                }
+            }, action2Label: "Cancel", action2Color: Color.burple, action2Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+            
+            alertVC.modalTransitionStyle = .crossDissolve
+            alertVC.modalPresentationStyle = .overCurrentContext
+            self.present(alertVC, animated: true, completion: nil)
             break
         default:
             print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")

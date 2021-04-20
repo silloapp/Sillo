@@ -83,12 +83,12 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         if name == "Log out" {
             
-            let alertVC = AlertView(headingText: "Log out?", messageText: "", action1Label: "Log out", action1Color: Color.burple, action1Completion: {
+            let alertVC = AlertView(headingText: "Log out?", messageText: "", action1Label: "Log out", action1Color: Color.salmon, action1Completion: {
                 localUser.signOut()
                 let nextVC = StartScreenViewController()
                 nextVC.modalPresentationStyle = .fullScreen
                 self.present(nextVC, animated: true, completion: nil)
-            }, action2Label: "Cancel", action2Color: .gray, action2Completion: {
+            }, action2Label: "Cancel", action2Color: Color.burple, action2Completion: {
                 self.dismiss(animated: true, completion: nil)
             }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
             
