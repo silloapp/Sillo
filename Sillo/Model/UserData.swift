@@ -164,11 +164,13 @@ class LocalUser {
     func uploadFCMToken(token: String) {
         //log notifications enabled
         analytics.log_notifications_enabled()
-        Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["FCMToken" : token]) { err in
-            if let err = err {
-                print("error adding user info with error: \(err.localizedDescription)")
-            } else {
-                print("successfully added user info")
+        if Constants.FIREBASE_USERID != nil {
+            Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["FCMToken" : token]) { err in
+                if let err = err {
+                    print("error adding user info with error: \(err.localizedDescription)")
+                } else {
+                    print("successfully added user info")
+                }
             }
         }
     }
