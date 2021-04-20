@@ -101,7 +101,7 @@ class VerificationProcessingViewController: UIViewController {
                     DispatchQueue.main.async {
                         let alert = AlertView(headingText: "Code is invalid.", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                             self.dismiss(animated: true, completion: nil)
-                            self.navigationController?.popViewCooller(animated: true)
+                            self.navigationController?.popViewController(animated: true)
                         }, action2Label: "Nil", action2Color: .gray, action2Completion: {
                         }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
                         alert.modalPresentationStyle = .overCurrentContext
