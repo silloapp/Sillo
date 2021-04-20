@@ -431,12 +431,17 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     //MARK: selected the cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //haptic feedback
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        
         selectedIndx = indexPath.row
         self.TopTable.reloadData()
         let orgID : String = localUser.invites[selectedIndx]
         // do not allow joining an organization you're already a part of
         // switch organizations for the user, and take them to home screen.
         if organizationData.idToName.keys.contains(orgID) {
+            generator.notificationOccurred(.error)
             DispatchQueue.main.async {
                 let alert = AlertView(headingText: "Organization Already Joined!", messageText: "You have already joined this organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                     self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);self.exitPressed()
@@ -466,6 +471,8 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         organizationData.idToName[orgID] = temporary
         
         localUser.acceptInvite(organizationID: orgID)
+        
+        generator.notificationOccurred(.success)
     }
     
     @objc func inviteAccepted(note:NSNotification) {
