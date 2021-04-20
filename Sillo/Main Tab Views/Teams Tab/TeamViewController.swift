@@ -35,11 +35,11 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private let itemProperties = [
         ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"team-1")!),
-        ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"team-2")!),
+       // ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"team-2")!),
         ItemProperty(title: "People", backgroundImage: UIImage(named:"team-5")!),
-        ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-3")!),
-        ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-4")!),
-        ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team-6")!),
+       // ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-3")!),
+       // ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-4")!),
+       // ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team-6")!),
         ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"team-7")!),
         
     ]
