@@ -415,12 +415,14 @@ class ChatHandler {
     }
     
     func generateAlias() -> String {
-        let options: [String] = ["Beets", "Cabbage", "Watermelon", "Bananas", "Oranges", "Apple Pie", "Bongo", "Sink", "Boop", "Flamingo", "Tiger", "Rabbit", "Rhino", "Eagle", "Tomato", "Dinosaur", "Cherry", "Violin", "Dolphin"]
+        let options: [String] = ["Flamingo", "Reindeer", "T-Rex", "Dragon", "Axolotl", "Manatee", "Unicorn", "Alpaca", "Hummingbird", "Platypus", "Caterpillar", "Butterfly", "Tiger", "Rabbit", "Elephant", "Armadillo", "Kangaroo", "Chicken Turtle", "Albatross", "Barracuda", "Orangutan", "Komodo", "Caribou", "Cassowary", "Chinchilla", "Kookaburra", "Mammoth", "Nightingale", "Porcupine", "Salamander", "Vulture", "Wallaby", "Starling", "Seahorse", "Raven", "Polar Bear", "Arctic Fox", "Kingfisher", "Impala", "Grasshopper", "Gazelle", "Coyote", "Capybara", "Bluebird", "Antelope", "Aardvark", "Banana Slug", "Golden Bear", "Dust Bunny", "Sea Angel", "Sunfish", "Anemone", "Python"]
+        
+        
         return options.randomElement()!
     }
     
     func generateImageName() -> String {
-        let options: [String] = ["1","2","3","4"]
+        let options: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         return "avatar-\(options.randomElement()!)"
     }
     
