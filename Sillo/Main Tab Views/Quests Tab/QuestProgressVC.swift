@@ -311,15 +311,16 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         let taskType = quests.subtasks[indexPath.row].type
         
         cell.imgUser.image = UIImage.init(named: "subtask icon")
+        cell.imgUser.contentMode = .scaleAspectFit
         
         if taskType == "newPost" {
-            cell.imgUser.image = UIImage(named: "pencil")
+            cell.imgUser.image = UIImage(named: "newPost task")
         } else if taskType == "newConnection" {
-            cell.imgUser.image = UIImage(named:"party popper")
+            cell.imgUser.image = UIImage(named:"newConnection task")
         } else if taskType == "replyToPost" {
-            cell.imgUser.image = UIImage(named:"celebrate")
+            cell.imgUser.image = UIImage(named:"replyToPost task")
         } else {
-            cell.imgUser.image = UIImage(named: "party popper")
+            cell.imgUser.image = UIImage(named: "newPost task")
         }
         
         //subtask title
@@ -339,9 +340,9 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
         cell.img1constraints = [
             cell.imgUser.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 0),
-            cell.imgUser.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 30),
-            cell.imgUser.widthAnchor.constraint(equalToConstant: 40),
-            cell.imgUser.heightAnchor.constraint(equalToConstant: 40)
+            cell.imgUser.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 40),
+            cell.imgUser.widthAnchor.constraint(equalToConstant: 45),
+            cell.imgUser.heightAnchor.constraint(equalToConstant: 45)
         ]
         NSLayoutConstraint.activate(cell.img1constraints)
         
