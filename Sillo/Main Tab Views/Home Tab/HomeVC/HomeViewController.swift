@@ -325,7 +325,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let postID = post.postID ?? "ERROR"
         let posterID = post.posterUserID ?? "ERROR"
         let reporterID = Constants.FIREBASE_USERID!
-        
+        var postReported = false
         //update reported posts entry
         let reportPostRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_posts").document(postID)
         reportPostRef.getDocument() { (query, err) in
@@ -333,24 +333,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 let reporters = query?.get("reporters") as! [String]
                 if !reporters.contains(reporterID) {
                     reportPostRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
+                    postReported = true
                 }
             }
             else {
                 reportPostRef.setData(["count":1,"reporters":[reporterID]])
+                postReported = true
             }
         }
         
-        //update reported users entry
-        let reportUserRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_users").document(posterID)
-        reportUserRef.getDocument() { (query, err) in
-            if query != nil && query!.exists {
-                let reporters = query?.get("reporters") as! [String]
-                if !reporters.contains(reporterID) {
+        //update reported users entry if this post was reported
+        if postReported {
+            let reportUserRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_users").document(posterID)
+            reportUserRef.getDocument() { (query, err) in
+                if query != nil && query!.exists {
                     reportUserRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
                 }
-            }
-            else {
-                reportUserRef.setData(["count":1,"reporters":[reporterID]])
+                else {
+                    reportUserRef.setData(["count":1,"reporters":[reporterID]])
+                }
             }
         }
     }
