@@ -74,6 +74,10 @@ class ChatHandler {
                 
                 if isRevealed == true && self.chatMetadata[chatID]?.isRevealed == false { //if reveal changes to true, display the revealVC
                     print("this sohould happen only ONCE")
+                    
+                    //update quest if newConnection is a subtask
+                    quests.updateQuestProgress(typeToUpdate: "newConnection")
+                    
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "revealUser"), object: nil)
                 }
                 
@@ -110,6 +114,7 @@ class ChatHandler {
     //creates a new chat document with mesages
     //adds to user_chats
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
+        
         let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
         let messageID = UUID.init().uuidString
         let messageStruct = createMessage(messageID: messageID,
@@ -120,6 +125,11 @@ class ChatHandler {
         
         createChatDocument(chatId: chatId, post: post, message: messageStruct)
         addUserChats(chatId: chatId, post: post)
+        
+        
+        //since addChat is only called on the first reply,
+        //update quest if replyToPost is a subtask
+        quests.updateQuestProgress(typeToUpdate: "replyToPost")
     }
     
     

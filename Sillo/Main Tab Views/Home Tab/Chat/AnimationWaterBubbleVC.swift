@@ -51,6 +51,8 @@ class AnimationWaterBubbleVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfilePicture), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
         RiseUpimageVw.contentMode = .scaleToFill

@@ -267,7 +267,7 @@ final class ChatsViewController: UITableViewController {
                             chatHandler.messages[self.chatID]?.append(msg)
                             
                             //sort messages (if no guarantee of sorting order, we should do it here)
-                            //chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
+                            chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
                             
                             print("added message: \(message) to messagelist for chat \(self.chatID)" )
                         }

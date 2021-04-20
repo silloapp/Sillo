@@ -316,8 +316,10 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
             cell.imgUser.image = UIImage(named: "pencil")
         } else if taskType == "newConnection" {
             cell.imgUser.image = UIImage(named:"party popper")
-        } else if taskType == "levelUpConnection" {
+        } else if taskType == "replyToPost" {
             cell.imgUser.image = UIImage(named:"celebrate")
+        } else {
+            cell.imgUser.image = UIImage(named: "party popper")
         }
         
         //subtask title

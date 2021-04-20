@@ -108,6 +108,10 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                     if chatHandler.messages[self.chatID] != nil {
                         if !chatHandler.messages[self.chatID]!.contains(msg) {
                             chatHandler.messages[self.chatID]?.append(msg)
+                            
+                            //sort messages (if no guarantee of sorting order, we should do it here)
+                            chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
+                            
                             print("HELLO added message: \(message) to messagelist for chat \(self.chatID)" )
                         } else {
                             print("HELLO this messageID already exists with message: \(message)!")
