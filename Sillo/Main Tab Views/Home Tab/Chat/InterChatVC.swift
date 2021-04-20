@@ -64,7 +64,12 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        navigationController?.isNavigationBarHidden = true
 //    }
     
-    override func viewWillAppear(_ animated: Bool) { self.navigationController?.navigationBar.isHidden = true
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //now that message has been opened, mark as read for user
+        chatHandler.readChat(userID: Constants.FIREBASE_USERID!, chatId: self.chatID)
+        
+//        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.isTranslucent = true
         
         self.tabBarController?.tabBar.isHidden = true
@@ -121,6 +126,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
     
     @objc func backBtnPressed() {
         navigationController?.isNavigationBarHidden = true

@@ -47,7 +47,8 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let menuItemTableView = UITableView() // view
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = false
         view.backgroundColor = .white
         overrideUserInterfaceStyle = .light
         

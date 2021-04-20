@@ -388,13 +388,21 @@ class ProfileSetupViewController: UIViewController{
     
     //MARK: VIEWDIDAPPEAR
     override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
         //scrollView.contentSize = CGSize(width: 0, height: 896.0)
         scrollView.contentSize = CGSize(width: 0, height: 1000) //fuck the keyboard thing.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
+
         
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
@@ -429,7 +437,8 @@ class ProfileSetupViewController: UIViewController{
         
         //MARK: next button container
         view.addSubview(saveChangesContainer)
-        saveChangesContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+//        saveChangesContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        saveChangesContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         saveChangesContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 90/812).isActive = true
         saveChangesContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
