@@ -33,6 +33,8 @@ class HomePostTableViewCell: UITableViewCell {
             if let imgName = msg.posterImageName  {
                 profilePic.image = UIImage(named: imgName)
             }
+            
+            self.optionsButton.post = self.item
         }
     }
     
@@ -51,8 +53,8 @@ class HomePostTableViewCell: UITableViewCell {
         return userName
     }()
     
-    let optionsButton: UIImageView = {
-        let imageView = UIImageView()
+    let optionsButton: ReportButton = {
+        let imageView = ReportButton()
         imageView.image = UIImage(named: "Downward Arrow")
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 10)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -90,9 +92,9 @@ class HomePostTableViewCell: UITableViewCell {
         
         //add options button
         self.contentView.addSubview(optionsButton)
-        optionsButton.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        optionsButton.heightAnchor.constraint(equalToConstant: 12).isActive = true
         optionsButton.trailingAnchor.constraint(equalTo: self.userName.trailingAnchor, constant: 0).isActive = true
-        optionsButton.widthAnchor.constraint(equalToConstant: 18).isActive = true
+        optionsButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         optionsButton.centerYAnchor.constraint(equalTo: self.userName.centerYAnchor).isActive = true
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(optionsTapped(tapGestureRecognizer:)))
         optionsButton.isUserInteractionEnabled = true
@@ -113,6 +115,10 @@ class HomePostTableViewCell: UITableViewCell {
     
     @objc func optionsTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        print("Clicked on options! Time to bring up the small VC from the bottom.. ")
+        print("DEPRECATED")
     }
+}
+
+class ReportButton: UIImageView {
+var post: Post?
 }
