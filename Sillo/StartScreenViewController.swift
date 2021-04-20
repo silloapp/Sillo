@@ -25,7 +25,7 @@ class StartScreenViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.routeUser(note:)), name: Notification.Name("UserLoadingComplete"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToMainView(note:)), name: Notification.Name("ColdOrgChangeComplete"), object: nil)
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -157,7 +157,8 @@ func prepareTabVC() -> UIViewController {
     let icon2 = UITabBarItem(title: "Quests", image: UIImage(named: "missions")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "missions active")!.withRenderingMode(.alwaysOriginal))
     let icon3 = UITabBarItem(title: "New Post", image: UIImage(named: "new post")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "new post active")!.withRenderingMode(.alwaysOriginal))
     let icon4 = UITabBarItem(title: "Messages", image: UIImage(named: "messages")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "messages active")!.withRenderingMode(.alwaysOriginal))
-    let icon5 = UITabBarItem(title: "Team", image: UIImage(named: "team")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "team active")!.withRenderingMode(.alwaysOriginal))
+    let icon5 = UITabBarItem(title: "Team", image: UIImage(named: "tab5")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "team active")!.withRenderingMode(.alwaysOriginal))
+
     
     
     let vc1 = UINavigationController(rootViewController: HomeViewController())

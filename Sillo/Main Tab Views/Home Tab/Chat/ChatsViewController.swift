@@ -142,6 +142,13 @@ final class ChatsViewController: UITableViewController {
         Imagebutton.setImage(cachedImage, for: .normal)
     }
     
+    @objc func revealUser(note: NSNotification) {
+        print("OP has just accepted ur message and you are now revealed to each other!")
+        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(revealVC, animated: true)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         
         //now that message has been opened, mark as read for user
@@ -155,7 +162,8 @@ final class ChatsViewController: UITableViewController {
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(revealUser), name: Notification.Name(rawValue: "revealUser"), object: nil)
+
         if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
             //convert post into message
             
@@ -260,6 +268,7 @@ final class ChatsViewController: UITableViewController {
         
         self.tableView.separatorStyle = .none
         
+        self.navigationController?.isNavigationBarHidden = false
         navigationController?.view.backgroundColor = .white
         
         self.tableView.register(ChatsbleViewCell.self, forCellReuseIdentifier: "cell")
@@ -310,6 +319,8 @@ final class ChatsViewController: UITableViewController {
         self.tableView.contentInset = .zero
     }
     func setNavBar() {
+        self.navigationController?.isNavigationBarHidden = false
+
         navigationController?.navigationBar.standardAppearance = self.appearance
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
@@ -457,19 +468,18 @@ final class ChatsViewController: UITableViewController {
         let maxWidth = CGFloat(200)
         cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
         
-        cell.ViewRight.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20).isActive = true
         
-        
+        let stringWidth = messageStruct?.message?.stringWidth
+        let maxWidth = CGFloat(200)
+      
+        cell.ViewRight.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
         cell.labRight.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
         cell.ViewRight.widthAnchor.constraint(equalTo:cell.labRight.widthAnchor,constant: 20).isActive = true
         cell.labRight.topAnchor.constraint(equalTo:  cell.ViewRight.topAnchor, constant: 8).isActive = true
         cell.labRight.rightAnchor.constraint(equalTo:  cell.ViewRight.rightAnchor, constant: -8).isActive = true
         
-        
         cell.Viewleft.topAnchor.constraint(equalTo:  cell.contentView.topAnchor, constant: 8).isActive = true
-        
         cell.Viewleft.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 20).isActive = true
-        
         cell.labLeft.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
         cell.Viewleft.widthAnchor.constraint(equalTo:cell.labLeft.widthAnchor,constant: 20).isActive = true
         cell.labLeft.topAnchor.constraint(equalTo:  cell.Viewleft.topAnchor, constant: 8).isActive = true
