@@ -84,9 +84,9 @@ class Quests {
             "subtask1": "newPost",
             "subtask2": "newPost",
             "subtask3": "newPost",
-            "subtask1_progress" : ["current": 0, "target": self.subtasks[0].target*2,],
-            "subtask2_progress" : ["current": 0, "target": self.subtasks[1].target*3,],
-            "subtask3_progress" : ["current": 0, "target": self.subtasks[2].target*2,],
+            "subtask1_progress" : ["current": 0, "target": self.subtasks[0].target,],
+            "subtask2_progress" : ["current": 0, "target": self.subtasks[1].target,],
+            "subtask3_progress" : ["current": 0, "target": self.subtasks[2].target,],
         ], merge: true) { err in
             if let err = err {
                 print("Error resetting quest: \(err)")
