@@ -365,7 +365,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID, post: nil)
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(chatVC, animated: true)
+        self.navigationController?.pushViewController(chatVC, animated: false)
         
     }
     

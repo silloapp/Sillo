@@ -193,7 +193,6 @@ class AnimationWaterBubbleVC: UIViewController {
         ]
         
         ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchUpInside)
-       ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchDown)
         
 //        let continueTap = UITapGestureRecognizer(target: self, action: #selector(continuePressed(_:)))
 //        continueTap.cancelsTouchesInView = false;
