@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "messages.png",
+      "filename" : "missions-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "messages@2x.png",
+      "filename" : "missions@2x-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "messages@3x.png",
+      "filename" : "missions@3x-1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
