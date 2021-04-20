@@ -149,7 +149,6 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: label.superview, attribute: .centerY, multiplier: 1, constant: 0))
         label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: label.superview, attribute: .height, multiplier: 1, constant: 0))
         
-
         //  NSLayoutConstraint.activate(BottomTableconstraints)
         
         self.view.layoutIfNeeded()
@@ -367,14 +366,12 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         //do da big reveal
         chatHandler.revealChat(chatId: self.chatID)
-    //REVEAL VC WILL BE CALLED AFTER NOTIFICATION ONCE THE CHAT METADATA HAS BEEN UPDATED TO CONTAIN THE REVEAL IDENTITIES, THIS IS TO AVOID HAVING ANON NAME ON THERE
-        
-//        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
+    
+//        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
 //        self.navigationController?.isNavigationBarHidden = false
-//        self.navigationController?.pushViewController(revealVC, animated: true)
-        
-        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID, post: nil)
-
+//        self.navigationController?.pushViewController(chatVC, animated: true)
+//        print("revealVC pressed! TODO: display revealVC")
+        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(revealVC, animated: true)
         
