@@ -89,6 +89,7 @@ final class ChatsViewController: UITableViewController {
         let appearance = UINavigationBarAppearance()
         appearance.shadowImage = nil
         appearance.shadowColor = nil
+        appearance.backgroundColor = Color.headerBackground
         return appearance
     }()
     
@@ -104,6 +105,7 @@ final class ChatsViewController: UITableViewController {
     }()
     
     // MARK: Init
+    var atBottom = true
     
     init(messageInputBarStyle: MessageInputBarStyle, chatID: String, post: Post?) {
         
@@ -128,11 +130,39 @@ final class ChatsViewController: UITableViewController {
         //refresh the subtask table
         self.tableView.reloadData()
         setNavBar()
-        //scrolls to bottom row when new message added
-        self.tableView.scrollToBottomRow()
+        //scrolls to bottom row when new message added, ONLY IF ALREADY AT THE BOTTOM
+//        if self.atBottom{ //IMPLEMENT THIS LATER ONCE ATBOTTOM WORKS OK!
+            self.tableView.scrollToBottomRow()
+//        }
         print("refreshed the chatView")
         
     }
+    
+    //NOT FUNCTIONAL RIGHT NOW, BUT THIS COULD MAYBE SOLVE THE ISSUE ON PREVENTING SCROLLING TO BOTTOM WHEN READING TOP MESSAGES
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        let contentSizeHeight = scrollView.contentSize.height // this is the height of the tableview content
+        let frameHeight = scrollView.frame.size.height
+        
+        print("offset", offset + 1)
+        print("contentSizeHeight", contentSizeHeight + 1)
+        print("framehEIGHT", frameHeight + 1)
+        
+
+    if (offset + 100 >= (contentSizeHeight - frameHeight)) {
+        self.atBottom = true
+        print("at the bottom: offset is \(offset), \(contentSizeHeight-frameHeight)")
+    }
+
+    if (offset < 0){
+        self.atBottom = false
+        //print("at the top: offset is \(offset)")
+    }
+
+    if (offset >= 0 && offset < (contentSizeHeight - frameHeight)){
+        self.atBottom = false
+        //print("not bottom not top, middle: offset is \(offset)")
+    }}
     
     //notification callback for refreshing profile picture
     @objc func refreshPic(_:UIImage) {
@@ -192,7 +222,7 @@ final class ChatsViewController: UITableViewController {
                 if (diff.type == .modified) {
                     //THIS ONE
                     let chatID = diff.document.documentID
-                    print("updated active chat for REVEAL!!!!!: \(chatID)")
+                    print("updated active chat: \(chatID)")
                     //add or update active chat
                     chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
                     
@@ -238,7 +268,7 @@ final class ChatsViewController: UITableViewController {
                             chatHandler.messages[self.chatID]?.append(msg)
                             
                             //sort messages (if no guarantee of sorting order, we should do it here)
-                            //chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
+                            chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
                             
                             print("added message: \(message) to messagelist for chat \(self.chatID)" )
                         }
@@ -278,6 +308,9 @@ final class ChatsViewController: UITableViewController {
         view.backgroundColor = ViewBgColor
         tableView.keyboardDismissMode = .interactive
         messageInputBar.delegate = self
+        //scroll to bottom when first opening the app
+        self.tableView.scrollToBottomRow()
+
         
     }
     override func viewDidLayoutSubviews() {
@@ -684,7 +717,7 @@ extension UITableView {
             // exception here
             guard self.indexPathIsValid(indexPath) else { return }
             
-            self.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            self.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
     

@@ -55,6 +55,12 @@ class ChatHandler {
         let latestMessageDate = Date(timeIntervalSince1970: TimeInterval(latestMessageTimestamp.seconds))
         let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
+        //get image and shove into cache
+        let profilePictureRef = "profiles/\(recipient_uid)\(Constants.image_extension)"
+        if (imageCache.object(forKey: profilePictureRef as NSString) == nil) {
+            cloudutil.downloadImage(ref: profilePictureRef)
+        }
+        
         //get the latest message for this chat
         //SLOW???
         var latest_message = "Replace this "
@@ -68,6 +74,10 @@ class ChatHandler {
                 
                 if isRevealed == true && self.chatMetadata[chatID]?.isRevealed == false { //if reveal changes to true, display the revealVC
                     print("this sohould happen only ONCE")
+                    
+                    //update quest if newConnection is a subtask
+                    quests.updateQuestProgress(typeToUpdate: "newConnection")
+                    
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "revealUser"), object: nil)
                 }
                 
@@ -104,6 +114,7 @@ class ChatHandler {
     //creates a new chat document with mesages
     //adds to user_chats
     func addChat(post: Post, message: String, attachment: UIImage?, chatId: String) {
+        
         let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
         let messageID = UUID.init().uuidString
         let messageStruct = createMessage(messageID: messageID,
@@ -114,6 +125,11 @@ class ChatHandler {
         
         createChatDocument(chatId: chatId, post: post, message: messageStruct)
         addUserChats(chatId: chatId, post: post)
+        
+        
+        //since addChat is only called on the first reply,
+        //update quest if replyToPost is a subtask
+        quests.updateQuestProgress(typeToUpdate: "replyToPost")
     }
     
     
@@ -415,12 +431,14 @@ class ChatHandler {
     }
     
     func generateAlias() -> String {
-        let options: [String] = ["Beets", "Cabbage", "Watermelon", "Bananas", "Oranges", "Apple Pie", "Bongo", "Sink", "Boop", "Flamingo", "Tiger", "Rabbit", "Rhino", "Eagle", "Tomato", "Dinosaur", "Cherry", "Violin", "Dolphin"]
+        let options: [String] = ["Flamingo", "Reindeer", "T-Rex", "Dragon", "Axolotl", "Manatee", "Unicorn", "Alpaca", "Hummingbird", "Platypus", "Caterpillar", "Butterfly", "Tiger", "Rabbit", "Elephant", "Armadillo", "Kangaroo", "Chicken Turtle", "Albatross", "Barracuda", "Orangutan", "Komodo", "Caribou", "Cassowary", "Chinchilla", "Kookaburra", "Mammoth", "Nightingale", "Porcupine", "Salamander", "Vulture", "Wallaby", "Starling", "Seahorse", "Raven", "Polar Bear", "Arctic Fox", "Kingfisher", "Impala", "Grasshopper", "Gazelle", "Coyote", "Capybara", "Bluebird", "Antelope", "Aardvark", "Banana Slug", "Golden Bear", "Dust Bunny", "Sea Angel", "Sunfish", "Anemone", "Python"]
+        
+        
         return options.randomElement()!
     }
     
     func generateImageName() -> String {
-        let options: [String] = ["1","2","3","4"]
+        let options: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         return "avatar-\(options.randomElement()!)"
     }
     

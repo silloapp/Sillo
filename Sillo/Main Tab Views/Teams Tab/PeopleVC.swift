@@ -23,9 +23,19 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
     
     var tap: UIGestureRecognizer? = nil
     
+    let appearance : UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        appearance.backgroundColor = Color.headerBackground
+        return appearance
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.standardAppearance = self.appearance
+        tabBarController?.tabBar.isHidden = true
         
         //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
@@ -34,6 +44,11 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         
         setConstraints()
         self.searchTf.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     //MARK: function for left swipe gesture
@@ -81,12 +96,10 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         sections = ["Admins (\(searchResultAdmins.count))","Members (\(searchResultMembers.count))"]
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = true
-    }
+   
     
     func setNavBar() {
-        
+        tabBarController?.tabBar.isHidden = true
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false

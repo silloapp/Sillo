@@ -310,22 +310,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         generator.impactOccurred()
         
         DispatchQueue.main.async {
-            let alert = AlertView(headingText: "Flag this post as inappropriate?", messageText: "Your space's admin will be notified.", action1Label: "Report", action1Color: Color.salmon, action1Completion: {
-                self.dismiss(animated: true, completion: nil);self.reportPost(post: post)
-            }, action2Label: "Cancel", action2Color: Color.burple, action2Completion: {self.dismiss(animated: true, completion: nil)
-            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+            let alert = AlertView(headingText: "Flag this post as inappropriate?", messageText: "Your space's admin will be notified.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Report", action2Color: Color.burple, action2Completion: {
+                self.dismiss(animated: true, completion: nil); self.reportPost(post: post)
+            }, withCancelBtn: false, image: UIImage(named:"reported post"), withOnlyOneAction: false)
             alert.modalPresentationStyle = .overCurrentContext
             alert.modalTransitionStyle = .crossDissolve
             self.present(alert, animated: true, completion: nil)
         }
         
     }
-    //MARK: report posts
+    //MARK: report post
     func reportPost(post:Post) {
         let postID = post.postID ?? "ERROR"
         let posterID = post.posterUserID ?? "ERROR"
         let reporterID = Constants.FIREBASE_USERID!
-        
         //update reported posts entry
         let reportPostRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_posts").document(postID)
         reportPostRef.getDocument() { (query, err) in
@@ -333,21 +333,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 let reporters = query?.get("reporters") as! [String]
                 if !reporters.contains(reporterID) {
                     reportPostRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
+                    self.reportUser(posterID:posterID)
                 }
             }
             else {
                 reportPostRef.setData(["count":1,"reporters":[reporterID]])
+                self.reportUser(posterID:posterID)
             }
         }
+    }
+    //MARK: report user
+    func reportUser(posterID:String) {
+        let reporterID = Constants.FIREBASE_USERID!
         
-        //update reported users entry
         let reportUserRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_users").document(posterID)
         reportUserRef.getDocument() { (query, err) in
             if query != nil && query!.exists {
-                let reporters = query?.get("reporters") as! [String]
-                if !reporters.contains(reporterID) {
-                    reportUserRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
-                }
+                reportUserRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
             }
             else {
                 reportUserRef.setData(["count":1,"reporters":[reporterID]])
@@ -371,7 +373,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             let alert = AlertView(headingText: "Woops, you can't reply to a post you wrote yoursef!", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                 self.dismiss(animated: true, completion: nil);tableView.deselectRow(at: indexPath, animated: true)
             }, action2Label: "Nil", action2Color: .gray, action2Completion: {
-            }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+            }, withCancelBtn: false, image: UIImage(named:"warning"), withOnlyOneAction: true)
             alert.modalPresentationStyle = .overCurrentContext
             alert.modalTransitionStyle = .crossDissolve
             self.present(alert, animated: true, completion: nil)

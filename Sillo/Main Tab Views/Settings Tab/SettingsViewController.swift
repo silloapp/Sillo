@@ -82,15 +82,14 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             sendEmail()
         }
         if name == "Log out" {
-            
-            let alertVC = AlertView(headingText: "Log out?", messageText: "", action1Label: "Log out", action1Color: Color.burple, action1Completion: {
+            let alertVC = AlertView(headingText: "Log out?", messageText: "You are currently logged in as \(Constants.EMAIL!).", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Log out", action2Color: Color.burple, action2Completion: {
                 localUser.signOut()
                 let nextVC = StartScreenViewController()
                 nextVC.modalPresentationStyle = .fullScreen
                 self.present(nextVC, animated: true, completion: nil)
-            }, action2Label: "Cancel", action2Color: .gray, action2Completion: {
-                self.dismiss(animated: true, completion: nil)
-            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+            }, withCancelBtn: false, image: UIImage(named:"sparkle sign out"), withOnlyOneAction: false)
             
             alertVC.modalTransitionStyle = .crossDissolve
             alertVC.modalPresentationStyle = .overCurrentContext

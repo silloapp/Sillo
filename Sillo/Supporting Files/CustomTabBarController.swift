@@ -18,6 +18,11 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
     //MARK: UITabbar Delegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
+        //haptics upon switching
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.prepare()
+        generator.impactOccurred()
+        
         if viewController.isKind(of: NewPostViewController.self) {
 
             let vc =  NewPostViewController()

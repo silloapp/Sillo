@@ -398,6 +398,10 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.reloadData()
         
+        //haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        
         selectIndex = indexPath.row
         let nextOrganization = organizationData.organizationList[selectIndex]
         organizationData.changeOrganization(dest: nextOrganization)
@@ -411,6 +415,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         navC.modalTransitionStyle = .crossDissolve
         navC.setNavigationBarHidden(true, animated: false)
         self.present(navC, animated: true, completion: nil)
+        generator.impactOccurred()
         
     }
     

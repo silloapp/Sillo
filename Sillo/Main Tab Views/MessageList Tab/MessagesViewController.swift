@@ -244,7 +244,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
-        let isRevealed = chatHandler.chatMetadata[chatID]?.isReveale
+        let isRevealed = chatHandler.chatMetadata[chatID]?.isRevealed
         print(isPoster, "is poster")
         print(isRevealed, "isRevealed")
         if isRevealed!{

@@ -25,29 +25,30 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private let menuItems = [
         MenuItem(name: "My Profile", nextVC: ProfileSetupViewController(), withArrow: false, fontSize: 22), //TODO: replace with actual VC
-        MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "People", nextVC: PeopleVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
     private let itemProperties = [
-        ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"team-1")!),
-        ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"team-2")!),
-        ItemProperty(title: "People", backgroundImage: UIImage(named:"team-5")!),
-        ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-3")!),
-        ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-4")!),
-        ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team-6")!),
-        ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"team-7")!),
+        ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"team profile")!),
+       // ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"team-2")!),
+        ItemProperty(title: "People", backgroundImage: UIImage(named:"team people")!),
+       // ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-3")!),
+       // ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-4")!),
+       // ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team-6")!),
+        ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"team sign out")!),
         
     ]
     
     let menuItemTableView = UITableView() // view
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = false
         view.backgroundColor = .white
         overrideUserInterfaceStyle = .light
         
@@ -56,7 +57,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // remove separators at bottom of tableview
         menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
-        menuItemTableView.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        menuItemTableView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 10).isActive = true
         menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
         menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
         menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -151,11 +152,18 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
           break
         case "Sign Out":
-            localUser.signOut()
-            if let nextVC = selectedMenuItem.nextVC {
+            let alertVC = AlertView(headingText: "Log out?", messageText: "You are currently logged in as \(Constants.EMAIL!).", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Log out", action2Color: Color.burple, action2Completion: {
+                localUser.signOut()
+                let nextVC = StartScreenViewController()
                 nextVC.modalPresentationStyle = .fullScreen
                 self.present(nextVC, animated: true, completion: nil)
-            }
+            }, withCancelBtn: false, image: UIImage(named:"sparkle sign out"), withOnlyOneAction: false)
+            
+            alertVC.modalTransitionStyle = .crossDissolve
+            alertVC.modalPresentationStyle = .overCurrentContext
+            self.present(alertVC, animated: true, completion: nil)
             break
         default:
             print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
@@ -252,6 +260,7 @@ class ImageCell: UITableViewCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.clipsToBounds = true // this will make sure its children do not go out of the boundary
+        view.layer.masksToBounds = true
         view.layer.backgroundColor = Color.russiandolphin.cgColor
         view.layer.cornerRadius = 10
         return view
@@ -261,17 +270,19 @@ class ImageCell: UITableViewCell {
     let nameLabel:UILabel = {
         let label = UILabel()
         label.font = Font.medium(22)
-        label.textColor = .black
+        label.textColor = Color.matte
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     
     let bgImage: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 24,height: 24))
+        let imageView = UIImageView(frame: CGRect(x: 0,y: 0,width: 135,height: 100))
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
+
         return imageView
     }()
     
@@ -280,7 +291,7 @@ class ImageCell: UITableViewCell {
         
         containerView.addSubview(nameLabel)
         self.contentView.addSubview(containerView)
-        self.contentView.addSubview(bgImage)
+        self.containerView.addSubview(bgImage)
         
 
         containerView.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 8).isActive = true
@@ -293,10 +304,10 @@ class ImageCell: UITableViewCell {
         nameLabel.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor).isActive = true
         
         bgImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        bgImage.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor,constant: -10).isActive = true
-        bgImage.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        bgImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        bgImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2).isActive = true
+        bgImage.trailingAnchor.constraint(equalTo:self.containerView.trailingAnchor,constant: 0).isActive = true
+        bgImage.topAnchor.constraint(equalTo: self.containerView.topAnchor).isActive = true
+        bgImage.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor).isActive = true
+        //bgImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
