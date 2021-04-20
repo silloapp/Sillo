@@ -171,6 +171,11 @@ class PasscodeVerificationViewController: UIViewController {
     @objc func resendRequested(_:UIButton) {
         let requestThrottled: Bool = -self.latestAuthRequestTimestamp.timeIntervalSinceNow < self.THROTTLE_LIMIT
         if (!requestThrottled) {
+            //haptics
+            let generator = UIImpactFeedbackGenerator(style: .medium)
+            generator.prepare()
+            generator.impactOccurred()
+            
             cloudutil.generateAuthenticationCode()
             self.latestAuthRequestTimestamp = Date()
             

@@ -350,11 +350,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         reportUserRef.getDocument() { (query, err) in
             if query != nil && query!.exists {
                 reportUserRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
-                print("document exist")
             }
             else {
                 reportUserRef.setData(["count":1,"reporters":[reporterID]])
-                print("document did not exist")
             }
         }
     }

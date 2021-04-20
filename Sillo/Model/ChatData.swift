@@ -55,6 +55,12 @@ class ChatHandler {
         let latestMessageDate = Date(timeIntervalSince1970: TimeInterval(latestMessageTimestamp.seconds))
         let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
+        //get image and shove into cache
+        let profilePictureRef = "profiles/\(recipient_uid)\(Constants.image_extension)"
+        if (imageCache.object(forKey: profilePictureRef as NSString) == nil) {
+            cloudutil.downloadImage(ref: profilePictureRef)
+        }
+        
         //get the latest message for this chat
         //SLOW???
         var latest_message = "Replace this "
