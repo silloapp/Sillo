@@ -89,6 +89,7 @@ final class ChatsViewController: UITableViewController {
         let appearance = UINavigationBarAppearance()
         appearance.shadowImage = nil
         appearance.shadowColor = nil
+        appearance.backgroundColor = Color.headerBackground
         return appearance
     }()
     

@@ -25,6 +25,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         let appearance = UINavigationBarAppearance()
         appearance.shadowImage = nil
         appearance.shadowColor = nil
+        appearance.backgroundColor = Color.headerBackground
         return appearance
     }()
     
