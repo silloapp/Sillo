@@ -40,7 +40,6 @@ class ChatHandler {
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
     
-    
     // for new
     func handleNewUserChat(chatID: String, data: [String:Any]) {
         let postID = data["postID"] as! String
@@ -100,7 +99,7 @@ class ChatHandler {
     }
     
 
-    
+
     //NOTES: only three public functions, you're either creating a new chat (ADD), or replying to an already existing one(UPDATE), or reading a message (mark as read), and delete conversation from firebase, AND reveal
     
     //creates a new chat document with mesages

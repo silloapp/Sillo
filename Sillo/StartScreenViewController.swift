@@ -158,6 +158,7 @@ func prepareTabVC() -> UIViewController {
     let icon3 = UITabBarItem(title: "New Post", image: UIImage(named: "new post")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "new post active")!.withRenderingMode(.alwaysOriginal))
     let icon4 = UITabBarItem(title: "Messages", image: UIImage(named: "messages")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "messages active")!.withRenderingMode(.alwaysOriginal))
     let icon5 = UITabBarItem(title: "Team", image: UIImage(named: "tab5")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "team active")!.withRenderingMode(.alwaysOriginal))
+
     
     
     let vc1 = UINavigationController(rootViewController: HomeViewController())

@@ -37,6 +37,10 @@ class HomeViewController: UIViewController {
        postListener?.remove()
      }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        postListener?.remove()
+    }
+    
     @objc func tabBarOpacityChange(note: NSNotification) {
         self.tabBarController?.tabBar.alpha = 1
     }

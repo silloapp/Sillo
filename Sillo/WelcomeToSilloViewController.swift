@@ -357,7 +357,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         cell.imgUser.borderColor = .gray
         
         let orgID : String = localUser.invites[indexPath.row]
-        cell.labMessage.text = organizationData.idToName[orgID] ?? "ERROR"
+        cell.labMessage.text = organizationData.idToName["invite-"+orgID] ?? "ERROR"
         cell.labMessage.textColor = .black
         cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
         
@@ -429,6 +429,12 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             }
             return
         }
+        //MARK: accept invite
+        //move temporary dictionary mapping to a more permanent one
+        //this temporary invite will be deleted in acceptInvite
+        let temporary = organizationData.idToName["invite-"+orgID]
+        organizationData.idToName[orgID] = temporary
+        
         localUser.acceptInvite(organizationID: orgID)
     }
     

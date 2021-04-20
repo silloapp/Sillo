@@ -119,8 +119,11 @@ class NotificationRequestViewController: UIViewController {
         UNUserNotificationCenter.current()
           .requestAuthorization(
             options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-            print("Permission granted: \(granted)")
+            DispatchQueue.main.async {
+                self?.showNextVC()
+            }
             guard granted else { return }
+            print("Permission granted: \(granted)")
             self?.getNotificationSettings()
           }
     }

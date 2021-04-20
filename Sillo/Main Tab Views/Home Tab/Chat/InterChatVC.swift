@@ -149,6 +149,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: label.superview, attribute: .centerY, multiplier: 1, constant: 0))
         label.superview?.addConstraint(NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: label.superview, attribute: .height, multiplier: 1, constant: 0))
         
+
         //  NSLayoutConstraint.activate(BottomTableconstraints)
         
         self.view.layoutIfNeeded()
@@ -373,8 +374,9 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        self.navigationController?.pushViewController(revealVC, animated: true)
         
         let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID, post: nil)
+
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(chatVC, animated: true)
+        self.navigationController?.pushViewController(revealVC, animated: true)
         
     }
     

@@ -34,6 +34,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
        activeChatListener?.remove()
      }
     
+
     @objc func refreshMessageListView(note: NSNotification) {
         chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
         self.chatListTable.reloadData()
@@ -263,15 +264,11 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(interchatVC, animated: true)
 
-        }else{
+        } else{
             let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
             self.navigationController?.isNavigationBarHidden = false
-            self.navigationController?.pushViewController(chatVC, animated: true)
-           
-            
+            self.navigationController?.pushViewController(chatVC, animated: true) 
         }
-        
-       
         
         
     }
