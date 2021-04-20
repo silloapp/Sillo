@@ -66,6 +66,11 @@ class ChatHandler {
                 let newestMessageDoc = querySnapshot!.documents[0] // THE MESSAGE DOC DOES NOT EXIST YET BU THE TIME USER_CHAT IS UPDATED
                 latest_message = newestMessageDoc.get("message") as! String
                 
+                if isRevealed == true && self.chatMetadata[chatID]?.isRevealed == false { //if reveal changes to true, display the revealVC
+                    print("this sohould happen only ONCE")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "revealUser"), object: nil)
+                }
+                
                 //wait until this is finished // asynchronous later
                 //update chat metadata
                 self.chatMetadata[chatID]  = ChatMetadata(chatID: chatID, postID: postID, isRead: isRead, isRevealed: isRevealed, latest_message: latest_message, latestMessageTimestamp: latestMessageDate, recipient_image: recipient_image, recipient_name: recipient_name, recipient_uid: recipient_uid, timestamp: timestampDate)
