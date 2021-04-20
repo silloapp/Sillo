@@ -335,6 +335,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         return organizationData.organizationList.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.selectionStyle = .none
@@ -347,6 +348,9 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         
         cell.imgUser.layer.borderWidth = 3.5
+        cell.imgUser.layer.masksToBounds = false
+        cell.imgUser.layer.cornerRadius = cell.imgUser.frame.size.width/2
+        cell.imgUser.clipsToBounds = true
         cell.imgUser.layer.borderColor = UIColor.gray.cgColor
         cell.imgUser.image = organizationData.orgToImage[organization] ?? UIImage(named:"avatar-2") //TEMPORARILY HARDCODE
         

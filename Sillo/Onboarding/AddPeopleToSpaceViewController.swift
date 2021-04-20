@@ -165,7 +165,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.text = "name@domain.com, name@domain.com"
         emailTextView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00)
         emailTextView.textColor = .secondaryLabel
-        emailTextView.font = UIFont.preferredFont(forTextStyle: .body)
+        emailTextView.font = Font.regular(17)
         emailTextView.layer.cornerRadius = 10
         emailTextView.isScrollEnabled = true
         emailTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)

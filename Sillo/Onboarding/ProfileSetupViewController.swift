@@ -13,7 +13,7 @@ class ProfileSetupViewController: UIViewController{
     
     var takingProfileSetupRole = true ///this is a switcher value used to define this VC's role as a Profile Setup or Profile Edit view controller
     
-    let pronounValues = ["pronouns not specified", "she/her", "he/him", "they/them"]
+    let pronounValues = ["Pronouns not specified", "She/Her", "He/Him", "They/Them"]
     
     var hasTopNotch: Bool {
         if #available(iOS 11.0, tvOS 11.0, *) {
@@ -153,7 +153,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: pronouns text field
     let pronounsTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " no pronouns specified"
+        textField.attributedPlaceholder = NSAttributedString(string: " no pronouns specified", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.backgroundColor = Color.textFieldBackground
@@ -259,7 +262,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 1
     let restaurantTextFieldOne: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " Asha Tea House"
+        textField.attributedPlaceholder = NSAttributedString(string: " Asha Tea House", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -271,7 +277,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 2
     let restaurantTextFieldTwo: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " Eureka"
+        textField.attributedPlaceholder = NSAttributedString(string: " Eureka", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -283,7 +292,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 3
     let restaurantTextFieldThree: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " Thai Basil"
+        textField.attributedPlaceholder = NSAttributedString(string: " Thai Basil", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)

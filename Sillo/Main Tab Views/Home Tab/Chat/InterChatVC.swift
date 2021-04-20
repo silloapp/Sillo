@@ -67,8 +67,8 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     override func viewWillAppear(_ animated: Bool) { self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.isTranslucent = true
         
-        
-        self.view.backgroundColor = ViewBgColor
+        self.tabBarController?.tabBar.isHidden = true
+        self.view.backgroundColor = .white
         settingElemets()
         //forStsBar()
         self.navigationController?.navigationBar.isHidden = false
@@ -241,50 +241,40 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         ]
         
         // FOR BOTTOM LAYOUT:
-        
-        
         // FOR bottomMsge :
         
-        let bottomMsg = UILabel()
-        self.view.addSubview(bottomMsg)
-        bottomMsg.text = "Reply to see who is messaging you. They won't know who you are until you've responded."
-        bottomMsg.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
-        bottomMsg.textColor = UIColor.gray
-        bottomMsg.font = UIFont(name: "Apercu-Medium", size: 17)
-        bottomMsg.textAlignment = .center
-        bottomMsg.numberOfLines = 0
-        bottomMsg.lineBreakMode = .byWordWrapping
         
-        let bottomMsgconstraints = [
-            bottomMsg.bottomAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
-            bottomMsg.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
-            bottomMsg.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
-            bottomMsg.heightAnchor.constraint(equalToConstant: 90)
-        ]
+        let bottomContainer = UIView()
+        self.view.addSubview(bottomContainer)
+        bottomContainer.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
+        bottomContainer.translatesAutoresizingMaskIntoConstraints = false
         
+        bottomContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        bottomContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         // FOR STACK VIEW:
         
-        stackView.axis  = NSLayoutConstraint.Axis.horizontal
-        stackView.spacing = 10
-        stackView.backgroundColor = UIColor.gray
+        stackView.axis  = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 3
         
         let stackViewconstraints = [
             self.stackView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
             self.stackView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
-            self.stackView.bottomAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
-            self.stackView.heightAnchor.constraint(equalToConstant: 60)
-            
+            self.stackView.bottomAnchor.constraint(equalTo:  self.view.bottomAnchor),
+            self.stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 100/812)
         ]
-        self.view.addSubview(stackView)
         
-        let deleteChatBtn = UIButton()
-        deleteChatBtn.setTitle("Delete", for: .normal)
-        deleteChatBtn.setTitleColor(.black, for: .normal)
-        deleteChatBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 15)
+        bottomContainer.addSubview(stackView)
+        
+        let respondLaterBtn = UIButton()
+        respondLaterBtn.setTitle("Respond Later", for: .normal)
+        respondLaterBtn.setTitleColor(.black, for: .normal)
+        respondLaterBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 15)
         //TODO: Delete chat in backend
-        deleteChatBtn.backgroundColor = ViewBgColor
-        deleteChatBtn.addTarget(self, action: #selector(deletePressed), for: .touchUpInside)
+        respondLaterBtn.backgroundColor = ViewBgColor
+        respondLaterBtn.addTarget(self, action: #selector(deletePressed), for: .touchUpInside)
         
         let chatAcceptBtn = UIButton()
         chatAcceptBtn.setTitle("Chat", for: .normal)
@@ -293,22 +283,26 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         chatAcceptBtn.backgroundColor = ViewBgColor
         chatAcceptBtn.addTarget(self, action: #selector(chatPressed), for: .touchUpInside)
         
-        let deleteBtnconstraints = [
-            deleteChatBtn.leftAnchor.constraint(equalTo: self.stackView.safeAreaLayoutGuide.leftAnchor, constant: 0),
-            deleteChatBtn.bottomAnchor.constraint(equalTo:  self.stackView.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            deleteChatBtn.heightAnchor.constraint(equalToConstant: 60),
-            deleteChatBtn.widthAnchor.constraint(equalToConstant: screenSize.width/2-0.4)
-        ]
         
-        let cancelBtnconstraints = [
-            chatAcceptBtn.widthAnchor.constraint(equalToConstant: screenSize.width/2-0.4),
-            chatAcceptBtn.rightAnchor.constraint(equalTo: self.stackView.safeAreaLayoutGuide.rightAnchor, constant: 0),
-            chatAcceptBtn.bottomAnchor.constraint(equalTo:  self.stackView.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            chatAcceptBtn.heightAnchor.constraint(equalToConstant: 60)
-        ]
+        self.stackView.addArrangedSubview(respondLaterBtn)
+        self.stackView.addArrangedSubview(chatAcceptBtn)
         
-        self.stackView.addSubview(deleteChatBtn)
-        self.stackView.addSubview(chatAcceptBtn)
+        let interchatWarning = UILabel()
+        bottomContainer.addSubview(interchatWarning)
+        interchatWarning.text = "Reply to see who is messaging you. They won't know who you are until you've responded."
+        interchatWarning.textColor = Color.matte
+        interchatWarning.font = UIFont(name: "Apercu-Medium", size: 17)
+        interchatWarning.textAlignment = .center
+        interchatWarning.numberOfLines = 0
+        interchatWarning.lineBreakMode = .byWordWrapping
+        
+        let bottomMsgconstraints = [
+            interchatWarning.bottomAnchor.constraint(equalTo:  stackView.topAnchor),
+            interchatWarning.leftAnchor.constraint(equalTo: bottomContainer.leftAnchor, constant: 16),
+            interchatWarning.rightAnchor.constraint(equalTo: bottomContainer.rightAnchor, constant: -16),
+            interchatWarning.heightAnchor.constraint(equalToConstant: 90)
+        ]
+        bottomContainer.topAnchor.constraint(equalTo: interchatWarning.topAnchor, constant: 8).isActive = true
         
         //------------------------------------ FOR TABLE VIEWS--------------------------------------------------//
         
@@ -331,15 +325,11 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         self.TopTable.delegate = self
         self.TopTable.dataSource = self
         
-        
-        
         //-----------for activating constraints:
         
         NSLayoutConstraint.activate(TopTableconstraints)
         NSLayoutConstraint.activate(TITLEconstraints)
         NSLayoutConstraint.activate(stackViewconstraints)
-        NSLayoutConstraint.activate(deleteBtnconstraints)
-        NSLayoutConstraint.activate(cancelBtnconstraints)
         NSLayoutConstraint.activate(bottomMsgconstraints)
         
         self.view.layoutIfNeeded()
@@ -348,11 +338,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         TopTable.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        deleteChatBtn.translatesAutoresizingMaskIntoConstraints = false
-        chatAcceptBtn.translatesAutoresizingMaskIntoConstraints = false
-        bottomMsg.translatesAutoresizingMaskIntoConstraints = false
-        // bottomvw.translatesAutoresizingMaskIntoConstraints = false
-        
+        interchatWarning.translatesAutoresizingMaskIntoConstraints = false
         
     }
     
@@ -366,14 +352,15 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         //do da big reveal
         chatHandler.revealChat(chatId: self.chatID)
-    
-//        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID , post: nil)
+    //REVEAL VC WILL BE CALLED AFTER NOTIFICATION ONCE THE CHAT METADATA HAS BEEN UPDATED TO CONTAIN THE REVEAL IDENTITIES, THIS IS TO AVOID HAVING ANON NAME ON THERE
+        
+//        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
 //        self.navigationController?.isNavigationBarHidden = false
-//        self.navigationController?.pushViewController(chatVC, animated: true)
-//        print("revealVC pressed! TODO: display revealVC")
-        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
+//        self.navigationController?.pushViewController(revealVC, animated: true)
+        
+        let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: self.chatID, post: nil)
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(revealVC, animated: true)
+        self.navigationController?.pushViewController(chatVC, animated: true)
         
     }
     

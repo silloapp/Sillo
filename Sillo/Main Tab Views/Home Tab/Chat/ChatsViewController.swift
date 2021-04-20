@@ -142,6 +142,13 @@ final class ChatsViewController: UITableViewController {
         Imagebutton.setImage(cachedImage, for: .normal)
     }
     
+    @objc func revealUser(note: NSNotification) {
+        print("OP has just accepted ur message and you are now revealed to each other!")
+        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(revealVC, animated: true)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
         //now that message has been opened, mark as read for user
@@ -149,12 +156,13 @@ final class ChatsViewController: UITableViewController {
         
         
         self.navigationController?.navigationBar.isHidden = false
-     
-        
+        self.hidesBottomBarWhenPushed = true
+        self.tabBarController?.tabBar.isHidden = true
         
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(revealUser), name: Notification.Name(rawValue: "revealUser"), object: nil)
         
         if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { //is is not a chat, should only display one image, which is post. not from firebase.
             //convert post into message
@@ -260,6 +268,7 @@ final class ChatsViewController: UITableViewController {
         
         self.tableView.separatorStyle = .none
         
+        self.navigationController?.isNavigationBarHidden = false
         navigationController?.view.backgroundColor = .white
         
         self.tableView.register(ChatsbleViewCell.self, forCellReuseIdentifier: "cell")
@@ -310,6 +319,7 @@ final class ChatsViewController: UITableViewController {
         self.tableView.contentInset = .zero
     }
     func setNavBar() {
+        self.navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.standardAppearance = self.appearance
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
@@ -391,6 +401,8 @@ final class ChatsViewController: UITableViewController {
             print("no chat made, set postToChat for this post back to nil")
             chatHandler.postToChat[(self.initPost?.postID)!] = nil
         }
+        self.tabBarController?.tabBar.isHidden = false
+        
         self.navigationController?.popToRootViewController(animated: true)
     }
     
