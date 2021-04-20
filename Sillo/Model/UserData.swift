@@ -195,7 +195,12 @@ class LocalUser {
         }
         
         self.setConstants()
-        // localUser.getInvites()
+        
+        //get profile image and shove into cache
+        let profilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"
+        if (imageCache.object(forKey: profilePictureRef as NSString) == nil) {
+            cloudutil.downloadImage(ref: profilePictureRef)
+        }
         
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
