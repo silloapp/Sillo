@@ -63,6 +63,23 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
        
         return imageView
     }()
+    
+    //MARK: init textfield
+    let postTextField: UITextField = {
+        let textView = UITextField()
+        textView.attributedPlaceholder = NSAttributedString(string: "Say something nice...", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
+        textView.textColor = UIColor.lightGray
+        textView.backgroundColor = UIColor.blue
+        textView.font = Font.regular(17)
+        textView.layer.backgroundColor = CGColor.init(red: 33, green: 33, blue: 33, alpha: 0.5) //TODO: remove this once sizing constraints complete
+        //textField.keyboardType = .emailAddress
+        textView.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
 
     
     //MARK: init textview
@@ -215,7 +232,16 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             return
         }
         let postText = textView.text.filter {$0 != " "}
-        if (postText != "") {
+        if (postText.count > 300) {
+            let vc = AlertView(headingText: "Character Limit Exceeded", messageText: "", action1Label: "Go back", action1Color: Color.burple, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "", action2Color: .gray, action2Completion: { return }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+            
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .overCurrentContext
+            self.present(vc, animated: true, completion: nil)
+        }
+        else if (postText != "") {
             textView.resignFirstResponder()
             self.latestButtonPressTimestamp = Date()
             let attachment = media?.id ?? ""

@@ -147,8 +147,10 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         searchView.layer.cornerRadius = 12
         
         self.searchView.addSubview(searchTf)
-        searchTf.attributedPlaceholder = NSAttributedString(string: "Search Name",
-                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        searchTf.attributedPlaceholder = NSAttributedString(string: "Search Name", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         searchTf.addTarget(self, action: #selector(self.searchTextFieldDidChange), for: .editingChanged)
         searchTf.placeholder = "Search name"
         searchTf.textColor = .darkGray

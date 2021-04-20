@@ -20,6 +20,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         let etextField = UITextField()
         etextField.placeholder = " youremail@berkeley.edu"
         etextField.layer.cornerRadius = 10.0;
+        etextField.attributedPlaceholder = NSAttributedString(string: " youremail@berkeley.edu", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         etextField.keyboardType = .emailAddress
         etextField.autocorrectionType = .no
         etextField.autocapitalizationType = .none
@@ -33,6 +37,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
     var passwordTextField: UITextField = {
         let ptextField = UITextField()
         ptextField.placeholder = " Password"
+        ptextField.attributedPlaceholder = NSAttributedString(string: " Password", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         ptextField.layer.cornerRadius = 10.0;
         ptextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         ptextField.isSecureTextEntry = true
