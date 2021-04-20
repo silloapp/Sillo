@@ -45,6 +45,10 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
         let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true)
@@ -229,25 +233,6 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         return 70
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//            let headerView = UIView.init(frame: CGRect.init(x: 25, y: 0, width: tableView.frame.width, height: 50))
-//
-//            let label = UILabel()
-//            label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
-//            label.text = ""
-//            if chatHandler.sortedChatMetadata.count > 0 {
-//            label.text = "Today" //TODO: change this when viewing older messages
-//            }
-//            label.font = Font.bold(20)
-//            label.textColor = UIColor.black
-//            headerView.addSubview(label)
-//
-//            return headerView
-//        }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//            return 35
-//        }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
@@ -277,7 +262,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(chatVC, animated: true)
 
-        }else if isPoster && !isRevealed!{
+        } else if isPoster && !isRevealed!{
             
             //if not yet revealed and is poster, poster will accept / decline message and be shown the interchatVC
             let interchatVC = InterChatVC(chatID: chatID, post: nil)
@@ -292,21 +277,24 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     //swipe to delete
-     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("deleting this !!!!!!")
-//            objects.remove(at: indexPath.row)
-            
-            //delete chat for self
+            tableView.beginUpdates()
             
             let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
             let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
+            chatHandler.sortedChatMetadata.remove(at: indexPath.row)
+            if let idx = chatHandler.chatMetadata.index(forKey: chatID) {
+                chatHandler.chatMetadata.remove(at: idx)
+            }
             chatHandler.deleteConversation(chatID: chatID, userID: userID)
-//
-//
-            
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+            tableView.deleteRows(at: [indexPath], with: .left)
+            tableView.reloadData()
+            tableView.endUpdates()
         }
     }
 }

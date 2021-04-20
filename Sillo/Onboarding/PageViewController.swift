@@ -99,7 +99,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         buttonsStack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 306/375).isActive = true
         
         getStartedButton.widthAnchor.constraint(equalTo: buttonsStack.widthAnchor).isActive = true
-        getStartedButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 50/812).isActive = true
+        getStartedButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 55/812).isActive = true
         signInButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         silloLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true

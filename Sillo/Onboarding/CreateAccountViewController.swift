@@ -18,7 +18,10 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     //MARK: init email text field
     let emailTextField: UITextField = {
         let etextField = UITextField()
-        etextField.placeholder = " youremail@berkeley.edu"
+        etextField.attributedPlaceholder = NSAttributedString(string: " youremail@berkeley.edu", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(16)
+        ])
         etextField.layer.cornerRadius = 10.0;
         etextField.keyboardType = .emailAddress
         etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -29,7 +32,10 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     //MARK: init password text field
     var passwordTextField: UITextField = {
         let ptextField = UITextField()
-        ptextField.placeholder = " Password"
+        ptextField.attributedPlaceholder = NSAttributedString(string: " Password", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(16)
+        ])
         ptextField.layer.cornerRadius = 10.0;
         ptextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         ptextField.isSecureTextEntry = true
@@ -40,7 +46,10 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     //MARK: init confirm password text field
     var confirmPasswordTextField: UITextField = {
         let ctextField = UITextField()
-        ctextField.placeholder = " Password"
+        ctextField.attributedPlaceholder = NSAttributedString(string: " Password", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(16)
+        ])
         ctextField.layer.cornerRadius = 10.0;
         ctextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         ctextField.isSecureTextEntry = true

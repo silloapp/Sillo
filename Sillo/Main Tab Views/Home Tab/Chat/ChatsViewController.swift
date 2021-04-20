@@ -149,8 +149,8 @@ final class ChatsViewController: UITableViewController {
         
         
         self.navigationController?.navigationBar.isHidden = false
-     
-        
+        self.hidesBottomBarWhenPushed = true
+        self.tabBarController?.tabBar.isHidden = true
         
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
@@ -391,6 +391,8 @@ final class ChatsViewController: UITableViewController {
             print("no chat made, set postToChat for this post back to nil")
             chatHandler.postToChat[(self.initPost?.postID)!] = nil
         }
+        self.tabBarController?.tabBar.isHidden = false
+        
         self.navigationController?.popToRootViewController(animated: true)
     }
     
@@ -402,6 +404,7 @@ final class ChatsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
         print("DEINIT")
+//        self.tabBarController?.tabBar.isHidden = false
         messageListener?.remove()
         activeChatListener?.remove()
     }

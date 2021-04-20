@@ -46,6 +46,9 @@ class PasscodeVerificationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = ""
         textField.textAlignment = .center
+        textField.attributedPlaceholder = NSAttributedString(string: "", attributes: [
+            .font: Font.regular(17)
+        ])
         textField.layer.cornerRadius = 10.0;
         textField.clearsOnBeginEditing = true
         textField.keyboardType = .phonePad

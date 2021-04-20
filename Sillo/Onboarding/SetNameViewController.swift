@@ -14,6 +14,10 @@ class SetNameViewController: UIViewController {
     let firstNameField: UITextField = {
         let textField = UITextField()
         textField.placeholder = " ie. Angelica"
+        textField.attributedPlaceholder = NSAttributedString(string: " ie. Angelica", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +27,10 @@ class SetNameViewController: UIViewController {
     //MARK: init last name text field
     let lastNameField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " ie. Pan"
+        textField.attributedPlaceholder = NSAttributedString(string: " ie. Angelica", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.translatesAutoresizingMaskIntoConstraints = false
