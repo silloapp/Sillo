@@ -310,10 +310,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         generator.impactOccurred()
         
         DispatchQueue.main.async {
-            let alert = AlertView(headingText: "Flag this post as inappropriate?", messageText: "Your space's admin will be notified.", action1Label: "Report", action1Color: Color.salmon, action1Completion: {
-                self.dismiss(animated: true, completion: nil);self.reportPost(post: post)
-            }, action2Label: "Cancel", action2Color: Color.burple, action2Completion: {self.dismiss(animated: true, completion: nil)
-            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+            let alert = AlertView(headingText: "Flag this post as inappropriate?", messageText: "Your space's admin will be notified.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Report", action2Color: Color.burple, action2Completion: {
+                self.dismiss(animated: true, completion: nil); self.reportPost(post: post)
+            }, withCancelBtn: false, image: UIImage(named:"reported post"), withOnlyOneAction: false)
             alert.modalPresentationStyle = .overCurrentContext
             alert.modalTransitionStyle = .crossDissolve
             self.present(alert, animated: true, completion: nil)
@@ -374,7 +375,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             let alert = AlertView(headingText: "Woops, you can't reply to a post you wrote yoursef!", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                 self.dismiss(animated: true, completion: nil);tableView.deselectRow(at: indexPath, animated: true)
             }, action2Label: "Nil", action2Color: .gray, action2Completion: {
-            }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+            }, withCancelBtn: false, image: UIImage(named:"warning"), withOnlyOneAction: true)
             alert.modalPresentationStyle = .overCurrentContext
             alert.modalTransitionStyle = .crossDissolve
             self.present(alert, animated: true, completion: nil)

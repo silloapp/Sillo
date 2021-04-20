@@ -152,15 +152,14 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
           break
         case "Sign Out":
-            let alertVC = AlertView(headingText: "Log out?", messageText: "", action1Label: "Log out", action1Color: Color.salmon, action1Completion: {
-                localUser.signOut()
-                if let nextVC = selectedMenuItem.nextVC {
-                    nextVC.modalPresentationStyle = .fullScreen
-                    self.present(nextVC, animated: true, completion: nil)
-                }
-            }, action2Label: "Cancel", action2Color: Color.burple, action2Completion: {
+            let alertVC = AlertView(headingText: "Log out?", messageText: "You are currently logged in as \(Constants.EMAIL!).", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
                 self.dismiss(animated: true, completion: nil)
-            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+            }, action2Label: "Log out", action2Color: Color.burple, action2Completion: {
+                localUser.signOut()
+                let nextVC = StartScreenViewController()
+                nextVC.modalPresentationStyle = .fullScreen
+                self.present(nextVC, animated: true, completion: nil)
+            }, withCancelBtn: false, image: UIImage(named:"sparkle sign out"), withOnlyOneAction: false)
             
             alertVC.modalTransitionStyle = .crossDissolve
             alertVC.modalPresentationStyle = .overCurrentContext
