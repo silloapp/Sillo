@@ -64,6 +64,8 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         return imageView
     }()
     
+    let PLACEHOLDER_TEXT = "Ask something anonymously to \(organizationData.currOrganizationName ?? "your organization")..."
+    
     //MARK: init textfield
     let postTextField: UITextField = {
         let textView = UITextField()
@@ -85,7 +87,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     //MARK: init textview
     let textView: UITextView = {
         let textView = UITextView()
-        textView.text = "Ask something anonymously to \(organizationData.currOrganizationName!)..."
+        textView.text = "Ask something anonymously to \(organizationData.currOrganizationName ?? "your organization")..."
         textView.textColor = UIColor.lightGray
         textView.backgroundColor = UIColor.white
         textView.font = Font.regular(17)
@@ -108,7 +110,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         textView.delegate = self
         // Do any additional setup after loading the view.
-        textView.text = "Ask something anonymously to \(organizationData.currOrganizationName!)..."
+        textView.text = PLACEHOLDER_TEXT
         textView.textColor = UIColor.lightGray
         textView.becomeFirstResponder()
         textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
@@ -186,7 +188,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         // and set the cursor to the beginning of the text view
         if updatedText.isEmpty {
             
-            textView.text = "Ask something anonymously to \(organizationData.currOrganizationName!)..."
+            textView.text = PLACEHOLDER_TEXT
             textView.textColor = UIColor.lightGray
             
             textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
@@ -241,7 +243,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             vc.modalPresentationStyle = .overCurrentContext
             self.present(vc, animated: true, completion: nil)
         }
-        else if (postText != "") {
+        else if (postText != PLACEHOLDER_TEXT.filter {$0 != " "}) {
             textView.resignFirstResponder()
             self.latestButtonPressTimestamp = Date()
             let attachment = media?.id ?? ""

@@ -25,11 +25,11 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private let menuItems = [
         MenuItem(name: "My Profile", nextVC: ProfileSetupViewController(), withArrow: false, fontSize: 22), //TODO: replace with actual VC
-        MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "People", nextVC: PeopleVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
+        //MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
