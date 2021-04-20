@@ -80,13 +80,9 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         setNavBar2()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
         
-        if !Array(chatHandler.chatMetadata.keys).contains(self.chatID) {
-            let firstPost = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
-            chatHandler.messages[self.chatID] = [firstPost]
-        }else {
-            chatHandler.messages[self.chatID] = []
-        }
-        
+        // no need for dummy messages, we know that this is an existing conversation on firebase
+        chatHandler.messages[self.chatID] = []
+      
         // add query listner for the chat's message collection
         let messageSubCol = db.collection("chats").document(chatID)
             .collection("messages").order(by: "timestamp", descending: false)
@@ -98,9 +94,10 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             snapshot.documentChanges.forEach { diff in
                 if (diff.type == .added || diff.type == .modified) {
                     let messageID = diff.document.documentID
-                    print("New message: \(messageID)")
+                    
                     //add or update active chat
                     let message = diff.document.get("message") as! String
+                    print("HELLO New message: \(message)")
                     let senderID = diff.document.get("senderID") as! String
                     guard let stamp = diff.document.get("timestamp") as? Timestamp else {
                         return
@@ -111,7 +108,9 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                     if chatHandler.messages[self.chatID] != nil {
                         if !chatHandler.messages[self.chatID]!.contains(msg) {
                             chatHandler.messages[self.chatID]?.append(msg)
-                            print("added message: \(message) to messagelist for chat \(self.chatID)" )
+                            print("HELLO added message: \(message) to messagelist for chat \(self.chatID)" )
+                        } else {
+                            print("HELLO this messageID already exists with message: \(message)!")
                         }
                     }
                 }

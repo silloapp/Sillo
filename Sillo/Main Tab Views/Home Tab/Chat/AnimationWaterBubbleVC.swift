@@ -51,6 +51,7 @@ class AnimationWaterBubbleVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProfilePicture), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
         RiseUpimageVw.contentMode = .scaleToFill
         RiseUpimageVw.backgroundColor = .white
@@ -88,6 +89,21 @@ class AnimationWaterBubbleVC: UIViewController {
         self.navigationController?.pushViewController(chatVC, animated: true)
     }
     
+    //notification callback for refreshing profile picture
+    @objc func refreshProfilePicture(_:UIImage) {
+        
+        //for person you're talking to
+        let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)"
+        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString) ?? UIImage(named:"avatar-4")!
+        self.UpperProfileImg.image = cachedImage
+        
+        //for yourself
+        let myprofilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"
+        let mycachedImage = imageCache.object(forKey: myprofilePictureRef as NSString) ?? UIImage(named:"avatar-2")!
+        self.lowerProfileImg.image = mycachedImage
+    }
+
+    
     func settingElemets()
     {
         
@@ -110,7 +126,19 @@ class AnimationWaterBubbleVC: UIViewController {
         
         
         self.view.addSubview(UpperProfileImg)
+        UpperProfileImg.contentMode = .scaleAspectFill
         UpperProfileImg.image = UIImage(named: "avatar-1")
+        UpperProfileImg.clipsToBounds = true
+        UpperProfileImg.layer.cornerRadius = 18
+        let picRef:NSString = "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)" as NSString
+        var firebaseImage = UIImage(named:"avatar-10")
+        if (imageCache.object(forKey: picRef) != nil) {
+            firebaseImage = imageCache.object(forKey: picRef)
+        }
+        else {
+            firebaseImage = cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
+        }
+        UpperProfileImg.image = firebaseImage!
         
         let UpperProfileImgconstraints = [
             UpperProfileImg.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 30),
@@ -121,6 +149,18 @@ class AnimationWaterBubbleVC: UIViewController {
         
         self.BgimageVw.addSubview(lowerProfileImg)
         lowerProfileImg.image = UIImage(named:"avatar-2")
+        
+        let mypicRef:NSString = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)" as NSString
+        var myfirebaseImage = UIImage(named:"avatar-10")
+        if (imageCache.object(forKey: mypicRef) != nil) {
+            myfirebaseImage = imageCache.object(forKey: picRef)
+        }
+        else {
+            myfirebaseImage = cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)")
+        }
+        lowerProfileImg.contentMode = .scaleAspectFill
+        lowerProfileImg.image = myfirebaseImage!
+        
         lowerProfileImg.clipsToBounds = true
         lowerProfileImg.layer.cornerRadius = 25
         
@@ -136,11 +176,13 @@ class AnimationWaterBubbleVC: UIViewController {
         self.view.addSubview(ContinueBtn)
         self.view.bringSubviewToFront(ContinueBtn)
         ContinueBtn.backgroundColor = themeColor
+        ContinueBtn.titleLabel?.font = Font.bold(16)
+        ContinueBtn.titleLabel?.textAlignment = .center
         ContinueBtn.setTitle("Continue", for: .normal)
         ContinueBtn.setTitleColor(.white, for: .normal)
         
-        ContinueBtn.titleLabel?.font = UIFont.init(name: "Apercu-Regular", size: 16)
-        ContinueBtn.titleLabel?.textAlignment = .center
+        
+        ContinueBtn.layer.cornerRadius = 8
         
         
         let ContinueBtnconstraints = [
@@ -161,7 +203,7 @@ class AnimationWaterBubbleVC: UIViewController {
         
         starCountLbl.text = "+25" //TODO: replace this
         starCountLbl.textColor = .black
-        starCountLbl.font = UIFont.init(name: "Apercu-Regular", size: 16)
+        starCountLbl.font = UIFont.init(name: "Apercu-Medium", size: 16)
         starCountLbl.numberOfLines = 1
         
         let starCountLblconstraints = [
@@ -173,7 +215,7 @@ class AnimationWaterBubbleVC: UIViewController {
         self.BgimageVw.addSubview(revealingNumberLbl)
         self.BgimageVw.addSubview(starCountLbl)
         
-        revealingNumberLbl.text = "5" //TODO: replace this once connections are implemented
+        revealingNumberLbl.text = "" //TODO: replace this once connections are implemented
         revealingNumberLbl.textColor = .white
         revealingNumberLbl.font = UIFont.init(name: "Apercu-Bold", size: 300)
         revealingNumberLbl.numberOfLines = 1
@@ -201,14 +243,14 @@ class AnimationWaterBubbleVC: UIViewController {
         let recipientName = chatHandler.chatMetadata[chatID]?.recipient_name ?? "a new friend"
         titlelbl.text = "Kudos! Here's to a connection with \(recipientName)! 🎉 "
         titlelbl.textColor = themeColor
-        titlelbl.font = UIFont.init(name: "Apercu-Bold", size: 17)
+        titlelbl.font = UIFont.init(name: "Apercu-Bold", size:32)
         titlelbl.numberOfLines = 0
         
         let titlelblconstraints = [
             titlelbl.topAnchor.constraint(equalTo:  self.UpperProfileImg.bottomAnchor, constant: 12),
             titlelbl.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 25),
-            titlelbl.widthAnchor.constraint(equalToConstant: 150),
-            titlelbl.heightAnchor.constraint(equalToConstant: 70)
+            titlelbl.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -40),
+            titlelbl.heightAnchor.constraint(equalToConstant: 150)
         ]
         
         
