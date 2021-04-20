@@ -40,6 +40,7 @@ class ChatHandler {
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
     
+    
     // for new
     func handleNewUserChat(chatID: String, data: [String:Any]) {
         let postID = data["postID"] as! String
@@ -54,8 +55,6 @@ class ChatHandler {
         let latestMessageDate = Date(timeIntervalSince1970: TimeInterval(latestMessageTimestamp.seconds))
         let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
-
-        
         //get the latest message for this chat
         //SLOW???
         var latest_message = "Replace this "
@@ -66,11 +65,6 @@ class ChatHandler {
             } else {
                 let newestMessageDoc = querySnapshot!.documents[0] // THE MESSAGE DOC DOES NOT EXIST YET BU THE TIME USER_CHAT IS UPDATED
                 latest_message = newestMessageDoc.get("message") as! String
-                
-                if isRevealed == true && self.chatMetadata[chatID]?.isRevealed == false { //if reveal changes to true, display the revealVC
-                    print("this sohould happen only ONCE")
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "revealUser"), object: nil)
-                }
                 
                 //wait until this is finished // asynchronous later
                 //update chat metadata
@@ -99,7 +93,7 @@ class ChatHandler {
     }
     
 
-
+    
     //NOTES: only three public functions, you're either creating a new chat (ADD), or replying to an already existing one(UPDATE), or reading a message (mark as read), and delete conversation from firebase, AND reveal
     
     //creates a new chat document with mesages

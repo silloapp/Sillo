@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Group_2025.png",
+      "filename" : "selectedUserTab@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Group_2027.png",
+      "filename" : "selectedUserTab@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Group_2029.png",
+      "filename" : "selectedUserTab@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
