@@ -33,10 +33,11 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     //MARK: init description
     let descLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1;
+        label.numberOfLines = 0;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.font = Font.bold(15)
         label.text = "Complete your quest to claim a Sillo sticker!"
+        label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         return label
@@ -109,6 +110,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
     }
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -159,14 +161,14 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
         //MARK: set up progress bar
         self.insideScrollVw.addSubview(progressBar)
-        progressBar.setProgress(0.1, animated: true)
+        progressBar.setProgress(0.2, animated: true)
         progressBar.trackTintColor = .lightGray
         progressBar.tintColor = themeColor
         
         let progressBarConstraints = [
             progressBar.topAnchor.constraint(equalTo:  self.questTitle.bottomAnchor, constant: 20),
-            progressBar.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
-            progressBar.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
+            progressBar.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            progressBar.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 2)
         ]
         NSLayoutConstraint.activate(progressBarConstraints)
@@ -175,7 +177,8 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         //MARK: desc label
         self.insideScrollVw.addSubview(descLabel)
         descLabel.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 20).isActive = true
-        descLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+        descLabel.leadingAnchor.constraint(equalTo: questTitle.leadingAnchor).isActive = true
+        descLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 300/375).isActive = true
         
         
         //MARK: subtask tableview
@@ -188,10 +191,10 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         subtaskTableView.translatesAutoresizingMaskIntoConstraints = false
         subtaskTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         let TopTableconstraints = [
-            self.subtaskTableView.topAnchor.constraint(equalTo:  self.descLabel.bottomAnchor, constant: 15),
+            self.subtaskTableView.topAnchor.constraint(equalTo:  self.descLabel.bottomAnchor, constant: 10),
             self.subtaskTableView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 15),
             self.subtaskTableView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15),
-            self.subtaskTableView.heightAnchor.constraint(equalToConstant: 300)
+            self.subtaskTableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 230/815)
         ]
         NSLayoutConstraint.activate(TopTableconstraints)
         
@@ -204,83 +207,85 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         lockImage.isUserInteractionEnabled = true
         lockImage.addGestureRecognizer(tapGestureRecognizer)
         let lockImageconstraints = [
-            lockImage.topAnchor.constraint(equalTo:  self.subtaskTableView.bottomAnchor, constant: 50),
-            lockImage.rightAnchor.constraint(equalTo: self.subtaskTableView.rightAnchor, constant: 0),
-            lockImage.widthAnchor.constraint(equalToConstant: 136),
-            lockImage.heightAnchor.constraint(equalToConstant: 136)
+            lockImage.topAnchor.constraint(equalTo:  self.subtaskTableView.bottomAnchor, constant: 15),
+            lockImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            lockImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 135/815),
+            lockImage.widthAnchor.constraint(equalTo: self.lockImage.heightAnchor)
         ]
         NSLayoutConstraint.activate(lockImageconstraints)
         
         
         //MARK: pop up label
         self.insideScrollVw.addSubview(popupLbl)
-        popupLbl.text = "Tap the lock! ->"
+        popupLbl.text = "Claim"
         popupLbl.backgroundColor = UIColor.init(red: 253/255.0, green: 243/255, blue: 223/255.0, alpha: 1)
         popupLbl.textColor = UIColor.init(red: 0/255.0, green: 51/255, blue: 66/255.0, alpha: 1)
         popupLbl.font = Font.regular(16)
         popupLbl.textAlignment = .center
         popupLbl.clipsToBounds = true
         popupLbl.layer.cornerRadius = 10
+        popupLbl.isUserInteractionEnabled = true
+        popupLbl.addGestureRecognizer(tapGestureRecognizer)
         popupLbl.translatesAutoresizingMaskIntoConstraints = false
         let popupLblconstraints = [
-            popupLbl.topAnchor.constraint(equalTo:  self.subtaskTableView.bottomAnchor, constant: 50),
-            popupLbl.leftAnchor.constraint(equalTo: self.subtaskTableView.leftAnchor, constant: 10),
-            popupLbl.widthAnchor.constraint(equalToConstant: 180),
-            popupLbl.heightAnchor.constraint(equalToConstant: 50)
+            popupLbl.centerXAnchor.constraint(equalTo:  self.lockImage.centerXAnchor),
+            popupLbl.topAnchor.constraint(equalTo: self.lockImage.bottomAnchor, constant: 10),
+            popupLbl.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 123/375),
+            popupLbl.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 40/815)
         ]
         NSLayoutConstraint.activate(popupLblconstraints)
         popupLbl.isHidden = true
         
         //MARK: stars animation
-        self.view.addSubview(StarsView)
-        let StarsViewconstraints = [
-            StarsView.bottomAnchor.constraint(equalTo:  self.lockImage.topAnchor, constant: 0),
-            StarsView.rightAnchor.constraint(equalTo: self.subtaskTableView.rightAnchor, constant: 0),
-            StarsView.widthAnchor.constraint(equalToConstant: 70),
-            StarsView.heightAnchor.constraint(equalToConstant: 100)
-        ]
-        StarsView.isHidden = true
-        NSLayoutConstraint.activate(StarsViewconstraints)
-        StarsView.translatesAutoresizingMaskIntoConstraints = false
-        
-        //MARK: 3 different star variations to be used in animation
-        let imgStar1 = UIImageView()
-        imgStar1.image = UIImage.init(named: "bgStar")
-        self.StarsView.addSubview(imgStar1)
-        let imgStar1constraints = [
-            imgStar1.topAnchor.constraint(equalTo:  self.StarsView.topAnchor, constant: 0),
-            imgStar1.rightAnchor.constraint(equalTo: self.StarsView.rightAnchor, constant: -5),
-            imgStar1.widthAnchor.constraint(equalToConstant: 40),
-            imgStar1.heightAnchor.constraint(equalToConstant: 40)
-        ]
-        
-        let imgStar2 = UIImageView()
-        imgStar2.image = UIImage.init(named: "litstar")
-        self.StarsView.addSubview(imgStar2)
-        let imgStar2constraints = [
-            imgStar2.topAnchor.constraint(equalTo:  imgStar1.topAnchor, constant: 40),
-            imgStar2.leftAnchor.constraint(equalTo: self.StarsView.leftAnchor, constant: 0),
-            imgStar2.widthAnchor.constraint(equalToConstant: 25),
-            imgStar2.heightAnchor.constraint(equalToConstant: 25)
-        ]
-        
-        let imgStar3 = UIImageView()
-        imgStar3.image = UIImage.init(named: "bgStar")
-        self.StarsView.addSubview(imgStar3)
-        let imgStar3constraints = [
-            imgStar3.bottomAnchor.constraint(equalTo:  self.StarsView.bottomAnchor, constant: 0),
-            imgStar3.rightAnchor.constraint(equalTo: self.StarsView.rightAnchor, constant: 0),
-            imgStar3.widthAnchor.constraint(equalToConstant: 30),
-            imgStar3.heightAnchor.constraint(equalToConstant: 30)
-        ]
-        
-        NSLayoutConstraint.activate(imgStar1constraints)
-        NSLayoutConstraint.activate(imgStar2constraints)
-        NSLayoutConstraint.activate(imgStar3constraints)
-        
-        imgStar1.translatesAutoresizingMaskIntoConstraints = false
-        imgStar2.translatesAutoresizingMaskIntoConstraints = false
-        imgStar3.translatesAutoresizingMaskIntoConstraints = false
+//        self.view.addSubview(StarsView)
+//        let StarsViewconstraints = [
+//            StarsView.bottomAnchor.constraint(equalTo:  self.lockImage.topAnchor, constant: 0),
+//            StarsView.rightAnchor.constraint(equalTo: self.subtaskTableView.rightAnchor, constant: 0),
+//            StarsView.widthAnchor.constraint(equalToConstant: 70),
+//            StarsView.heightAnchor.constraint(equalToConstant: 100)
+//        ]
+//        StarsView.isHidden = true
+//        NSLayoutConstraint.activate(StarsViewconstraints)
+//        StarsView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        //MARK: 3 different star variations to be used in animation
+//        let imgStar1 = UIImageView()
+//        imgStar1.image = UIImage.init(named: "bgStar")
+//        self.StarsView.addSubview(imgStar1)
+//        let imgStar1constraints = [
+//            imgStar1.topAnchor.constraint(equalTo:  self.StarsView.topAnchor, constant: 0),
+//            imgStar1.rightAnchor.constraint(equalTo: self.StarsView.rightAnchor, constant: -5),
+//            imgStar1.widthAnchor.constraint(equalToConstant: 40),
+//            imgStar1.heightAnchor.constraint(equalToConstant: 40)
+//        ]
+//
+//        let imgStar2 = UIImageView()
+//        imgStar2.image = UIImage.init(named: "litstar")
+//        self.StarsView.addSubview(imgStar2)
+//        let imgStar2constraints = [
+//            imgStar2.topAnchor.constraint(equalTo:  imgStar1.topAnchor, constant: 40),
+//            imgStar2.leftAnchor.constraint(equalTo: self.StarsView.leftAnchor, constant: 0),
+//            imgStar2.widthAnchor.constraint(equalToConstant: 25),
+//            imgStar2.heightAnchor.constraint(equalToConstant: 25)
+//        ]
+//
+//        let imgStar3 = UIImageView()
+//        imgStar3.image = UIImage.init(named: "bgStar")
+//        self.StarsView.addSubview(imgStar3)
+//        let imgStar3constraints = [
+//            imgStar3.bottomAnchor.constraint(equalTo:  self.StarsView.bottomAnchor, constant: 0),
+//            imgStar3.rightAnchor.constraint(equalTo: self.StarsView.rightAnchor, constant: 0),
+//            imgStar3.widthAnchor.constraint(equalToConstant: 30),
+//            imgStar3.heightAnchor.constraint(equalToConstant: 30)
+//        ]
+//
+//        NSLayoutConstraint.activate(imgStar1constraints)
+//        NSLayoutConstraint.activate(imgStar2constraints)
+//        NSLayoutConstraint.activate(imgStar3constraints)
+//
+//        imgStar1.translatesAutoresizingMaskIntoConstraints = false
+//        imgStar2.translatesAutoresizingMaskIntoConstraints = false
+//        imgStar3.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.layoutIfNeeded()
     }
@@ -296,7 +301,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     
     //MARK:  Table View Delegate Methods:
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 70
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return quests.subtasks.count
@@ -313,13 +318,13 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         cell.imgUser.image = UIImage.init(named: "subtask icon")
         
         if taskType == "newPost" {
-            cell.imgUser.image = UIImage(named: "pencil")
+            cell.imgUser.image = UIImage(named: "postQuestionTask")
         } else if taskType == "newConnection" {
-            cell.imgUser.image = UIImage(named:"party popper")
+            cell.imgUser.image = UIImage(named:"newConnectionsTask")
         } else if taskType == "replyToPost" {
-            cell.imgUser.image = UIImage(named:"celebrate")
+            cell.imgUser.image = UIImage(named:"replyTask")
         } else {
-            cell.imgUser.image = UIImage(named: "party popper")
+            cell.imgUser.image = UIImage(named: "postQuestionTask")
         }
         
         //subtask title
@@ -347,7 +352,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
         cell.TITLEconstraints = [
             cell.labUserName.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 0),
-            cell.labUserName.leftAnchor.constraint(equalTo:  cell.contentView.leftAnchor, constant: 100),
             cell.labUserName.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: -20),
             cell.labUserName.heightAnchor.constraint(equalToConstant: 20)
         ]
@@ -355,8 +359,8 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
         cell.Messageconstraints = [
             cell.labMessage.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 0),
-            cell.labMessage.leftAnchor.constraint(equalTo:  cell.imgUser2.leftAnchor, constant: 10),
-            cell.labMessage.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: 20),
+            cell.labMessage.leftAnchor.constraint(equalTo: cell.imgUser2.leftAnchor, constant: 10),
+            cell.labMessage.widthAnchor.constraint(equalTo:  cell.contentView.widthAnchor, multiplier: 190/338),
             cell.labMessage.heightAnchor.constraint(equalToConstant: 20)
         ]
         NSLayoutConstraint.activate(cell.Messageconstraints)
@@ -376,6 +380,8 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         if progressBar.progress  == 1.0 {
             StartFloatingStars()
             showPopupLbl()
+        } else {
+            hidePopupLbl()
         }
         
         return cell
@@ -389,8 +395,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
     
     // MARK: - Opening lock with animation :
     
-    func showPopupLbl()
-    {
+    func showPopupLbl() {
         UIView.transition(with: self.popupLbl,
                           duration: 0.25,
                           options: .transitionCrossDissolve,
@@ -398,9 +403,17 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
                             self?.popupLbl.isHidden = false
                           }, completion: nil)
     }
+    func hidePopupLbl() {
+        UIView.transition(with: self.popupLbl,
+                          duration: 0.25,
+                          options: .transitionCrossDissolve,
+                          animations: { [weak self] in
+                            self?.popupLbl.isHidden = true
+                          }, completion: nil)
+    }
     func StartFloatingStars()
     {
-        self.timer = Timer.scheduledTimer(timeInterval: 0.8, target: self,   selector: (#selector(StarsAnimationStarts)), userInfo: nil, repeats: true)
+//        self.timer = Timer.scheduledTimer(timeInterval: 0.8, target: self,   selector: (#selector(StarsAnimationStarts)), userInfo: nil, repeats: true)
     }
     func StopFloatingStars()
     {
@@ -539,7 +552,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        header.heightAnchor.constraint(equalToConstant: 132).isActive = true
+        header.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 110/812).isActive = true
         
         //app logo and team name stack
         let logoTeamStack = setupPhotoTeamName()

@@ -56,7 +56,6 @@ class CustomTableViewCell: UITableViewCell {
             imgUser.widthAnchor.constraint(equalToConstant: 40),
             imgUser.heightAnchor.constraint(equalToConstant: 40)
         ]
-//        imgUser.clipsToBounds = true
         
         contentView.addSubview(imgUser2)
         imgUser2.image = UIImage.init(named: "smiley")
@@ -91,6 +90,7 @@ class CustomTableViewCell: UITableViewCell {
         contentView.addSubview(labUserName)
         labUserName.text = "Full Name"
         labUserName.backgroundColor = .clear
+        labUserName.adjustsFontSizeToFitWidth = true
         labUserName.textColor = .black
         labUserName.font = Font.bold(17)
         labUserName.textAlignment = .left
@@ -98,12 +98,13 @@ class CustomTableViewCell: UITableViewCell {
         TITLEconstraints = [
             labUserName.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 0),
             labUserName.leftAnchor.constraint(equalTo:  imgUser2.leftAnchor, constant: 70),
-            labUserName.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: 20),
+            labUserName.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: -20),
             labUserName.heightAnchor.constraint(equalToConstant: 20)
         ]
         
         contentView.addSubview(labMessage)
         labMessage.text = "Level 5"
+        labMessage.adjustsFontSizeToFitWidth = true
         labMessage.backgroundColor = .clear
         labMessage.textColor = .black
         labMessage.font = Font.regular(12)
@@ -112,7 +113,7 @@ class CustomTableViewCell: UITableViewCell {
         Messageconstraints = [
             labMessage.centerYAnchor.constraint(equalTo:  contentView.centerYAnchor, constant: 0),
             labMessage.leftAnchor.constraint(equalTo:  imgUser2.leftAnchor, constant: 70),
-            labMessage.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: 20),
+            labMessage.rightAnchor.constraint(equalTo:  contentView.rightAnchor, constant: -20),
             labMessage.heightAnchor.constraint(equalToConstant: 20)
         ]
         
