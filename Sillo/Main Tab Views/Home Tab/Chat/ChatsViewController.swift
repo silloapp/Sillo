@@ -169,7 +169,9 @@ final class ChatsViewController: UITableViewController {
         let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)"
         
         let cachedImage = imageCache.object(forKey: profilePictureRef as NSString) ?? UIImage(named:"avatar-1")!
-        Imagebutton.setImage(cachedImage, for: .normal)
+        if chatHandler.chatMetadata[self.chatID] != nil && chatHandler.chatMetadata[self.chatID]!.isRevealed! {
+            Imagebutton.setImage(cachedImage, for: .normal)
+        }
     }
     
     @objc func revealUser(note: NSNotification) {
