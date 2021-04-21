@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
         return table
     }()
     
-    let header : UIView = {
+    public let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Color.headerBackground

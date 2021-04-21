@@ -15,6 +15,15 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+//        tabBar.frame.size.height = 65
+//        tabBar.frame.origin.y = view.frame.height - 65
+
+    }
+    
+    
     //MARK: UITabbar Delegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
