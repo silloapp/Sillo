@@ -166,10 +166,15 @@ final class ChatsViewController: UITableViewController {
     
     //notification callback for refreshing profile picture
     @objc func refreshPic(_:UIImage) {
-        let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)"
-        
-        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString) ?? UIImage(named:"avatar-1")!
-        Imagebutton.setImage(cachedImage, for: .normal)
+        let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)" as NSString
+        if imageCache.object(forKey: profilePictureRef) != nil { //image in cache
+            
+            //check if conversation is revealed
+            if chatHandler.chatMetadata[self.chatID] != nil && chatHandler.chatMetadata[self.chatID]!.isRevealed! {
+                let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
+                Imagebutton.setImage(cachedImage, for: .normal) //set image
+            }
+        }
     }
     
     @objc func revealUser(note: NSNotification) {
