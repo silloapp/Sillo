@@ -55,6 +55,11 @@ class ChatHandler {
         let latestMessageDate = Date(timeIntervalSince1970: TimeInterval(latestMessageTimestamp.seconds))
         let timestampDate = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
+        //fetch the associated post if it's not loaded yet
+        if feed.posts[postID] == nil {
+            feed.downloadPost(postID: postID)
+        }
+        
         //get image and shove into cache
         let profilePictureRef = "profiles/\(recipient_uid)\(Constants.image_extension)"
         if (imageCache.object(forKey: profilePictureRef as NSString) == nil) {

@@ -129,6 +129,18 @@ class PostHandler {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
     }
     
+    //MARK: download post on demand
+    func downloadPost(postID: String) {
+        let organizationID = organizationData.currOrganization ?? "ERROR"
+        let postRef = db.collection("organization_posts").document(organizationID).collection("posts").document(postID)
+        postRef.getDocument() { (query, err) in
+            if (query != nil) && query!.exists {
+                let data = query?.data()!
+                self.handleNewPost(id: postID, data: data!)
+            }
+        }
+    }
+    
     //MARK: cold start
     func coldStart() {
         self.posts = [:]
