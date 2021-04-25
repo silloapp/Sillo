@@ -140,8 +140,21 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             }
         }
     }
+    
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
     }
     
     
