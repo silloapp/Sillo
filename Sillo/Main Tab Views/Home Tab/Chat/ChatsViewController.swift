@@ -77,6 +77,13 @@ final class ChatsViewController: UITableViewController {
     var chatID: String
     var initPost: Post?
     
+    let profilePreviewVC:ProfileVC = {
+        let vc = ProfileVC()
+        vc.modalPresentationStyle = .automatic
+        vc.modalTransitionStyle = .coverVertical
+        return vc
+    }()
+    
     //MARK: listener
     private var activeChatListener: ListenerRegistration?
     private var messageListener: ListenerRegistration?
@@ -185,6 +192,12 @@ final class ChatsViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        //load in profile info
+        if let metadata = chatHandler.chatMetadata[self.chatID] {
+            let userID = metadata.recipient_uid!
+            retrieveUserProfile(userID:userID)
+        }
         
         //now that message has been opened, mark as read for user
         chatHandler.readChat(userID: Constants.FIREBASE_USERID!, chatId: self.chatID)
@@ -409,7 +422,7 @@ final class ChatsViewController: UITableViewController {
             }
         }
         
-        Imagebutton.addTarget(self, action:#selector(backBtnPressed), for: .touchUpInside)
+        Imagebutton.addTarget(self, action:#selector(showProfile), for: .touchUpInside)
         Imagebutton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         Imagebutton.clipsToBounds = true
         Imagebutton.imageView?.contentMode = .scaleAspectFill
@@ -432,8 +445,7 @@ final class ChatsViewController: UITableViewController {
         
     }
     
-    
-    
+    //MARK: objc functions
     @objc func backBtnPressed() {
         if self.initPost != nil && !Array(chatHandler.chatMetadata.keys).contains(self.chatID) { // if no chat was ever made, remove from postToChat
             print("no chat made, set postToChat for this post back to nil")
@@ -444,11 +456,97 @@ final class ChatsViewController: UITableViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
-    @objc func menuMethod() {
-        self.navigationController?.popViewController(animated: true)
+    @objc func showProfile() {
+        self.present(self.profilePreviewVC, animated: true, completion: nil)
     }
     
+    @objc func menuMethod() {
+        //haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator.prepare()
+        generator.impactOccurred()
+        
+        DispatchQueue.main.async {
+            let alert = AlertView(headingText: "Report user for inappropriate behavior?", messageText: "Your space's admin will be notified.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Report", action2Color: Color.burple, action2Completion: {
+                self.dismiss(animated: true, completion: nil); self.reportUser()
+            }, withCancelBtn: false, image: UIImage(named:"reported post"), withOnlyOneAction: false)
+            alert.modalPresentationStyle = .overCurrentContext
+            alert.modalTransitionStyle = .crossDissolve
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
     
+    //MARK: report user
+    func reportUser() {
+        let reporterID = Constants.FIREBASE_USERID!
+        if let metadata = chatHandler.chatMetadata[self.chatID] {
+            let posterID = metadata.recipient_uid ?? "ERROR"
+            
+            let reportUserRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_users").document(posterID)
+            reportUserRef.getDocument() { (query, err) in
+                if query != nil && query!.exists {
+                    reportUserRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
+                }
+                else {
+                    reportUserRef.setData(["count":1,"reporters":[reporterID]])
+                }
+            }
+        }
+    }
+    
+    //MARK: retrieve profile information
+    func retrieveUserProfile(userID: String) {
+        var profileDocumentName = "all_orgs"
+        
+        //get document info
+        let upperUserRef = db.collection("profiles").document(userID)
+        upperUserRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                //document exists, pull separate profile state
+                let use_separate_profiles = document.get("use_separate_profiles") as! Bool
+                if (use_separate_profiles) {
+                    profileDocumentName = organizationData.currOrganization ?? "ERROR"
+                }
+                let userRef = db.collection("profiles").document(userID).collection("org_profiles").document(profileDocumentName)
+
+                //actually pull the document
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let innerDict = document.data()!
+                        self.profilePreviewVC.name = chatHandler.chatMetadata[self.chatID]?.recipient_name ?? "Kevin Nguyen"
+                        let revealed:Bool = chatHandler.chatMetadata[self.chatID]!.isRevealed!
+                        
+                        if revealed {
+                            self.profilePreviewVC.pronouns = innerDict["pronouns"] as! String
+                            self.profilePreviewVC.bio = innerDict["bio"] as! String
+                            
+                            if chatHandler.chatMetadata[self.chatID] != nil && chatHandler.chatMetadata[self.chatID]!.isRevealed! {
+                                let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)" as NSString
+                                let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
+                                self.profilePreviewVC.profilePic = cachedImage
+                            }
+                        }
+                        else {
+                            self.profilePreviewVC.pronouns = "Pronouns locked"
+                            self.profilePreviewVC.bio = "Bio locked"
+                            
+                            let profileImageName = chatHandler.chatMetadata[self.chatID]?.recipient_image ?? "avatar-4"
+                            let profileImage = UIImage(named: profileImageName)!
+                            self.profilePreviewVC.profilePic = profileImage
+                        }
+                        
+                        self.profilePreviewVC.restaurants = innerDict["restaurants"] as! [String]
+                        self.profilePreviewVC.interests = innerDict["interests"] as! [String]
+                        self.profilePreviewVC.previewMode = false
+                    }
+                }
+            }
+        }
+    }
+    
+    //MARK: view will disappear
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
         print("DEINIT")
