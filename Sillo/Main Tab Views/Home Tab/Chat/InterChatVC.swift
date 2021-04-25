@@ -139,6 +139,11 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
             }
         }
+        
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
     }
     
     //MARK: function for left swipe gesture
@@ -150,11 +155,6 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
-        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
-        edgePan.edges = .left
-        view.addGestureRecognizer(edgePan)
     }
     
     

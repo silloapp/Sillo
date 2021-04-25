@@ -166,6 +166,7 @@ class ProfileVC: UIViewController{
     }
     
     @objc func refreshView(note:NSNotification) {
+        profilepic.image = self.profilePic
         nameLabel.text = self.name
         pronounLabel.text = self.pronouns
         bioLabel.text = self.bio

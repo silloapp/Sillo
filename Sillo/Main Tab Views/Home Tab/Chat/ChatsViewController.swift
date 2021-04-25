@@ -252,6 +252,12 @@ final class ChatsViewController: UITableViewController {
                     chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
                 }
             }
+            
+            //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
+            let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+            edgePan.edges = .left
+            view.addGestureRecognizer(edgePan)
+            
         }
         
         
@@ -328,11 +334,6 @@ final class ChatsViewController: UITableViewController {
         messageInputBar.delegate = self
         //scroll to bottom when first opening the app
         self.tableView.scrollToBottomRow()
-
-        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
-        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
-        edgePan.edges = .left
-        view.addGestureRecognizer(edgePan)
     }
     
     //MARK: function for left swipe gesture
