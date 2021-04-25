@@ -196,6 +196,7 @@ class ProfileVC: UIViewController{
         
         //MARK: add name and bio stack
         nameLabel.text = name
+        nameLabel.font = Font.bold(dynamicFontSize(28))
         pronounLabel.text = pronouns
         let stack = UIStackView()
         stack.axis = .vertical
