@@ -540,6 +540,7 @@ final class ChatsViewController: UITableViewController {
                         self.profilePreviewVC.restaurants = innerDict["restaurants"] as! [String]
                         self.profilePreviewVC.interests = innerDict["interests"] as! [String]
                         self.profilePreviewVC.previewMode = false
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshProfileView"), object: nil)
                     }
                 }
             }

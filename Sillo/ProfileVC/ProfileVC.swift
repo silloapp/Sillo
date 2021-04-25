@@ -161,7 +161,17 @@ class ProfileVC: UIViewController{
         label.textAlignment = .left
         return label
     }()
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshView(note:)), name: Notification.Name("refreshProfileView"), object: nil)
+    }
     
+    @objc func refreshView(note:NSNotification) {
+        nameLabel.text = self.name
+        pronounLabel.text = self.pronouns
+        bioLabel.text = self.bio
+        self.collectionView.reloadData()
+        self.restoTable.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

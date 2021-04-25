@@ -285,6 +285,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                         self.profilePreviewVC.profilePic = profileImage
                         
                         self.profilePreviewVC.previewMode = false
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshProfileView"), object: nil)
                     }
                 }
             }
