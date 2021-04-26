@@ -136,7 +136,6 @@ final class ChatsViewController: UITableViewController {
     @objc func refreshChatView(note: NSNotification) {
         //refresh the subtask table
         self.tableView.reloadData()
-        setNavBar()
         //scrolls to bottom row when new message added, ONLY IF ALREADY AT THE BOTTOM
 //        if self.atBottom{ //IMPLEMENT THIS LATER ONCE ATBOTTOM WORKS OK!
             self.tableView.scrollToBottomRow()
