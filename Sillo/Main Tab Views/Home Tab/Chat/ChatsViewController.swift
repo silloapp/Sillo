@@ -198,6 +198,12 @@ final class ChatsViewController: UITableViewController {
             let userID = metadata.recipient_uid!
             retrieveUserProfile(userID:userID)
         }
+        else {
+            //use when conversation doesn't exist yet (clicked on post)
+            let userID = self.initPost?.posterUserID ?? "ERROR"
+            retrieveUserProfile(userID: userID)
+            
+        }
         
         //now that message has been opened, mark as read for user
         chatHandler.readChat(userID: Constants.FIREBASE_USERID!, chatId: self.chatID)
@@ -473,7 +479,7 @@ final class ChatsViewController: UITableViewController {
     
     @objc func menuMethod() {
         //haptic feedback
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.prepare()
         generator.impactOccurred()
         
@@ -526,8 +532,13 @@ final class ChatsViewController: UITableViewController {
                 userRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let innerDict = document.data()!
-                        self.profilePreviewVC.name = chatHandler.chatMetadata[self.chatID]?.recipient_name ?? "Kevin Nguyen"
-                        let revealed:Bool = chatHandler.chatMetadata[self.chatID]!.isRevealed!
+                        //pull name, but if chat doesn't exist use the post alias,
+                        //if alias doesn't exist, well helo there Kevin Nguyen
+                        let posterAlias:String = self.initPost?.posterAlias! ?? "Kevin Nguyen"
+                        self.profilePreviewVC.name = chatHandler.chatMetadata[self.chatID]?.recipient_name ?? posterAlias
+                        
+                        //if conversation doesn't exist, revealed is false
+                        let revealed:Bool = chatHandler.chatMetadata[self.chatID]?.isRevealed ?? false
                         
                         if revealed {
                             self.profilePreviewVC.pronouns = innerDict["pronouns"] as! String
@@ -542,8 +553,10 @@ final class ChatsViewController: UITableViewController {
                         else {
                             self.profilePreviewVC.pronouns = "Pronouns locked"
                             self.profilePreviewVC.bio = "Bio locked"
-                            
-                            let profileImageName = chatHandler.chatMetadata[self.chatID]?.recipient_image ?? "avatar-4"
+                            //if conversation doesn't exist, use the associated post image,
+                            //if that doesn't exist, avatar-4
+                            let postProfilePic = self.initPost?.posterImageName ?? "avatar-4"
+                            let profileImageName = chatHandler.chatMetadata[self.chatID]?.recipient_image ?? postProfilePic
                             let profileImage = UIImage(named: profileImageName)!
                             self.profilePreviewVC.profilePic = profileImage
                         }

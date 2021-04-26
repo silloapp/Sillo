@@ -172,6 +172,7 @@ class ProfileVC: UIViewController{
         bioLabel.text = self.bio
         self.collectionView.reloadData()
         self.restoTable.reloadData()
+        self.view.setNeedsDisplay()
     }
 
     override func viewDidLoad() {

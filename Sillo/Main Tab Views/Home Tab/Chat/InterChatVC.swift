@@ -225,7 +225,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @objc func menuMethod() {
         //haptic feedback
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.prepare()
         generator.impactOccurred()
         
