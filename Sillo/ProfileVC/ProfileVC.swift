@@ -22,7 +22,8 @@ class ProfileVC: UIViewController{
     var bio = "I love the outdoors ⛰️ and fishing 🎣. Thinking of my next adventure ✨ "
     var interests = ["Art", "Baking", "Meditation"]
     var restaurants = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
-    var profilePic = UIImage(named: "avatar-4") //TODO: replace with profile pic
+    var profilePic = UIImage(named: "avatar-4")
+    var previewMode = true
     
     var imageViewHeightConstraint: NSLayoutConstraint?
     
@@ -160,7 +161,19 @@ class ProfileVC: UIViewController{
         label.textAlignment = .left
         return label
     }()
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshView(note:)), name: Notification.Name("refreshProfileView"), object: nil)
+    }
     
+    @objc func refreshView(note:NSNotification) {
+        profilepic.image = self.profilePic
+        nameLabel.text = self.name
+        pronounLabel.text = self.pronouns
+        bioLabel.text = self.bio
+        self.collectionView.reloadData()
+        self.restoTable.reloadData()
+        self.view.setNeedsDisplay()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -195,6 +208,7 @@ class ProfileVC: UIViewController{
         
         //MARK: add name and bio stack
         nameLabel.text = name
+        nameLabel.font = Font.bold(dynamicFontSize(28))
         pronounLabel.text = pronouns
         let stack = UIStackView()
         stack.axis = .vertical
@@ -248,26 +262,29 @@ class ProfileVC: UIViewController{
         restoTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
         restoTable.register(GreyCell.self, forCellReuseIdentifier: cellID)
         
-        //MARK: bottom grey line
-        self.view.addSubview(infoLine)
-        infoLine.topAnchor.constraint(equalTo: restoTable.bottomAnchor, constant: 20).isActive = true
-        infoLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        infoLine.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
-        infoLine.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+        //only show in preview mode
+        if previewMode == true {
+            //MARK: bottom grey line
+            self.view.addSubview(infoLine)
+            infoLine.topAnchor.constraint(equalTo: restoTable.bottomAnchor, constant: 20).isActive = true
+            infoLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
+            infoLine.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+            infoLine.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
 
-        //MARK: infoIcon
-        view.addSubview(infoIcon)
-        infoIcon.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25).isActive = true
-        infoIcon.topAnchor.constraint(equalTo: infoLine.bottomAnchor, constant: 22).isActive = true
-        infoIcon.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        infoIcon.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            //MARK: infoIcon
+            view.addSubview(infoIcon)
+            infoIcon.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25).isActive = true
+            infoIcon.topAnchor.constraint(equalTo: infoLine.bottomAnchor, constant: 22).isActive = true
+            infoIcon.widthAnchor.constraint(equalToConstant: 25).isActive = true
+            infoIcon.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
-        //MARK: infoLabel
-        view.addSubview(infoLabel)
-        infoLabel.centerYAnchor.constraint(equalTo: infoIcon.centerYAnchor).isActive = true
-        infoLabel.leadingAnchor.constraint(equalTo: infoIcon.trailingAnchor, constant: 16).isActive = true
-        infoLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
-        infoLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            //MARK: infoLabel
+            view.addSubview(infoLabel)
+            infoLabel.centerYAnchor.constraint(equalTo: infoIcon.centerYAnchor).isActive = true
+            infoLabel.leadingAnchor.constraint(equalTo: infoIcon.trailingAnchor, constant: 16).isActive = true
+            infoLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
+            infoLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        }
     }
    
     //User pressed exit button
@@ -279,12 +296,18 @@ class ProfileVC: UIViewController{
 //TABLEVIEW
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return restaurants.count
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! GreyCell
-        cell.restaurantName = restaurants[indexPath.row]
+        if indexPath.row < restaurants.count {
+            cell.restaurantName = restaurants[indexPath.row]
+        }
+        else{
+            cell.restaurantName = ""
+        }
+        
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }

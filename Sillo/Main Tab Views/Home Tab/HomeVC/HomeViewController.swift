@@ -305,7 +305,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         if post.posterUserID! == Constants.FIREBASE_USERID! {return} //cannot report oneself
         
         //haptic feedback
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.prepare()
         generator.impactOccurred()
         

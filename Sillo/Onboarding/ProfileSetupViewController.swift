@@ -793,24 +793,20 @@ class ProfileSetupViewController: UIViewController{
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        /*
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.scrollView_origin_y = scrollView.frame.origin.y
-            print(scrollView.frame.origin.y)
-            if scrollView.frame.origin.y == self.scrollView_origin_y {
-                print("adjust")
-                scrollView.frame.origin.y = self.scrollView_origin_y - keyboardSize.height
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= 2*(keyboardSize.height / 3)
+                scrollView.contentInset = UIEdgeInsets(top: keyboardSize.height + view.safeAreaInsets.top, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom, right: 0)
             }
         }
-        */
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        /*
-        if scrollView.frame.origin.y != self.scrollView_origin_y {
-            scrollView.frame.origin.y = self.scrollView_origin_y
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+            //scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
-        */
     }
 }
 

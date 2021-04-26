@@ -20,6 +20,13 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         return table
     }()
     
+    let profilePreviewVC:ProfileVC = {
+        let vc = ProfileVC()
+        vc.modalPresentationStyle = .automatic
+        vc.modalTransitionStyle = .coverVertical
+        return vc
+    }()
+    
     let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
