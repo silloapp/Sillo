@@ -345,7 +345,7 @@ final class ChatsViewController: UITableViewController {
     //MARK: function for left swipe gesture
     @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
        if recognizer.state == .recognized {
-          self.navigationController?.popViewController(animated: true)
+            backBtnPressed()
        }
     }
     override func viewDidLayoutSubviews() {
