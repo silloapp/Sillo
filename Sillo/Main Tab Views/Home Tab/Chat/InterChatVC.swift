@@ -465,7 +465,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     //MARK: Chat or delete pressed
     @objc func deletePressed() {
-        self.navigationController?.popViewController(animated: true)
+        backBtnPressed()
         print("delete pressed")
     }
     
