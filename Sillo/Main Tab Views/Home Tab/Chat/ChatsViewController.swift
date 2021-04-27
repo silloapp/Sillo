@@ -136,7 +136,7 @@ final class ChatsViewController: UITableViewController {
         self.tableView.reloadData()
         //scrolls to bottom row when new message added, ONLY IF ALREADY AT THE BOTTOM
 //        if self.atBottom{ //IMPLEMENT THIS LATER ONCE ATBOTTOM WORKS OK!
-            self.tableView.scrollToBottomRow()
+            //self.tableView.scrollToBottomRow()
 //        }
         print("refreshed the chatView")
         
@@ -148,9 +148,9 @@ final class ChatsViewController: UITableViewController {
         let contentSizeHeight = scrollView.contentSize.height // this is the height of the tableview content
         let frameHeight = scrollView.frame.size.height
         
-        print("offset", offset + 1)
-        print("contentSizeHeight", contentSizeHeight + 1)
-        print("framehEIGHT", frameHeight + 1)
+        //print("offset", offset + 1)
+        //print("contentSizeHeight", contentSizeHeight + 1)
+        //print("framehEIGHT", frameHeight + 1)
         
 
     if (offset + 100 >= (contentSizeHeight - frameHeight)) {
@@ -257,12 +257,13 @@ final class ChatsViewController: UITableViewController {
         
         // add query listner for the chat's message collection
         var messageSnapshot:QuerySnapshot? = nil
-        
+        //if snapshot exists, place it
         if chatHandler.messageSnapshots[self.chatID] != nil {
                 messageSnapshot = chatHandler.messageSnapshots[self.chatID]!
                 placeQuerySnapshot(messageSnapshot: messageSnapshot!)
         }
         else {
+            //create new snapshot and place it
             let messageSubCol = db.collection("chats").document(chatID)
                 .collection("messages").order(by: "timestamp", descending: true).limit(to: chatHandler.messagesBatchSize)
             messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
@@ -279,8 +280,10 @@ final class ChatsViewController: UITableViewController {
     }
     
     func placeQuerySnapshot(messageSnapshot:QuerySnapshot) {
+        print("PLACE")
         messageSnapshot.documentChanges.forEach { diff in
             if (diff.type == .added || diff.type == .modified) {
+                print("query fired: \(diff.document.documentID)")
                 chatHandler.handleNewMessage(chatID: self.chatID, messageID: diff.document.documentID, data: diff.document.data())
             }
             if (diff.type == .removed) {
@@ -578,7 +581,7 @@ final class ChatsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row + 5 == chatHandler.messages[self.chatID]?.count {
+        if indexPath.row - 5 < 0 {
             //we're almost at the end, pull more messages
             chatHandler.getNextMessageBatch(chatID:self.chatID)
         }

@@ -25,7 +25,7 @@ class ChatHandler {
     
     var chatSnapshot: QuerySnapshot? = nil //chats list snapshot
     let chatBatchSize = 15 //number of conversations to pull in a batch
-    let messagesBatchSize = 15 //number of messages to pull in a batch
+    let messagesBatchSize = 5 //number of messages to pull in a batch
     
     //MARK: add more chats
     func getNextChatBatch() {
@@ -85,7 +85,7 @@ class ChatHandler {
                         self.handleNewMessage(chatID:chatID, messageID:document.documentID, data:document.data())
                     }
                 }
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
             }
             
             //MARK: update snapshot listener
@@ -119,7 +119,7 @@ class ChatHandler {
             //this is def source of bug
             
             if !self.messages[chatID]!.contains(msg) {
-                self.messages[chatID]?.append(msg)
+                self.messages[chatID]?.insert(msg,at: 0)
                 
                 //sort messages (if no guarantee of sorting order, we should do it here)
                 self.messages[chatID] = self.sortMessages(messages: self.messages[chatID]!)
