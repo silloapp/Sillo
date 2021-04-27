@@ -65,23 +65,6 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     }()
     
     let PLACEHOLDER_TEXT = "Ask something anonymously to \(organizationData.currOrganizationName ?? "your organization")..."
-    
-    //MARK: init textfield
-    let postTextField: UITextField = {
-        let textView = UITextField()
-        textView.attributedPlaceholder = NSAttributedString(string: "Say something nice...", attributes: [
-            .foregroundColor: UIColor.lightGray,
-            .font: Font.regular(17)
-        ])
-        textView.textColor = UIColor.lightGray
-        textView.backgroundColor = UIColor.blue
-        textView.font = Font.regular(17)
-        textView.layer.backgroundColor = CGColor.init(red: 33, green: 33, blue: 33, alpha: 0.5) //TODO: remove this once sizing constraints complete
-        //textField.keyboardType = .emailAddress
-        textView.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
 
     
     //MARK: init textview
