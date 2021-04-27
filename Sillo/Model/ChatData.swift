@@ -21,12 +21,54 @@ class ChatHandler {
     
     var messages: [String: [Message]] = [:] //a dictionary mapping chatid to chat messages
     var postToChat: [String: String] = [:]
-
+    
+    var chatSnapshot: QuerySnapshot? = nil //chats list snapshot
+    let chatBatchSize = 15 //number of conversations to pull in a batch
+    let messagesBatchSize = 15 //number of messages to pull in a batch
+    
+    //MARK: add more chats
+    func getNextBatch() {
+        print("GET NEXT BATCH")
+        guard let lastSnapshot = self.chatSnapshot!.documents.last else {
+            // The collection is empty.
+            print("NO MORE")
+            return
+        }
+        
+        
+        let currentUserID = Constants.FIREBASE_USERID ?? "ERROR"
+        let currentOrganization = organizationData.currOrganization ?? "NO_ORG"
+        
+        let next = db.collection("user_chats").document(currentUserID).collection(currentOrganization).order(by: "latestMessageTimestamp", descending: true).limit(to: chatBatchSize).start(afterDocument: lastSnapshot)
+        next.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            } else {
+                for document in querySnapshot!.documents {
+                    //print("\(document.documentID) => \(document.data())")
+                    self.handleNewUserChat(chatID: document.documentID, data: document.data())
+                }
+            }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
+        }
+        
+        //MARK: update snapshot listener
+        next.addSnapshotListener { (snapshot, error) in
+            guard let snapshot = snapshot else {
+                print("Error retreving documents: \(error.debugDescription)")
+                return
+            }
+            self.chatSnapshot = snapshot
+        }
+    }
+    
+    
     //MARK: coldstart (pull metadata only)
     func coldStart() {
         let currentUserID = Constants.FIREBASE_USERID ?? "ERROR"
         let currentOrganization = organizationData.currOrganization ?? "NO_ORG"
-        db.collection("user_chats").document(currentUserID).collection(currentOrganization).getDocuments() { (querySnapshot, err) in
+        db.collection("user_chats").document(currentUserID).collection(currentOrganization).order(by: "latestMessageTimestamp", descending: true).limit(to: chatBatchSize).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting chat metadata documents: \(err)")
                 return
@@ -35,7 +77,9 @@ class ChatHandler {
                     self.handleNewUserChat(chatID: document.documentID, data: document.data())
                 }
             }
+            self.chatSnapshot = querySnapshot
         }
+        
     }
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
@@ -241,6 +285,9 @@ class ChatHandler {
                 }
             }
         }
+        
+        //analytics log reveal
+        analytics.log_reveal()
     }
     
     // user  deletes a conversation, we remove chat metadata from user's user_chats

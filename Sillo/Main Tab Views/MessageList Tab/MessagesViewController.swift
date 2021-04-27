@@ -46,7 +46,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc func refreshMessageListView(note: NSNotification) {
-        chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+        //chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata() //this is unecessary, assuming the chats are pulled in order.
         self.chatListTable.reloadData()
         print("refreshed the messageListView")
         
@@ -58,12 +58,15 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
-        let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true)
+        let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true).limit(to: chatHandler.chatBatchSize)
         activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(error!)")
                 return
             }
+            
+            //set most recent snapshot (like a bookmark)
+            chatHandler.chatSnapshot = snapshot
             
             snapshot.documentChanges.forEach { diff in
                 if (diff.type == .added) {
@@ -228,6 +231,11 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row + 5 == chatHandler.chatMetadata.count {
+            //we're almost at the end, pull more chats
+            chatHandler.getNextBatch()
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
         let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
         cell.item = chatHandler.chatMetadata[chatID]
