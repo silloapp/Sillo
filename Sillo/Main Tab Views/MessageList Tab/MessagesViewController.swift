@@ -233,7 +233,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row + 5 == chatHandler.chatMetadata.count {
             //we're almost at the end, pull more chats
-            chatHandler.getNextBatch()
+            chatHandler.getNextChatBatch()
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell

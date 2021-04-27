@@ -21,13 +21,14 @@ class ChatHandler {
     
     var messages: [String: [Message]] = [:] //a dictionary mapping chatid to chat messages
     var postToChat: [String: String] = [:]
+    var messageSnapshots: [String: QuerySnapshot] = [:] //a dictionary mapping chatid to query snapshots
     
     var chatSnapshot: QuerySnapshot? = nil //chats list snapshot
     let chatBatchSize = 15 //number of conversations to pull in a batch
     let messagesBatchSize = 15 //number of messages to pull in a batch
     
     //MARK: add more chats
-    func getNextBatch() {
+    func getNextChatBatch() {
         print("GET NEXT BATCH")
         guard let lastSnapshot = self.chatSnapshot!.documents.last else {
             // The collection is empty.
@@ -60,6 +61,71 @@ class ChatHandler {
                 return
             }
             self.chatSnapshot = snapshot
+        }
+    }
+    
+    //MARK: add more chats
+    func getNextMessageBatch(chatID: String) {
+        print("GET NEXT MESSAGE BATCH")
+        if let currSnapshot = self.messageSnapshots[chatID] {
+            guard let lastSnapshot = currSnapshot.documents.last else {
+                // The collection is empty.
+                print("NO MORE")
+                return
+            }
+            
+            let next = db.collection("chats").document(chatID).collection("messages").order(by: "timestamp", descending: true).limit(to: chatHandler.messagesBatchSize).start(afterDocument: lastSnapshot)
+            next.getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    return
+                } else {
+                    for document in querySnapshot!.documents {
+                        //print("\(document.documentID) => \(document.data())")
+                        self.handleNewMessage(chatID:chatID, messageID:document.documentID, data:document.data())
+                    }
+                }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
+            }
+            
+            //MARK: update snapshot listener
+            next.addSnapshotListener { (snapshot, error) in
+                guard let snapshot = snapshot else {
+                    print("Error retreving documents: \(error.debugDescription)")
+                    return
+                }
+                self.messageSnapshots[chatID] = snapshot
+            }
+        }
+    }
+    
+    //MARK: triggered when new message comes in
+    func handleNewMessage(chatID: String, messageID:String, data:[String:Any]) {
+        print("New message: \(messageID)")
+        //add or update active chat
+        let message = data["message"] as! String
+        let senderID = data["senderID"] as! String
+        guard let stamp = data["timestamp"] as? Timestamp else {
+            return
+        }
+        let timestamp = stamp.dateValue()
+        let msg = Message(messageID: messageID, senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
+        
+        if self.messages[chatID] != nil {
+            //do not append msg twice
+            //CONTAINS MSG IS FLAWED CAUSING THE DOUBLE POST MSG BUG
+            //ALTERNATIVE FIX MAKE SURE ALL FIELDS IN MSG IS CONSISTENT
+            //OR ADD MSG IG into the message struct and check if the message id is already contained in the meantime
+            //this is def source of bug
+            
+            if !self.messages[chatID]!.contains(msg) {
+                self.messages[chatID]?.append(msg)
+                
+                //sort messages (if no guarantee of sorting order, we should do it here)
+                self.messages[chatID] = self.sortMessages(messages: self.messages[chatID]!)
+                
+                print("added message: \(message) to messagelist for chat \(chatID)" )
+            }
         }
     }
     

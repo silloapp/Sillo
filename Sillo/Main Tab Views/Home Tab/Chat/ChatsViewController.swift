@@ -256,52 +256,41 @@ final class ChatsViewController: UITableViewController {
         
         
         // add query listner for the chat's message collection
-        let messageSubCol = db.collection("chats").document(chatID)
-            .collection("messages").order(by: "timestamp", descending: false)
-        messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                print("Error fetching snapshots: \(error!)")
-                return
-            }
-            snapshot.documentChanges.forEach { diff in
-                if (diff.type == .added || diff.type == .modified) {
-                    let messageID = diff.document.documentID
-                    print("New message: \(messageID)")
-                    //add or update active chat
-                    let message = diff.document.get("message") as! String
-                    let senderID = diff.document.get("senderID") as! String
-                    guard let stamp = diff.document.get("timestamp") as? Timestamp else {
-                        return
-                    }
-                    let timestamp = stamp.dateValue()
-                    let msg = Message(messageID: messageID, senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
-                    
-                    if chatHandler.messages[self.chatID] != nil {
-                        //do not append msg twice
-                        //CONTAINS MSG IS FLAWED CAUSING THE DOUBLE POST MSG BUG
-                        //ALTERNATIVE FIX MAKE SURE ALL FIELDS IN MSG IS CONSISTENT
-                        //OR ADD MSG IG into the message struct and check if the message id is already contained in the meantime
-                        //this is def source of bug
-                        if !chatHandler.messages[self.chatID]!.contains(msg) {
-                            chatHandler.messages[self.chatID]?.append(msg)
-                            
-                            //sort messages (if no guarantee of sorting order, we should do it here)
-                            chatHandler.messages[self.chatID] = chatHandler.sortMessages(messages: chatHandler.messages[self.chatID]!)
-                            
-                            print("added message: \(message) to messagelist for chat \(self.chatID)" )
-                        }
-                    }
-                }
-                if (diff.type == .removed) {
-                    let messageID = diff.document.documentID
-                    print("Removed msg: \(messageID)")
-                    //not implemented yet, need to change data struct first to map not array
-                    //
-                }
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
-            }
-        }
+        var messageSnapshot:QuerySnapshot? = nil
         
+        if chatHandler.messageSnapshots[self.chatID] != nil {
+                messageSnapshot = chatHandler.messageSnapshots[self.chatID]!
+                placeQuerySnapshot(messageSnapshot: messageSnapshot!)
+        }
+        else {
+            let messageSubCol = db.collection("chats").document(chatID)
+                .collection("messages").order(by: "timestamp", descending: true).limit(to: chatHandler.messagesBatchSize)
+            messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                messageSnapshot = snapshot
+                chatHandler.messageSnapshots[self.chatID] = snapshot
+                self.placeQuerySnapshot(messageSnapshot: snapshot)
+                }
+            
+        }
+    }
+    
+    func placeQuerySnapshot(messageSnapshot:QuerySnapshot) {
+        messageSnapshot.documentChanges.forEach { diff in
+            if (diff.type == .added || diff.type == .modified) {
+                chatHandler.handleNewMessage(chatID: self.chatID, messageID: diff.document.documentID, data: diff.document.data())
+            }
+            if (diff.type == .removed) {
+                let messageID = diff.document.documentID
+                print("Removed msg: \(messageID)")
+                //not implemented yet, need to change data struct first to map not array
+                //
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+        }
     }
     
     override func viewDidLoad() {
@@ -589,6 +578,11 @@ final class ChatsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row + 5 == chatHandler.messages[self.chatID]?.count {
+            //we're almost at the end, pull more messages
+            chatHandler.getNextMessageBatch(chatID:self.chatID)
+        }
+        
         let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChatsbleViewCell
         cell.selectionStyle = .none
         
