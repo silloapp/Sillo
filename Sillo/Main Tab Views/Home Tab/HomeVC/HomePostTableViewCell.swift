@@ -14,10 +14,35 @@ class HomePostTableViewCell: UITableViewCell {
         didSet {
             guard let msg = item else {return}
             if let name = msg.posterAlias {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "h:mm a" //12 hr time
-                dateFormatter.timeZone = TimeZone.current
-                let timeStampString = dateFormatter.string(from: msg.date!)
+                let timeFormatter = DateFormatter()
+                timeFormatter.dateFormat = "h:mm a" //12 hr time
+                timeFormatter.timeZone = TimeZone.current
+                var timeStampString = timeFormatter.string(from: msg.date!)
+                
+                let calendar = Calendar.current
+                let date = msg.date!
+                if calendar.isDateInToday(date) {
+                    //do nothing
+                    timeStampString = timeFormatter.string(from: msg.date!)
+                }
+                else if calendar.isDateInYesterday(date) {
+                    timeStampString = "Yesterday \(timeFormatter.string(from: msg.date!))"
+                }
+                else if date.isInThisWeek{
+                    let dayFormatter = DateFormatter()
+                    dayFormatter.dateFormat = "EEE h:mm a"
+                    dayFormatter.timeZone = TimeZone.current
+                    let weekDay = dayFormatter.string(from: msg.date!)
+                    timeStampString = "\(weekDay)"
+                } else {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "MMM dd h:mm a"
+                    dateFormatter.timeZone = TimeZone.current
+                    let weekDay = dateFormatter.string(from: msg.date!)
+                    timeStampString = "\(weekDay)"
+                }
+                
+    
                 
                 let stringValue: String = "\(name) · \(timeStampString)"
                 let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
@@ -121,4 +146,28 @@ class HomePostTableViewCell: UITableViewCell {
 
 class ReportButton: UIImageView {
 var post: Post?
+}
+
+extension Date {
+
+    func isEqual(to date: Date, toGranularity component: Calendar.Component, in calendar: Calendar = .current) -> Bool {
+        calendar.isDate(self, equalTo: date, toGranularity: component)
+    }
+
+    func isInSameYear(as date: Date) -> Bool { isEqual(to: date, toGranularity: .year) }
+    func isInSameMonth(as date: Date) -> Bool { isEqual(to: date, toGranularity: .month) }
+    func isInSameWeek(as date: Date) -> Bool { isEqual(to: date, toGranularity: .weekOfYear) }
+
+    func isInSameDay(as date: Date) -> Bool { Calendar.current.isDate(self, inSameDayAs: date) }
+
+    var isInThisYear:  Bool { isInSameYear(as: Date()) }
+    var isInThisMonth: Bool { isInSameMonth(as: Date()) }
+    var isInThisWeek:  Bool { isInSameWeek(as: Date()) }
+
+    var isInYesterday: Bool { Calendar.current.isDateInYesterday(self) }
+    var isInToday:     Bool { Calendar.current.isDateInToday(self) }
+    var isInTomorrow:  Bool { Calendar.current.isDateInTomorrow(self) }
+
+    var isInTheFuture: Bool { self > Date() }
+    var isInThePast:   Bool { self < Date() }
 }

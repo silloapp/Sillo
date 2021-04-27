@@ -26,10 +26,41 @@ class ChatViewTableViewCell: UITableViewCell {
                     profilePic.image =  cloudutil.downloadImage(ref: imageRef as String)
                 }
             }
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "h:mm a" //12 hr time
-            dateFormatter.timeZone = TimeZone.current
-            let timeStampString = dateFormatter.string(from: msg.latestMessageTimestamp!)
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "h:mm a" //12 hr time
+//            dateFormatter.timeZone = TimeZone.current
+//            let timeStampString = dateFormatter.string(from: msg.latestMessageTimestamp!)
+//
+            let date = msg.latestMessageTimestamp!
+            
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "h:mm a" //12 hr time
+            timeFormatter.timeZone = TimeZone.current
+            var timeStampString = timeFormatter.string(from: date)
+            
+            let calendar = Calendar.current
+            if calendar.isDateInToday(date) {
+                //do nothing
+                timeStampString = timeFormatter.string(from: date)
+            }
+            else if calendar.isDateInYesterday(date) {
+                timeStampString = "Yesterday"
+            }
+            else if date.isInThisWeek{
+                let dayFormatter = DateFormatter()
+                dayFormatter.dateFormat = "EEE"
+                dayFormatter.timeZone = TimeZone.current
+                let weekDay = dayFormatter.string(from: date)
+                timeStampString = "\(weekDay)"
+            } else {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MMM dd"
+                dateFormatter.timeZone = TimeZone.current
+                let weekDay = dateFormatter.string(from: date)
+                timeStampString = "\(weekDay)"
+            }
+            
+
 
             //let stringValue: String = "\(name) · \(timeStampString)"
             let stringValue: String = "\(name)"
@@ -181,7 +212,7 @@ class ChatViewTableViewCell: UITableViewCell {
         msgStack.widthAnchor.constraint(lessThanOrEqualTo: self.contentView.widthAnchor).isActive = true
         
         timestamp.leadingAnchor.constraint(equalTo: message.trailingAnchor,constant: 5).isActive = true
-        timestamp.widthAnchor.constraint(greaterThanOrEqualToConstant: 10).isActive = true
+        timestamp.widthAnchor.constraint(greaterThanOrEqualToConstant: 15).isActive = true
         
         stack.leadingAnchor.constraint(equalTo: self.profilePic.trailingAnchor, constant: 16).isActive = true
         stack.widthAnchor.constraint(lessThanOrEqualTo: self.contentView.widthAnchor).isActive = true
