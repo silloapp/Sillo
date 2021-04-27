@@ -136,9 +136,15 @@ final class ChatsViewController: UITableViewController {
         self.tableView.reloadData()
         //scrolls to bottom row when new message added, ONLY IF ALREADY AT THE BOTTOM
 //        if self.atBottom{ //IMPLEMENT THIS LATER ONCE ATBOTTOM WORKS OK!
-            //self.tableView.scrollToBottomRow()
+            self.tableView.scrollToBottomRow()
 //        }
         print("refreshed the chatView")
+        
+    }
+    
+    @objc func lazyRefreshChatView(note: NSNotification) {
+        self.tableView.reloadData()
+        print("lazy refreshed the chatView")
         
     }
     
@@ -155,7 +161,7 @@ final class ChatsViewController: UITableViewController {
 
     if (offset + 100 >= (contentSizeHeight - frameHeight)) {
         self.atBottom = true
-        print("at the bottom: offset is \(offset), \(contentSizeHeight-frameHeight)")
+        //print("at the bottom: offset is \(offset), \(contentSizeHeight-frameHeight)")
     }
 
     if (offset < 0){
@@ -212,6 +218,7 @@ final class ChatsViewController: UITableViewController {
         
         setNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshChatView(note:)), name: Notification.Name("refreshChatView"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.lazyRefreshChatView(note:)), name: Notification.Name("lazyRefreshChatView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(revealUser), name: Notification.Name(rawValue: "revealUser"), object: nil)
         
@@ -221,7 +228,7 @@ final class ChatsViewController: UITableViewController {
             //let msg = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(), timestamp: self.initPost?.date, isRead: false)
             let firstPost = Message(messageID: "DUMMY", senderID: self.initPost?.posterUserID, message: self.initPost?.message, attachment: UIImage(named: (self.initPost?.attachment)!), timestamp: self.initPost?.date, isRead: true)
             chatHandler.messages[self.chatID] = [firstPost]
-        }else { //avoid appending the first post twice
+        }else if !chatHandler.messages.keys.contains(self.chatID) { //avoid appending the first post twice
             chatHandler.messages[self.chatID] = []
         }
         
@@ -259,11 +266,13 @@ final class ChatsViewController: UITableViewController {
         var messageSnapshot:QuerySnapshot? = nil
         //if snapshot exists, place it
         if chatHandler.messageSnapshots[self.chatID] != nil {
+                print("SNAPSHOT EXISTS")
                 messageSnapshot = chatHandler.messageSnapshots[self.chatID]!
                 placeQuerySnapshot(messageSnapshot: messageSnapshot!)
         }
         else {
             //create new snapshot and place it
+            print("SNAPSHOT DUN EXISTS")
             let messageSubCol = db.collection("chats").document(chatID)
                 .collection("messages").order(by: "timestamp", descending: true).limit(to: chatHandler.messagesBatchSize)
             messageListener = messageSubCol.addSnapshotListener { [self] querySnapshot, error in
@@ -280,7 +289,6 @@ final class ChatsViewController: UITableViewController {
     }
     
     func placeQuerySnapshot(messageSnapshot:QuerySnapshot) {
-        print("PLACE")
         messageSnapshot.documentChanges.forEach { diff in
             if (diff.type == .added || diff.type == .modified) {
                 print("query fired: \(diff.document.documentID)")
@@ -577,11 +585,12 @@ final class ChatsViewController: UITableViewController {
     //MARK :  Table View Delegate Methods:
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("COUNT \(chatHandler.messages[self.chatID])")
         return chatHandler.messages[self.chatID]?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row - 5 < 0 {
+        if indexPath.row == 0 {
             //we're almost at the end, pull more messages
             chatHandler.getNextMessageBatch(chatID:self.chatID)
         }

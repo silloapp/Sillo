@@ -25,7 +25,7 @@ class ChatHandler {
     
     var chatSnapshot: QuerySnapshot? = nil //chats list snapshot
     let chatBatchSize = 15 //number of conversations to pull in a batch
-    let messagesBatchSize = 5 //number of messages to pull in a batch
+    let messagesBatchSize = 20 //number of messages to pull in a batch
     
     //MARK: add more chats
     func getNextChatBatch() {
@@ -82,10 +82,9 @@ class ChatHandler {
                 } else {
                     for document in querySnapshot!.documents {
                         //print("\(document.documentID) => \(document.data())")
-                        self.handleNewMessage(chatID:chatID, messageID:document.documentID, data:document.data())
+                        self.handleNewMessage(chatID:chatID, messageID:document.documentID, data:document.data(), shouldScrollDown: false)
                     }
                 }
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
             }
             
             //MARK: update snapshot listener
@@ -100,7 +99,7 @@ class ChatHandler {
     }
     
     //MARK: triggered when new message comes in
-    func handleNewMessage(chatID: String, messageID:String, data:[String:Any]) {
+    func handleNewMessage(chatID: String, messageID:String, data:[String:Any], shouldScrollDown:Bool=true) {
         print("New message: \(messageID)")
         //add or update active chat
         let message = data["message"] as! String
@@ -110,7 +109,7 @@ class ChatHandler {
         }
         let timestamp = stamp.dateValue()
         let msg = Message(messageID: messageID, senderID: senderID, message: message, attachment: UIImage(), timestamp: timestamp, isRead: false)
-        
+        print("ADD MESSAGE \(self.messages[chatID])")
         if self.messages[chatID] != nil {
             //do not append msg twice
             //CONTAINS MSG IS FLAWED CAUSING THE DOUBLE POST MSG BUG
@@ -125,6 +124,12 @@ class ChatHandler {
                 self.messages[chatID] = self.sortMessages(messages: self.messages[chatID]!)
                 
                 print("added message: \(message) to messagelist for chat \(chatID)" )
+                if shouldScrollDown == true {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+                }
+                else {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "lazyRefreshChatView"), object: nil)
+                }
             }
         }
     }
