@@ -85,9 +85,11 @@ final class ChatsViewController: UITableViewController {
     }()
     
     //MARK: listener
+    private var activeChatListener: ListenerRegistration?
     private var messageListener: ListenerRegistration?
     deinit {
         messageListener?.remove()
+        activeChatListener?.remove()
     }
     
     let appearance : UINavigationBarAppearance = {
@@ -225,27 +227,33 @@ final class ChatsViewController: UITableViewController {
             chatHandler.messages[self.chatID] = []
         }
         
-        //add listener to chat metadata (for reveals)
-        chatHandler.chatSnapshot!.documentChanges.forEach { diff in
-            if (diff.type == .added) {
-                let chatID = diff.document.documentID
-                print("New conversation: \(chatID)")
-                //add or update active chat
-                chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+        //add listener to chat metadata (for reveals)        
+        let reference = db.collection("user_chats").document(Constants.FIREBASE_USERID!).collection(organizationData.currOrganization!)
+        activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
             }
-            if (diff.type == .modified) {
-                //THIS ONE
-                let chatID = diff.document.documentID
-                print("updated active chat: \(chatID)")
-                //add or update active chat
-                chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
-                
-            }
-            if (diff.type == .removed) {
-                let chatID = diff.document.documentID
-                print("Removed conversation: \(chatID)")
-                chatHandler.chatMetadata[chatID] = nil
-                chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    let chatID = diff.document.documentID
+                    print("New conversation: \(chatID)")
+                    //add or update active chat
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                }
+                if (diff.type == .modified) {
+                    let chatID = diff.document.documentID
+                    print("updated active chat: \(chatID)")
+                    //add or update active chat
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                    
+                }
+                if (diff.type == .removed) {
+                    let chatID = diff.document.documentID
+                    print("Removed conversation: \(chatID)")
+                    chatHandler.chatMetadata[chatID] = nil
+                    chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+                }
             }
         }
         
@@ -563,6 +571,7 @@ final class ChatsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
         print("DEINIT")
+        activeChatListener?.remove()
         messageListener?.remove()
     }
     
