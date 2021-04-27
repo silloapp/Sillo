@@ -85,11 +85,9 @@ final class ChatsViewController: UITableViewController {
     }()
     
     //MARK: listener
-    private var activeChatListener: ListenerRegistration?
     private var messageListener: ListenerRegistration?
     deinit {
         messageListener?.remove()
-        activeChatListener?.remove()
     }
     
     let appearance : UINavigationBarAppearance = {
@@ -228,42 +226,33 @@ final class ChatsViewController: UITableViewController {
         }
         
         //add listener to chat metadata (for reveals)
-        let reference = db.collection("user_chats").document(Constants.FIREBASE_USERID!).collection(organizationData.currOrganization!)
-        activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                print("Error fetching snapshots: \(error!)")
-                return
+        chatHandler.chatSnapshot!.documentChanges.forEach { diff in
+            if (diff.type == .added) {
+                let chatID = diff.document.documentID
+                print("New conversation: \(chatID)")
+                //add or update active chat
+                chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
             }
-            
-            snapshot.documentChanges.forEach { diff in
-                if (diff.type == .added) {
-                    let chatID = diff.document.documentID
-                    print("New conversation: \(chatID)")
-                    //add or update active chat
-                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
-                }
-                if (diff.type == .modified) {
-                    //THIS ONE
-                    let chatID = diff.document.documentID
-                    print("updated active chat: \(chatID)")
-                    //add or update active chat
-                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
-                    
-                }
-                if (diff.type == .removed) {
-                    let chatID = diff.document.documentID
-                    print("Removed conversation: \(chatID)")
-                    chatHandler.chatMetadata[chatID] = nil
-                    chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
-                }
+            if (diff.type == .modified) {
+                //THIS ONE
+                let chatID = diff.document.documentID
+                print("updated active chat: \(chatID)")
+                //add or update active chat
+                chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                
             }
-            
-            //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
-            let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
-            edgePan.edges = .left
-            view.addGestureRecognizer(edgePan)
-            
+            if (diff.type == .removed) {
+                let chatID = diff.document.documentID
+                print("Removed conversation: \(chatID)")
+                chatHandler.chatMetadata[chatID] = nil
+                chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+            }
         }
+        
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
         
         
         // add query listner for the chat's message collection
@@ -575,7 +564,6 @@ final class ChatsViewController: UITableViewController {
         navigationController?.isNavigationBarHidden = true
         print("DEINIT")
         messageListener?.remove()
-        activeChatListener?.remove()
     }
     
     override func viewDidAppear(_ animated: Bool) {

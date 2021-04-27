@@ -28,10 +28,13 @@ class ChatHandler {
     
     //MARK: add more chats
     func getNextBatch() {
+        print("GET NEXT BATCH")
         guard let lastSnapshot = self.chatSnapshot!.documents.last else {
             // The collection is empty.
+            print("NO MORE")
             return
         }
+        
         
         let currentUserID = Constants.FIREBASE_USERID ?? "ERROR"
         let currentOrganization = organizationData.currOrganization ?? "NO_ORG"
@@ -282,6 +285,9 @@ class ChatHandler {
                 }
             }
         }
+        
+        //analytics log reveal
+        analytics.log_reveal()
     }
     
     // user  deletes a conversation, we remove chat metadata from user's user_chats

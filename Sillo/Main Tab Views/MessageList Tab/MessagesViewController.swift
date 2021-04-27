@@ -46,7 +46,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc func refreshMessageListView(note: NSNotification) {
-        chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+        //chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata() //this is unecessary, assuming the chats are pulled in order.
         self.chatListTable.reloadData()
         print("refreshed the messageListView")
         
