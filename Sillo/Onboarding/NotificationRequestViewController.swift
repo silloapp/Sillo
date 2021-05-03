@@ -170,6 +170,7 @@ class NotificationRequestViewController: UIViewController {
               print("Error fetching remote instange ID: \(error)")
               } else if let result = result {
               print("Remote instance ID token: \(result.token)")
+                analytics.log_notifications_enabled()
                localUser.uploadFCMToken(token: result.token)
                }
               }

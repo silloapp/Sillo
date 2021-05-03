@@ -163,9 +163,20 @@ class LocalUser {
     //MARK: upload notification token to user document so we can send them notifications mwahah
     func uploadFCMToken(token: String) {
         //log notifications enabled
-        analytics.log_notifications_enabled()
         if Constants.FIREBASE_USERID != nil {
             Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["FCMToken" : token]) { err in
+                if let err = err {
+                    print("error adding user info with error: \(err.localizedDescription)")
+                } else {
+                    print("successfully added user info")
+                }
+            }
+        }
+    }
+    //MARK: set user's last active timestamp
+    func setLastActiveTimestamp() {
+        if Constants.FIREBASE_USERID != nil {
+        Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["lastActiveTimestamp" : Date()]) { err in
                 if let err = err {
                     print("error adding user info with error: \(err.localizedDescription)")
                 } else {
