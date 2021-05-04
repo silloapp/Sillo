@@ -74,6 +74,7 @@ class HomeViewController: UIViewController {
         }
         quests.coldStart()
         chatHandler.coldStart()
+        localUser.setLastActiveTimestamp()
     }
     
     override func viewDidLoad() {
