@@ -10,8 +10,6 @@ import GoogleSignIn
 
 class StartScreenViewController: UIViewController {
     
-    var routedWithinTimeThreshold = false
-    
     //MARK: logo imageview
     let logoImageView:UIImageView = {
         var imageView = UIImageView()
@@ -40,19 +38,8 @@ class StartScreenViewController: UIViewController {
         
         pulsate()
         localUser.coldStart()
-        
-        //MARK: fallback code to inform beta tester of issue.
-        //issue at hand: somethign is wrong with authentication or network issue, and the trigger isn't being fired..
-        DispatchQueue.main.asyncAfter(deadline: .now()+9) {
-            if !self.routedWithinTimeThreshold {
-                let alert = UIAlertController(title: "Hmm, this is taking a while..", message: "Thank you for being a beta tester for Sillo. Something unexpected has occured. Please check your internet connection, or redownload from TestFlight. We'd appreciate if you let us know at team@sillo.co", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in exit(EXIT_SUCCESS)}))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
     }
     @objc func routeUser(note:NSNotification) {
-        self.routedWithinTimeThreshold = true
         var nextVC = UIViewController()
         nextVC.navigationController?.view.backgroundColor = .white
         if (UserDefaults.standard.bool(forKey: "loggedIn")) {
