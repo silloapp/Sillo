@@ -15,13 +15,11 @@ struct CustomData {
 
 class ProfileVC: UIViewController{
     
-    
-    //TODO: replace this data with user data
-    var name = "Kevin Nguyen"
-    var pronouns = "He/Him"
-    var bio = "I love the outdoors ⛰️ and fishing 🎣. Thinking of my next adventure ✨ "
-    var interests = ["Art", "Baking", "Meditation"]
-    var restaurants = [ "Asha Tea House", "Tamon Tea", "Urbann Turbann"]
+    var name = "name loading.."
+    var pronouns = "pronouns loading.."
+    var bio = "bio loading.. "
+    var interests: [String] = []
+    var restaurants: [String] = []
     var profilePic = UIImage(named: "avatar-4")
     var previewMode = true
     
