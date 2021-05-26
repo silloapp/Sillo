@@ -99,6 +99,14 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         return view
     }()
     
+    //MARK: sticker image view
+    public let stickerImageView: UIImageView = {
+        let imgView = UIImageView()
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
+    
     var imageView = GPHMediaView()
     var media: GPHMedia?
 
@@ -106,21 +114,24 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         textView.delegate = self
         // Do any additional setup after loading the view.
-        addHomeView()
+        setupView()
         Giphy.configure(apiKey: "Z5AW2zezCf4gtUQEOh379fYxxqfLzPYX")
         
         stickerFloatingPanel.delegate = self
+        stickerFloatingPanel.layout = MyFloatingPanelLayout()
         stickerFloatingPanel.isRemovalInteractionEnabled = true
         
         let apperance = SurfaceAppearance()
         apperance.cornerRadius = 25
         stickerFloatingPanel.surfaceView.appearance = apperance
         let contentVC = StickerPickerViewController()
+        contentVC.delegate = self
         stickerFloatingPanel.set(contentViewController: contentVC)
         stickerFloatingPanel.track(scrollView: contentVC.stickerCollectionView!)
+        
     }
     
-    func addHomeView() {
+    func setupView() {
         
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
@@ -164,7 +175,12 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         textView.topAnchor.constraint(equalTo: profilepic.topAnchor, constant: 0).isActive = true
         textView.becomeFirstResponder()
-      
+        
+        view.addSubview(stickerImageView)
+        stickerImageView.widthAnchor.constraint(equalToConstant: 112).isActive = true
+        stickerImageView.heightAnchor.constraint(equalToConstant: 112).isActive = true
+        stickerImageView.leadingAnchor.constraint(equalTo: textView.leadingAnchor).isActive = true
+        stickerImageView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 20).isActive = true
         
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
            toolBar.barStyle = UIBarStyle.default
@@ -175,6 +191,12 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
            toolBar.sizeToFit()
            textView.inputAccessoryView = toolBar
         
+    }
+    
+    func addSticker(img: UIImage) {
+        print("img passed in: \(img)")
+        self.stickerImageView.image = img
+        stickerImageView.setNeedsDisplay()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -274,8 +296,8 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     //User pressed sticker button
     @objc func addStickerPressed(_:UIButton) {
-        
         textView.resignFirstResponder()
+        
         self.present(stickerFloatingPanel, animated: true, completion: nil)
     }
 
@@ -395,4 +417,14 @@ extension NewPostViewController: FloatingPanelControllerDelegate {
     
     
     
+}
+
+class MyFloatingPanelLayout: FloatingPanelLayout {
+    let position: FloatingPanelPosition = .bottom
+    let initialState: FloatingPanelState = .half
+    var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
+        return [
+            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
+        ]
+    }
 }

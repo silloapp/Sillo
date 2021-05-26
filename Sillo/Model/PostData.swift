@@ -118,6 +118,7 @@ class PostHandler {
         let timestamp = data["timestamp"] as! Timestamp
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
+        
         self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
@@ -149,8 +150,9 @@ class PostHandler {
                     let posterImage = document.get("poster_image") as! String
                     let timestamp = document.get("timestamp") as! Timestamp
                     let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
+                    let sticker = document.get("sticker") as! UIImage
                     
-                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date, stickerImg: sticker)
                 }
             }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
@@ -158,8 +160,8 @@ class PostHandler {
     }
     
     //MARK: build post struct
-    func buildPostStruct(postID: String, attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String, date: Date) -> Post {
-        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImage: UIImage(named:posterImageName), date: date)
+    func buildPostStruct(postID: String, attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String, date: Date, stickerImg: UIImage) -> Post {
+        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImage: UIImage(named:posterImageName), date: date, sticker: stickerImg)
     }
     
     //MARK: sort by time with recent on top, returns sorted list

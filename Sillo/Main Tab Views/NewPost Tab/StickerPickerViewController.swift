@@ -10,9 +10,9 @@ import UIKit
 class StickerPickerViewController: UIViewController {
     
     var stickerCollectionView: UICollectionView?
-
     let cellID = "stickerCell"
     var stickers = [#imageLiteral(resourceName: "wait_success"), #imageLiteral(resourceName: "team-7"), #imageLiteral(resourceName: "coffee with outline"), #imageLiteral(resourceName: "team-6"), #imageLiteral(resourceName: "no-associated-spaces-noText"), #imageLiteral(resourceName: "placeholder profile"), #imageLiteral(resourceName: "Fashion"), #imageLiteral(resourceName: "onboarding3")]
+    weak var delegate: NewPostViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,5 +57,13 @@ extension StickerPickerViewController: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 8
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let stickerSelected = stickers[indexPath.row]
+        print("clicked something")
+        delegate.addSticker(img: stickerSelected)
+        
+    }
+    
     
 }

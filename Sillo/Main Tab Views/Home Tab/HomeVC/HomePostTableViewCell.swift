@@ -33,8 +33,20 @@ class HomePostTableViewCell: UITableViewCell {
             if msg.posterImage != nil {
                 profilePic.image = msg.posterImage
             }
+            if msg.sticker != nil {
+                stickerImageView.image = msg.posterImage
+            }
         }
     }
+    
+    public let stickerImageView: UIImageView = {
+        let imgView = UIImageView()
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.frame = CGRect(x: 0, y: 0, width: 112, height: 112)
+        imgView.image = #imageLiteral(resourceName: "donut")
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
     
     let profilePic: UIImageView = {
         let imageView = UIImageView()
@@ -105,6 +117,16 @@ class HomePostTableViewCell: UITableViewCell {
         message.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 250/375).isActive = true
         message.topAnchor.constraint(equalTo: self.userName.bottomAnchor, constant: 5).isActive = true
         message.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
+        
+        //adds the sticker to the cell only if the image exists
+        if stickerImageView.image != nil {
+            self.contentView.addSubview(stickerImageView)
+            stickerImageView.topAnchor.constraint(equalTo: self.message.bottomAnchor, constant: 15).isActive = true
+            stickerImageView.leadingAnchor.constraint(equalTo: self.message.leadingAnchor).isActive = true
+            stickerImageView.heightAnchor.constraint(equalToConstant: 112).isActive = true
+            stickerImageView.widthAnchor.constraint(equalToConstant: 112).isActive = true
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
