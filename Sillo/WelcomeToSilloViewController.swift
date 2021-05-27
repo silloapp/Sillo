@@ -207,7 +207,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         bottomSectitleLabel.text = "Don't see what you're looking for? Make sure you've been invited by your team leader."
         bottomSectitleLabel.backgroundColor = .clear
         bottomSectitleLabel.textColor = Color.burple
-        bottomSectitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
+        bottomSectitleLabel.font = UIFont(name: "Apercu-Bold", size: 16)
         bottomSectitleLabel.textAlignment = .left
         bottomSectitleLabel.numberOfLines = 0
         bottomSectitleLabel.lineBreakMode = .byWordWrapping
@@ -225,7 +225,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         let BottomButton = UIButton()
         self.scrollView.addSubview(BottomButton)
         BottomButton.backgroundColor = Color.buttonClickable
-        BottomButton.setTitle("Create New Space", for: .normal)
+        BottomButton.setTitle("Create Your Own Space", for: .normal)
         BottomButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
         BottomButton.setTitleColor(.white, for: .normal)
         BottomButton.clipsToBounds = true
@@ -307,37 +307,9 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     @objc func BottomButtonMethod() {
-        DispatchQueue.main.async {
-            let alert = AlertView(headingText: "Space Creation Temporarily Disabled", messageText: "Give us a shout if you'd like to place your organization on the waitlist.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
-                self.dismiss(animated: true, completion: nil)
-            }, action2Label: "Contact", action2Color: Color.matte, action2Completion: {self.dismiss(animated: false, completion: nil);self.sendEmail()
-            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
-            alert.modalPresentationStyle = .overCurrentContext
-            alert.modalTransitionStyle = .crossDissolve
-            self.present(alert, animated: true, completion: nil)
-        }
-        /*
         let nextVC = SetupOrganizationViewController()
         nextVC.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(nextVC, animated: true)
-         */
-    }
-    
-    func sendEmail() {
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients(["team@sillo.co"])
-            mail.setMessageBody("<p>Hello friend, I'd like to place my organization on the Sillo waitlist.</p>", isHTML: true)
-            present(mail, animated: true)
-        } else {
-            // show failure alert
-            DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Oops!", message: "Thanks for taking the time to write to us. It looks like your device does not allow email sending. We'd still appreciate your thoughts at feedback@sillo.co", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
-                self.present(alert, animated: true)
-            }
-        }
     }
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
