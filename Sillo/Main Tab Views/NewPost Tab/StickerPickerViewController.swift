@@ -56,12 +56,12 @@ class StickerPickerViewController: UIViewController {
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: removeStickerBtn.topAnchor, constant: 8).isActive = true
+        collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 4/7).isActive = true
         
-        removeStickerBtn.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
         removeStickerBtn.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         removeStickerBtn.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        removeStickerBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        removeStickerBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        removeStickerBtn.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 25).isActive = true
     }
     
     @objc func removeStickerPressed() {
