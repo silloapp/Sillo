@@ -22,29 +22,42 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return view
     }()
     
+    let isAdmin:Bool = organizationData.adminStatusMap[organizationData.currOrganization!] ?? false
     
-    private let menuItems = [
+    private var menuItems = [
         MenuItem(name: "My Profile", nextVC: ProfileSetupViewController(), withArrow: false, fontSize: 22), //TODO: replace with actual VC
         //MenuItem(name: "My Connections", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "People", nextVC: PeopleVC(), withArrow: false, fontSize: 22),
         //MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         //MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
-        //MenuItem(name: "Reports", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Reports", nextVC: ReportsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
-    private let itemProperties = [
+    private var itemProperties = [
         ItemProperty(title: "My Profile", backgroundImage: UIImage(named:"team profile")!),
        // ItemProperty(title: "My Connections", backgroundImage: UIImage(named:"team-2")!),
         ItemProperty(title: "People", backgroundImage: UIImage(named:"team people")!),
        // ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-3")!),
        // ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team-4")!),
-       // ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team-6")!),
+        ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team people")!),
         ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"team sign out")!),
-        
     ]
     
     let menuItemTableView = UITableView() // view
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //remove reports option if user is not admin
+        if isAdmin != true {
+            if let removeIndex = menuItems.firstIndex(where:{ $0.name == "Reports"}) {
+                menuItems.remove(at: removeIndex)
+            }
+            if let removeIndex = itemProperties.firstIndex(where:{ $0.title == "Reports"}) {
+                itemProperties.remove(at: removeIndex)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true

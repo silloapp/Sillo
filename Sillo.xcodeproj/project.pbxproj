@@ -34,6 +34,7 @@
 		AA57BA7B25E87078001C378B /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57BA7A25E87078001C378B /* ProfileSetupViewController.swift */; };
 		AA5A77A725A6B51000129484 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */; };
 		AA5A77AC25A6B6BB00129484 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */; };
+		AA7D8E97265B3BF60030C9D6 /* ReportsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7D8E96265B3BF60030C9D6 /* ReportsVC.swift */; };
 		AA7E0F5B25E3C546004C8C94 /* ProfileSetInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */; };
 		AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89B6A125FB618C00178D94 /* LoadingViewController.swift */; };
 		AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */; };
@@ -148,6 +149,7 @@
 		AA57BA7A25E87078001C378B /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		AA5A77A625A6B51000129484 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA5A77AB25A6B6BB00129484 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AA7D8E96265B3BF60030C9D6 /* ReportsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsVC.swift; sourceTree = "<group>"; };
 		AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetInterestsViewController.swift; sourceTree = "<group>"; };
 		AA89B6A125FB618C00178D94 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		AA8B775125FAE5400032336F /* AddPeopleToSpaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPeopleToSpaceViewController.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 				A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */,
 				FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */,
 				FD7C4FA425FE040A00231F06 /* MyConnectionsVC.swift */,
+				AA7D8E96265B3BF60030C9D6 /* ReportsVC.swift */,
 				FD85041E2606982C0056DC13 /* PeopleVC.swift */,
 				AA02F6E2260DE4F100E24E72 /* ManageUserViewController.swift */,
 			);
@@ -868,6 +871,7 @@
 				FD7C4FA525FE040A00231F06 /* MyConnectionsVC.swift in Sources */,
 				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
 				FD7C4F9925FDFC0000231F06 /* ArrayChoiceTableViewController.swift in Sources */,
+				AA7D8E97265B3BF60030C9D6 /* ReportsVC.swift in Sources */,
 				AA8B775D25FAE5BA0032336F /* Constants.swift in Sources */,
 				A0B84E6425DEE43500479E2E /* Contact.swift in Sources */,
 				AA89B6A225FB618C00178D94 /* LoadingViewController.swift in Sources */,

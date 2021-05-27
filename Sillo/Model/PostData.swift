@@ -106,6 +106,17 @@ class PostHandler {
         }
     }
     
+    //MARK: delete post
+    func deletePost(postID: String) {
+        db.collection("organization_posts").document(organizationData.currOrganization!).collection("posts").document(postID).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
     //MARK: documentlistener reports new post
     //data looks like: ["poster": cLfvv9UtacPh9isnO9dUAf67oqj2, "timestamp": <FIRTimestamp: seconds=1616036798 nanoseconds=717643022>, "attachment": , "message": Yesnoyes, "poster_image": avatar-3, "poster_alias": Cabbage]
     func handleNewPost(id: String, data: [String:Any]) {
