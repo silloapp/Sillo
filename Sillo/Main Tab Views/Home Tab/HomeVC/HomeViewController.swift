@@ -217,7 +217,7 @@ class HomeViewController: UIViewController {
         self.view.addSubview(postsTable)
         view.sendSubviewToBack(postsTable)
         postsTable.rowHeight = UITableView.automaticDimension
-        postsTable.estimatedRowHeight = 100
+        postsTable.estimatedRowHeight = 200
         postsTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
         postsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         postsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true

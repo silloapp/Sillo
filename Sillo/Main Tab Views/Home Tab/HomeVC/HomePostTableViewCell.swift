@@ -9,9 +9,11 @@ import UIKit
 
 class HomePostTableViewCell: UITableViewCell {
     
+    
     //set data to display within post cell
     var item:Post? {
         didSet {
+            print("Line 15")
             guard let msg = item else {return}
             if let name = msg.posterAlias {
                 let dateFormatter = DateFormatter()
@@ -33,17 +35,41 @@ class HomePostTableViewCell: UITableViewCell {
             if msg.posterImage != nil {
                 profilePic.image = msg.posterImage
             }
-            if msg.sticker != nil {
-                stickerImageView.image = msg.posterImage
+            
+            if msg.attachment == "" {
+                self.stickerAdded = false
+            } else {
+                stickerImageView.image = UIImage(named: msg.attachment!)
+                self.stickerAdded = true
             }
         }
     }
+    
+    func stickerBoolUpdate() {
+
+        guard let attachment = item?.attachment else {
+            self.stickerAdded = false
+            return
+        }
+        
+        if attachment == "" {
+            self.stickerAdded = false
+            print("sticker added is false")
+        } else {
+            stickerImageView.image = UIImage(named: attachment)
+            self.stickerAdded = true
+            print("sticker added is true")
+        }
+    }
+    
+    var stickerAdded: Bool = false
+    
     
     public let stickerImageView: UIImageView = {
         let imgView = UIImageView()
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.frame = CGRect(x: 0, y: 0, width: 112, height: 112)
-        imgView.image = #imageLiteral(resourceName: "donut")
+//        imgView.image = #imageLiteral(resourceName: "donut")
         imgView.contentMode = .scaleAspectFit
         return imgView
     }()
@@ -81,10 +107,12 @@ class HomePostTableViewCell: UITableViewCell {
         message.sizeToFit()
         message.translatesAutoresizingMaskIntoConstraints = false
         return message
-    } ()
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        print("Doing cell UI updates now")
         
         //add profile pic
         self.contentView.addSubview(profilePic)
@@ -116,15 +144,21 @@ class HomePostTableViewCell: UITableViewCell {
         message.leadingAnchor.constraint(equalTo: self.profilePic.trailingAnchor, constant: 16).isActive = true
         message.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 250/375).isActive = true
         message.topAnchor.constraint(equalTo: self.userName.bottomAnchor, constant: 5).isActive = true
-        message.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
         
+        
+//        print("IN MAIN FUNC \(stickerAdded)")
+        stickerBoolUpdate()
         //adds the sticker to the cell only if the image exists
-        if stickerImageView.image != nil {
+        if true {
+            print("attachment isn't nil")
             self.contentView.addSubview(stickerImageView)
             stickerImageView.topAnchor.constraint(equalTo: self.message.bottomAnchor, constant: 15).isActive = true
+            stickerImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
             stickerImageView.leadingAnchor.constraint(equalTo: self.message.leadingAnchor).isActive = true
             stickerImageView.heightAnchor.constraint(equalToConstant: 112).isActive = true
             stickerImageView.widthAnchor.constraint(equalToConstant: 112).isActive = true
+        } else {
+            message.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
         }
         
     }

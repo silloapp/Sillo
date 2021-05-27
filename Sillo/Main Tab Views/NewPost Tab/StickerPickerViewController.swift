@@ -10,14 +10,30 @@ import UIKit
 class StickerPickerViewController: UIViewController {
     
     var stickerCollectionView: UICollectionView?
+    //MARK: next button
+    let removeStickerBtn: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 8
+        button.setTitle("Remove Sticker", for: .normal)
+        button.titleLabel?.font = Font.bold(20)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Color.buttonClickableUnselected
+        button.isUserInteractionEnabled = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    
     let cellID = "stickerCell"
-    var stickers = [#imageLiteral(resourceName: "wait_success"), #imageLiteral(resourceName: "team-7"), #imageLiteral(resourceName: "coffee with outline"), #imageLiteral(resourceName: "team-6"), #imageLiteral(resourceName: "no-associated-spaces-noText"), #imageLiteral(resourceName: "placeholder profile"), #imageLiteral(resourceName: "Fashion"), #imageLiteral(resourceName: "onboarding3")]
+    public var stickers = ["Sticker-1", "Sticker-2", "Sticker-3", "Sticker-4", "Sticker-5"]
     weak var delegate: NewPostViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupCollectionView()
+        removeStickerBtn.addTarget(self, action: #selector(removeStickerPressed), for: .touchUpInside)
+
     }
     
     func setupCollectionView(){
@@ -34,12 +50,24 @@ class StickerPickerViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
         stickerCollectionView = collectionView
-        view.addSubview(collectionView)
         
+        view.addSubview(collectionView)
+        view.addSubview(removeStickerBtn)
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: removeStickerBtn.topAnchor, constant: 8).isActive = true
+        
+        removeStickerBtn.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
+        removeStickerBtn.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        removeStickerBtn.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        removeStickerBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+    }
+    
+    @objc func removeStickerPressed() {
+        delegate.removeSticker()
+        removeStickerBtn.isUserInteractionEnabled = false
+        removeStickerBtn.backgroundColor = Color.buttonClickableUnselected
     }
     
 }
@@ -48,21 +76,24 @@ extension StickerPickerViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: StickerCollectionViewCell.id, for: indexPath) as! StickerCollectionViewCell
-        myCell.stickerImage.image = stickers[indexPath.row]
+        print("IMAGE \(stickers[indexPath.row])" )
+        print("COUNT \(stickers.count)")
+        myCell.stickerImage.image = UIImage(named: stickers[indexPath.row])
         
         return myCell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return stickers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let stickerSelected = stickers[indexPath.row]
         print("clicked something")
-        delegate.addSticker(img: stickerSelected)
-        
+        delegate.addSticker(img: UIImage(named: stickerSelected)!, name: stickerSelected)
+        removeStickerBtn.isUserInteractionEnabled = true
+        removeStickerBtn.backgroundColor = Color.buttonClickable
     }
     
     

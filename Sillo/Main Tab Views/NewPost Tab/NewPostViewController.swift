@@ -107,6 +107,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         return imgView
     }()
     
+    var stickerName: String!
     var imageView = GPHMediaView()
     var media: GPHMedia?
 
@@ -119,6 +120,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         
         stickerFloatingPanel.delegate = self
         stickerFloatingPanel.layout = MyFloatingPanelLayout()
+        stickerFloatingPanel.behavior = MyFloatingPanelBehavior()
         stickerFloatingPanel.isRemovalInteractionEnabled = true
         
         let apperance = SurfaceAppearance()
@@ -193,10 +195,15 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         
     }
     
-    func addSticker(img: UIImage) {
+    
+    func addSticker(img: UIImage, name: String) {
         print("img passed in: \(img)")
         self.stickerImageView.image = img
-        stickerImageView.setNeedsDisplay()
+        self.stickerName = name
+    }
+    
+    func removeSticker() {
+        self.stickerImageView.image = nil
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -223,7 +230,13 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     //User pressed post button
-    @objc func createPost(_:UIButton) {
+    @objc func createPost(_: UIButton) {
+        
+        stickerFloatingPanel.willMove(toParent: nil)
+        stickerFloatingPanel.hide(animated: true) {
+            self.stickerFloatingPanel.dismiss(animated: true, completion: nil)
+        }
+        
         let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
         
         if (requestThrottled) {
@@ -233,11 +246,12 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         if (postText != "") {
             textView.resignFirstResponder()
             self.latestButtonPressTimestamp = Date()
-            let attachment = media?.id ?? ""
+//            let attachment = media?.id ?? ""
+            let attachment = stickerName
             let poster = Constants.FIREBASE_USERID!
             let poster_alias = generatePosterAlias()
             
-            feed.addPost(attachment: attachment, postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
+            feed.addPost(attachment: attachment ?? "", postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
             self.dismiss(animated: true, completion: nil)
             //log new post
             analytics.log_create_post()
@@ -297,7 +311,6 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     //User pressed sticker button
     @objc func addStickerPressed(_:UIButton) {
         textView.resignFirstResponder()
-        
         self.present(stickerFloatingPanel, animated: true, completion: nil)
     }
 
@@ -426,5 +439,11 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
         return [
             .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
         ]
+    }
+}
+
+class MyFloatingPanelBehavior: FloatingPanelBehavior {
+    func allowsRubberBanding(for edge: UIRectEdge) -> Bool {
+        return false
     }
 }

@@ -34,5 +34,4 @@ struct Post {
     let posterAlias: String?
     let posterImage: UIImage?
     let date: Date?
-    let sticker: UIImage?
 }
