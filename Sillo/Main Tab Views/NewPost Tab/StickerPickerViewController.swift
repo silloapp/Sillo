@@ -76,20 +76,21 @@ extension StickerPickerViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: StickerCollectionViewCell.id, for: indexPath) as! StickerCollectionViewCell
-        print("IMAGE \(stickers[indexPath.row])" )
-        print("COUNT \(stickers.count)")
-        myCell.stickerImage.image = UIImage(named: stickers[indexPath.row])
-        
+        let stickerName = quests.ownedStickers[indexPath.row]
+        let StickerAssetName = quests.stickerNameToImageMapping[stickerName] ?? "ERROR"
+        myCell.stickerImage.image = UIImage(named: StickerAssetName)
         return myCell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return stickers.count
+        return quests.ownedStickers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let stickerSelected = stickers[indexPath.row]
+        let stickerName = quests.ownedStickers[indexPath.row]
+        let stickerSelected = quests.stickerNameToImageMapping[stickerName] ?? "ERROR"
+        
         print("clicked something")
         delegate.addSticker(img: UIImage(named: stickerSelected)!, name: stickerSelected)
         removeStickerBtn.isUserInteractionEnabled = true
