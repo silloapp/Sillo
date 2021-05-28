@@ -109,7 +109,6 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         textView.textColor = UIColor.lightGray
         textView.becomeFirstResponder()
         textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        addHomeView()
         Giphy.configure(apiKey: "Z5AW2zezCf4gtUQEOh379fYxxqfLzPYX")
         
         stickerFloatingPanel.delegate = self
@@ -211,6 +210,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         stickerFloatingPanel.hide(animated: true) {
             self.stickerFloatingPanel.dismiss(animated: true, completion: nil)
         }
+    }
 
     
     
