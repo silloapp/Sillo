@@ -12,6 +12,7 @@ import Firebase
 class HomeViewController: UIViewController {
     
     let cellID = "cellID"
+    let stickerCellID = "stickerCellID"
     let postsTable : UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -228,6 +229,7 @@ class HomeViewController: UIViewController {
         postsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         postsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         postsTable.register(HomePostTableViewCell.self, forCellReuseIdentifier: cellID)
+        postsTable.register(HomePostTableViewCellSticker.self, forCellReuseIdentifier: stickerCellID)
     }
     
     //MARK: handle document changes
@@ -292,13 +294,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             //we're almost at the end, pull more posts
             feed.getNextBatch()
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! HomePostTableViewCell
-        cell.item = feed.sortedPosts[indexPath.row]
-        cell.separatorInset = UIEdgeInsets.zero
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(optionsTapped(tapGestureRecognizer:)))
-        cell.optionsButton.addGestureRecognizer(tapGestureRecognizer)
-        return cell
+        let post = feed.sortedPosts[indexPath.row]
+        if post.attachment == "" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! HomePostTableViewCell
+            cell.item = post
+            cell.separatorInset = UIEdgeInsets.zero
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(optionsTapped(tapGestureRecognizer:)))
+            cell.optionsButton.addGestureRecognizer(tapGestureRecognizer)
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: stickerCellID, for: indexPath) as! HomePostTableViewCellSticker
+            cell.item = post
+            cell.separatorInset = UIEdgeInsets.zero
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(optionsTapped(tapGestureRecognizer:)))
+            cell.optionsButton.addGestureRecognizer(tapGestureRecognizer)
+            return cell
+        }
     }
     @objc func optionsTapped(tapGestureRecognizer:UITapGestureRecognizer) {
         let sender = tapGestureRecognizer.view as! ReportButton

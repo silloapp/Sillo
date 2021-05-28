@@ -43,6 +43,7 @@
 		AA8B775D25FAE5BA0032336F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775C25FAE5BA0032336F /* Constants.swift */; };
 		AA8B776425FAE5EE0032336F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B776225FAE5EE0032336F /* UserData.swift */; };
 		AA8B776525FAE5EE0032336F /* OrganizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B776325FAE5EE0032336F /* OrganizationData.swift */; };
+		AA92070B2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA92070A2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift */; };
 		AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C125B13DC90070E938 /* SignInViewController.swift */; };
 		AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C625B154940070E938 /* SetNameViewController.swift */; };
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
@@ -95,9 +96,9 @@
 		FDAEBF652608E75D0084FF47 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAEBF642608E75D0084FF47 /* AlertView.swift */; };
 		FDAEBF6A2608E7AF0084FF47 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAEBF692608E7AF0084FF47 /* ActionButton.swift */; };
 		FDB3400425AC09E700097FE1 /* NoInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */; };
-		FDB8188D2626D55C0089E9A2 /* StickerPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */; };
 		FDB818572626C5A70089E9A2 /* WaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */; };
 		FDB818582626C5A70089E9A2 /* AnimationWaterBubbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */; };
+		FDB8188D2626D55C0089E9A2 /* StickerPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */; };
 		FDEBE945261EF49F0084AB12 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -160,6 +161,7 @@
 		AA8B775C25FAE5BA0032336F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AA8B776225FAE5EE0032336F /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		AA8B776325FAE5EE0032336F /* OrganizationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationData.swift; sourceTree = "<group>"; };
+		AA92070A2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomePostTableViewCell-Sticker.swift"; sourceTree = "<group>"; };
 		AAB807C125B13DC90070E938 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		AAB807C625B154940070E938 /* SetNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNameViewController.swift; sourceTree = "<group>"; };
 		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
@@ -221,10 +223,10 @@
 		FDAEBF642608E75D0084FF47 /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		FDAEBF692608E7AF0084FF47 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInvitesViewController.swift; sourceTree = "<group>"; };
-		FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerViewController.swift; sourceTree = "<group>"; };
 		FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveAnimationView.swift; sourceTree = "<group>"; };
 		FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationWaterBubbleVC.swift; sourceTree = "<group>"; };
 		FDB818562626C5A70089E9A2 /* WaveAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveAnimationView.h; sourceTree = "<group>"; };
+		FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerViewController.swift; sourceTree = "<group>"; };
 		FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -402,6 +404,7 @@
 			children = (
 				FD94908125C3EB26009F4F29 /* HomeViewController.swift */,
 				FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */,
+				AA92070A2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift */,
 			);
 			path = HomeVC;
 			sourceTree = "<group>";
@@ -930,6 +933,7 @@
 				AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
+				AA92070B2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 				FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */,
 				AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */,

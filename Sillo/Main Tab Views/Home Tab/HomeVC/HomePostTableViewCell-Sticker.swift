@@ -1,17 +1,19 @@
 //
-//  HomePostTableViewCell.swift
+//  HomePostTableViewCell-Sticker.swift
 //  Sillo
 //
-//  Created by Angelica Pan on 2/22/21.
+//  Created by William Loo on 5/27/21.
 //
 
 import UIKit
 
-class HomePostTableViewCell: UITableViewCell {
+class HomePostTableViewCellSticker: UITableViewCell {
+    
     
     //set data to display within post cell
     var item:Post? {
         didSet {
+            print("Line 15")
             guard let msg = item else {return}
             if let name = msg.posterAlias {
                 let timeFormatter = DateFormatter()
@@ -59,9 +61,20 @@ class HomePostTableViewCell: UITableViewCell {
                 profilePic.image = UIImage(named: imgName)
             }
             
+            stickerImageView.image = UIImage(named: msg.attachment!)
             self.optionsButton.post = self.item
         }
     }
+    
+    
+    public let stickerImageView: UIImageView = {
+        let imgView = UIImageView()
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.frame = CGRect(x: 0, y: 0, width: 112, height: 112)
+//        imgView.image = #imageLiteral(resourceName: "donut")
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
     
     let profilePic: UIImageView = {
         let imageView = UIImageView()
@@ -96,10 +109,12 @@ class HomePostTableViewCell: UITableViewCell {
         message.sizeToFit()
         message.translatesAutoresizingMaskIntoConstraints = false
         return message
-    } ()
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        print("Doing cell UI updates now")
         
         //add profile pic
         self.contentView.addSubview(profilePic)
@@ -131,7 +146,14 @@ class HomePostTableViewCell: UITableViewCell {
         message.leadingAnchor.constraint(equalTo: self.profilePic.trailingAnchor, constant: 16).isActive = true
         message.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 250/375).isActive = true
         message.topAnchor.constraint(equalTo: self.userName.bottomAnchor, constant: 5).isActive = true
-        message.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10).isActive = true
+        
+        //adds sticker to cell
+        self.contentView.addSubview(stickerImageView)
+        stickerImageView.topAnchor.constraint(equalTo: self.message.bottomAnchor, constant: 15).isActive = true
+        stickerImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        stickerImageView.leadingAnchor.constraint(equalTo: self.message.leadingAnchor).isActive = true
+        stickerImageView.heightAnchor.constraint(equalToConstant: 112).isActive = true
+        stickerImageView.widthAnchor.constraint(equalToConstant: 112).isActive = true        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -142,32 +164,4 @@ class HomePostTableViewCell: UITableViewCell {
     {
         print("DEPRECATED")
     }
-}
-
-class ReportButton: UIImageView {
-    var post: Post?
-}
-
-extension Date {
-    
-    func isEqual(to date: Date, toGranularity component: Calendar.Component, in calendar: Calendar = .current) -> Bool {
-        calendar.isDate(self, equalTo: date, toGranularity: component)
-    }
-    
-    func isInSameYear(as date: Date) -> Bool { isEqual(to: date, toGranularity: .year) }
-    func isInSameMonth(as date: Date) -> Bool { isEqual(to: date, toGranularity: .month) }
-    func isInSameWeek(as date: Date) -> Bool { isEqual(to: date, toGranularity: .weekOfYear) }
-    
-    func isInSameDay(as date: Date) -> Bool { Calendar.current.isDate(self, inSameDayAs: date) }
-    
-    var isInThisYear:  Bool { isInSameYear(as: Date()) }
-    var isInThisMonth: Bool { isInSameMonth(as: Date()) }
-    var isInThisWeek:  Bool { isInSameWeek(as: Date()) }
-    
-    var isInYesterday: Bool { Calendar.current.isDateInYesterday(self) }
-    var isInToday:     Bool { Calendar.current.isDateInToday(self) }
-    var isInTomorrow:  Bool { Calendar.current.isDateInTomorrow(self) }
-    
-    var isInTheFuture: Bool { self > Date() }
-    var isInThePast:   Bool { self < Date() }
 }

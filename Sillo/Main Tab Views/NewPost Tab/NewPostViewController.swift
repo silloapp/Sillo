@@ -255,8 +255,8 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     @objc func createPost(_: UIButton) {
         
         stickerFloatingPanel.willMove(toParent: nil)
-        stickerFloatingPanel.hide(animated: true) {
-            self.stickerFloatingPanel.dismiss(animated: true, completion: nil)
+        stickerFloatingPanel.hide(animated: false) {
+            self.stickerFloatingPanel.dismiss(animated: false, completion: nil)
         }
         
         let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
@@ -284,6 +284,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             
             feed.addPost(attachment: attachment ?? "", postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
             self.dismiss(animated: true, completion: nil)
+            print("DISMISSED")
             //log new post
             analytics.log_create_post()
             
