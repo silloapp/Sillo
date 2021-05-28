@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
+        
         //configure first screen
 //        let vc = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
 
