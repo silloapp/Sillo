@@ -43,6 +43,7 @@
 		AA8B775D25FAE5BA0032336F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B775C25FAE5BA0032336F /* Constants.swift */; };
 		AA8B776425FAE5EE0032336F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B776225FAE5EE0032336F /* UserData.swift */; };
 		AA8B776525FAE5EE0032336F /* OrganizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B776325FAE5EE0032336F /* OrganizationData.swift */; };
+		AA92070B2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA92070A2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift */; };
 		AAB807C225B13DC90070E938 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C125B13DC90070E938 /* SignInViewController.swift */; };
 		AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB807C625B154940070E938 /* SetNameViewController.swift */; };
 		AABEC69525A83B7900D89C62 /* VerificationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */; };
@@ -52,6 +53,7 @@
 		AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADFD2282605F87D00D26DCF /* WelcomeToSilloViewController.swift */; };
 		AAE02E0826019E2C00BCC72A /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE02E0726019E2C00BCC72A /* Analytics.swift */; };
 		B1AC2219DD77C8E506068AF2 /* Pods_SilloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */; };
+		FD1645AF2626F21E003F31B9 /* StickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1645AE2626F21E003F31B9 /* StickerCollectionViewCell.swift */; };
 		FD1D22AC25A19F5700F1636C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1D22AB25A19F5700F1636C /* Fonts.swift */; };
 		FD1D22B925A19F9E00F1636C /* Apercu Medium Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */; };
 		FD1D22BA25A19F9E00F1636C /* Apercu Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */; };
@@ -96,6 +98,7 @@
 		FDB3400425AC09E700097FE1 /* NoInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB3400325AC09E700097FE1 /* NoInvitesViewController.swift */; };
 		FDB818572626C5A70089E9A2 /* WaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */; };
 		FDB818582626C5A70089E9A2 /* AnimationWaterBubbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */; };
+		FDB8188D2626D55C0089E9A2 /* StickerPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */; };
 		FDEBE945261EF49F0084AB12 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -158,6 +161,7 @@
 		AA8B775C25FAE5BA0032336F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AA8B776225FAE5EE0032336F /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		AA8B776325FAE5EE0032336F /* OrganizationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationData.swift; sourceTree = "<group>"; };
+		AA92070A2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomePostTableViewCell-Sticker.swift"; sourceTree = "<group>"; };
 		AAB807C125B13DC90070E938 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		AAB807C625B154940070E938 /* SetNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNameViewController.swift; sourceTree = "<group>"; };
 		AABEC69225A83B7900D89C62 /* VerificationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationSuccessViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 		AAE02E0726019E2C00BCC72A /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C3E5B7BDD69653A1973E77B0 /* Pods-Sillo-SilloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo-SilloUITests.release.xcconfig"; path = "Target Support Files/Pods-Sillo-SilloUITests/Pods-Sillo-SilloUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F29CDC423F1F6A880C4EFA11 /* Pods-Sillo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sillo.release.xcconfig"; path = "Target Support Files/Pods-Sillo/Pods-Sillo.release.xcconfig"; sourceTree = "<group>"; };
+		FD1645AE2626F21E003F31B9 /* StickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCollectionViewCell.swift; sourceTree = "<group>"; };
 		FD1D22AB25A19F5700F1636C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FD1D22B025A19F9D00F1636C /* Apercu Medium Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium Italic.otf"; sourceTree = "<group>"; };
 		FD1D22B125A19F9D00F1636C /* Apercu Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Medium.otf"; sourceTree = "<group>"; };
@@ -180,6 +185,7 @@
 		FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
 		FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
 		FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		FD45DA702626DCD100B38CDE /* FloatingPanel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FloatingPanel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD7C4F8525FDFB6900231F06 /* AddNewSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewSpace.swift; sourceTree = "<group>"; };
 		FD7C4F9325FDFBFF00231F06 /* ArrayChoiceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayChoiceTableViewController.swift; sourceTree = "<group>"; };
 		FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
@@ -220,6 +226,7 @@
 		FDB818542626C5A70089E9A2 /* WaveAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveAnimationView.swift; sourceTree = "<group>"; };
 		FDB818552626C5A70089E9A2 /* AnimationWaterBubbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationWaterBubbleVC.swift; sourceTree = "<group>"; };
 		FDB818562626C5A70089E9A2 /* WaveAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveAnimationView.h; sourceTree = "<group>"; };
+		FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerViewController.swift; sourceTree = "<group>"; };
 		FDEBE944261EF49F0084AB12 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -267,6 +274,7 @@
 		3D63387CB939910033204FC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FD45DA702626DCD100B38CDE /* FloatingPanel.framework */,
 				7A6944E8B29A3B055FA61ABB /* Pods_Sillo.framework */,
 				61F5F4E6BF36F78CCB4A5763 /* Pods_Sillo_SilloUITests.framework */,
 				1885B1DACC0CA8C11C83EF4F /* Pods_SilloTests.framework */,
@@ -396,6 +404,7 @@
 			children = (
 				FD94908125C3EB26009F4F29 /* HomeViewController.swift */,
 				FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */,
+				AA92070A2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift */,
 			);
 			path = HomeVC;
 			sourceTree = "<group>";
@@ -414,6 +423,8 @@
 			isa = PBXGroup;
 			children = (
 				A01CA47D25C333400028FCBB /* NewPostViewController.swift */,
+				FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */,
+				FD1645AE2626F21E003F31B9 /* StickerCollectionViewCell.swift */,
 			);
 			path = "NewPost Tab";
 			sourceTree = "<group>";
@@ -857,6 +868,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8B776525FAE5EE0032336F /* OrganizationData.swift in Sources */,
+				FDB8188D2626D55C0089E9A2 /* StickerPickerViewController.swift in Sources */,
 				FD9D92C425A13B25003C7883 /* PageViewController.swift in Sources */,
 				FD9D92CA25A13B25003C7883 /* Sillo.xcdatamodeld in Sources */,
 				A0B84E6C25DFB34300479E2E /* SettingsViewController.swift in Sources */,
@@ -916,10 +928,12 @@
 				A002D19425D8D4FD00A33B07 /* TeamSettingsTableViewCell.swift in Sources */,
 				AAB807C725B154940070E938 /* SetNameViewController.swift in Sources */,
 				FD93B2D926057BF200CC44AA /* FacebookInputBar.swift in Sources */,
+				FD1645AF2626F21E003F31B9 /* StickerCollectionViewCell.swift in Sources */,
 				A08E82EE25E16AB500760BF1 /* AccountViewController.swift in Sources */,
 				AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
+				AA92070B2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,
 				FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */,
 				AA8B775525FAE5410032336F /* AddPeopleToSpaceViewController.swift in Sources */,

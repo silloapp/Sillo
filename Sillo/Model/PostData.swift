@@ -129,7 +129,9 @@ class PostHandler {
         let timestamp = data["timestamp"] as! Timestamp
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
+        
         self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
+
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
     }

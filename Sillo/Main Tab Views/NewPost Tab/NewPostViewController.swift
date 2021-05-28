@@ -8,11 +8,13 @@
 import Firebase
 import GiphyUISDK
 import UIKit
+import FloatingPanel
 
 
 class NewPostViewController: UIViewController, UITextViewDelegate {
     
     var posterImageName: String = "avatar-1"
+    let stickerFloatingPanel = FloatingPanelController()
     
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
@@ -86,6 +88,15 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         return view
     }()
     
+    //MARK: sticker image view
+    public let stickerImageView: UIImageView = {
+        let imgView = UIImageView()
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
+    
+    var stickerName: String!
     var imageView = GPHMediaView()
     var media: GPHMedia?
 
@@ -93,15 +104,29 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         textView.delegate = self
         // Do any additional setup after loading the view.
+        setupView()
         textView.text = PLACEHOLDER_TEXT
         textView.textColor = UIColor.lightGray
         textView.becomeFirstResponder()
         textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        addHomeView()
         Giphy.configure(apiKey: "Z5AW2zezCf4gtUQEOh379fYxxqfLzPYX")
+        
+        stickerFloatingPanel.delegate = self
+        stickerFloatingPanel.layout = MyFloatingPanelLayout()
+        stickerFloatingPanel.behavior = MyFloatingPanelBehavior()
+        stickerFloatingPanel.isRemovalInteractionEnabled = true
+        
+        let apperance = SurfaceAppearance()
+        apperance.cornerRadius = 25
+        stickerFloatingPanel.surfaceView.appearance = apperance
+        let contentVC = StickerPickerViewController()
+        contentVC.delegate = self
+        stickerFloatingPanel.set(contentViewController: contentVC)
+        stickerFloatingPanel.track(scrollView: contentVC.stickerCollectionView!)
+        
     }
     
-    func addHomeView() {
+    func setupView() {
         
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
@@ -140,13 +165,18 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         posterImageName = chatHandler.generateImageName()
         profilepic.image = UIImage(named:"\(posterImageName)")
         
-        //textiview
+        //textView
         view.addSubview(textView)
         textView.leadingAnchor.constraint(equalTo: profilepic.leadingAnchor, constant: 50).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         textView.topAnchor.constraint(equalTo: profilepic.topAnchor, constant: 0).isActive = true
         textView.becomeFirstResponder()
-      
+        
+        view.addSubview(stickerImageView)
+        stickerImageView.widthAnchor.constraint(equalToConstant: 112).isActive = true
+        stickerImageView.heightAnchor.constraint(equalToConstant: 112).isActive = true
+        stickerImageView.leadingAnchor.constraint(equalTo: textView.leadingAnchor).isActive = true
+        stickerImageView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 20).isActive = true
         
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
            toolBar.barStyle = UIBarStyle.default
@@ -160,13 +190,35 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     
+    func addSticker(img: UIImage, name: String) {
+        print("img passed in: \(img)")
+        self.stickerImageView.image = img
+        self.stickerName = name
+    }
+    
+    func removeSticker() {
+        self.stickerImageView.image = nil
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+            newPostButton.backgroundColor = Color.buttonClickable
+        }
+        stickerFloatingPanel.willMove(toParent: nil)
+        stickerFloatingPanel.hide(animated: true) {
+            self.stickerFloatingPanel.dismiss(animated: true, completion: nil)
+        }
+    }
+
     
     
     func textViewShouldBeginEditing(_ textView: UITextView) {
-    if textView.textColor == .lightGray {
-//    textView.text = ""
-    textView.textColor = .black
-    }
+      if textView.textColor == .lightGray {
+        //textView.text = ""
+        textView.textColor = .black
+      }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -200,13 +252,20 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     //User pressed post button
-    @objc func createPost(_:UIButton) {
+    @objc func createPost(_: UIButton) {
+        
+        stickerFloatingPanel.willMove(toParent: nil)
+        stickerFloatingPanel.hide(animated: false) {
+            self.stickerFloatingPanel.dismiss(animated: false, completion: nil)
+        }
+        
         let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
         
         if (requestThrottled) {
             return
         }
         let postText = textView.text.filter {$0 != " "}
+        
         if (postText.count > 300) {
             let vc = AlertView(headingText: "Character Limit Exceeded", messageText: "", action1Label: "Go back", action1Color: Color.burple, action1Completion: {
                 self.dismiss(animated: true, completion: nil)
@@ -216,15 +275,17 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             vc.modalPresentationStyle = .overCurrentContext
             self.present(vc, animated: true, completion: nil)
         }
-        else if (postText != PLACEHOLDER_TEXT.filter {$0 != " "}) {
+        else if (postText.count > 0 && postText != PLACEHOLDER_TEXT.filter {$0 != " "}) {
             textView.resignFirstResponder()
             self.latestButtonPressTimestamp = Date()
-            let attachment = media?.id ?? ""
+//            let attachment = media?.id ?? ""
+            let attachment = stickerName
             let poster = Constants.FIREBASE_USERID!
             let poster_alias = chatHandler.generateAlias()
             
-            feed.addPost(attachment: attachment, postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
+            feed.addPost(attachment: attachment ?? "", postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
             self.dismiss(animated: true, completion: nil)
+            print("DISMISSED")
             //log new post
             analytics.log_create_post()
             
@@ -273,7 +334,8 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     //User pressed sticker button
     @objc func addStickerPressed(_:UIButton) {
-        print("TODO: bring up sillo sticker half VC")
+        textView.resignFirstResponder()
+        self.present(stickerFloatingPanel, animated: true, completion: nil)
     }
 
 }
@@ -384,5 +446,28 @@ extension UITabBarController {
     /// `true` if the tab bar is currently hidden.
     var isTabBarHidden: Bool {
         return !tabBar.frame.intersects(view.frame)
+    }
+}
+
+
+extension NewPostViewController: FloatingPanelControllerDelegate {
+    
+    
+    
+}
+
+class MyFloatingPanelLayout: FloatingPanelLayout {
+    let position: FloatingPanelPosition = .bottom
+    let initialState: FloatingPanelState = .half
+    var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
+        return [
+            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
+        ]
+    }
+}
+
+class MyFloatingPanelBehavior: FloatingPanelBehavior {
+    func allowsRubberBanding(for edge: UIRectEdge) -> Bool {
+        return false
     }
 }
