@@ -28,6 +28,11 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         appearance.shadowImage = nil
         appearance.shadowColor = nil
         appearance.backgroundColor = Color.headerBackground
+        
+        appearance.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: Color.burple,
+                NSAttributedString.Key.font: UIFont(name: "Apercu-Bold", size: 20)!]
+        
         return appearance
     }()
     
