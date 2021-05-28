@@ -36,8 +36,11 @@ class Quests {
     ]
     
     //TODO: replace this with firebase reference
-    var stickerList : [String] = ["coffee", "blush", "donut", "confused", "snooze"]
+    let stickerList : [String] = ["coffee", "blush", "donut", "confused", "snooze"]
+    //this is the mapping from firebase sticker name to local asset names
+    let stickerNameToImageMapping: [String:String] = ["blush":"Sticker-1","coffee":"Sticker-2","donut":"Sticker-3","confused":"Sticker-4","sleep":"Sticker-5"]
     var nextSticker = "coffee"
+    var ownedStickers: [String] = []
     
     //MARK: reset quest progress
     func resetQuestPopup(){
@@ -78,7 +81,6 @@ class Quests {
             }
         }
         */
-        //TEMPORARILY SET QUESTS TO ONLY NEW POSTS
         let questRef = db.collection("quests").document(Constants.FIREBASE_USERID ?? "USER_ID_ERROR")
         questRef.setData([
             "subtask1": "newPost",
@@ -131,13 +133,36 @@ class Quests {
         }
     }
     
-    //MARK: update sticker list
+    //MARK: update sticker list with self.nextSticker
     func updateStickerList() {
         let docRef = db.collection("users").document(Constants.FIREBASE_USERID ?? "ERROR")
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 var ownedStickers : [String: Bool] = document.get("ownedStickers") as! [String: Bool]
                 ownedStickers[self.nextSticker] = true //update sticker list
+                self.ownedStickers = Array(ownedStickers.keys).sorted()
+                docRef.setData([
+                    "ownedStickers": ownedStickers
+                ], merge: true) { err in
+                    if let err = err {
+                        print("Error adding new sticker to user's collection: \(err)")
+                    } else {
+                        print("Successfully added new sticker to user's collection!")
+                    }
+                }
+            } else {
+                print("Was not able to find document.")
+            }
+        }
+    }
+    
+    //MARK: fetch sticker list and assign to self.ownedStickers
+    func fetchStickerList() {
+        let docRef = db.collection("users").document(Constants.FIREBASE_USERID ?? "ERROR")
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let ownedStickers : [String: Bool] = document.get("ownedStickers") as! [String: Bool]
+                self.ownedStickers = Array(ownedStickers.keys).sorted()
                 docRef.setData([
                     "ownedStickers": ownedStickers
                 ], merge: true) { err in
@@ -173,7 +198,7 @@ class Quests {
     }
     //MARK: coldstart
     func coldStart() {
-        updateStickerList()
+        fetchStickerList()
         fetchNextSticker()
         
         //MARK: attach listener
