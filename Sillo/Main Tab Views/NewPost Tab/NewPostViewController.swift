@@ -126,6 +126,26 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        checkNewUser()
+    }
+    
+    func checkNewUser() {
+        
+        if !UserDefaults.standard.bool(forKey: "alreadySeenPopup") {
+            let vc = AlertView(headingText: "🚨 New Feature Alert 🚨", messageText: "Click on the Sticker button when writing your post to add a sticker", action1Label: "Sounds good", action1Color: Color.burple, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "", action2Color: .gray, action2Completion: { return }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+            
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .overCurrentContext
+            self.present(vc, animated: true, completion: nil)
+            UserDefaults.standard.setValue(true, forKey: "alreadySeenPopup")
+        } else {
+            return
+        }
+    }
+    
     func setupView() {
         
         if #available(iOS 13.0, *) {
