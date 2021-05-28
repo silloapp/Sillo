@@ -11,6 +11,14 @@ import FirebaseInstanceID
 
 class NotificationRequestViewController: UIViewController {
  
+    let logo: UIImageView = {
+        let i = UIImageView()
+        i.image = #imageLiteral(resourceName: "sillo-logo")
+        i.contentMode = .scaleAspectFit
+        i.translatesAutoresizingMaskIntoConstraints = false
+        return i
+    }()
+    
     //MARK: init Stay Connected label
     let stayConnectedLabel: UILabel = {
         let label = UILabel()
@@ -28,7 +36,8 @@ class NotificationRequestViewController: UIViewController {
         label.font = Font.regular(20)
         label.text = "Now let's turn on notifications so we can let you know when members want to connect with you."
         label.textAlignment = .left
-        label.contentMode = .scaleToFill
+//        label.contentMode = .scaleToFill
+        label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,6 +56,23 @@ class NotificationRequestViewController: UIViewController {
         return button
     }()
     
+    let stack: UIStackView = {
+        let s = UIStackView()
+        s.axis = .vertical
+        s.spacing = 15
+        s.distribution = .fillProportionally
+        s.translatesAutoresizingMaskIntoConstraints = false
+        return s
+    }()
+    
+    let img: UIImageView = {
+        let i = UIImageView()
+        i.image = UIImage(named: "notifications")
+        i.contentMode = .scaleAspectFit
+        i.translatesAutoresizingMaskIntoConstraints = false
+        return i
+    }()
+    
     //MARK: init skip button
     let skipButton: UIButton = {
         let button = UIButton()
@@ -63,39 +89,39 @@ class NotificationRequestViewController: UIViewController {
         }
         self.view.backgroundColor = .white
         
-        //MARK: stay connected
-        view.addSubview(stayConnectedLabel)
-        stayConnectedLabel.widthAnchor.constraint(equalToConstant: 279).isActive = true
-        stayConnectedLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        stayConnectedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stayConnectedLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 224).isActive = true
+        view.addSubview(logo)
+        logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
+        logo.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 80/812).isActive = true
+        logo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 138/375).isActive = true
         
-        //MARK: body label
-        view.addSubview(bodyLabel)
-        bodyLabel.widthAnchor.constraint(equalToConstant: 279).isActive = true
-        bodyLabel.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        bodyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        bodyLabel.topAnchor.constraint(equalTo: stayConnectedLabel.bottomAnchor, constant: 0).isActive = true
+        view.addSubview(stack)
+        stack.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 285/375).isActive = true
+        stack.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 402/812).isActive = true
+        stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        stack.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 30).isActive = true
         
-        //MARK: enable button
+        stack.addArrangedSubview(stayConnectedLabel)
+        stack.addArrangedSubview(bodyLabel)
+        stack.addArrangedSubview(img)
+        logo.leadingAnchor.constraint(equalTo: stack.leadingAnchor).isActive = true
+
         view.addSubview(enableButton)
-        enableButton.widthAnchor.constraint(equalToConstant: 308).isActive = true
-        enableButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        enableButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 308/375).isActive = true
+        enableButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 55/812).isActive = true
         enableButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        enableButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 415).isActive = true
+        enableButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -130).isActive = true
         
         //MARK: skip button
         view.addSubview(skipButton)
-        skipButton.widthAnchor.constraint(equalToConstant: 228).isActive = true
-        skipButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        skipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 493).isActive = true
+        skipButton.widthAnchor.constraint(equalTo: enableButton.widthAnchor).isActive = true
+        skipButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 22/812).isActive = true
+        skipButton.centerXAnchor.constraint(equalTo: enableButton.centerXAnchor).isActive = true
+        skipButton.topAnchor.constraint(equalTo: enableButton.bottomAnchor, constant: 25).isActive = true
     }
     
     @objc func enableTapped(_:UIButton) {
         registerForPushNotifications()
         UserDefaults.standard.set(true, forKey: "finishedOnboarding")
-        showNextVC()
     }
     
     @objc func skipTapped(_:UIButton) {
@@ -120,8 +146,11 @@ class NotificationRequestViewController: UIViewController {
         UNUserNotificationCenter.current()
           .requestAuthorization(
             options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-            print("Permission granted: \(granted)")
+            DispatchQueue.main.async {
+                self?.showNextVC()
+            }
             guard granted else { return }
+            print("Permission granted: \(granted)")
             self?.getNotificationSettings()
           }
     }
@@ -141,6 +170,7 @@ class NotificationRequestViewController: UIViewController {
               print("Error fetching remote instange ID: \(error)")
               } else if let result = result {
               print("Remote instance ID token: \(result.token)")
+                analytics.log_notifications_enabled()
                localUser.uploadFCMToken(token: result.token)
                }
               }

@@ -41,22 +41,19 @@ class LocalUser {
                 }
                 //log creation of new firebase document
                 analytics.log_create_firebase_doc()
-                
-                let userChatsCol = db.collection("user_chats").document(Constants.FIREBASE_USERID!)
-                    .collection("chats")
-                
-                userChatsCol.addSnapshotListener {
-                    (querySnapshot, err) in
-                    guard let documents = querySnapshot?.documents else {
-                        print("Error fetching new chat documents. ")
-                        return
+                if organizationData.currOrganization != nil {
+                    let userChatsCol = db.collection("user_chats").document(Constants.FIREBASE_USERID!)
+                        .collection(organizationData.currOrganization!)
+            
+                    userChatsCol.addSnapshotListener {
+                        (querySnapshot, err) in
+                        guard let documents = querySnapshot?.documents else {
+                            print("Error fetching new chat documents. ")
+                            return
+                        }
                     }
-                    
-                    // TODO : get the chatId name, and call add new Chat
+                // TODO : get the chatId name, and call add new Chat
                 }
-                    
-                
-                    
             }
             cloudutil.uploadImages(image: UIImage(named:"avatar-4")!, ref: "profiles/\(newUser)\(Constants.image_extension)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NewUserCreated"), object: nil)
@@ -70,39 +67,12 @@ class LocalUser {
         db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["username":name])
     }
     
-    //MARK: get invitations from "invites" db
-    //MARK: DEPRECATED
-    func getInvites() {
-        if !UserDefaults.standard.bool(forKey: "loggedIn") {
-            return
-        }
-        
-        let myEmail = Constants.EMAIL ?? ""
-        self.invites = []
-        
-        db.collection("invites").document(myEmail).collection("user_invites").order(by: "timestamp", descending: true).limit(to: inviteBatchSize).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-                return
-            } else {
-                for document in querySnapshot!.documents {
-                    //print("\(document.documentID) => \(document.data())")
-                    let organizationID = document.documentID
-                    let organizationName = document.get("name") as! String
-                    self.invites.append(organizationID)
-                    organizationData.idToName[organizationID] = organizationName
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
-                }
-            }
-        }
-    }
-    
     //MARK: handle new invite
     func handleNewInvite(id: String, data: [String:Any]) {
         let orgID = id
         let orgName = data["name"] as! String
         self.invites.append(orgID)
-        organizationData.idToName[orgID] = orgName
+        organizationData.idToName["invite-"+orgID] = orgName
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "InvitationsReady"), object: nil)
     }
     
@@ -160,6 +130,7 @@ class LocalUser {
         //a delay is needed because the invites table briefly refreshes
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
+            organizationData.idToName["invite-"+organizationID] = nil //delete temporary dictionary name mapping for invite
             //delete invite on firebase
             db.collection("invites").document(myEmail).collection("user_invites").document(organizationID).delete() {err in
                 if err != nil {
@@ -192,12 +163,25 @@ class LocalUser {
     //MARK: upload notification token to user document so we can send them notifications mwahah
     func uploadFCMToken(token: String) {
         //log notifications enabled
-        analytics.log_notifications_enabled()
-        Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["FCMToken" : token]) { err in
-            if let err = err {
-                print("error adding user info with error: \(err.localizedDescription)")
-            } else {
-                print("successfully added user info")
+        if Constants.FIREBASE_USERID != nil {
+            Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["FCMToken" : token]) { err in
+                if let err = err {
+                    print("error adding user info with error: \(err.localizedDescription)")
+                } else {
+                    print("successfully added user info")
+                }
+            }
+        }
+    }
+    //MARK: set user's last active timestamp
+    func setLastActiveTimestamp() {
+        if Constants.FIREBASE_USERID != nil {
+        Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["lastActiveTimestamp" : Date()]) { err in
+                if let err = err {
+                    print("error adding user info with error: \(err.localizedDescription)")
+                } else {
+                    print("successfully added user info")
+                }
             }
         }
     }
@@ -222,7 +206,12 @@ class LocalUser {
         }
         
         self.setConstants()
-        // localUser.getInvites()
+        
+        //get profile image and shove into cache
+        let profilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"
+        if (imageCache.object(forKey: profilePictureRef as NSString) == nil) {
+            cloudutil.downloadImage(ref: profilePictureRef)
+        }
         
         db.collection("users").document(Constants.FIREBASE_USERID!).getDocument() { (query, err) in
             if let query = query {
@@ -259,6 +248,7 @@ class LocalUser {
         UserDefaults.standard.set(false, forKey: "loggedIn")
         organizationSignOut()
         clearUserConstants()
+        chatHandler.clearChatData()
     }
     
 

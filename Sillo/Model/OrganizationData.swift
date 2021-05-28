@@ -96,6 +96,7 @@ class OrganizationData {
         currOrganizationName = idToName[currOrganization]
         currOrganizationAdmins = [:]
         currOrganizationMembers = [:]
+        chatHandler.clearChatData()
     }
     
     // MARK: fast-set default organization when the app just started (DIFFERENCE IS PULLING FROM THE DATABASE, caveat is nsnotification needed)
@@ -316,7 +317,7 @@ class OrganizationData {
     }
     
     func makeEmailArray(input: String){
-        memberInvites = input.filter {$0 != " "}.components(separatedBy: ",").filter{isValidEmail($0)}
+        memberInvites = input.filter {$0 != " " && $0 != "\n"}.components(separatedBy: ",").filter{isValidEmail($0)}
     }
     
     //adds event to organization activity log

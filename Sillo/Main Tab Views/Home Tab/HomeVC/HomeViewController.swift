@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
         return table
     }()
     
-    let header : UIView = {
+    public let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Color.headerBackground
@@ -36,6 +36,10 @@ class HomeViewController: UIViewController {
     deinit {
        postListener?.remove()
      }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        postListener?.remove()
+    }
     
     @objc func tabBarOpacityChange(note: NSNotification) {
         self.tabBarController?.tabBar.alpha = 1
@@ -69,7 +73,8 @@ class HomeViewController: UIViewController {
             }
         }
         quests.coldStart()
-        //feed.coldStart() //coldstart got deprecated by the snapshot listener
+        chatHandler.coldStart()
+        localUser.setLastActiveTimestamp()
     }
     
     override func viewDidLoad() {
@@ -291,12 +296,108 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! HomePostTableViewCell
         cell.item = feed.sortedPosts[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(optionsTapped(tapGestureRecognizer:)))
+        cell.optionsButton.addGestureRecognizer(tapGestureRecognizer)
         return cell
+    }
+    @objc func optionsTapped(tapGestureRecognizer:UITapGestureRecognizer) {
+        let sender = tapGestureRecognizer.view as! ReportButton
+        let post = sender.post!
+        if post.posterUserID! == Constants.FIREBASE_USERID! {return} //cannot report oneself
+        
+        //haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        generator.impactOccurred()
+        
+        DispatchQueue.main.async {
+            let alert = AlertView(headingText: "Flag this post as inappropriate?", messageText: "Your space's admin will be notified.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Report", action2Color: Color.burple, action2Completion: {
+                self.dismiss(animated: true, completion: nil); self.reportPost(post: post)
+            }, withCancelBtn: false, image: UIImage(named:"reported post"), withOnlyOneAction: false)
+            alert.modalPresentationStyle = .overCurrentContext
+            alert.modalTransitionStyle = .crossDissolve
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+    }
+    //MARK: report post
+    func reportPost(post:Post) {
+        let postID = post.postID ?? "ERROR"
+        let posterID = post.posterUserID ?? "ERROR"
+        let reporterID = Constants.FIREBASE_USERID!
+        //update reported posts entry
+        let reportPostRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_posts").document(postID)
+        reportPostRef.getDocument() { (query, err) in
+            if query != nil && query!.exists {
+                let reporters = query?.get("reporters") as! [String]
+                if !reporters.contains(reporterID) {
+                    reportPostRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
+                    self.reportUser(posterID:posterID)
+                }
+            }
+            else {
+                reportPostRef.setData(["count":1,"reporters":[reporterID]])
+                self.reportUser(posterID:posterID)
+            }
+        }
+    }
+    //MARK: report user
+    func reportUser(posterID:String) {
+        let reporterID = Constants.FIREBASE_USERID!
+        
+        let reportUserRef = db.collection("reports").document(organizationData.currOrganization!).collection("reported_users").document(posterID)
+        reportUserRef.getDocument() { (query, err) in
+            if query != nil && query!.exists {
+                reportUserRef.updateData(["count":FieldValue.increment(1 as Int64), "reporters": FieldValue.arrayUnion([reporterID])])
+            }
+            else {
+                reportUserRef.setData(["count":1,"reporters":[reporterID]])
+            }
+        }
     }
   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let interChatVC = InterChatVC()
-        self.navigationController?.pushViewController(interChatVC, animated: true)
+        var chatId = "ERROR_THIS_SHOULD_BE_REPLACED"
+        let post = feed.sortedPosts[indexPath.row]
+        
+        //haptic feedback
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        
+        //if user is replying to their own post, display alertview
+        if post.posterUserID == Constants.FIREBASE_USERID {
+            
+            //haptic feedback
+            generator.notificationOccurred(.error)
+            let alert = AlertView(headingText: "Woops, you can't reply to a post you wrote yoursef!", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                self.dismiss(animated: true, completion: nil);tableView.deselectRow(at: indexPath, animated: true)
+            }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+            }, withCancelBtn: false, image: UIImage(named:"warning"), withOnlyOneAction: true)
+            alert.modalPresentationStyle = .overCurrentContext
+            alert.modalTransitionStyle = .crossDissolve
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            let postID = post.postID!
+            //existing chat, will be in active chats.
+            if chatHandler.postToChat[postID] != nil {
+                chatId = chatHandler.postToChat[postID]!
+                print("post already mapped to existing chatid.")
+                
+            }else{ //new chat, generate new chat UUID
+                chatId = UUID.init().uuidString
+                chatHandler.postToChat[postID] = chatId
+                print("mapped post to new chatId")
+            }
+            
+            let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatId, post: post)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(chatVC, animated: true)
+        }
+        
+        
+        
     }
 
 }

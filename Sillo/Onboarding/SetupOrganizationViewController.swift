@@ -112,6 +112,10 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         orgNameField.backgroundColor = Color.textFieldBackground
         orgNameField.textColor = Color.textSemiBlack
         orgNameField.attributedPlaceholder = NSAttributedString(string:"Organization name", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: CGFloat(249/255), green: CGFloat(249/255), blue: CGFloat(249/255), alpha: CGFloat(0.5))])
+        orgNameField.attributedPlaceholder = NSAttributedString(string: "Organization name", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(16)
+        ])
         orgNameField.layer.sublayerTransform = CATransform3DMakeTranslation(19, 0, 0)
         orgNameField.font = Font.regular(dynamicFontSize(17))
         orgNameField.placeholder = "Organization name"

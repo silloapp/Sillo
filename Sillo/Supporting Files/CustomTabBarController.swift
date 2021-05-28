@@ -15,8 +15,22 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+//        tabBar.frame.size.height = 65
+//        tabBar.frame.origin.y = view.frame.height - 65
+
+    }
+    
+    
     //MARK: UITabbar Delegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        //haptics upon switching
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.prepare()
+        generator.impactOccurred()
         
         if viewController.isKind(of: NewPostViewController.self) {
 

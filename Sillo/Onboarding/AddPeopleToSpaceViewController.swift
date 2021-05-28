@@ -165,12 +165,12 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.text = "name@domain.com, name@domain.com"
         emailTextView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00)
         emailTextView.textColor = .secondaryLabel
-        emailTextView.font = UIFont.preferredFont(forTextStyle: .body)
+        emailTextView.font = Font.regular(17)
         emailTextView.layer.cornerRadius = 10
-        emailTextView.isScrollEnabled = false
+        emailTextView.isScrollEnabled = true
         emailTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         emailTextView.isEditable = true
-        //emailTextView.keyboardType = .emailAddress
+//        emailTextView.keyboardType = .emailAddress
         
         emailTextView.heightAnchor.constraint(equalTo: textStack.heightAnchor, multiplier: 1).isActive = true
         emailTextView.widthAnchor.constraint(equalTo: textStack.widthAnchor, multiplier: 1).isActive = true
@@ -212,9 +212,9 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
     
     
     @objc func nextClicked() {
-        
-        organizationData.makeEmailArray(input: emailTextView.text.lowercased())
-        let preFilteredEmailCount = emailTextView.text!.split(separator: ",").count
+        let lowercasedInput = emailTextView.text.lowercased()
+        organizationData.makeEmailArray(input: lowercasedInput)
+        let preFilteredEmailCount = lowercasedInput.filter {$0 != " " && $0 != "\n"}.components(separatedBy: ",").count
         if preFilteredEmailCount != organizationData.memberInvites?.count {
             DispatchQueue.main.async {
                 let alert = AlertView(headingText: "Email Typo Detected!", messageText: "One or more of your emails is misspelled and will not be invited.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {

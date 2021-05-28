@@ -6,10 +6,9 @@
 //
 
 import UIKit
+import Firebase
 
 class MessagesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
-    
-    private let messages = [Message]()
 
     let cellID = "cellID"
     
@@ -21,13 +20,76 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         return table
     }()
     
+    let profilePreviewVC:ProfileVC = {
+        let vc = ProfileVC()
+        vc.modalPresentationStyle = .automatic
+        vc.modalTransitionStyle = .coverVertical
+        return vc
+    }()
+    
     let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Color.headerBackground
         return view
     }()
+    
+    //MARK: listener
+    private var activeChatListener: ListenerRegistration?
+    
+    deinit {
+       activeChatListener?.remove()
+     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        activeChatListener?.remove()
+    }
+    
+    @objc func refreshMessageListView(note: NSNotification) {
+        //chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata() //this is unecessary, assuming the chats are pulled in order.
+        self.chatListTable.reloadData()
+        print("refreshed the messageListView")
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
+        let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
+        let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true).limit(to: chatHandler.chatBatchSize)
+        activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            
+            //set most recent snapshot (like a bookmark)
+            chatHandler.chatSnapshot = snapshot
+            
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    let chatID = diff.document.documentID
+                    print("New conversation: \(chatID)")
+                    //add or update active chat
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                }
+                if (diff.type == .modified) {
+                    let chatID = diff.document.documentID
+                    print("updated active chat: \(chatID)")
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                }
+                if (diff.type == .removed) {
+                    let chatID = diff.document.documentID
+                    print("Removed conversation: \(chatID)")
+                    chatHandler.chatMetadata[chatID] = nil
+                    chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+                }
+            }
+        }
+      
+    }
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -111,7 +173,8 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         chatListTable.delegate = self
         chatListTable.dataSource = self
         view.addSubview(chatListTable)
-        chatListTable.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        view.sendSubviewToBack(chatListTable)
+        chatListTable.topAnchor.constraint(equalTo: header.bottomAnchor, constant: -20).isActive = true
         chatListTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         chatListTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         chatListTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -119,35 +182,130 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        tableView.backgroundView = nil
+        let activeChats_count = chatHandler.chatMetadata.count
+        if activeChats_count > 0 {
+            return activeChats_count
+        }
+        else {
+            //MARK: set up fallback if message table is empty
+            
+            let noMessagesUIView: UIView = {
+                let bigView = UIView()
+                let imageView : UIImageView = {
+                    let view = UIImageView()
+                    let scaling:CGFloat = 0.2
+                    view.frame = CGRect(x: 0, y: 0, width: scaling*(tableView.bounds.width), height: scaling*(tableView.frame.height))
+                    view.clipsToBounds = true
+                    view.contentMode = .scaleAspectFit
+                    let image = UIImage(named:"no messages")
+                    view.image = image
+                    view.translatesAutoresizingMaskIntoConstraints = false
+                    return view
+                }()
+                
+                let desc : UILabel = {
+                    let label = UILabel()
+                    label.text = "You have no messages.. yet!"
+                    label.numberOfLines = 2
+                    label.font = Font.bold(22)
+                    label.textColor = Color.matte
+                    label.translatesAutoresizingMaskIntoConstraints = false
+                    return label
+                }()
+                
+                bigView.addSubview(imageView)
+                bigView.addSubview(desc)
+                imageView.centerXAnchor.constraint(equalTo: bigView.centerXAnchor).isActive = true
+                imageView.centerYAnchor.constraint(equalTo: bigView.centerYAnchor, constant: -50).isActive = true
+                desc.centerXAnchor.constraint(equalTo: bigView.centerXAnchor).isActive = true
+                desc.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true
+                return bigView
+            }()
+            
+
+            tableView.backgroundView = noMessagesUIView
+            return 0
+        }
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row + 5 == chatHandler.chatMetadata.count {
+            //we're almost at the end, pull more chats
+            chatHandler.getNextBatch()
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChatViewTableViewCell
-        cell.item = messages[indexPath.row]
+        let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
+        cell.item = chatHandler.chatMetadata[chatID]
         cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return 70
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let headerView = UIView.init(frame: CGRect.init(x: 25, y: 0, width: tableView.frame.width, height: 50))
-        
-            let label = UILabel()
-            label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
-            label.text = "Today"
-            label.font = Font.bold(20)
-            label.textColor = UIColor.black
-            headerView.addSubview(label)
-
-            return headerView
-        }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 35
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var isPoster = true
+        let postID = chatHandler.sortedChatMetadata[indexPath.row].postID ?? "ERROR"
+        if feed.posts[postID]?.posterUserID == Constants.FIREBASE_USERID {
+            isPoster = true
+        } else {
+            isPoster = false
         }
+        
+        let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
+        let isRevealed = chatHandler.chatMetadata[chatID]?.isRevealed
+        print(isPoster, "is poster")
+        print(isRevealed, "isRevealed")
+        if isRevealed!{
+            let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(chatVC, animated: true)
+
+        } else if isPoster && !isRevealed!{
+
+            //if not yet revealed and is poster, poster will accept / decline message and be shown the interchatVC
+            let interchatVC = InterChatVC(chatID: chatID, post: nil)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(interchatVC, animated: true)
+
+        }else{
+            let chatVC = ChatsViewController(messageInputBarStyle: .facebook, chatID: chatID, post: nil)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(chatVC, animated: true)
+           
+            
+        }
+        
+       
+        
+        
+    }
+    
+    //swipe to delete
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.beginUpdates()
+            
+            let chatID = chatHandler.sortedChatMetadata[indexPath.row].chatID ?? "ERROR"
+            let userID = Constants.FIREBASE_USERID ?? "ERROR FETCHING USER ID"
+            chatHandler.sortedChatMetadata.remove(at: indexPath.row)
+            if let idx = chatHandler.chatMetadata.index(forKey: chatID) {
+                chatHandler.chatMetadata.remove(at: idx)
+            }
+            chatHandler.deleteConversation(chatID: chatID, userID: userID)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            tableView.reloadData()
+            tableView.endUpdates()
+        }
+    }
 }

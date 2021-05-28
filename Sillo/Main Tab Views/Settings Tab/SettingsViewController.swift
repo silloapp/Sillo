@@ -39,7 +39,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // removes separators at bottom of tableview
         menuItemTableView.translatesAutoresizingMaskIntoConstraints = false
-        menuItemTableView.topAnchor.constraint(equalTo:view.topAnchor, constant: 132).isActive = true
+        menuItemTableView.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
         menuItemTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor).isActive = true
         menuItemTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor).isActive = true
         menuItemTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -57,6 +57,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! TeamCell
         cell.item = menuItems[indexPath.row]
         cell.separatorInset = UIEdgeInsets.zero
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -81,10 +82,19 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             sendEmail()
         }
         if name == "Log out" {
-            localUser.signOut()
-            let nextVC = StartScreenViewController()
-            nextVC.modalPresentationStyle = .fullScreen
-            self.present(nextVC, animated: true, completion: nil)
+            let alertVC = AlertView(headingText: "Log out?", messageText: "You are currently logged in as \(Constants.EMAIL!).", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Log out", action2Color: Color.burple, action2Completion: {
+                localUser.signOut()
+                let nextVC = StartScreenViewController()
+                nextVC.modalPresentationStyle = .fullScreen
+                self.present(nextVC, animated: true, completion: nil)
+            }, withCancelBtn: false, image: UIImage(named:"sparkle sign out"), withOnlyOneAction: false)
+            
+            alertVC.modalTransitionStyle = .crossDissolve
+            alertVC.modalPresentationStyle = .overCurrentContext
+            self.present(alertVC, animated: true, completion: nil)
+            
             
         }
         if name == "Account" {
@@ -153,7 +163,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        header.heightAnchor.constraint(equalToConstant: 132).isActive = true
+        header.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 110/812).isActive = true
         
         let logoTeamStack = setupPhotoTeamName()
         header.addSubview(logoTeamStack)

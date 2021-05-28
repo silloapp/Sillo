@@ -23,9 +23,24 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
     
     var tap: UIGestureRecognizer? = nil
     
+    let appearance : UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        appearance.backgroundColor = Color.headerBackground
+        
+        appearance.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: Color.burple,
+                NSAttributedString.Key.font: UIFont(name: "Apercu-Bold", size: 20)!]
+        
+        return appearance
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.standardAppearance = self.appearance
+        tabBarController?.tabBar.isHidden = true
         
         //MARK: Allows swipe from left to go back (making it interactive caused issue with the header)
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
@@ -34,6 +49,11 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         
         setConstraints()
         self.searchTf.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     //MARK: function for left swipe gesture
@@ -81,12 +101,10 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         sections = ["Admins (\(searchResultAdmins.count))","Members (\(searchResultMembers.count))"]
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = true
-    }
+   
     
     func setNavBar() {
-        
+        tabBarController?.tabBar.isHidden = true
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.barTintColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
@@ -147,8 +165,10 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         searchView.layer.cornerRadius = 12
         
         self.searchView.addSubview(searchTf)
-        searchTf.attributedPlaceholder = NSAttributedString(string: "Search Name",
-                                                            attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        searchTf.attributedPlaceholder = NSAttributedString(string: "Search Name", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         searchTf.addTarget(self, action: #selector(self.searchTextFieldDidChange), for: .editingChanged)
         searchTf.placeholder = "Search name"
         searchTf.textColor = .darkGray
@@ -294,7 +314,12 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         
             let nextVC = ManageUserViewController()
             let imageRef = "profiles/\(userID)\(Constants.image_extension)"
-            cloudutil.downloadImage(ref: imageRef, useCache: true)
+            if imageCache.object(forKey: imageRef as! NSString) == nil {
+                cloudutil.downloadImage(ref: imageRef, useCache: true)
+            }
+            else {
+                nextVC.profilePic = imageCache.object(forKey: imageRef as NSString) ?? UIImage(named:"avatar-4")!
+            }
             nextVC.username = "username goes here"
             nextVC.email = "no email provided."
         

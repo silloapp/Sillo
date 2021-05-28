@@ -46,6 +46,9 @@ class PasscodeVerificationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = ""
         textField.textAlignment = .center
+        textField.attributedPlaceholder = NSAttributedString(string: "", attributes: [
+            .font: Font.regular(17)
+        ])
         textField.layer.cornerRadius = 10.0;
         textField.clearsOnBeginEditing = true
         textField.keyboardType = .phonePad
@@ -168,6 +171,11 @@ class PasscodeVerificationViewController: UIViewController {
     @objc func resendRequested(_:UIButton) {
         let requestThrottled: Bool = -self.latestAuthRequestTimestamp.timeIntervalSinceNow < self.THROTTLE_LIMIT
         if (!requestThrottled) {
+            //haptics
+            let generator = UIImpactFeedbackGenerator(style: .medium)
+            generator.prepare()
+            generator.impactOccurred()
+            
             cloudutil.generateAuthenticationCode()
             self.latestAuthRequestTimestamp = Date()
             
@@ -189,8 +197,12 @@ class PasscodeVerificationViewController: UIViewController {
         }
         else {
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Please enter a verification code.", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                let alert = AlertView(headingText: "Please enter a verification code.", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
                 self.present(alert, animated: true, completion: nil)
             }
         }

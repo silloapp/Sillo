@@ -10,8 +10,6 @@ import GoogleSignIn
 
 class StartScreenViewController: UIViewController {
     
-    var routedWithinTimeThreshold = false
-    
     //MARK: logo imageview
     let logoImageView:UIImageView = {
         var imageView = UIImageView()
@@ -40,19 +38,8 @@ class StartScreenViewController: UIViewController {
         
         pulsate()
         localUser.coldStart()
-        
-        //MARK: fallback code to inform beta tester of issue.
-        //issue at hand: somethign is wrong with authentication or network issue, and the trigger isn't being fired..
-        DispatchQueue.main.asyncAfter(deadline: .now()+9) {
-            if !self.routedWithinTimeThreshold {
-                let alert = UIAlertController(title: "Hmm, this is taking a while..", message: "Thank you for being a beta tester for Sillo. Something unexpected has occured. Please check your internet connection, or redownload from TestFlight. We'd appreciate if you let us know at team@sillo.co", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in exit(EXIT_SUCCESS)}))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
     }
     @objc func routeUser(note:NSNotification) {
-        self.routedWithinTimeThreshold = true
         var nextVC = UIViewController()
         nextVC.navigationController?.view.backgroundColor = .white
         if (UserDefaults.standard.bool(forKey: "loggedIn")) {
@@ -153,11 +140,11 @@ func prepareTabVC() -> UIViewController {
     tabVC.tabBar.layer.shadowOpacity = 0.15
     tabVC.tabBar.clipsToBounds = false
     
-    let icon1 = UITabBarItem(title: "Home", image: UIImage(named: "tab1")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab1Selected")!.withRenderingMode(.alwaysOriginal))
-    let icon2 = UITabBarItem(title: "Quests", image: UIImage(named: "tab2")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab2Selected")!.withRenderingMode(.alwaysOriginal))
-    let icon3 = UITabBarItem(title: "New Post", image: UIImage(named: "tab3")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab3Selected")!.withRenderingMode(.alwaysOriginal))
-    let icon4 = UITabBarItem(title: "Messages", image: UIImage(named: "tab4")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab4Selected")!.withRenderingMode(.alwaysOriginal))
-    let icon5 = UITabBarItem(title: "Team", image: UIImage(named: "tab5")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "tab5Selected")!.withRenderingMode(.alwaysOriginal))
+    let icon1 = UITabBarItem(title: "Home", image: UIImage(named: "home")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "home active")!.withRenderingMode(.alwaysOriginal))
+    let icon2 = UITabBarItem(title: "Quests", image: UIImage(named: "missions")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "missions active")!.withRenderingMode(.alwaysOriginal))
+    let icon3 = UITabBarItem(title: "New Post", image: UIImage(named: "new post")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "new post active")!.withRenderingMode(.alwaysOriginal))
+    let icon4 = UITabBarItem(title: "Messages", image: UIImage(named: "messages")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "messages active")!.withRenderingMode(.alwaysOriginal))
+    let icon5 = UITabBarItem(title: "Team", image: UIImage(named: "team")!.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "team active")!.withRenderingMode(.alwaysOriginal))
     
     
     let vc1 = UINavigationController(rootViewController: HomeViewController())

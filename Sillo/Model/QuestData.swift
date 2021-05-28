@@ -82,11 +82,11 @@ class Quests {
         let questRef = db.collection("quests").document(Constants.FIREBASE_USERID ?? "USER_ID_ERROR")
         questRef.setData([
             "subtask1": "newPost",
-            "subtask2": "newPost",
-            "subtask3": "newPost",
-            "subtask1_progress" : ["current": 0, "target": self.subtasks[0].target*10,],
-            "subtask2_progress" : ["current": 0, "target": self.subtasks[1].target*15,],
-            "subtask3_progress" : ["current": 0, "target": self.subtasks[2].target*20,],
+            "subtask2": "newConnection",
+            "subtask3": "replyToPost",
+            "subtask1_progress" : ["current": 0, "target": self.subtasks[0].target],
+            "subtask2_progress" : ["current": 0, "target": self.subtasks[1].target],
+            "subtask3_progress" : ["current": 0, "target": self.subtasks[2].target],
         ], merge: true) { err in
             if let err = err {
                 print("Error resetting quest: \(err)")

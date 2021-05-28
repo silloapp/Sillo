@@ -7,9 +7,11 @@
 
 import Firebase
 import UIKit
+import SafariServices
+import MessageUI
 
 @available(iOS 13.0, *)
-class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,MFMailComposeViewControllerDelegate {
     
     // MARK: - IBDeclarations :
     
@@ -305,9 +307,37 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     @objc func BottomButtonMethod() {
+        DispatchQueue.main.async {
+            let alert = AlertView(headingText: "Space Creation Temporarily Disabled", messageText: "Give us a shout if you'd like to place your organization on the waitlist.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Contact", action2Color: Color.matte, action2Completion: {self.dismiss(animated: false, completion: nil);self.sendEmail()
+            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+            alert.modalPresentationStyle = .overCurrentContext
+            alert.modalTransitionStyle = .crossDissolve
+            self.present(alert, animated: true, completion: nil)
+        }
+        /*
         let nextVC = SetupOrganizationViewController()
         nextVC.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(nextVC, animated: true)
+         */
+    }
+    
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["team@sillo.co"])
+            mail.setMessageBody("<p>Hello friend, I'd like to place my organization on the Sillo waitlist.</p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Oops!", message: "Thanks for taking the time to write to us. It looks like your device does not allow email sending. We'd still appreciate your thoughts at feedback@sillo.co", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: {_ in}))
+                self.present(alert, animated: true)
+            }
+        }
     }
     
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
@@ -357,7 +387,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         cell.imgUser.borderColor = .gray
         
         let orgID : String = localUser.invites[indexPath.row]
-        cell.labMessage.text = organizationData.idToName[orgID] ?? "ERROR"
+        cell.labMessage.text = organizationData.idToName["invite-"+orgID] ?? "ERROR"
         cell.labMessage.textColor = .black
         cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
         
@@ -401,12 +431,17 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     //MARK: selected the cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //haptic feedback
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        
         selectedIndx = indexPath.row
         self.TopTable.reloadData()
         let orgID : String = localUser.invites[selectedIndx]
         // do not allow joining an organization you're already a part of
         // switch organizations for the user, and take them to home screen.
         if organizationData.idToName.keys.contains(orgID) {
+            generator.notificationOccurred(.error)
             DispatchQueue.main.async {
                 let alert = AlertView(headingText: "Organization Already Joined!", messageText: "You have already joined this organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                     self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);self.exitPressed()
@@ -429,7 +464,15 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             }
             return
         }
+        //MARK: accept invite
+        //move temporary dictionary mapping to a more permanent one
+        //this temporary invite will be deleted in acceptInvite
+        let temporary = organizationData.idToName["invite-"+orgID]
+        organizationData.idToName[orgID] = temporary
+        
         localUser.acceptInvite(organizationID: orgID)
+        
+        generator.notificationOccurred(.success)
     }
     
     @objc func inviteAccepted(note:NSNotification) {

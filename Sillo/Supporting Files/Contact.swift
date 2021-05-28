@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 struct MenuItem {
     let name:String?
@@ -15,15 +16,38 @@ struct MenuItem {
     let fontSize:CGFloat?
 }
 
-struct Message { //testing only
-    let alias: String?
-    let name: String?
-    let profilePicture: UIImage?
+//MARK: a single chat message
+struct Message:Equatable { //testing only
+    let messageID: String?
+    let senderID: String?
     let message: String?
     let attachment: UIImage?
     let timestamp: Date?
+    let isRead: Bool? //todo: remove this?
+    
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.messageID == rhs.messageID
+    }
+}
+
+//MARK: a summary of the conversation
+struct ChatMetadata {
+
+    let chatID: String?
+    let postID: String?
+    
     let isRead: Bool?
-    //TODO: add image/gif, conversationID, whatever else
+    let isRevealed: Bool?
+    let latest_message: String? // this will be pulled from chat document
+    let latestMessageTimestamp: Date?
+    let recipient_image : String?
+    let recipient_name : String?
+    let recipient_uid : String?
+    let timestamp : Date?
+    
+    static func == (lhs: ChatMetadata, rhs: ChatMetadata) -> Bool {
+        return lhs.chatID == rhs.chatID && lhs.postID == rhs.postID
+    }
 }
 
 struct Post {
@@ -32,6 +56,6 @@ struct Post {
     let message: String?
     let posterUserID: String?
     let posterAlias: String?
-    let posterImage: UIImage?
+    let posterImageName: String? // changed this to string
     let date: Date?
 }

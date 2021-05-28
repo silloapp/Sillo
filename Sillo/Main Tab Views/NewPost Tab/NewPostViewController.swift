@@ -66,24 +66,13 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         return imageView
     }()
     
-    //MARK: init textfield
-    let postTextField: UITextField = {
-        let textView = UITextField()
-        textView.placeholder = "Say something nice..."
-        textView.textColor = UIColor.lightGray
-        textView.backgroundColor = UIColor.blue
-        textView.font = Font.regular(17)
-        textView.layer.backgroundColor = CGColor.init(red: 33, green: 33, blue: 33, alpha: 0.5) //TODO: remove this once sizing constraints complete
-        //textField.keyboardType = .emailAddress
-        textView.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
+    let PLACEHOLDER_TEXT = "Ask something anonymously to \(organizationData.currOrganizationName ?? "your organization")..."
+
     
     //MARK: init textview
     let textView: UITextView = {
         let textView = UITextView()
-        textView.text = "Say something nice..."
+        textView.text = "Ask something anonymously to \(organizationData.currOrganizationName ?? "your organization")..."
         textView.textColor = UIColor.lightGray
         textView.backgroundColor = UIColor.white
         textView.font = Font.regular(17)
@@ -116,6 +105,11 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         textView.delegate = self
         // Do any additional setup after loading the view.
         setupView()
+        textView.text = PLACEHOLDER_TEXT
+        textView.textColor = UIColor.lightGray
+        textView.becomeFirstResponder()
+        textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+        addHomeView()
         Giphy.configure(apiKey: "Z5AW2zezCf4gtUQEOh379fYxxqfLzPYX")
         
         stickerFloatingPanel.delegate = self
@@ -148,6 +142,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
         
+        
         //MARK: newPost headerview
         view.addSubview(newPostButton)
         newPostButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
@@ -168,7 +163,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         profilepic.topAnchor.constraint(equalTo: headerLabel.topAnchor, constant: 50).isActive = true
         profilepic.widthAnchor.constraint(equalToConstant: 35).isActive = true
         profilepic.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        posterImageName = generatePosterImageName()
+        posterImageName = chatHandler.generateImageName()
         profilepic.image = UIImage(named:"\(posterImageName)")
         
         //textView
@@ -217,16 +212,43 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             self.stickerFloatingPanel.dismiss(animated: true, completion: nil)
         }
 
+    
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) {
+      if textView.textColor == .lightGray {
+        //textView.text = ""
+        textView.textColor = .black
+      }
     }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        /*
-        if textView.text.isEmpty {
-            textView.text = "Say something nice..."
-            textView.textColor = UIColor.lightGray
-            newPostButton.backgroundColor = Color.buttonClickableUnselected
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView.text == PLACEHOLDER_TEXT {
+            textView.text = ""
         }
-        */
+        return true
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+    if textView.text.isEmpty {
+    textView.text = PLACEHOLDER_TEXT
+    textView.textColor = UIColor.lightGray
+    }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+    let currText = textView.text
+        if currText == PLACEHOLDER_TEXT {
+        textView.textColor = .lightGray
+        } else {
+        textView.textColor = .black
+        }
+        
+        if currText == "" {
+            textView.text = PLACEHOLDER_TEXT
+            textView.textColor = .lightGray
+            let newPosition = textView.beginningOfDocument
+            textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
+        }
     }
     
     //User pressed post button
@@ -243,13 +265,22 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             return
         }
         let postText = textView.text.filter {$0 != " "}
-        if (postText != "") {
+        if (postText.count > 300) {
+            let vc = AlertView(headingText: "Character Limit Exceeded", messageText: "", action1Label: "Go back", action1Color: Color.burple, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "", action2Color: .gray, action2Completion: { return }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+            
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .overCurrentContext
+            self.present(vc, animated: true, completion: nil)
+        }
+        else if (postText != PLACEHOLDER_TEXT.filter {$0 != " "}) {
             textView.resignFirstResponder()
             self.latestButtonPressTimestamp = Date()
 //            let attachment = media?.id ?? ""
             let attachment = stickerName
             let poster = Constants.FIREBASE_USERID!
-            let poster_alias = generatePosterAlias()
+            let poster_alias = chatHandler.generateAlias()
             
             feed.addPost(attachment: attachment ?? "", postText: textView.text, poster: poster, posterAlias: poster_alias, posterImageName: posterImageName)
             self.dismiss(animated: true, completion: nil)
@@ -275,16 +306,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         
     }
     
-    func generatePosterAlias() -> String {
-        let options: [String] = ["Beets", "Cabbage", "Watermelon", "Bananas", "Oranges", "Apple Pie", "Bongo", "Sink", "Boop"]
-        return options.randomElement()!
-    }
-    
-    func generatePosterImageName() -> String {
-        let options: [String] = ["1","2","3","4"]
-        return "avatar-\(options.randomElement()!)"
-        
-    }
+
     
     
     //User pressed exit button

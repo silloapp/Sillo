@@ -35,10 +35,10 @@ class PostHandler {
                     let postText = document.get("message") as! String
                     let posterUserID = document.get("poster") as! String
                     let posterAlias = document.get("poster_alias") as! String
-                    let posterImage = document.get("poster_image") as! String
+                    let posterImageName = document.get("poster_image") as! String
                     let timestamp = document.get("timestamp") as! Timestamp
                     let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
-                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
                 }
             }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
@@ -106,6 +106,17 @@ class PostHandler {
         }
     }
     
+    //MARK: delete post
+    func deletePost(postID: String) {
+        db.collection("organization_posts").document(organizationData.currOrganization!).collection("posts").document(postID).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
     //MARK: documentlistener reports new post
     //data looks like: ["poster": cLfvv9UtacPh9isnO9dUAf67oqj2, "timestamp": <FIRTimestamp: seconds=1616036798 nanoseconds=717643022>, "attachment": , "message": Yesnoyes, "poster_image": avatar-3, "poster_alias": Cabbage]
     func handleNewPost(id: String, data: [String:Any]) {
@@ -114,12 +125,13 @@ class PostHandler {
         let postText = data["message"] as! String
         let posterUserID = data["poster"] as! String
         let posterAlias = data["poster_alias"] as! String
-        let posterImage = data["poster_image"] as! String
+        let posterImageName = data["poster_image"] as! String
         let timestamp = data["timestamp"] as! Timestamp
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
         
         
         self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
     }
@@ -128,6 +140,18 @@ class PostHandler {
     func handleDeletePost(id: String, data: [String:Any]) {
         self.posts.removeValue(forKey: id)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
+    }
+    
+    //MARK: download post on demand
+    func downloadPost(postID: String) {
+        let organizationID = organizationData.currOrganization ?? "ERROR"
+        let postRef = db.collection("organization_posts").document(organizationID).collection("posts").document(postID)
+        postRef.getDocument() { (query, err) in
+            if (query != nil) && query!.exists {
+                let data = query?.data()!
+                self.handleNewPost(id: postID, data: data!)
+            }
+        }
     }
     
     //MARK: cold start
@@ -147,11 +171,11 @@ class PostHandler {
                     let postText = document.get("message") as! String
                     let posterUserID = document.get("poster") as! String
                     let posterAlias = document.get("poster_alias") as! String
-                    let posterImage = document.get("poster_image") as! String
+                    let posterImageName = document.get("poster_image") as! String
                     let timestamp = document.get("timestamp") as! Timestamp
                     let date = Date(timeIntervalSince1970: TimeInterval(timestamp.seconds))
                     
-                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImage, date: date)
+                    self.posts[postID] = self.buildPostStruct(postID: postID, attachment: attachment, postText: postText, poster: posterUserID, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
                 }
             }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshPostTableView"), object: nil)
@@ -160,7 +184,7 @@ class PostHandler {
     
     //MARK: build post struct
     func buildPostStruct(postID: String, attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String, date: Date) -> Post {
-        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImage: UIImage(named:posterImageName), date: date)
+        return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImageName: posterImageName, date: date)
     }
     
     //MARK: sort by time with recent on top, returns sorted list

@@ -22,6 +22,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
+        
+        //handle notifications
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { (settings) in
+            if(settings.authorizationStatus == .authorized) {
+                print("Push notification is enabled")
+                // upload notification token to user's database
+                InstanceID.instanceID().instanceID { (result, error) in
+                  if let error = error {
+                    print("Error fetching remote instange ID: \(error)")
+                  } else if let result = result {
+                    print("Remote instance ID token: \(result.token)")
+                    localUser.uploadFCMToken(token: result.token)
+                  }
+                }
+            } else {
+                print("Push notification is not enabled")
+            }
+        }
         return true
     }
 

@@ -13,7 +13,7 @@ class ProfileSetupViewController: UIViewController{
     
     var takingProfileSetupRole = true ///this is a switcher value used to define this VC's role as a Profile Setup or Profile Edit view controller
     
-    let pronounValues = ["pronouns not specified", "she/her", "he/him", "they/them"]
+    let pronounValues = ["Pronouns not specified", "She/Her", "He/Him", "They/Them"]
     
     var hasTopNotch: Bool {
         if #available(iOS 11.0, tvOS 11.0, *) {
@@ -153,7 +153,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: pronouns text field
     let pronounsTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " no pronouns specified"
+        textField.attributedPlaceholder = NSAttributedString(string: " no pronouns specified", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.backgroundColor = Color.textFieldBackground
@@ -259,7 +262,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 1
     let restaurantTextFieldOne: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " Asha Tea House"
+        textField.attributedPlaceholder = NSAttributedString(string: " Asha Tea House", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -271,7 +277,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 2
     let restaurantTextFieldTwo: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " Eureka"
+        textField.attributedPlaceholder = NSAttributedString(string: " Eureka", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -283,7 +292,10 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 3
     let restaurantTextFieldThree: UITextField = {
         let textField = UITextField()
-        textField.placeholder = " Thai Basil"
+        textField.attributedPlaceholder = NSAttributedString(string: " Thai Basil", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: Font.regular(17)
+        ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -376,13 +388,21 @@ class ProfileSetupViewController: UIViewController{
     
     //MARK: VIEWDIDAPPEAR
     override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
         //scrollView.contentSize = CGSize(width: 0, height: 896.0)
         scrollView.contentSize = CGSize(width: 0, height: 1000) //fuck the keyboard thing.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
+
         
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
@@ -417,7 +437,8 @@ class ProfileSetupViewController: UIViewController{
         
         //MARK: next button container
         view.addSubview(saveChangesContainer)
-        saveChangesContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+//        saveChangesContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        saveChangesContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         saveChangesContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 90/812).isActive = true
         saveChangesContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -772,24 +793,20 @@ class ProfileSetupViewController: UIViewController{
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        /*
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.scrollView_origin_y = scrollView.frame.origin.y
-            print(scrollView.frame.origin.y)
-            if scrollView.frame.origin.y == self.scrollView_origin_y {
-                print("adjust")
-                scrollView.frame.origin.y = self.scrollView_origin_y - keyboardSize.height
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= 2*(keyboardSize.height / 3)
+                scrollView.contentInset = UIEdgeInsets(top: keyboardSize.height + view.safeAreaInsets.top, left: 0, bottom: keyboardSize.height + view.safeAreaInsets.bottom, right: 0)
             }
         }
-        */
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        /*
-        if scrollView.frame.origin.y != self.scrollView_origin_y {
-            scrollView.frame.origin.y = self.scrollView_origin_y
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+            //scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
-        */
     }
 }
 
