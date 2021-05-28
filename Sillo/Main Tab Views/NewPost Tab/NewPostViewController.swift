@@ -265,6 +265,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             return
         }
         let postText = textView.text.filter {$0 != " "}
+        
         if (postText.count > 300) {
             let vc = AlertView(headingText: "Character Limit Exceeded", messageText: "", action1Label: "Go back", action1Color: Color.burple, action1Completion: {
                 self.dismiss(animated: true, completion: nil)
@@ -274,7 +275,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             vc.modalPresentationStyle = .overCurrentContext
             self.present(vc, animated: true, completion: nil)
         }
-        else if (postText != PLACEHOLDER_TEXT.filter {$0 != " "}) {
+        else if (postText.count > 0 && postText != PLACEHOLDER_TEXT.filter {$0 != " "}) {
             textView.resignFirstResponder()
             self.latestButtonPressTimestamp = Date()
 //            let attachment = media?.id ?? ""
