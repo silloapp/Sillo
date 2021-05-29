@@ -16,6 +16,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .white
+        table.showsVerticalScrollIndicator = false
         table.separatorColor = .clear
         return table
     }()

@@ -55,8 +55,8 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         view.addSubview(exitButton)
         exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
         exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        exitButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
         
         
@@ -108,6 +108,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         interestCollectionView.delegate = self
         interestCollectionView.dataSource = self
         interestCollectionView.backgroundColor = UIColor.white
+        interestCollectionView.showsVerticalScrollIndicator = false
         interestCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(interestCollectionView)
         

@@ -17,6 +17,7 @@ class HomeViewController: UIViewController {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .white
+        table.showsVerticalScrollIndicator = false
         table.separatorColor = .clear
         return table
     }()
