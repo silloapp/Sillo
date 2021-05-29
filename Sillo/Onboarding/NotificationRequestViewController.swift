@@ -130,6 +130,8 @@ class NotificationRequestViewController: UIViewController {
     }
     
     func showNextVC() {
+        
+        
         if (organizationData.organizationList.isEmpty) {
             let nextVC = WelcomeToSilloViewController()
             self.navigationController?.pushViewController(nextVC, animated: true)

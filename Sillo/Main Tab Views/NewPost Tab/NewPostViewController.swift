@@ -333,7 +333,28 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     //User pressed exit button
     @objc func exitPressed(_:UIImage) {
-        self.dismiss(animated: true, completion: nil)
+        
+        stickerFloatingPanel.willMove(toParent: nil)
+        stickerFloatingPanel.hide(animated: false) {
+            self.stickerFloatingPanel.dismiss(animated: false, completion: nil)
+        }
+        
+        if textView.text.count == 0 || stickerImageView.image == nil {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            let vc = AlertView(headingText: "Are you sure you want to exit?", messageText: "If you exit now, your post will be discarded", action1Label: "Nevermind", action1Color: .gray, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Discard", action2Color: Color.salmon, action2Completion: {
+                self.dismiss(animated: true, completion: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+            
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .overCurrentContext
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     //User pressed gif button

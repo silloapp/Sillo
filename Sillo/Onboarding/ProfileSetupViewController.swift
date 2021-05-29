@@ -39,6 +39,7 @@ class ProfileSetupViewController: UIViewController{
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.showsVerticalScrollIndicator = false
         return sv
     }()
     
@@ -422,8 +423,9 @@ class ProfileSetupViewController: UIViewController{
         view.addSubview(exitButton)
         exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
         exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-//        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-//        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
         exitButton.addTarget(self, action: #selector(exitPressed(_:)), for: .touchUpInside)
         
         //MARK: header label
@@ -437,7 +439,6 @@ class ProfileSetupViewController: UIViewController{
         
         //MARK: next button container
         view.addSubview(saveChangesContainer)
-//        saveChangesContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         saveChangesContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         saveChangesContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 90/812).isActive = true
@@ -468,13 +469,7 @@ class ProfileSetupViewController: UIViewController{
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         view.sendSubviewToBack(scrollView)
         scrollView.isScrollEnabled = true
-        
-//        //MARK: drop shadows (not working it seems D: )
-//        scrollView.layer.shadowOffset = CGSize(width:0, height:10)
-//        scrollView.layer.shadowRadius = 10
-//        scrollView.layer.shadowColor = UIColor.black.cgColor
-//        scrollView.layer.shadowOpacity = 0.15
-        
+                
         //MARK: profilepic
         profilepic.image = profilePic
         scrollView.addSubview(profilepic)

@@ -198,6 +198,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         // FOR TOP TABLE  :
         
         TopTable.separatorStyle = .singleLine
+        TopTable.showsVerticalScrollIndicator = false
         TopTable.backgroundColor = .clear
         TopTable.bounces = true
         
