@@ -35,10 +35,9 @@ class Quests {
         
     ]
     
-    //TODO: replace this with firebase reference
     let stickerList : [String] = ["coffee", "blush", "donut", "confused", "snooze"]
     //this is the mapping from firebase sticker name to local asset names
-    let stickerNameToImageMapping: [String:String] = ["blush":"Sticker-1","coffee":"Sticker-2","donut":"Sticker-3","confused":"Sticker-4","sleep":"Sticker-5"]
+    let stickerNameToImageMapping: [String:String] = ["blush":"Sticker-1","coffee":"Sticker-2","donut":"Sticker-3","confused":"Sticker-4","snooze":"Sticker-5"]
     var nextSticker = "coffee"
     var ownedStickers: [String] = []
     
