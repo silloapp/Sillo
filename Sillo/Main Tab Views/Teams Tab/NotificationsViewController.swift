@@ -170,8 +170,7 @@ class NotificationsViewController: UIViewController {
         for (i,cell) in toggleTableView.visibleCells.enumerated() {
             statuses[i] = (cell as! ToggleCell).toggle.isOn
         }
-        
-        db.collection("notifications").document(Constants.FIREBASE_USERID!).collection("user_notifications").document(organizationData.currOrganization!).updateData(["new_posts":self.statuses[0], "new_connections":self.statuses[1], "quest_progress":self.statuses[2], "quest_completion":self.statuses[3], "new_messages":self.statuses[4],"new_reports":self.statuses[5]])
+        db.collection("notifications").document(Constants.FIREBASE_USERID!).collection("user_notifications").document(organizationData.currOrganization!).updateData(["new_posts":self.statuses[0], "new_connections":self.statuses[1], "quest_progress":self.statuses[2], "quest_completion":self.statuses[3], "new_messages":self.statuses[4], "new_reports":self.statuses[5]])
     }
 }
 
