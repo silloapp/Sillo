@@ -315,25 +315,57 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     @objc func optionsTapped(tapGestureRecognizer:UITapGestureRecognizer) {
         let sender = tapGestureRecognizer.view as! ReportButton
         let post = sender.post!
-        if post.posterUserID! == Constants.FIREBASE_USERID! {return} //cannot report oneself
         
+        //cannot report oneself, but can delete post
+        if post.posterUserID! == Constants.FIREBASE_USERID! {
+            DispatchQueue.main.async {
+                let alert = AlertView(headingText: "My Post Actions", messageText: "", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Delete Post", action2Color: Color.burple, action2Completion: {
+                    self.dismiss(animated: false, completion: nil);self.confirmDeletePost(postID: post.postID!)
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        else { //report this post
+            //haptic feedback
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.prepare()
+            generator.impactOccurred()
+            
+            DispatchQueue.main.async {
+                let alert = AlertView(headingText: "Flag this post as inappropriate?", messageText: "Your space's admin will be notified.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Report", action2Color: Color.burple, action2Completion: {
+                    self.dismiss(animated: true, completion: nil); self.reportPost(post: post)
+                }, withCancelBtn: false, image: UIImage(named:"reported post"), withOnlyOneAction: false)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func confirmDeletePost(postID: String) { //confirm delete
         //haptic feedback
-        let generator = UIImpactFeedbackGenerator(style: .medium)
+        let generator = UIImpactFeedbackGenerator(style: .light)
         generator.prepare()
         generator.impactOccurred()
         
         DispatchQueue.main.async {
-            let alert = AlertView(headingText: "Flag this post as inappropriate?", messageText: "Your space's admin will be notified.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+            let alert = AlertView(headingText: "Delete this post?", messageText: "This cannot be undone.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
                 self.dismiss(animated: true, completion: nil)
-            }, action2Label: "Report", action2Color: Color.burple, action2Completion: {
-                self.dismiss(animated: true, completion: nil); self.reportPost(post: post)
+            }, action2Label: "Delete", action2Color: Color.salmon, action2Completion: {
+                self.dismiss(animated: true, completion: nil); feed.deletePost(postID: postID)
             }, withCancelBtn: false, image: UIImage(named:"reported post"), withOnlyOneAction: false)
             alert.modalPresentationStyle = .overCurrentContext
             alert.modalTransitionStyle = .crossDissolve
             self.present(alert, animated: true, completion: nil)
         }
-        
     }
+    
     //MARK: report post
     func reportPost(post:Post) {
         let postID = post.postID ?? "ERROR"
