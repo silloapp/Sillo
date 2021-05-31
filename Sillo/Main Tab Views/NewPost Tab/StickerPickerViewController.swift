@@ -46,7 +46,7 @@ class StickerPickerViewController: UIViewController {
         stickerCollectionView?.register(StickerCollectionViewCell.self, forCellWithReuseIdentifier: StickerCollectionViewCell.id)
         stickerCollectionView?.delegate = self
         stickerCollectionView?.dataSource = self
-        stickerCollectionView?.isScrollEnabled = false
+        stickerCollectionView?.isScrollEnabled = true
         guard let collectionView = stickerCollectionView else { return }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
