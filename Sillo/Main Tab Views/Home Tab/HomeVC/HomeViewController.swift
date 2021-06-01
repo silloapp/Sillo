@@ -165,7 +165,7 @@ class HomeViewController: UIViewController {
             teamPic.image = UIImage(named: "avatar-2")
         }
         teamPic.translatesAutoresizingMaskIntoConstraints = false
-        teamPic.contentMode = .center
+        //teamPic.contentMode = .scaleAspectFit
         teamPic.layer.masksToBounds = true
         teamPic.layer.borderWidth = 5.0
         teamPic.layer.borderColor = Color.gray.cgColor
