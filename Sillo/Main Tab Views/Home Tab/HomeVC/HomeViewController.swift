@@ -22,6 +22,8 @@ class HomeViewController: UIViewController {
         return table
     }()
     
+    let teamPic = UIImageView()
+    
     public let header : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +58,8 @@ class HomeViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.tabBarOpacityChange(note:)), name: Notification.Name("PopupDidAppear"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTeamPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
+        
         //MARK: attach listener
         feed.posts = [:] //clear posts in memory
         let organizationID = organizationData.currOrganization ?? "ERROR"
@@ -77,6 +81,18 @@ class HomeViewController: UIViewController {
         quests.coldStart()
         chatHandler.coldStart()
         localUser.setLastActiveTimestamp()
+    }
+    
+    //notification callback for refreshing profile picture
+    @objc func refreshTeamPic(_:UIImage) {
+        let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
+        if imageCache.object(forKey: orgPicRef) != nil { //image in cache
+            let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
+            self.teamPic.image = cachedImage
+        }
+        else {
+            cloudutil.downloadImage(ref: orgPicRef as String)
+        }
     }
     
     override func viewDidLoad() {
@@ -139,8 +155,15 @@ class HomeViewController: UIViewController {
         logoTeamStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
 
         //team picture
-        let teamPic = UIImageView()
-        teamPic.image = UIImage(named: "avatar-2")
+        let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
+        if imageCache.object(forKey: orgPicRef) != nil { //image in cache
+            let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
+            teamPic.image = cachedImage
+        }
+        else {
+            cloudutil.downloadImage(ref: orgPicRef as String)
+            teamPic.image = UIImage(named: "avatar-2")
+        }
         teamPic.translatesAutoresizingMaskIntoConstraints = false
         teamPic.contentMode = .center
         teamPic.layer.masksToBounds = true
