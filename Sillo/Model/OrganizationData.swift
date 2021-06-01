@@ -44,12 +44,19 @@ class OrganizationData {
                 changeOrganization(dest: newOrganization) //switch orgs
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
                 
-                //upload image
-                if newOrganizationPic == nil {newOrganizationPic = UIImage(named: "avatar-2")}
-                uploadOrganizationPicReference(organization: newOrganization, imageID: self.currOrganization!)
+                //picture stuff, upload ref is there is actually picture selected, otherwise leave blank.
+                //we couldve used a boolean here but the field was a string so we need to maintain backwards compatability.
+                if newOrganizationPic != nil {
+                    uploadOrganizationPicReference(organization: newOrganization, imageID: self.currOrganization!)
+                }
+                else {
+                    //upload a dummy picture, if none exists
+                    newOrganizationPic = UIImage(named: "avatar-2")
+                }
                 let orgPicRef = "orgProfiles/\(self.currOrganization!)\(Constants.image_extension)"
                 cloudutil.uploadImages(image: newOrganizationPic!, ref: orgPicRef)
                 
+                //handle invites
                 inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
                 organizationData.memberInvites = []
             }
@@ -106,6 +113,16 @@ class OrganizationData {
                     self.idToName[dest] = name
                     print("COMPLETE COLD CHANGE")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ColdOrgChangeComplete"), object: nil)
+                }
+                else {
+                    UserDefaults.standard.removeObject(forKey: "defaultOrganization")
+                    if organizationData.organizationList.count > 0 {
+                        self.coldChangeOrganization(dest: organizationData.organizationList[0])
+                    }
+                    else {
+                        //force quit
+                        exit(0)
+                    }
                 }
             }
         }
