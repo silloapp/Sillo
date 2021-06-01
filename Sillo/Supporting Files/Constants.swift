@@ -21,6 +21,10 @@ enum Constants {
     static var FIREBASE_USERID:String? = nil
     static var USERNAME:String? = nil
     static var EMAIL:String? = nil
+    
+    //MARK: ORG RELTED
+    static let MAX_ORG_COUNT = 10 //Max number of orgs a user can join
+    //other constants in OrganizationData.swift
 }
 
 

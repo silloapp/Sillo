@@ -307,6 +307,25 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     @objc func BottomButtonMethod() {
+        //haptic feedback
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        
+        //prevent too many orgs
+        if organizationData.adminStatusMap.keys.count >= Constants.MAX_ORG_COUNT {
+            generator.notificationOccurred(.error)
+            DispatchQueue.main.async {
+                let alert = AlertView(headingText: "Cannot Create Space!", messageText: "You have already joined the maximum of 10 spaces.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
+                self.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
+        
         let nextVC = SetupOrganizationViewController()
         nextVC.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(nextVC, animated: true)
@@ -406,6 +425,21 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         //haptic feedback
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
+        
+        //prevent too many orgs
+        if organizationData.adminStatusMap.keys.count >= Constants.MAX_ORG_COUNT {
+            generator.notificationOccurred(.error)
+            DispatchQueue.main.async {
+                let alert = AlertView(headingText: "Max Spaces Reached!", messageText: "You have already joined the maximum of 10 spaces.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
+                self.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
         
         selectedIndx = indexPath.row
         self.TopTable.reloadData()
