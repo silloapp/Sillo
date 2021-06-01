@@ -62,7 +62,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         setupDataSource()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfDismissNotification(notification:)), name: Notification.Name("DismissNotificationIdentifier"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshOrganizationListing), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationListing(notification:)), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
     }
     

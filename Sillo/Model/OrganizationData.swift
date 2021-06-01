@@ -44,11 +44,12 @@ class OrganizationData {
                 changeOrganization(dest: newOrganization) //switch orgs
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
                 
-                if newOrganizationPic != nil {
-                    uploadOrganizationPicReference(organization: newOrganization, imageID: self.currOrganization!)
-                    let orgPicRef = "orgProfiles/\(self.currOrganization!)\(Constants.image_extension)"
-                    cloudutil.uploadImages(image: newOrganizationPic!, ref: orgPicRef)
-                }
+                //upload image
+                if newOrganizationPic == nil {newOrganizationPic = UIImage(named: "avatar-2")}
+                uploadOrganizationPicReference(organization: newOrganization, imageID: self.currOrganization!)
+                let orgPicRef = "orgProfiles/\(self.currOrganization!)\(Constants.image_extension)"
+                cloudutil.uploadImages(image: newOrganizationPic!, ref: orgPicRef)
+                
                 inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
                 organizationData.memberInvites = []
             }
