@@ -234,7 +234,7 @@ class HomeViewController: UIViewController {
         
         let clubName = UILabel()
         clubName.text = organizationData.currOrganizationName ?? "My Organization"
-        clubName.font = Font.bold(22)
+        clubName.font = UIFont(name:"Apercu-Bold", size: 22)
         clubName.textColor = Color.teamHeader
         stack.addArrangedSubview(clubName)
         

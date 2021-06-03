@@ -110,7 +110,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -118,6 +117,9 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         overrideUserInterfaceStyle = .light
+        
+        navigationController?.navigationBar.barTintColor = Color.headerBackground
+        navigationController?.navigationBar.isTranslucent = false
         setupHeader()
         
         //MARK: scrollview
@@ -288,6 +290,10 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
 //        imgStar3.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.layoutIfNeeded()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
     }
     
     
