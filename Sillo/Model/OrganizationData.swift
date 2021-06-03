@@ -26,7 +26,6 @@ class OrganizationData {
 
     // MARK: User Organization Data
     var idToName:[String?:String] = [:]
-    var orgToImage:[String?:UIImage] = [:]
     var adminStatusMap:[String?:Bool] = [:]
     var organizationList:[String] = [] //for coldstarting only
 
@@ -45,29 +44,27 @@ class OrganizationData {
                 changeOrganization(dest: newOrganization) //switch orgs
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrganizationCreationSuccess"), object: nil)
                 
+                //picture stuff, upload ref is there is actually picture selected, otherwise leave blank.
+                //we couldve used a boolean here but the field was a string so we need to maintain backwards compatability.
                 if newOrganizationPic != nil {
-                    let imageID = UUID.init().uuidString
-                    uploadOrganizationPicReference(organization: newOrganization, imageID: imageID)
-                    let orgPicRef = "orgProfiles/\(imageID)\(Constants.image_extension)"
-                    cloudutil.uploadImages(image: newOrganizationPic!, ref: orgPicRef)
+                    uploadOrganizationPicReference(organization: newOrganization, imageID: self.currOrganization!)
                 }
+                else {
+                    //upload a dummy picture, if none exists
+                    newOrganizationPic = UIImage(named: "avatar-2")
+                }
+                let orgPicRef = "orgProfiles/\(self.currOrganization!)\(Constants.image_extension)"
+                cloudutil.uploadImages(image: newOrganizationPic!, ref: orgPicRef)
+                
+                //handle invites
                 inviteMembers(organizationID: newOrganization, organizationName: newOrganizationName!, emails: memberInvites ?? [String]())
                 organizationData.memberInvites = []
             }
         }
     }
 
-    // MARK: Changing Organization Data
+    // MARK: Changing Organization Data Add Image Reference
     func uploadOrganizationPicReference(organization: String, imageID: String) {
-        /* THIS IS HANDLED WITH CLOUDUTIL (resizing is done with CLOUDUTIL so it's actually downloadable)
-        let imageID = UUID.init().uuidString
-
-        let storageRef = Constants.storage.reference(withPath: "orgProfiles/\(imageID)\(Constants.image_extension)")
-        guard let imageData = image!.jpegData(compressionQuality: 0.75) else {return }
-        let uploadMetaData = StorageMetadata.init()
-        uploadMetaData.contentType = "image/jpeg"
-        storageRef.putData(imageData, metadata:uploadMetaData)
-         */
         let orgDoc = Constants.db.collection("organizations").document(organization)
         orgDoc.getDocument() {
             (query, err) in
@@ -107,10 +104,25 @@ class OrganizationData {
             if (query != nil) {
                 if query!.exists {
                     let name = query?.get("organization_name") as! String
+                    let imageID = query?.get("image") as! String
+                    if imageID != "" {
+                        let orgPicRef = "orgProfiles/\(self.currOrganization!)\(Constants.image_extension)"
+                        cloudutil.downloadImage(ref: orgPicRef)
+                    }
                     self.currOrganizationName = name
                     self.idToName[dest] = name
                     print("COMPLETE COLD CHANGE")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ColdOrgChangeComplete"), object: nil)
+                }
+                else {
+                    UserDefaults.standard.removeObject(forKey: "defaultOrganization")
+                    if organizationData.organizationList.count > 0 {
+                        self.coldChangeOrganization(dest: organizationData.organizationList[0])
+                    }
+                    else {
+                        //force quit
+                        exit(0)
+                    }
                 }
             }
         }
@@ -285,12 +297,7 @@ class OrganizationData {
                         self.idToName[orgID] = name
                         let imageRef = query.get("image") as! String
                         if (imageRef != "") {
-                            if let resImage = cloudutil.downloadImage(ref: "orgProfiles/\(imageRef)\(Constants.image_extension)") {
-                                self.orgToImage[orgID] = resImage
-                            }
-                        }
-                        else {
-                            self.orgToImage[orgID] = UIImage(named: "avatar-2") //default avatar
+                            cloudutil.downloadImage(ref: "orgProfiles/\(orgID)\(Constants.image_extension)")
                         }
                         NotificationCenter.default.post(name: Notification.Name("RefreshOrganizationListing"), object: nil)
                     }

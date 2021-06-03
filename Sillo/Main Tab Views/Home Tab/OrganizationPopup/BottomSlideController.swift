@@ -62,7 +62,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         setupDataSource()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfDismissNotification(notification:)), name: Notification.Name("DismissNotificationIdentifier"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationListing(notification:)), name: Notification.Name("RefreshOrganizationListing"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationListing(notification:)), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
     }
     
@@ -352,7 +352,16 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         cell.imgUser.layer.cornerRadius = cell.imgUser.frame.size.width/2
         cell.imgUser.clipsToBounds = true
         cell.imgUser.layer.borderColor = UIColor.gray.cgColor
-        cell.imgUser.image = organizationData.orgToImage[organization] ?? UIImage(named:"avatar-2") //TEMPORARILY HARDCODE
+        
+        let orgPicRef = "orgProfiles/\(organization)\(Constants.image_extension)" as NSString
+        if imageCache.object(forKey: orgPicRef) != nil { //image in cache
+            let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
+            cell.imgUser.image = cachedImage
+        }
+        else {
+            cloudutil.downloadImage(ref: orgPicRef as String)
+            cell.imgUser.image = UIImage(named:"avatar-2")
+        }
         
         cell.labMessage.text = organizationName
         cell.labMessage.textColor = .black
