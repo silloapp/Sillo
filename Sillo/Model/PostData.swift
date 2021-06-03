@@ -59,7 +59,8 @@ class PostHandler {
         let organizationID = organizationData.currOrganization ?? "ERROR"
         let postID = UUID.init().uuidString
         let postRef = db.collection("organization_posts").document(organizationID).collection("posts").document(postID)
-        postRef.setData(["attachment":attachment,"message":postText,"poster":poster,"poster_alias":posterAlias,"poster_image":posterImageName,"timestamp":Date()]) { err in
+        let postDate = Date()
+        postRef.setData(["attachment":attachment,"message":postText,"poster":poster,"poster_alias":posterAlias,"poster_image":posterImageName,"timestamp":postDate]) { err in
             if err != nil {
                 print("error adding post \(postID)")
             } else {
@@ -74,7 +75,8 @@ class PostHandler {
             "eventDetails":[
             "postID": postID,
             "poster": userID,
-            ]
+            ],
+            "timestamp": postDate,
         ]
         
         let orgID = organizationData.currOrganization ?? "ERROR"
