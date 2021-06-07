@@ -58,6 +58,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         self.tabBarController?.tabBar.isHidden = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
+        
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
         let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true).limit(to: chatHandler.chatBatchSize)
         activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in
@@ -122,10 +123,10 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     func setupHeader() {
         view.addSubview(header)
         
-        header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        header.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        header.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 110/812).isActive = true
         
         //app logo and team name stack
         let logoTeamStack = setupPhotoTeamName()
@@ -146,12 +147,13 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         teamPic.layer.borderColor = Color.gray.cgColor
         teamPic.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         teamPic.layer.cornerRadius = teamPic.frame.height / 2
-        header.addSubview(teamPic)
-        
+        //header.addSubview(teamPic)
+        /*
         teamPic.rightAnchor.constraint(equalTo: header.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
         teamPic.centerYAnchor.constraint(equalTo: logoTeamStack.centerYAnchor).isActive = true
         teamPic.heightAnchor.constraint(equalToConstant: 45).isActive = true
         teamPic.widthAnchor.constraint(equalToConstant: 45).isActive = true
+         */
     }
     
     func setupPhotoTeamName() -> UIStackView {
@@ -161,9 +163,14 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         stack.distribution = .fillProportionally
         stack.translatesAutoresizingMaskIntoConstraints = false
         
+        let silloLogo = UIImageView()
+        silloLogo.image = UIImage(named: "sillo-logo-small")
+        silloLogo.contentMode = .scaleAspectFit
+        stack.addArrangedSubview(silloLogo)
+        
         let clubName = UILabel()
         clubName.text = "Messages"
-        clubName.font = Font.bold(22)
+        clubName.font = UIFont(name: "Apercu-Bold", size: 22)
         clubName.textColor = Color.teamHeader
         stack.addArrangedSubview(clubName)
         

@@ -45,7 +45,7 @@ class HomePostTableViewCell: UITableViewCell {
 
                 
                 let stringValue: String = "\(name) · \(timeStampString)"
-                let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
+                let myAttribute = [ NSAttributedString.Key.font: UIFont(name:"Apercu-Bold", size: 17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
                 attributedString.setFont(font: Font.regular(15), forText: "· \(timeStampString)")
@@ -72,7 +72,7 @@ class HomePostTableViewCell: UITableViewCell {
     
     let userName : UILabel = {
         let userName = UILabel()
-        userName.font = Font.bold(17)
+        userName.font = UIFont(name:"Apercu-Bold", size: 17)
         userName.textColor = UIColor.black
         userName.translatesAutoresizingMaskIntoConstraints = false
         return userName
