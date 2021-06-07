@@ -23,7 +23,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(17)
+        label.font = UIFont(name:"Apercu-Bold", size: 17)
         label.text = "Quest Progress"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -35,7 +35,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         let label = UILabel()
         label.numberOfLines = 0;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(15)
+        label.font = UIFont(name:"Apercu-Bold", size: 15)
         label.text = "Complete your quest to claim a Sillo sticker!"
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -533,7 +533,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         
         let tabName = UILabel()
         tabName.text = "Quests"
-        tabName.font = Font.bold(22)
+        tabName.font = UIFont(name:"Apercu-Bold", size: 22)
         tabName.textColor = Color.teamHeader
         stack.addArrangedSubview(tabName)
         

@@ -58,6 +58,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         self.tabBarController?.tabBar.isHidden = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshMessageListView(note:)), name: Notification.Name("refreshMessageListView"), object: nil)
+        
         let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
         let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true).limit(to: chatHandler.chatBatchSize)
         activeChatListener = reference.addSnapshotListener { [self] querySnapshot, error in

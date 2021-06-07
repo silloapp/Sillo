@@ -206,7 +206,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let clubName = UILabel()
         clubName.text = organizationData.currOrganizationName
-        clubName.font = Font.bold(22)
+        clubName.font = UIFont(name:"Apercu-Bold", size: 22)
         clubName.textColor = Color.teamHeader
         stack.addArrangedSubview(clubName)
         
@@ -282,7 +282,7 @@ class ImageCell: UITableViewCell {
     
     let nameLabel:UILabel = {
         let label = UILabel()
-        label.font = Font.medium(22)
+        label.font = UIFont(name:"Apercu-Medium", size: 22)
         label.textColor = Color.matte
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
