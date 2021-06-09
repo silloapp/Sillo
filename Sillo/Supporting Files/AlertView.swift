@@ -12,7 +12,7 @@ class AlertView: UIViewController {
     
     let heading: UILabel = {
         var txt = UILabel()
-        txt.font = Font.bold(18)
+        txt.font = UIFont(name: "Apercu Bold", size: 18)
         txt.textColor = Color.matte
         txt.numberOfLines = 0
         txt.textAlignment = .center
@@ -22,7 +22,7 @@ class AlertView: UIViewController {
 
     let message: UILabel = {
         var txt = UILabel()
-        txt.font = Font.regular(15)
+        txt.font = UIFont(name: "Apercu Regular", size: 15)
         txt.textColor = Color.matte
         txt.numberOfLines = 0
         txt.textAlignment = .center
@@ -80,8 +80,16 @@ class AlertView: UIViewController {
         heading.text = headingText
         message.text = messageText
         
-        btn1 = ActionButton(title: btn1String, font: Font.regular(14), defaultColor: btn1Color, pressedColor: btn1Color)
-        btn2 = ActionButton(title: btn2String, font: Font.regular(14), defaultColor: btn2Color, pressedColor: btn2Color)
+        guard let customFont = UIFont(name: "Apercu Regular", size: 14) else {
+            fatalError("""
+                Failed to load the "CustomFont-Light" font.
+                Make sure the font file is included in the project and the font name is spelled correctly.
+                """
+            )
+        }
+        
+        btn1 = ActionButton(title: btn1String, font: customFont, defaultColor: btn1Color, pressedColor: btn1Color)
+        btn2 = ActionButton(title: btn2String, font: customFont, defaultColor: btn2Color, pressedColor: btn2Color)
         
         btn1.layer.cornerRadius = 5
         btn2.layer.cornerRadius = 5

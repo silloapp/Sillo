@@ -48,7 +48,7 @@ class FacebookInputBar: MessageInputBar,UITextViewDelegate {
         inputTextView.placeholder = "Say something nice..."
         inputTextView.placeholderTextColor = UIColor.lightGray
         
-        inputTextView.font = Font.regular(16)
+        inputTextView.font = UIFont(name: "Apercu Regular", size: 16)
         inputTextView.delegate = self
        
         inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
@@ -61,7 +61,7 @@ class FacebookInputBar: MessageInputBar,UITextViewDelegate {
         setLeftStackViewWidthConstant(to: 10, animated: false)
         setStackViewItems([button], forStack: .left, animated: false)
         sendButton.setSize(CGSize(width: 52, height: 36), animated: false)
-        sendButton.titleLabel?.font = Font.bold(15)
+        sendButton.titleLabel?.font = UIFont(name: "Apercu Bold", size: 15)
     }
     
     //func textViewDidEndEditing(_ textView: UITextView) {

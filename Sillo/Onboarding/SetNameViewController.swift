@@ -16,7 +16,7 @@ class SetNameViewController: UIViewController {
         textField.placeholder = " ie. Angelica"
         textField.attributedPlaceholder = NSAttributedString(string: " ie. Angelica", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: Font.regular(17)
+            .font: UIFont(name: "Apercu Regular", size: 17)!
         ])
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -29,7 +29,7 @@ class SetNameViewController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: " ie. Angelica", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: Font.regular(17)
+            .font: UIFont(name: "Apercu Regular", size: 17)!
         ])
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -90,7 +90,7 @@ class SetNameViewController: UIViewController {
         let nameLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = Font.medium(dynamicFontSize(28))
+            label.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(28))
             label.text = "What's your name?"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -106,7 +106,7 @@ class SetNameViewController: UIViewController {
             let label = UILabel()
             label.textAlignment = .left
             label.numberOfLines = 0
-            label.font = Font.regular(dynamicFontSize(17))
+            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
             label.text = "Please use your real name - this will be displayed onced you reveal. You will not be able to change this."
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -121,7 +121,7 @@ class SetNameViewController: UIViewController {
         let firstNameLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = Font.regular(dynamicFontSize(17))
+            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(30))
             label.text = "First Name"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -144,7 +144,7 @@ class SetNameViewController: UIViewController {
         let lastNameLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = Font.regular(dynamicFontSize(17))
+            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
             label.text = "Last Name"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -168,7 +168,7 @@ class SetNameViewController: UIViewController {
             let button = UIButton()
             button.layer.cornerRadius = 8
             button.setTitle("Next", for: .normal)
-            button.titleLabel?.font = Font.bold(20)
+            button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
             button.setTitleColor(.white, for: .normal)
             button.backgroundColor = Color.buttonClickable
             button.addTarget(self, action: #selector(nextClicked(_:)), for: .touchUpInside)

@@ -15,7 +15,7 @@ class OnboardingViewController: UIViewController {
     
     let signUpLabel: UILabel = {
         let label = UILabel()
-        label.font = Font.bold(40)
+        label.font = UIFont(name: "Apercu Bold", size: 40)
         return label
     }()
     
@@ -24,7 +24,7 @@ class OnboardingViewController: UIViewController {
     
     let descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
-        descriptionLabel.font = Font.bold(30)
+        descriptionLabel.font = UIFont(name: "Apercu Bold", size: 30)
         descriptionLabel.textColor = Color.burple
         descriptionLabel.numberOfLines = 0
         descriptionLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true

@@ -49,7 +49,7 @@ class ProfileVC: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(28)
+        label.font = UIFont(name: "Apercu Bold", size: 28)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         return label
@@ -60,7 +60,7 @@ class ProfileVC: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.medium(17)
+        label.font = UIFont(name: "Apercu Medium", size: 17)
         label.textColor = Color.clouds
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -72,7 +72,7 @@ class ProfileVC: UIViewController{
         let label = UILabel()
         label.numberOfLines = 2;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Regular", size: 17)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         return label
@@ -93,7 +93,7 @@ class ProfileVC: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(17)
+        label.font = UIFont(name: "Apercu Bold", size: 17)
         label.textColor = Color.matte
         label.text = "Interests"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -152,7 +152,7 @@ class ProfileVC: UIViewController{
         let label = UILabel()
         label.numberOfLines = 2;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.regular(14)
+        label.font = UIFont(name: "Apercu Regular", size: 14)
         label.textColor = Color.clouds
         label.text = "This is a preview of what other users will see once you have been revealed."
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -206,7 +206,7 @@ class ProfileVC: UIViewController{
         
         //MARK: add name and bio stack
         nameLabel.text = name
-        nameLabel.font = Font.bold(dynamicFontSize(28))
+        nameLabel.font = UIFont(name: "Apercu Bold", size: dynamicFontSize(28))
         pronounLabel.text = pronouns
         let stack = UIStackView()
         stack.axis = .vertical
@@ -320,7 +320,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             let label = UILabel()
             label.frame = CGRect.init(x: 5, y: 5, width: headerView.frame.width, height: headerView.frame.height-10)
             label.text = "Favourite Restaurants Nearby"
-            label.font = Font.medium(17)
+            label.font = UIFont(name: "Apercu Medium", size: 17)
             label.textColor = UIColor.black
             headerView.addSubview(label)
             return headerView
@@ -349,7 +349,7 @@ class GreyCell: UITableViewCell {
     
     let nameLabel:UILabel = {
         let label = UILabel()
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Regular", size: 17)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -436,7 +436,7 @@ class CustomCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.regular(13)
+        label.font = UIFont(name: "Apercu Regular", size: 13)
         label.textColor = UIColor.black
         label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false

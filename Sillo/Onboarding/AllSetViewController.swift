@@ -13,7 +13,7 @@ class AllSetViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 2;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(32)
+        label.font = UIFont(name: "Apercu Bold", size: 32)
         label.textColor = Color.buttonClickable
         label.text = "Kudos!\r\nYou're all set up!"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,7 @@ class AllSetViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 3;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Regular", size: 17)
         label.text = "Get things going – post a question to start interacting with your teammates or respond to any post. "
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -46,7 +46,7 @@ class AllSetViewController: UIViewController {
     let newPostButton: UIButton = {
         let button = UIButton()
         button.setTitle("Get Started", for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(actionButton(_:)), for: .touchUpInside)

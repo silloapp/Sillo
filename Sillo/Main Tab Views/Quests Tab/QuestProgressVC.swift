@@ -222,7 +222,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         popupLbl.text = "Claim"
         popupLbl.backgroundColor = UIColor.init(red: 253/255.0, green: 243/255, blue: 223/255.0, alpha: 1)
         popupLbl.textColor = UIColor.init(red: 0/255.0, green: 51/255, blue: 66/255.0, alpha: 1)
-        popupLbl.font = Font.regular(16)
+        popupLbl.font = UIFont(name: "Apercu Regular", size: 16)
         popupLbl.textAlignment = .center
         popupLbl.clipsToBounds = true
         popupLbl.layer.cornerRadius = 10
@@ -336,12 +336,12 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         //subtask title
         cell.labMessage.text = quests.subtasks[indexPath.row].title
         cell.labMessage.textColor = Color.matte
-        cell.labMessage.font = Font.medium(17)
+        cell.labMessage.font = UIFont(name: "Apercu Medium", size: 17)
         
         //current progress
         cell.labUserName.text = ("\(quests.subtasks[indexPath.row].current)/\(quests.subtasks[indexPath.row].target)" )
         cell.labUserName.textColor = Color.matte
-        cell.labUserName.font = Font.medium(17)
+        cell.labUserName.font = UIFont(name: "Apercu Medium", size: 17)
         cell.labUserName.textAlignment = .right
         
         //check mark

@@ -64,11 +64,18 @@ class ChatViewTableViewCell: UITableViewCell {
 
             //let stringValue: String = "\(name) · \(timeStampString)"
             let stringValue: String = "\(name)"
-            let myAttribute = [ NSAttributedString.Key.font: Font.bold(17)]
+            let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Apercu Bold", size: 17)]
+            guard let customFont = UIFont(name: "Apercu Regular", size: 17) else {
+                fatalError("""
+                    Failed to load the "CustomFont-Light" font.
+                    Make sure the font file is included in the project and the font name is spelled correctly.
+                    """
+                )
+            }
             let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
             //let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue)
             attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
-            attributedString.setFont(font: Font.regular(17), forText: "· \(timeStampString)")
+            attributedString.setFont(font: customFont, forText: "· \(timeStampString)")
             userName.attributedText = attributedString
             
             timestamp.text = " · \(timeStampString)"
@@ -76,13 +83,13 @@ class ChatViewTableViewCell: UITableViewCell {
             message.text = msg.latest_message!
             
             if !msg.isRead! {
-                userName.font = Font.bold(17)
-                message.font = Font.bold(15)
+                userName.font = UIFont(name: "Apercu Bold", size: 17)
+                message.font = UIFont(name: "Apercu Bold", size: 15)
                 message.textColor = Color.matte
                 unreadAlert.backgroundColor = Color.burple
             } else {
-                userName.font = Font.regular(17)
-                message.font = Font.regular(15)
+                userName.font = UIFont(name: "Apercu Regular", size: 17)
+                message.font = UIFont(name: "Apercu Regular", size: 15)
                 message.textColor = UIColor.lightGray
                 unreadAlert.backgroundColor = .none
             }
@@ -102,7 +109,7 @@ class ChatViewTableViewCell: UITableViewCell {
     
     let userName : UILabel = {
         let userName = UILabel()
-        userName.font = Font.regular(17)
+        userName.font = UIFont(name: "Apercu Regular", size: 17)
         userName.textColor = UIColor.black
         userName.translatesAutoresizingMaskIntoConstraints = false
         return userName
@@ -118,7 +125,7 @@ class ChatViewTableViewCell: UITableViewCell {
    
     let message:UILabel = {
         let message = UILabel()
-        message.font = Font.regular(15)
+        message.font = UIFont(name: "Apercu Regular", size: 15)
         message.numberOfLines = 1
         message.textColor = UIColor.lightGray
         message.textAlignment = .left
@@ -130,7 +137,7 @@ class ChatViewTableViewCell: UITableViewCell {
     
     let timestamp : UILabel = {
         let time = UILabel()
-        time.font = Font.regular(15)
+        time.font = UIFont(name: "Apercu Regular", size: 15)
         time.textColor = UIColor.lightGray
         time.translatesAutoresizingMaskIntoConstraints = false
         //time.backgroundColor = UIColor.blue

@@ -23,7 +23,7 @@ class VerificationSuccessViewController: UIViewController {
     //MARK: init success label
     let successLabel: UILabel = {
         let label = UILabel()
-        label.font = Font.medium(28)
+        label.font = UIFont(name: "Apercu Medium", size: 28)
         label.text = "Success ✔"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false

@@ -93,7 +93,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         
         let header = UILabel()
         header.text = "Add people to this space"
-        header.font = Font.medium(dynamicFontSize(22))
+        header.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(22))
         header.adjustsFontSizeToFitWidth = true
         header.textColor = Color.textSemiBlack
         header.numberOfLines = 1
@@ -124,7 +124,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         let orgName = UILabel()
         orgName.text = orgNameString ?? "Organization"
         orgName.textColor = Color.textSemiBlack
-        orgName.font = Font.medium(dynamicFontSize(22))
+        orgName.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(22))
         
         hStack.addArrangedSubview(addPhotoImage)
         hStack.addArrangedSubview(orgName)
@@ -138,7 +138,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         
         let instructionLabel = UILabel()
         instructionLabel.text = "Please separate multiple email addresses with commas"
-        instructionLabel.font = Font.regular(dynamicFontSize(17))
+        instructionLabel.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
         instructionLabel.adjustsFontSizeToFitWidth = true
         instructionLabel.textColor = Color.textSemiBlack
         instructionLabel.numberOfLines = 1
@@ -165,7 +165,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         emailTextView.text = "name@domain.com, name@domain.com"
         emailTextView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00)
         emailTextView.textColor = .secondaryLabel
-        emailTextView.font = Font.regular(17)
+        emailTextView.font = UIFont(name: "Apercu Regular", size: 17)
         emailTextView.layer.cornerRadius = 10
         emailTextView.isScrollEnabled = true
         emailTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
@@ -181,7 +181,7 @@ class AddPeopleToSpaceViewController: UIViewController, UIGestureRecognizerDeleg
         nextButton.isEnabled = false
         nextButton.backgroundColor = Color.buttonClickableUnselected
         nextButton.setTitle("Next", for: .normal)
-        nextButton.titleLabel?.font = Font.bold(dynamicFontSize(20))
+        nextButton.titleLabel?.font = UIFont(name: "Apercu Bold", size: dynamicFontSize(20))
         nextButton.layer.cornerRadius = 5
         nextButton.addTarget(self, action: #selector(nextClicked), for: .touchUpInside)
         

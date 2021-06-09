@@ -24,7 +24,7 @@ class NotificationsViewController: UIViewController {
     let toggleTableView = UITableView()
     let toggleHeader: UILabel = {
         let lb = UILabel()
-        lb.font = Font.bold(19)
+        lb.font = UIFont(name: "Apercu Bold", size: 19)
         lb.textColor = .black
         lb.text = "Notify me about"
         lb.translatesAutoresizingMaskIntoConstraints = false
@@ -211,7 +211,7 @@ class ToggleCell: UITableViewCell {
     
     let toggleLabel: UILabel = {
         let label = UILabel()
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Bold", size: 17)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
