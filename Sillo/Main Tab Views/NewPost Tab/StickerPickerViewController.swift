@@ -15,7 +15,7 @@ class StickerPickerViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 8
         button.setTitle("Remove Sticker", for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickableUnselected
         button.isUserInteractionEnabled = false

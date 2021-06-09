@@ -26,7 +26,7 @@ class PasscodeVerificationViewController: UIViewController {
     //MARK: init Header label
     let headerLabel: UILabel = {
         let label = UILabel()
-        label.font = Font.medium(28)
+        label.font = UIFont(name: "Apercu Medium", size: 28)
         label.text = "Verify your email"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -35,7 +35,7 @@ class PasscodeVerificationViewController: UIViewController {
     //MARK: init body text label
     let bodyLabel: UILabel = {
         let label = UILabel()
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Regular", size: 17)
         label.text = "Check your inbox for a verification code."
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,7 +47,7 @@ class PasscodeVerificationViewController: UIViewController {
         textField.placeholder = ""
         textField.textAlignment = .center
         textField.attributedPlaceholder = NSAttributedString(string: "", attributes: [
-            .font: Font.regular(17)
+            .font: UIFont(name: "Apercu Regular", size: 17)
         ])
         textField.layer.cornerRadius = 10.0;
         textField.clearsOnBeginEditing = true
@@ -65,7 +65,7 @@ class PasscodeVerificationViewController: UIViewController {
     //MARK: init resend email label
     let resendLabel: UILabel = {
         let label = UILabel()
-        label.font = Font.regular(22)
+        label.font = UIFont(name: "Apercu Regular", size: 22)
         label.text = "I didn't receive a code!"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +77,7 @@ class PasscodeVerificationViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Resend", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel!.font = Font.bold(22)
+        button.titleLabel!.font = UIFont(name: "Apercu Bold", size: 22)
         button.setTitleColor(.darkGray, for: .highlighted)
         button.addTarget(self, action: #selector(resendRequested(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +89,7 @@ class PasscodeVerificationViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 8
         button.setTitle("Verify", for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(verifyClicked(_:)), for: .touchUpInside)

@@ -48,7 +48,7 @@ class HomePostTableViewCell: UITableViewCell {
                 let myAttribute = [ NSAttributedString.Key.font: UIFont(name:"Apercu-Bold", size: 17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute)
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
-                attributedString.setFont(font: Font.regular(15), forText: "· \(timeStampString)")
+                attributedString.setFont(font: UIFont(name: "Apercu Regular", size: 15)!, forText: "· \(timeStampString)")
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
@@ -88,7 +88,7 @@ class HomePostTableViewCell: UITableViewCell {
     
     let message:UILabel = {
         let message = UILabel()
-        message.font = Font.regular(15)
+        message.font = UIFont(name: "Apercu Regular", size: 15)
         message.numberOfLines = 0
         message.textColor = Color.message
         message.textAlignment = .left

@@ -27,7 +27,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         let button = UIButton()
         button.setTitle("Get Started", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(getStartedClicked(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         let button = UIButton()
         button.setTitle("I already have an account", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
         button.addTarget(self, action: #selector(signInClicked(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

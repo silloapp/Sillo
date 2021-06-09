@@ -176,7 +176,7 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         label.text = self.initPost?.posterAlias ?? person
         label.textAlignment = .left
         label.textColor = Color.matte
-        label.font = Font.bold(20)
+        label.font = UIFont(name: "Apercu Bold", size: 20)
         
         self.navigationItem.titleView = label
         

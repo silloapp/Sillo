@@ -51,7 +51,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     let text: UILabel = {
         let label = UILabel()
-        label.font = Font.regular(12)
+        label.font = UIFont(name: "Apercu Regular", size: 12)
         label.numberOfLines = 3
         label.text = "If you choose to delete your account, it will be permanently removed from Sillo and you will be removed from all spaces associated with your email"
         label.textAlignment = .left
@@ -130,7 +130,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let tabName = UILabel()
         tabName.text = "Account"
-        tabName.font = Font.bold(22)
+        tabName.font = UIFont(name: "Apercu Bold", size: 22)
         tabName.textColor = Color.teamHeader
         tabName.widthAnchor.constraint(equalToConstant: 200).isActive = true
         stack.addArrangedSubview(tabName)

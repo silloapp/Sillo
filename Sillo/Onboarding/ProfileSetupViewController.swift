@@ -56,7 +56,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(22)
+        label.font = UIFont(name: "Apercu Bold", size: 22)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Color.burple
         label.text = "Set up profile"
@@ -100,7 +100,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 3;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Regular", size: 17)
         label.text = "Your profile picture will only be seen once you are revealed"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -122,7 +122,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(28)
+        label.font = UIFont(name: "Apercu Bold", size: 28)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         return label
@@ -143,7 +143,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(17)
+        label.font = UIFont(name: "Apercu Bold", size: 17)
         label.textColor = Color.matte
         label.text = "Pronouns"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -156,7 +156,7 @@ class ProfileSetupViewController: UIViewController{
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: " no pronouns specified", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: Font.regular(17)
+            .font: UIFont(name: "Apercu Regular", size: 17)
         ])
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -180,7 +180,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(17)
+        label.font = UIFont(name: "Apercu Bold", size: 17)
         label.textColor = Color.matte
         label.text = "Bio"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -193,7 +193,7 @@ class ProfileSetupViewController: UIViewController{
         let textView = UITextView()
         textView.text = ""
         textView.layer.cornerRadius = 10.0;
-        textView.font = Font.regular(17)
+        textView.font = UIFont(name: "Apercu Regular", size: 17)
         textView.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textView.backgroundColor = Color.textFieldBackground
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -215,7 +215,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Regular", size: 17)
         label.textColor = Color.matte
         label.text = "Interests"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -238,7 +238,7 @@ class ProfileSetupViewController: UIViewController{
     let editInterestsButton: UIButton = {
       let button = UIButton()
         button.setTitle("Edit", for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
         button.setTitleColor(Color.matte, for: .normal)
         button.backgroundColor = Color.textFieldBackground
         button.layer.cornerRadius = 8
@@ -252,7 +252,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.bold(17)
+        label.font = UIFont(name: "Apercu Bold", size: 17)
         label.textColor = Color.matte
         label.text = "Favorite restaurants nearby"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -263,9 +263,16 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 1
     let restaurantTextFieldOne: UITextField = {
         let textField = UITextField()
+        guard let customFont = UIFont(name: "Apercu Regular", size: 17) else {
+            fatalError("""
+                Failed to load the "CustomFont-Light" font.
+                Make sure the font file is included in the project and the font name is spelled correctly.
+                """
+            )
+        }
         textField.attributedPlaceholder = NSAttributedString(string: " Asha Tea House", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: Font.regular(17)
+            .font: customFont
         ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
@@ -278,9 +285,16 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 2
     let restaurantTextFieldTwo: UITextField = {
         let textField = UITextField()
+        guard let customFont = UIFont(name: "Apercu Regular", size: 17) else {
+            fatalError("""
+                Failed to load the "CustomFont-Light" font.
+                Make sure the font file is included in the project and the font name is spelled correctly.
+                """
+            )
+        }
         textField.attributedPlaceholder = NSAttributedString(string: " Eureka", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: Font.regular(17)
+            .font: customFont
         ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
@@ -293,9 +307,16 @@ class ProfileSetupViewController: UIViewController{
     //MARK: restaurant text field 3
     let restaurantTextFieldThree: UITextField = {
         let textField = UITextField()
+        guard let customFont = UIFont(name: "Apercu Regular", size: 17) else {
+            fatalError("""
+                Failed to load the "CustomFont-Light" font.
+                Make sure the font file is included in the project and the font name is spelled correctly.
+                """
+            )
+        }
         textField.attributedPlaceholder = NSAttributedString(string: " Thai Basil", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: Font.regular(17)
+            .font: customFont
         ])
         textField.text = ""
         textField.layer.cornerRadius = 10.0;
@@ -310,7 +331,7 @@ class ProfileSetupViewController: UIViewController{
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = Font.regular(17)
+        label.font = UIFont(name: "Apercu Regular", size: 17)
         label.textColor = Color.matte
         label.text = "Set this as my profile for all orgs"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -344,7 +365,7 @@ class ProfileSetupViewController: UIViewController{
         let button = UIButton()
         button.layer.cornerRadius = 8
         button.setTitle("Save Changes", for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Regular", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(saveChanges(_:)), for: .touchUpInside)
@@ -497,7 +518,7 @@ class ProfileSetupViewController: UIViewController{
         
         
         //MARK: profile pic tip
-        profileTipLabel.font = Font.regular(dynamicFontSize(17))
+        profileTipLabel.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
         scrollView.addSubview(profileTipLabel)
         profileTipLabel.leadingAnchor.constraint(equalTo: profilepic.trailingAnchor, constant: 14).isActive = true
         profileTipLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
@@ -536,7 +557,7 @@ class ProfileSetupViewController: UIViewController{
         print("using pronouns \(self.pronouns)")
         pronounsTextField.placeholder = self.pronouns
         pronounsTextField.text = self.pronouns
-        pronounsTextField.font = Font.regular(17)
+        pronounsTextField.font = UIFont(name: "Apercu Regular", size: 17)
         scrollView.addSubview(pronounsTextField)
         pronounsTextField.attributedPlaceholder =
             NSAttributedString(string: self.pronouns, attributes: [NSAttributedString.Key.foregroundColor : Color.matte])

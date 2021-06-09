@@ -65,7 +65,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
             let label = UILabel()
             label.textAlignment = .left
             label.numberOfLines = 0
-            label.font = Font.medium(dynamicFontSize(24))
+            label.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(24))
             label.textColor = Color.buttonClickable
             label.text = "Select three interests to personalize your profile."
             label.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +129,8 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         
         //MARK: constraints for interestCollectionView
         interestCollectionView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9).isActive = true
-        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
+//        interestCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
+        interestCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         interestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         interestCollectionView.topAnchor.constraint(equalTo: selectedInterestCollectionView.bottomAnchor, constant: 10).isActive = true
     }
@@ -144,6 +145,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         }
         return 0
     }
+    
     //MARK: cellForItemAt
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -195,7 +197,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
             let interestLabel : UILabel = {
                 let label: UILabel = UILabel()
                 label.textAlignment = .center
-                label.font = Font.regular(dynamicFontSize(17))
+                label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
                 label.textColor = Color.navBlue
                 //checks to see if index is within selectedInterests
                 if (indexPath.item < selectedInterests.count) {
@@ -249,7 +251,7 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         let interestLabel : UILabel = {
             let label: UILabel = UILabel()
             label.textAlignment = .center
-            label.font = Font.regular(dynamicFontSize(17))
+            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
             label.textColor = Color.navBlue
             label.text = pretty_name_matching[interests[indexPath.item]]
             label.translatesAutoresizingMaskIntoConstraints = false
@@ -259,7 +261,8 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         cell.addSubview(interestLabel)
         interestLabel.heightAnchor.constraint(equalTo: cell.heightAnchor, multiplier: 0.7).isActive = true
         interestLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
-        interestLabel.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: -20).isActive = true
+//        interestLabel.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: -20).isActive = true
+        interestLabel.topAnchor.constraint(equalTo: interestImage.bottomAnchor, constant: -5).isActive = true
         
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = false

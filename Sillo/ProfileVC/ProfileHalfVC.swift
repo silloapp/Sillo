@@ -48,7 +48,7 @@ class ProfileHalfVC: UIViewController {
     let submitButton: UIButton = {
         let button = UIButton()
         button.setTitle("PLACEHOLDER", for: .normal)
-        button.titleLabel?.font = Font.bold(20)
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
 //        button.addTarget(self, action: #selector(actionButton(_:)), for: .touchUpInside)

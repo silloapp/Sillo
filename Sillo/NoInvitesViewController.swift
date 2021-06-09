@@ -32,7 +32,7 @@ class NoInvitesViewController: UIViewController {
             
         let welcomeHeader = UILabel()
         welcomeHeader.text = "Welcome to Sillo"
-        welcomeHeader.font = Font.medium(dynamicFontSize(30))
+        welcomeHeader.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(30))
         welcomeHeader.minimumScaleFactor = 0.5
         welcomeHeader.adjustsFontSizeToFitWidth = true
         welcomeHeader.textColor = Color.buttonClickable
@@ -45,7 +45,7 @@ class NoInvitesViewController: UIViewController {
         let descriptionText = UILabel()
         descriptionText.numberOfLines = 0
         descriptionText.text = "We don’t see any Sillo spaces associated with berkeley@gmail.com.\n\nYou can ask your team administrator for an invitation or try another email address."
-        descriptionText.font = Font.regular(dynamicFontSize(18))
+        descriptionText.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(18))
         descriptionText.minimumScaleFactor = 0.5
         descriptionText.adjustsFontSizeToFitWidth = true
         descriptionText.textColor = Color.textSemiBlack
@@ -54,7 +54,7 @@ class NoInvitesViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Create a Sillo space", for: .normal)
         button.backgroundColor = Color.buttonClickableUnselected
-        button.titleLabel?.font = Font.bold(dynamicFontSize(17))
+        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: dynamicFontSize(17))
         button.titleLabel?.minimumScaleFactor = 0.5
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setTitleColor(.white, for: .normal)
