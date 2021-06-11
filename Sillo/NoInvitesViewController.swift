@@ -31,7 +31,7 @@ class NoInvitesViewController: UIViewController {
         view.addSubview(stack)
             
         let welcomeHeader = UILabel()
-        welcomeHeader.text = "Welcome to Sillo"
+        welcomeHeader.text = "Sillo space invites"
         welcomeHeader.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(30))
         welcomeHeader.minimumScaleFactor = 0.5
         welcomeHeader.adjustsFontSizeToFitWidth = true

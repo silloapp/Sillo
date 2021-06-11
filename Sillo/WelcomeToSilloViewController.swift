@@ -126,7 +126,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         // FOR TITLE :
         
         self.scrollView.addSubview(titleLabel)
-        titleLabel.text = "Welcome to Sillo"
+        titleLabel.text = "Invites"
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = Color.burple
         titleLabel.font = UIFont(name: "Apercu-Bold", size: 24)

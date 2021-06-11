@@ -56,7 +56,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
 
     //MARK: init anonymous profile picture
     let profilepic: UIImageView = {
-        let image = UIImage(named: "anon_profile") //TODO: replace with randomized profile pic
+        let image = UIImage(named: "avatar-1") //TODO: replace with randomized profile pic
         let imageView = UIImageView(image: image)
         imageView.contentMode = .center
         imageView.translatesAutoresizingMaskIntoConstraints = false
