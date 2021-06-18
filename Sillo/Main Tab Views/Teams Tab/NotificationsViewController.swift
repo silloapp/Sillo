@@ -211,7 +211,7 @@ class ToggleCell: UITableViewCell {
     
     let toggleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Apercu Bold", size: 17)
+        label.font = UIFont(name: "Apercu-Regular", size: 17)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
