@@ -38,7 +38,7 @@ class WelcomeToSilloNoInviteVC: UIViewController {
         
         let heading = UILabel()
         heading.font = UIFont(name: "Apercu Bold", size: 24)
-        heading.text = "Welcome to Sillo"
+        heading.text = "Sillo space invites"
         heading.textColor = Color.burple
         stack.addArrangedSubview(heading)
         

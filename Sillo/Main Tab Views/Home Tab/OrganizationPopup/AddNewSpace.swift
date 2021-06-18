@@ -75,7 +75,7 @@ class AddNewSpace: UIViewController,UITableViewDelegate,UITableViewDataSource {
         // FOR TITLE :
         
         self.insideScrollVw.addSubview(titleLabel)
-        titleLabel.text = "Welcome to Sillo"
+        titleLabel.text = "Sillo space invites"
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = themeColor
         titleLabel.font = UIFont(name: "Apercu-Bold", size: 22)
