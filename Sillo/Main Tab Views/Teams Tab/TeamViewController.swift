@@ -31,7 +31,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: ReportsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "My Spaces", nextVC: WelcomeToSilloViewController(), withArrow: false, fontSize: 22),
+        MenuItem(name: "My Spaces", nextVC: {let vc = WelcomeToSilloViewController();vc.origin="teams";return vc}(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
