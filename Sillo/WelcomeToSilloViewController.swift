@@ -43,6 +43,20 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header) but only if the view was from teams menu
+        if self.origin == "teams" {
+            let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+            edgePan.edges = .left
+            view.addGestureRecognizer(edgePan)
+        }
+    }
+    
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -294,13 +308,14 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             self.present(nextVC, animated: true, completion: nil)
         }
         else {
-            var tabViewControllerIndex = 0
-            print(origin)
+            //signed in user, now determine where the original screen was that led here
             if origin == "teams" {
-                tabViewControllerIndex = 4
+                //from teams menu view, simple pop
+                self.navigationController?.popViewController(animated: true)
+                return
             }
-            
-            let nextVC:UITabBarController = prepareTabVC(defaultIndex: tabViewControllerIndex) as! UITabBarController
+            //otherwise, create a new navigation vc (the previous one was deleted)
+            let nextVC:UITabBarController = prepareTabVC() as! UITabBarController
             nextVC.modalPresentationStyle = .fullScreen
             nextVC.modalTransitionStyle = .crossDissolve
                 

@@ -180,6 +180,12 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
             alertVC.modalPresentationStyle = .overCurrentContext
             self.present(alertVC, animated: true, completion: nil)
             break
+        case "My Spaces":
+            if let nextVC = (selectedMenuItem.nextVC as? WelcomeToSilloViewController) {
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            break
+        
         default:
             print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
             let vc = menuItems[indexPath.row].nextVC!
