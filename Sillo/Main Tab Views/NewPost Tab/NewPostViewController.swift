@@ -19,6 +19,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     var showMoreByUser: String?
     
     var conversation: [ChatMessage] = []
+    var selectedGifId: String = ""
     
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
@@ -109,7 +110,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         return imgView
     }()
     
-    var stickerName: String!
+    var stickerName: String = ""
     var imageView = GPHMediaView()
     var media: GPHMedia?
 
@@ -240,6 +241,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         print("img passed in: \(img)")
         //remove the gifs if already in the VC
         self.conversation = []
+        self.selectedGifId = ""
         self.collectionView.reloadData()
         
         //add image
@@ -249,6 +251,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     func removeSticker() {
         self.stickerImageView.image = nil
+        self.stickerName = ""
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -330,7 +333,13 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
             textView.resignFirstResponder()
             self.latestButtonPressTimestamp = Date()
 //            let attachment = media?.id ?? ""
-            let attachment = stickerName
+            var attachment = ""
+            if stickerName == "" {
+                attachment = selectedGifId
+            } else {
+                attachment = stickerName
+            }
+           
             let poster = Constants.FIREBASE_USERID!
             let poster_alias = chatHandler.generateAlias()
             
@@ -391,6 +400,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     func addMessageToConversation(text: String? = nil, media: GPHMedia? = nil, user: ChatUser = .sueRender) {
         let indexPath = IndexPath(row: conversation.count, section: 0)
         self.conversation = [ChatMessage(text: text, user: user, media: media)]
+        self.selectedGifId = media!.id
         self.collectionView.reloadData()
     
     }
@@ -643,6 +653,7 @@ extension NewPostViewController: UICollectionViewDataSource {
     //when a gif is tapped, we remove it from the view
     @objc func gifTapped(tapGestureRecognizer:UITapGestureRecognizer) {
         self.conversation = []
+        self.selectedGifId = ""
         self.collectionView.reloadData()
     }
 }

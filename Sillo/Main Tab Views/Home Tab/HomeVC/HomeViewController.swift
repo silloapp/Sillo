@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     
     let cellID = "cellID"
     let stickerCellID = "stickerCellID"
+    let gifCellID = "gifCellID"
     let postsTable : UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -254,6 +255,7 @@ class HomeViewController: UIViewController {
         postsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         postsTable.register(HomePostTableViewCell.self, forCellReuseIdentifier: cellID)
         postsTable.register(HomePostTableViewCellSticker.self, forCellReuseIdentifier: stickerCellID)
+        postsTable.register(HomePostTableViewCellGIF.self, forCellReuseIdentifier: gifCellID)
     }
     
     //MARK: handle document changes
@@ -327,8 +329,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.optionsButton.addGestureRecognizer(tapGestureRecognizer)
             return cell
         }
-        else {
+        else if post.attachment!.contains("Sticker") {
             let cell = tableView.dequeueReusableCell(withIdentifier: stickerCellID, for: indexPath) as! HomePostTableViewCellSticker
+            cell.item = post
+            cell.separatorInset = UIEdgeInsets.zero
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(optionsTapped(tapGestureRecognizer:)))
+            cell.optionsButton.addGestureRecognizer(tapGestureRecognizer)
+            return cell
+        }
+        else { //gif cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: gifCellID, for: indexPath) as! HomePostTableViewCellGIF
             cell.item = post
             cell.separatorInset = UIEdgeInsets.zero
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(optionsTapped(tapGestureRecognizer:)))
