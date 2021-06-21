@@ -15,11 +15,24 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     var posterImageName: String = "avatar-1"
     let stickerFloatingPanel = FloatingPanelController()
+    var selectedContentType: GPHContentType?
+    var showMoreByUser: String?
+    
+    var conversation: [ChatMessage] = []
     
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.9 //in seconds
     
     var imageViewHeightConstraint: NSLayoutConstraint?
+    
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 30
+        layout.minimumInteritemSpacing = 0
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     //MARK: init exit button
     let exitButton: UIButton = {
@@ -192,6 +205,19 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         textView.topAnchor.constraint(equalTo: profilepic.topAnchor, constant: 0).isActive = true
         textView.becomeFirstResponder()
         
+        //collectionview for gifs
+        view.addSubview(collectionView)
+        collectionView.leftAnchor.constraint(equalTo: view.safeLeftAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 20).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: view.safeRightAnchor).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant:500).isActive = true
+        collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.id)
+        collectionView.contentInset = UIEdgeInsets(top: 40, left: 30, bottom: 20, right: 0)
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.isScrollEnabled = false
+        
         view.addSubview(stickerImageView)
         stickerImageView.widthAnchor.constraint(equalToConstant: 112).isActive = true
         stickerImageView.heightAnchor.constraint(equalToConstant: 112).isActive = true
@@ -212,6 +238,11 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     
     func addSticker(img: UIImage, name: String) {
         print("img passed in: \(img)")
+        //remove the gifs if already in the VC
+        self.conversation = []
+        self.collectionView.reloadData()
+        
+        //add image
         self.stickerImageView.image = img
         self.stickerName = name
     }
@@ -357,6 +388,14 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    func addMessageToConversation(text: String? = nil, media: GPHMedia? = nil, user: ChatUser = .sueRender) {
+        let indexPath = IndexPath(row: conversation.count, section: 0)
+        self.conversation = [ChatMessage(text: text, user: user, media: media)]
+        self.collectionView.reloadData()
+    
+    }
+    
+    
     //User pressed gif button
     @objc func addGifPressed(_:UIButton) {
         let giphy = GiphyViewController()
@@ -382,6 +421,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
 }
 
 extension NewPostViewController: GiphyDelegate {
+    
     func didSearch(for term: String) {
         print("your user made a search! ", term)
     }
@@ -427,12 +467,25 @@ extension NewPostViewController: GiphyDelegate {
         imageView.layer.cornerRadius = 10
     }
     
+//    func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
+//        // user tapped a GIF!
+//        print("user tapped a GIF!")
+//        giphyViewController.dismiss(animated: true, completion: nil)
+//        self.media = media
+//        addMedia()
+//        GPHCache.shared.clear()
+//    }
+    
     func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
-        // user tapped a GIF!
-        print("user tapped a GIF!")
-        giphyViewController.dismiss(animated: true, completion: nil)
+        //remove sticker if gif added (only one media at any time)
+        removeSticker()
+        showMoreByUser = nil
+        self.selectedContentType = giphyViewController.selectedContentType
         self.media = media
-        addMedia()
+        giphyViewController.dismiss(animated: true, completion: { [weak self] in
+            self?.addMessageToConversation(text: nil, media: media)
+            guard self?.conversation.count ?? 0 > 7 else { return }
+        })
         GPHCache.shared.clear()
     }
     
@@ -497,6 +550,26 @@ extension NewPostViewController: FloatingPanelControllerDelegate {
     
 }
 
+extension NewPostViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let index = indexPath.item
+        guard index < conversation.count else { return .zero }
+        let message = conversation[index]
+        if let media = message.media {
+            let isEmoji = media.pingbacksEventType == .emoji
+            let size = CGSize(width: media.images?.original?.width ?? 1, height: media.images?.original?.height ?? 1)
+            let ratio = size.width / size.height
+            return CGSize(width: collectionView.bounds.size.width, height: (isEmoji ? ChatCell.emojiBubbleWidth : ChatCell.bubbleWidth) / ratio)
+        }
+        guard let text = message.text else { return .zero }
+        let targetSize = CGSize(width: ChatCell.bubbleWidth - ChatCell.padding * 2, height: .greatestFiniteMagnitude)
+        let style = NSMutableParagraphStyle()
+        style.lineBreakMode = .byWordWrapping
+        let textRect = text.boundingRect(with: targetSize, options: .usesLineFragmentOrigin, attributes: [.font: ChatCell.font, .paragraphStyle: style], context: nil)
+        return CGSize(width: collectionView.bounds.size.width, height: ceil(textRect.height + ChatCell.padding * 2))
+    }
+}
+
 class MyFloatingPanelLayout: FloatingPanelLayout {
     let position: FloatingPanelPosition = .bottom
     let initialState: FloatingPanelState = .half
@@ -512,3 +585,75 @@ class MyFloatingPanelBehavior: FloatingPanelBehavior {
         return false
     }
 }
+
+enum ChatUser: Int {
+    case abraHam
+    case sueRender
+    
+    var avatar: GiphyYYImage? {
+        switch self {
+        case .abraHam: return GiphyYYImage(contentsOfFile: Bundle.main.path(forResource: "abraham", ofType: "gif") ?? "")
+        case .sueRender: return GiphyYYImage(contentsOfFile: Bundle.main.path(forResource: "suerender", ofType: "gif") ?? "")
+        }
+    }
+    
+    var isMe: Bool {
+        switch self {
+        case .abraHam: return false
+        case .sueRender: return true
+        }
+    }
+}
+
+struct ChatMessage {
+    var text: String?
+    var user: ChatUser
+    var media: GPHMedia?
+    
+    init(text: String? = "", user: ChatUser, media: GPHMedia? = nil) {
+        self.text = text
+        self.user = user
+        self.media = media
+    }
+}
+
+extension NewPostViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let genericCell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.id, for: indexPath)
+        guard let cell = genericCell as? ChatCell else { return genericCell }
+        let message = conversation[indexPath.item]
+        cell.media = message.media
+        cell.text = message.text
+        cell.avatarImage = message.user.avatar
+        cell.isReply = message.user == .abraHam
+        cell.imageView.delegate = self
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(gifTapped(tapGestureRecognizer:)))
+        cell.imageView.addGestureRecognizer(tapGestureRecognizer)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return conversation.count
+    }
+    
+    //when a gif is tapped, we remove it from the view
+    @objc func gifTapped(tapGestureRecognizer:UITapGestureRecognizer) {
+        self.conversation = []
+        self.collectionView.reloadData()
+    }
+}
+    
+
+extension NewPostViewController: GPHMediaViewDelegate {
+    func didPressMoreByUser(_ user: String) {
+        showMoreByUser = user
+        //addGifPressed(_:)
+    }
+}
+
+
+
