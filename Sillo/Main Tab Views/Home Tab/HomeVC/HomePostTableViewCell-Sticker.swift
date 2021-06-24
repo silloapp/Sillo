@@ -384,7 +384,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
         mediaView.contentMode = .scaleAspectFill //TODO: to avoid cropping, change this to aspectFit (though if you do this you'll also have to solve the issue with the rounded corners not showing, will do this when i have more time!)
         mediaView.layer.cornerRadius = bubbleView.layer.cornerRadius
         mediaView.layer.masksToBounds = true
-        mediaView.layer.backgroundColor = UIColor.blue.cgColor
+ 
         mediaView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
         mediaView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor).isActive = true
         mediaView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor).isActive = true
