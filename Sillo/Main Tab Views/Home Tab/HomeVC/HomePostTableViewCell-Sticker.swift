@@ -351,7 +351,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
         bubbleView.layer.shadowRadius = 25
         bubbleView.layer.shadowOffset = CGSize(width: 0, height: 13)
         
-        bubbleView.backgroundColor = .systemRed
+        //bubbleView.backgroundColor = .systemRed
        
         
         
