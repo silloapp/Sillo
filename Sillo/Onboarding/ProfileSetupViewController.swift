@@ -365,7 +365,7 @@ class ProfileSetupViewController: UIViewController{
         let button = UIButton()
         button.layer.cornerRadius = 8
         button.setTitle("Save Changes", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu-Regular", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(saveChanges(_:)), for: .touchUpInside)
@@ -393,6 +393,12 @@ class ProfileSetupViewController: UIViewController{
         collectionView.reloadData()
         
         bioTextView.text = self.bioText
+        
+        //clear restaurant fields
+        restaurantTextFieldOne.text = ""
+        restaurantTextFieldTwo.text = ""
+        restaurantTextFieldThree.text = ""
+        
         for (index, restaurant) in restaurants.enumerated() {
             switch index {
             case 0:
@@ -761,10 +767,24 @@ class ProfileSetupViewController: UIViewController{
             print("pronouns accepted")
         }
         
-        let bio = bioTextView.text!
+        let bio = bioTextView.text.trimmingCharacters(in: .whitespaces)
         
         self.restaurants = collectRestaurantHelper()
         self.useSeparateProfiles = !allOrgSwitch.isOn
+        
+        //MARK: data validation
+        if self.interests.count < 1 || self.restaurants.count < 1 {
+            DispatchQueue.main.async {
+                let alert = AlertView(headingText: "Oops!", messageText: "Please make sure you select some interests and favorite restaurants.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                    self.dismiss(animated: true, completion: nil)
+                }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+                }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
+                alert.modalPresentationStyle = .overCurrentContext
+                alert.modalTransitionStyle = .crossDissolve
+                self.present(alert, animated: true, completion: nil)
+            }
+            return
+        }
         
         self.latestButtonPressTimestamp = Date()
         
