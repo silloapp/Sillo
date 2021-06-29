@@ -24,7 +24,7 @@ class TeamSettingsTableViewCell: UITableViewCell {
     func setupView() {
         let itemLabel = UILabel()
         itemLabel.text = "Settings"
-        itemLabel.font = UIFont(name: "Apercu Bold", size: 17)
+        itemLabel.font = UIFont(name: "Apercu-Bold", size: 17)
         itemLabel.textColor = Color.textSemiBlack
         itemLabel.translatesAutoresizingMaskIntoConstraints = false
 

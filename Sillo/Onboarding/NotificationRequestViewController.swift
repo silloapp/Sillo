@@ -22,7 +22,7 @@ class NotificationRequestViewController: UIViewController {
     //MARK: init Stay Connected label
     let stayConnectedLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Apercu Medium", size: 28)
+        label.font = UIFont(name: "Apercu-Medium", size: 28)
         label.textColor = .black
         label.text = "Stay connected"
         label.textAlignment = .left
@@ -33,7 +33,7 @@ class NotificationRequestViewController: UIViewController {
     //MARK: init body label
     let bodyLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Apercu Regular", size: 20)
+        label.font = UIFont(name: "Apercu-Regular", size: 20)
         label.text = "Now let's turn on notifications so we can let you know when members want to connect with you."
         label.textAlignment = .left
 //        label.contentMode = .scaleToFill
@@ -48,7 +48,7 @@ class NotificationRequestViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 8
         button.setTitle("Enable Notifications", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(enableTapped(_:)), for: .touchUpInside)

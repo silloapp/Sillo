@@ -14,7 +14,6 @@ class HomePostTableViewCellSticker: UITableViewCell {
     //set data to display within post cell
     var item:Post? {
         didSet {
-            print("Line 15")
             guard let msg = item else {return}
             if let name = msg.posterAlias {
                 let timeFormatter = DateFormatter()
@@ -51,7 +50,7 @@ class HomePostTableViewCellSticker: UITableViewCell {
                 let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Apercu-Bold", size: 17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute as [NSAttributedString.Key : Any])
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
-                attributedString.setFont(font: UIFont(name: "Apercu Regular", size: 15)!, forText: "· \(timeStampString)")
+                attributedString.setFont(font: UIFont(name: "Apercu-Regular", size: 15)!, forText: "· \(timeStampString)")
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
@@ -102,7 +101,7 @@ class HomePostTableViewCellSticker: UITableViewCell {
     
     let message:UILabel = {
         let message = UILabel()
-        message.font = UIFont(name: "Apercu Regular", size: 15)
+        message.font = UIFont(name: "Apercu-Regular", size: 15)
         message.numberOfLines = 0
         message.textColor = Color.message
         message.textAlignment = .left
@@ -183,7 +182,6 @@ class HomePostTableViewCellGIF: UITableViewCell {
     //set data to display within post cell
     var item:Post? {
         didSet {
-            print("Line 15")
             guard let msg = item else {return}
             if let name = msg.posterAlias {
                 let timeFormatter = DateFormatter()
@@ -220,7 +218,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
                 let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Apercu-Bold", size: 17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute as [NSAttributedString.Key : Any])
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
-                attributedString.setFont(font: UIFont(name: "Apercu Regular", size: 15)!, forText: "· \(timeStampString)")
+                attributedString.setFont(font: UIFont(name: "Apercu-Regular", size: 15)!, forText: "· \(timeStampString)")
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
@@ -291,7 +289,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
     
     let message:UILabel = {
         let message = UILabel()
-        message.font = UIFont(name: "Apercu Regular", size: 15)
+        message.font = UIFont(name: "Apercu-Regular", size: 15)
         message.numberOfLines = 0
         message.textColor = Color.message
         message.textAlignment = .left

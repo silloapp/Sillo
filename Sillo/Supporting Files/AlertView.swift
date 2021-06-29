@@ -12,7 +12,7 @@ class AlertView: UIViewController {
     
     let heading: UILabel = {
         var txt = UILabel()
-        txt.font = UIFont(name: "Apercu Bold", size: 18)
+        txt.font = UIFont(name: "Apercu-Bold", size: 18)
         txt.textColor = Color.matte
         txt.numberOfLines = 0
         txt.textAlignment = .center
@@ -22,7 +22,7 @@ class AlertView: UIViewController {
 
     let message: UILabel = {
         var txt = UILabel()
-        txt.font = UIFont(name: "Apercu Regular", size: 15)
+        txt.font = UIFont(name: "Apercu-Regular", size: 15)
         txt.textColor = Color.matte
         txt.numberOfLines = 0
         txt.textAlignment = .center
@@ -80,7 +80,7 @@ class AlertView: UIViewController {
         heading.text = headingText
         message.text = messageText
         
-        guard let customFont = UIFont(name: "Apercu Regular", size: 14) else {
+        guard let customFont = UIFont(name: "Apercu-Regular", size: 14) else {
             fatalError("""
                 Failed to load the "CustomFont-Light" font.
                 Make sure the font file is included in the project and the font name is spelled correctly.

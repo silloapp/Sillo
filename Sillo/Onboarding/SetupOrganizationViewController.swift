@@ -82,7 +82,7 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         
         let header = UILabel()
         header.text = "Set up your organization’s profile"
-        header.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(22))
+        header.font = UIFont(name: "Apercu-Medium", size: dynamicFontSize(22))
         header.adjustsFontSizeToFitWidth = true
         header.textColor = Color.textSemiBlack
         header.numberOfLines = 1
@@ -114,10 +114,10 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         orgNameField.attributedPlaceholder = NSAttributedString(string:"Organization name", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: CGFloat(249/255), green: CGFloat(249/255), blue: CGFloat(249/255), alpha: CGFloat(0.5))])
         orgNameField.attributedPlaceholder = NSAttributedString(string: "Organization name", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: UIFont(name: "Apercu Regular", size: 16)
+            .font: UIFont(name: "Apercu-Regular", size: 16)
         ])
         orgNameField.layer.sublayerTransform = CATransform3DMakeTranslation(19, 0, 0)
-        orgNameField.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
+        orgNameField.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
         orgNameField.placeholder = "Organization name"
         orgNameField.clipsToBounds = true
         orgNameField.layer.cornerRadius = 5
@@ -134,7 +134,7 @@ class SetupOrganizationViewController: UIViewController, UIGestureRecognizerDele
         
         nextButton.backgroundColor = Color.buttonClickableUnselected
         nextButton.setTitle("Next", for: .normal)
-        nextButton.titleLabel?.font = UIFont(name: "Apercu Bols", size: dynamicFontSize(20))
+        nextButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: dynamicFontSize(20))
         nextButton.isEnabled = false
         nextButton.layer.cornerRadius = 5
         nextButton.addTarget(self, action: #selector(nextClicked), for: .touchUpInside)

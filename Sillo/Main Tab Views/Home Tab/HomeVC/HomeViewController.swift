@@ -61,6 +61,8 @@ class HomeViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTeamPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToTop), name: Notification.Name(rawValue: "scrollToTopOfFeed"), object: nil)
+        
         //MARK: attach listener
         feed.posts = [:] //clear posts in memory
         let organizationID = organizationData.currOrganization ?? "ERROR"
@@ -94,6 +96,11 @@ class HomeViewController: UIViewController {
         else {
             cloudutil.downloadImage(ref: orgPicRef as String)
         }
+    }
+    
+    //notification callback for scrolling to top
+    @objc func scrollToTop() {
+        self.postsTable.setContentOffset(.zero, animated: true)
     }
     
     override func viewDidLoad() {

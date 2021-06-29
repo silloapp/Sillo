@@ -37,7 +37,7 @@ class WelcomeToSilloNoInviteVC: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         
         let heading = UILabel()
-        heading.font = UIFont(name: "Apercu Bold", size: 24)
+        heading.font = UIFont(name: "Apercu-Bold", size: 24)
         heading.text = "Sillo space invites"
         heading.textColor = Color.burple
         stack.addArrangedSubview(heading)
@@ -51,7 +51,7 @@ class WelcomeToSilloNoInviteVC: UIViewController {
         stack.addArrangedSubview(stack2)
         
         let middleText = UILabel()
-        middleText.font =  UIFont(name: "Apercu Regular", size: 17)
+        middleText.font =  UIFont(name: "Apercu-Regular", size: 17)
         middleText.text = "We don’t see any Sillo spaces associated with \(Constants.EMAIL ?? "your email")"
         middleText.textColor = Color.matte
         middleText.numberOfLines = 0
@@ -64,14 +64,14 @@ class WelcomeToSilloNoInviteVC: UIViewController {
         stack2.addArrangedSubview(stack3)
         
         let bottomText = UILabel()
-        bottomText.font =  UIFont(name: "Apercu Regular", size: 17)
+        bottomText.font =  UIFont(name: "Apercu-Regular", size: 17)
         bottomText.text = "To join a space, ask your team administrator for an invitation or:"
         bottomText.textColor = Color.matte
         bottomText.numberOfLines = 0
         stack3.addArrangedSubview(bottomText)
         
         let btn = UIButton()
-        btn.titleLabel?.font = UIFont(name: "Apercu Regular", size: 17)
+        btn.titleLabel?.font = UIFont(name: "Apercu-Regular", size: 17)
         btn.setTitleColor(Color.burple, for: .normal)
         btn.backgroundColor = .white
         btn.underlineButton(text: "try another email address.")
@@ -98,7 +98,7 @@ class WelcomeToSilloNoInviteVC: UIViewController {
         createSpaceBtn.translatesAutoresizingMaskIntoConstraints = false
         createSpaceBtn.backgroundColor = Color.buttonClickable
         createSpaceBtn.setTitle("Create New Space", for: .normal)
-        createSpaceBtn.titleLabel?.font = UIFont(name: "Apercu Bold", size: 16)
+        createSpaceBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
         createSpaceBtn.setTitleColor(.white, for: .normal)
         createSpaceBtn.clipsToBounds = true
         createSpaceBtn.cornerRadius = 7

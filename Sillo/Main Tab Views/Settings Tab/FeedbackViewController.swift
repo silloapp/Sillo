@@ -12,7 +12,7 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
     
     let text: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Apercu Regular", size: 17)
+        label.font = UIFont(name: "Apercu-Regular", size: 17)
         label.numberOfLines = 3
         label.text = "Help us improve your experience with Sillo. Let us know how we can make it better:"
         label.textAlignment = .left
@@ -26,7 +26,7 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
         textView.textColor = UIColor.darkGray
         textView.textAlignment = .left
         textView.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00)
-        textView.font = UIFont(name: "Apercu Regular", size: 17)
+        textView.font = UIFont(name: "Apercu-Regular", size: 17)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.clipsToBounds = true;
@@ -37,7 +37,7 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
     let submitButton: UIButton = {
         let button = UIButton()
         button.setTitle("Send Feedback", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(actionButton(_:)), for: .touchUpInside)
@@ -99,7 +99,7 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
         
         let tabName = UILabel()
         tabName.text = "Feedback"
-        tabName.font = UIFont(name: "Apercu Bold", size: 22)
+        tabName.font = UIFont(name: "Apercu-Bold", size: 22)
         tabName.textColor = Color.teamHeader
         tabName.widthAnchor.constraint(equalToConstant: 200).isActive = true
         stack.addArrangedSubview(tabName)

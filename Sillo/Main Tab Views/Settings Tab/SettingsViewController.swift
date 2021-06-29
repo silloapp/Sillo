@@ -149,7 +149,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         let tabName = UILabel()
         tabName.text = "Settings"
-        tabName.font = UIFont(name: "Apercu Bold", size: 22)
+        tabName.font = UIFont(name: "Apercu-Bold", size: 22)
         tabName.textColor = Color.teamHeader
         tabName.widthAnchor.constraint(equalToConstant: 200).isActive = true
         stack.addArrangedSubview(tabName)

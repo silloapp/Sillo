@@ -40,7 +40,7 @@ class ProfilePromptViewController: UIViewController {
         skipButton.contentHorizontalAlignment = .right
         skipButton.setTitle("Skip", for: .normal)
         skipButton.setTitleColor(.black, for: .normal)
-        skipButton.titleLabel?.font = UIFont(name: "Apercu Light", size: dynamicFontSize(17))
+        skipButton.titleLabel?.font = UIFont(name: "Apercu-Light", size: dynamicFontSize(17))
         skipButton.titleLabel?.minimumScaleFactor = 0.5
         skipButton.titleLabel?.adjustsFontSizeToFitWidth = true
         skipButton.addTarget(self, action: #selector(skipClicked), for: .touchUpInside)
@@ -49,7 +49,7 @@ class ProfilePromptViewController: UIViewController {
         let welcomeHeader = UILabel()
         welcomeHeader.numberOfLines = 0
         welcomeHeader.text = "Let's set up your profile in \(ORGANIZATION_NAME)!"
-        welcomeHeader.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(24))
+        welcomeHeader.font = UIFont(name: "Apercu-Medium", size: dynamicFontSize(24))
         welcomeHeader.minimumScaleFactor = 0.5
         welcomeHeader.adjustsFontSizeToFitWidth = true
         welcomeHeader.textColor = Color.buttonClickable
@@ -58,7 +58,7 @@ class ProfilePromptViewController: UIViewController {
         let descriptionText = UILabel()
         descriptionText.numberOfLines = 0
         descriptionText.text = "You can always set up a unique profile for other organizations later."
-        descriptionText.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
+        descriptionText.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
         descriptionText.minimumScaleFactor = 0.5
         descriptionText.adjustsFontSizeToFitWidth = true
         descriptionText.textColor = Color.textSemiBlack
@@ -72,7 +72,7 @@ class ProfilePromptViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Continue", for: .normal)
         button.backgroundColor = Color.buttonClickable
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: dynamicFontSize(17))
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: dynamicFontSize(17))
         button.titleLabel?.minimumScaleFactor = 0.5
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setTitleColor(.white, for: .normal)

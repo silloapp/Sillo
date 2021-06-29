@@ -31,7 +31,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: ReportsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "My Spaces", nextVC: WelcomeToSilloViewController(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Invites", nextVC: WelcomeToSilloViewController(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
@@ -42,7 +42,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
        // ItemProperty(title: "Engagement", backgroundImage: UIImage(named:"team-3")!),
         ItemProperty(title: "Notifications", backgroundImage: UIImage(named:"team notifications")!),
         ItemProperty(title: "Reports", backgroundImage: UIImage(named:"team reports")!),
-        ItemProperty(title: "My Spaces", backgroundImage: UIImage(named: "team spaces")!),
+        ItemProperty(title: "Invites", backgroundImage: UIImage(named: "team spaces")!),
         ItemProperty(title: "Sign Out", backgroundImage: UIImage(named:"team sign out")!),
     ]
     
