@@ -31,7 +31,7 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //MenuItem(name: "Engagement", nextVC: MyConnectionsVC(), withArrow: false, fontSize: 22),
         MenuItem(name: "Notifications", nextVC: NotificationsViewController(), withArrow: false, fontSize: 22),
         MenuItem(name: "Reports", nextVC: ReportsVC(), withArrow: false, fontSize: 22),
-        MenuItem(name: "Invites", nextVC: WelcomeToSilloViewController(), withArrow: false, fontSize: 22),
+        MenuItem(name: "Invites", nextVC: {let vc = WelcomeToSilloViewController();vc.origin="teams";return vc}(), withArrow: false, fontSize: 22),
         MenuItem(name: "Sign Out", nextVC: StartScreenViewController(), withArrow: false, fontSize: 22)
     ]
     
@@ -180,6 +180,12 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
             alertVC.modalPresentationStyle = .overCurrentContext
             self.present(alertVC, animated: true, completion: nil)
             break
+        case "My Spaces":
+            if let nextVC = (selectedMenuItem.nextVC as? WelcomeToSilloViewController) {
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            break
+        
         default:
             print(menuItems[indexPath.row].name ?? ""  + " was clicked! Will not segway into next VC.. ")
             let vc = menuItems[indexPath.row].nextVC!
