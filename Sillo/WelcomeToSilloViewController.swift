@@ -41,7 +41,6 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
         
         //MARK: Allows swipe from left to go back (making it interactive caused issue with the header) but only if the view was from teams menu
@@ -65,6 +64,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         self.view.backgroundColor = ViewBgColor
         self.navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
         settingElemets()
         
         localUser.invites = [] //must clear otherwise invites will appear more than once
@@ -89,6 +89,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.isHidden = false
     }
     
