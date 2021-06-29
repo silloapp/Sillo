@@ -216,7 +216,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
                     let label = UILabel()
                     label.text = "You have no messages.. yet!"
                     label.numberOfLines = 2
-                    label.font = UIFont(name: "Apercu Bold", size: 22)
+                    label.font = UIFont(name: "Apercu-Bold", size: 22)
                     label.textColor = Color.matte
                     label.translatesAutoresizingMaskIntoConstraints = false
                     return label

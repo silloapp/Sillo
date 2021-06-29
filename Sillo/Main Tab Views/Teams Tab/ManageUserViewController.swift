@@ -31,7 +31,7 @@ class ManageUserViewController: UIViewController {
         let label = UILabel()
         label.contentMode = .center
         label.text = "NAME GOES HERE"
-        label.font = UIFont(name: "Apercu Bold", size: 20)
+        label.font = UIFont(name: "Apercu-Bold", size: 20)
         label.textColor = Color.matte
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -42,7 +42,7 @@ class ManageUserViewController: UIViewController {
         let label = UILabel()
         label.contentMode = .center
         label.text = "EMAIL@gobears.edu"
-        label.font = UIFont(name: "Apercu Regular", size: 17)
+        label.font = UIFont(name: "Apercu-Regular", size: 17)
         label.textColor = Color.matte
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -53,7 +53,7 @@ class ManageUserViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = Color.buttonClickable
         button.setTitle("Add as admin", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.isEnabled = true
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(adminAction), for: .touchUpInside)
@@ -89,7 +89,7 @@ class ManageUserViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = Color.salmon
         button.setTitle("Remove member", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.isEnabled = true
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(removeAction), for: .touchUpInside)

@@ -20,7 +20,7 @@ class TeamCell: UITableViewCell {
                 rightImageview.image = UIImage(named: "Forward Arrow")
             }
             if menuItem.fontSize != nil{
-                nameLabel.font = UIFont(name: "Apercu Regular", size: menuItem.fontSize!)
+                nameLabel.font = UIFont(name: "Apercu-Regular", size: menuItem.fontSize!)
             }
         }
     }
@@ -50,7 +50,7 @@ class TeamCell: UITableViewCell {
     
     let nameLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Apercu Regular", size: 20)
+        label.font = UIFont(name: "Apercu-Regular", size: 20)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

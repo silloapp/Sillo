@@ -25,7 +25,7 @@ class VerificationProcessingViewController: UIViewController {
     //MARK: init success label
     let waitLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Apercu Medium", size: 28)
+        label.font = UIFont(name: "Apercu-Medium", size: 28)
         label.text = "Just a moment..."
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false

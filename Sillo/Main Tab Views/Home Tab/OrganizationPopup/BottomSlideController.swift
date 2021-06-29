@@ -223,7 +223,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         addSpaceButton.setTitle("Add a space", for: .normal)
         addSpaceButton.setTitleColor(.black, for: .normal)
-        addSpaceButton.titleLabel?.font = UIFont(name: "Apercu Bold", size: 17)
+        addSpaceButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 17)
         addSpaceButton.titleLabel?.textAlignment = .left
         addSpaceButton.addTarget(self, action: #selector(addNewSpaceClicked), for: .touchUpInside)
         

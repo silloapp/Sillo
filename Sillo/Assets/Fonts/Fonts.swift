@@ -11,26 +11,26 @@ import UIKit
 struct Font {
     static let regular = {
         (size: CGFloat) -> UIFont in
-        UIFont(name: "Apercu Regular", size: size) ?? UIFont.systemFont(ofSize: size)
+        UIFont(name: "Apercu-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     static let bold = {
         (size: CGFloat) in
-        UIFont(name: "Apercu Bold", size: size) ?? UIFont.systemFont(ofSize: size)
+        UIFont(name: "Apercu-Bold", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     static let medium = {
         (size: CGFloat) in
-        UIFont(name: "Apercu Medium", size: size) ?? UIFont.systemFont(ofSize: size)
+        UIFont(name: "Apercu-Medium", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     static let mediumItalic = {
         (size: CGFloat) in
-        UIFont(name: "Apercu Medium Italic", size: size) ?? UIFont.systemFont(ofSize: size)
+        UIFont(name: "Apercu-Medium-Italic", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     static let light = {
         (size: CGFloat) in
-        UIFont(name: "Apercu Light", size: size) ?? UIFont.systemFont(ofSize: size)
+        UIFont(name: "Apercu-Light", size: size) ?? UIFont.systemFont(ofSize: size)
     }
 }
