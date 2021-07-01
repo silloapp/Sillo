@@ -18,6 +18,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     let scrollView = UIScrollView()
     let insideScrollVw = UIView()
     let titleLabel = UILabel()
+    let inviteCodeButton = UIButton(type: UIButton.ButtonType.custom)
     let screenSize = UIScreen.main.bounds
     let TopTable = UITableView()
     
@@ -156,6 +157,22 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             
         ]
         
+        // FOR INVITE CODE BUTTON :
+        self.scrollView.addSubview(inviteCodeButton)
+        inviteCodeButton.setTitle("Enter Code", for: .normal)
+        inviteCodeButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 15)
+        inviteCodeButton.backgroundColor = Color.buttonClickableUnselected
+        inviteCodeButton.addTarget(self, action:#selector(inviteCodeButtonPressed), for: .touchUpInside)
+        inviteCodeButton.frame = CGRect(x: 0, y: 0, width: 80, height: 20)
+        inviteCodeButton.cornerRadius = 12
+        
+        let inviteCodeButtonConstraints = [
+            inviteCodeButton.topAnchor.constraint(equalTo:  self.view.topAnchor, constant: 80),
+            inviteCodeButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
+            inviteCodeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 100/375),
+            inviteCodeButton.heightAnchor.constraint(equalToConstant: 25)
+        ]
+        
         // FOR EXIT BUTTON :
         self.view.addSubview(exitButton)
         exitButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
@@ -223,7 +240,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         let bottomSectitleLabelconstraints = [
             bottomSectitleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90),
-            bottomSectitleLabel.leftAnchor.constraint(equalTo: insideScrollVw.leftAnchor),
+            bottomSectitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             bottomSectitleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 305/375),
             bottomSectitleLabel.heightAnchor.constraint(equalToConstant: 50)
             
@@ -278,6 +295,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         NSLayoutConstraint.activate(scrollViewconstraints)
         NSLayoutConstraint.activate(insideScrollViewconstraints)
         NSLayoutConstraint.activate(TITLEconstraints)
+        NSLayoutConstraint.activate(inviteCodeButtonConstraints)
         NSLayoutConstraint.activate(sectitleLabelconstraints)
         NSLayoutConstraint.activate(TopTableconstraints)
         NSLayoutConstraint.activate(dividerConstraints)
@@ -288,6 +306,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         self.scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.insideScrollVw.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.inviteCodeButton.translatesAutoresizingMaskIntoConstraints = false
         sectitleLabel.translatesAutoresizingMaskIntoConstraints = false
         TopTable.translatesAutoresizingMaskIntoConstraints = false
         divider.translatesAutoresizingMaskIntoConstraints = false
@@ -296,6 +315,12 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         self.view.layoutIfNeeded()
         
+        
+    }
+    
+    @objc func inviteCodeButtonPressed(sender:UIButton) {
+        let nextVC = InviteCodeViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
         
     }
     
