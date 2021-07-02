@@ -162,7 +162,37 @@ class InviteCodeViewController: UIViewController {
         if (passcodeField.hasText) {
             self.latestAuthRequestTimestamp = Date()
             self.passcodeField.resignFirstResponder()
-            self.navigationController?.popViewController(animated: true)
+            
+            let alert = AlertView(headingText: "Please wait..", messageText: "Your invite code has been submitted.", action1Label: "", action1Color: UIColor.white, action1Completion: {
+            }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+            }, withCancelBtn: false, image: UIImage(named:"wait_a_moment"), withOnlyOneAction: true)
+            alert.modalPresentationStyle = .overCurrentContext
+            alert.modalTransitionStyle = .crossDissolve
+            self.present(alert, animated: false, completion: nil)
+            
+            guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/verifyInviteCode") else {return}
+            var request = URLRequest(url: url)
+            let payload = "{\"userID\": \"\(Constants.FIREBASE_USERID!)\", \"passcode\": \"\(passcodeField.text!)\"}".data(using: .utf8)
+            
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = payload
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard error == nil else { print(error!.localizedDescription); return }
+                guard let data = data else { print("Empty data");return }
+
+                if let str = String(data: data, encoding: .utf8) {
+                    
+                    print("invite code function result: \(str)")
+                    DispatchQueue.main.async {
+                        alert.dismiss(animated: true, completion: nil)
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            }.resume()
+            
+            
         }
         else {
             DispatchQueue.main.async {
@@ -179,7 +209,6 @@ class InviteCodeViewController: UIViewController {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            print("frame: \(self.view.frame.height)")
             if self.view.frame.origin.y == 0 && self.view.frame.height < 812 {
                 self.view.frame.origin.y -= (keyboardSize.height/3)
             }
