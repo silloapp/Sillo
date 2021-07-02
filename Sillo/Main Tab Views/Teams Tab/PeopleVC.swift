@@ -402,7 +402,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         print("add button clicked")
         let nextVC = AddPeopleToSpaceViewController()
         nextVC.orgNameString = organizationData.currOrganizationName
-        nextVC.orgImage = UIImage(named: "avatar-2")
+        nextVC.orgImage = UIImage(named: "avatar-2") //TODO: handle pictures
         nextVC.onboardingMode = false
         self.navigationController?.pushViewController(nextVC, animated: true)
         
