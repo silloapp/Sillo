@@ -22,12 +22,13 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
     
     //MARK: viewwillDissapear
     override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         let nextVC = self.navigationController?.topViewController as! ProfileSetupViewController
         nextVC.interests = selectedInterests
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        self.tabBarController?.tabBar.isHidden = true
         //prefill the selected collection indices array
         //(bc collectionview does not load all cells until they appear)
         for interest in self.selectedInterests {
@@ -133,6 +134,17 @@ class ProfileSetInterestsViewController: UIViewController, UICollectionViewDeleg
         interestCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         interestCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         interestCollectionView.topAnchor.constraint(equalTo: selectedInterestCollectionView.bottomAnchor, constant: 10).isActive = true
+        
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
+    }
+    
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

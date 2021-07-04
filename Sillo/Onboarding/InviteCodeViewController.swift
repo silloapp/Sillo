@@ -102,6 +102,11 @@ class InviteCodeViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tap)
         
+        //left gesture recognizer
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
+        
         //MARK: exit button
         self.view.addSubview(exitButton)
         exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
@@ -147,6 +152,13 @@ class InviteCodeViewController: UIViewController {
         verifyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         verifyButton.topAnchor.constraint(equalTo: passcodeField.topAnchor, constant: 74).isActive = true
         
+    }
+    
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
     }
     
     @objc func exitPressed() {

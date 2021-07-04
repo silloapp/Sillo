@@ -118,6 +118,20 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         view.backgroundColor = .white
         overrideUserInterfaceStyle = .light
         
+        //set up status bar up top
+        self.setNeedsStatusBarAppearanceUpdate()
+        if #available(iOS 13, *) {
+          let statusBar = UIView(frame: (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame)!)
+            statusBar.backgroundColor = Color.headerBackground
+          UIApplication.shared.keyWindow?.addSubview(statusBar)
+        } else {
+             let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
+             if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+                statusBar.backgroundColor = Color.headerBackground
+             }
+             UIApplication.shared.statusBarStyle = .lightContent
+        }
+        
         navigationController?.navigationBar.barTintColor = Color.headerBackground
         navigationController?.navigationBar.isTranslucent = false
         setupHeader()
