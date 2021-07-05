@@ -144,7 +144,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             let label = UILabel()
             label.textAlignment = .left
             label.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
-            label.text = "Enter your school email"
+            label.text = "Enter your email"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()

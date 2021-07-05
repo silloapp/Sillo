@@ -390,6 +390,7 @@ class ProfileSetupViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         //reload necessary coming from selecting interest view
+        self.tabBarController?.tabBar.isHidden = true
         collectionView.reloadData()
         
         bioTextView.text = self.bioText
@@ -416,7 +417,6 @@ class ProfileSetupViewController: UIViewController{
     
     //MARK: VIEWDIDAPPEAR
     override func viewDidAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
         //scrollView.contentSize = CGSize(width: 0, height: 896.0)
         scrollView.contentSize = CGSize(width: 0, height: 1000) //fuck the keyboard thing.
     }

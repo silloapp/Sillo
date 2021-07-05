@@ -494,7 +494,17 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             generator.notificationOccurred(.error)
             DispatchQueue.main.async {
                 let alert = AlertView(headingText: "Organization Already Joined!", messageText: "You have already joined this organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
-                    self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);self.exitPressed()
+                    self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);
+                    do {let nextVC = prepareTabVC()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        
+                        let navC = UINavigationController(rootViewController: nextVC)
+                        navC.modalPresentationStyle = .fullScreen
+                        navC.modalTransitionStyle = .crossDissolve
+                        navC.setNavigationBarHidden(true, animated: false)
+                        self.present(navC, animated: true, completion: nil)
+                        
+                    }
                 }, action2Label: "Nil", action2Color: .gray, action2Completion: {
                 }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
                 alert.modalPresentationStyle = .overCurrentContext
