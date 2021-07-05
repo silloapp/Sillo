@@ -88,13 +88,15 @@ class HomeViewController: UIViewController {
     
     //notification callback for refreshing profile picture
     @objc func refreshTeamPic(_:UIImage) {
-        let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
-        if imageCache.object(forKey: orgPicRef) != nil { //image in cache
-            let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
-            self.teamPic.image = cachedImage
-        }
-        else {
-            cloudutil.downloadImage(ref: orgPicRef as String)
+        if organizationData.currOrganization != nil { //there is a chance that this will get called while currOrg is still null
+            let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
+            if imageCache.object(forKey: orgPicRef) != nil { //image in cache
+                let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
+                self.teamPic.image = cachedImage
+            }
+            else {
+                cloudutil.downloadImage(ref: orgPicRef as String)
+            }
         }
     }
     
