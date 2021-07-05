@@ -414,7 +414,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         selectIndex = indexPath.row
         let nextOrganization = organizationData.organizationList[selectIndex]
         organizationData.changeOrganization(dest: nextOrganization)
-        UserDefaults.standard.setValue(nextOrganization, forKey: "defaultOrganization")
         
         let nextVC = prepareTabVC()
         nextVC.modalPresentationStyle = .fullScreen
