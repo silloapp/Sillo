@@ -351,7 +351,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         cell.imgUser.layer.masksToBounds = false
         cell.imgUser.layer.cornerRadius = cell.imgUser.frame.size.width/2
         cell.imgUser.clipsToBounds = true
-        cell.imgUser.layer.borderColor = UIColor.gray.cgColor
+        cell.imgUser.layer.borderColor = Color.russiandolphin.cgColor
         
         let orgPicRef = "orgProfiles/\(organization)\(Constants.image_extension)" as NSString
         if imageCache.object(forKey: orgPicRef) != nil { //image in cache
