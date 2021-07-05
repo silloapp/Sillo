@@ -172,7 +172,7 @@ class ProfilePromptViewController: UIViewController {
                 print("Document does not exist, set dummy data in all_orgs")
                 upperUserRef.setData(["use_separate_profiles":false])
                 let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
-                userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":["Art","Baking","Cooking"],"restaurants":[]])
                 
                 //transition to next vc (blank, because no existing profile document found)
                 self.navigationController?.pushViewController(nextVC, animated: true)
@@ -201,19 +201,19 @@ class ProfilePromptViewController: UIViewController {
                 
                 if use_separate_profiles {
                     let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document(organizationData.currOrganization!)
-                    userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                    userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":["Art","Baking","Cooking"],"restaurants":[]])
                 }
                 else {
                     //do not use separate profiles, set for all orgs
                     let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
-                    userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                    userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":["Art","Baking","Cooking"],"restaurants":[]])
                 }
                 return
             } else {
                 print("Document does not exist, set dummy data in all_orgs")
                 upperUserRef.setData(["use_separate_profiles":false])
                 let userRef = db.collection("profiles").document(Constants.FIREBASE_USERID!).collection("org_profiles").document("all_orgs")
-                userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":[],"restaurants":[]])
+                userRef.setData(["pronouns":"no pronouns specified","bio":"","interests":["Art","Baking","Cooking"],"restaurants":[]])
             }
         }
         

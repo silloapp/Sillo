@@ -134,7 +134,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
 
         let page1 = OnboardingViewController(_image: UIImage(named: "onboarding1")!, _descriptionText: "Spark a conversation in your team anonymously.")
         let page2 = OnboardingViewController(_image: UIImage(named: "onboarding2")!, _descriptionText: "Show yourself only when you are ready.")
-        let page3 = OnboardingViewController(_image: UIImage(named: "onboarding3")!, _descriptionText: "Share exclusive deals from nearby restaurants.")
+        let page3 = OnboardingViewController(_image: UIImage(named: "onboarding3")!, _descriptionText: "Share your favorite interests with like-minded peers.")
         
         // add the individual viewControllers to the pageViewController
         self.pages.append(page1)
