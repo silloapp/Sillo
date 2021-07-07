@@ -234,8 +234,6 @@ class HomePostTableViewCellGIF: UITableViewCell {
                     if let media = response?.data {
                         DispatchQueue.main.sync { [weak self] in
                             self?.mediaView.media = media
-                            self!.imageViewWidthConstraint = self?.mediaView.widthAnchor.constraint(equalTo: (self?.mediaView.heightAnchor)!, multiplier: media.aspectRatio)
-                            self!.imageViewWidthConstraint?.isActive = true
                         }
                     }
                 }
