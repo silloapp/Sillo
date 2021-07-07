@@ -121,13 +121,12 @@ class ChatHandler {
                 let newestMessageDoc = querySnapshot!.documents[0] // THE MESSAGE DOC DOES NOT EXIST YET BU THE TIME USER_CHAT IS UPDATED
                 latest_message = newestMessageDoc.get("message") as! String
                 
+                var shouldReveal = false // variable for sending revealUser notification
                 if isRevealed == true && self.chatMetadata[chatID]?.isRevealed == false { //if reveal changes to true, display the revealVC
-                    print("this sohould happen only ONCE")
-                    
+                    print("this should happen only ONCE")
                     //update quest if newConnection is a subtask
                     quests.updateQuestProgress(typeToUpdate: "newConnection")
-                    
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "revealUser"), object: nil)
+                    shouldReveal = true
                 }
                 
                 //wait until this is finished // asynchronous later
@@ -138,6 +137,9 @@ class ChatHandler {
                 //update post to chat mapping
                 self.postToChat[postID] = chatID
                 
+                if (shouldReveal == true) {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "revealUser"), object: nil)
+                }
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
             }
