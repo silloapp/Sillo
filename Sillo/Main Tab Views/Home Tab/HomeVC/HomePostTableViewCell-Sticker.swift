@@ -218,11 +218,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
                 let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Apercu-Bold", size: 17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute as [NSAttributedString.Key : Any])
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
-<<<<<<< HEAD
                 attributedString.setFont(font: UIFont(name: "Apercu Regular", size: 15)!, forText: "· \(timeStampString)")
-=======
-                attributedString.setFont(font: UIFont(name: "Apercu-Regular", size: 15)!, forText: "· \(timeStampString)")
->>>>>>> 32d85f061b84f6fbed4f9b378ab4cf032f929f8b
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
@@ -238,6 +234,8 @@ class HomePostTableViewCellGIF: UITableViewCell {
                     if let media = response?.data {
                         DispatchQueue.main.sync { [weak self] in
                             self?.mediaView.media = media
+                            self!.imageViewWidthConstraint = self?.mediaView.widthAnchor.constraint(equalTo: (self?.mediaView.heightAnchor)!, multiplier: media.aspectRatio)
+                            self!.imageViewWidthConstraint?.isActive = true
                         }
                     }
                 }
@@ -293,11 +291,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
     
     let message:UILabel = {
         let message = UILabel()
-<<<<<<< HEAD
-        message.font = UIFont(name: "Apercu Regular", size: 15)
-=======
         message.font = UIFont(name: "Apercu-Regular", size: 15)
->>>>>>> 32d85f061b84f6fbed4f9b378ab4cf032f929f8b
         message.numberOfLines = 0
         message.textColor = Color.message
         message.textAlignment = .left
@@ -359,14 +353,6 @@ class HomePostTableViewCellGIF: UITableViewCell {
         bubbleView.layer.shadowRadius = 25
         bubbleView.layer.shadowOffset = CGSize(width: 0, height: 13)
         
-<<<<<<< HEAD
-        bubbleView.backgroundColor = .systemRed
-=======
-        //bubbleView.backgroundColor = .systemRed
->>>>>>> 32d85f061b84f6fbed4f9b378ab4cf032f929f8b
-       
-        
-        
         bubbleView.addSubview(mediaView)
         mediaView.translatesAutoresizingMaskIntoConstraints = false
         mediaView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
@@ -394,11 +380,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
         mediaView.contentMode = .scaleAspectFill //TODO: to avoid cropping, change this to aspectFit (though if you do this you'll also have to solve the issue with the rounded corners not showing, will do this when i have more time!)
         mediaView.layer.cornerRadius = bubbleView.layer.cornerRadius
         mediaView.layer.masksToBounds = true
-<<<<<<< HEAD
         mediaView.layer.backgroundColor = UIColor.blue.cgColor
-=======
- 
->>>>>>> 32d85f061b84f6fbed4f9b378ab4cf032f929f8b
         mediaView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
         mediaView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor).isActive = true
         mediaView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor).isActive = true

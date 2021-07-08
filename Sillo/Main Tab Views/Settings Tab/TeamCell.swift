@@ -17,7 +17,7 @@ class TeamCell: UITableViewCell {
                 nameLabel.text = name
             }
             if menuItem.withArrow! {
-                rightImageview.image = UIImage(named: "Forward Arrow")
+                rightImageview.image = UIImage(named: "right-grey")
             }
             if menuItem.fontSize != nil{
                 nameLabel.font = UIFont(name: "Apercu-Regular", size: menuItem.fontSize!)

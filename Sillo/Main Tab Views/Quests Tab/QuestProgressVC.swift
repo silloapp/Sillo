@@ -335,8 +335,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         //award progress
         let taskType = quests.subtasks[indexPath.row].type
         
-        cell.imgUser.image = UIImage.init(named: "subtask icon")
-        
         if taskType == "newPost" {
             cell.imgUser.image = UIImage(named: "postQuestionTask")
         } else if taskType == "newConnection" {
