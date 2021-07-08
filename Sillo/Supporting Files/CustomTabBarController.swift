@@ -24,8 +24,26 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     
+    //get index to determine direction
+    func getIndexHelper(forViewController vc: UIViewController) -> Int? {
+        guard let vcs = self.viewControllers else { return nil }
+        for (index, thisVC) in vcs.enumerated() {
+            if thisVC == vc { return index }
+        }
+        return nil
+    }
+    
     //MARK: UITabbar Delegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        //scrolling up to top of feed function:
+        //check if current view controller, and is looking at feed.
+        if self.selectedIndex == 0 && getIndexHelper(forViewController: viewController) == getIndexHelper(forViewController: self.selectedViewController!) {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "scrollToTopOfFeed"), object: nil)
+        }
+        
+        
+        
         if viewController.isKind(of: NewPostViewController.self) {
 
             let vc =  NewPostViewController()

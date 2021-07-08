@@ -99,7 +99,7 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         
         let instructionsLabel = UILabel()
         instructionsLabel.text = "Please review and confirm this list of emails to add members to your space"
-        instructionsLabel.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(17))
+        instructionsLabel.font = UIFont(name: "Apercu-Medium", size: dynamicFontSize(17))
         instructionsLabel.adjustsFontSizeToFitWidth = true
         instructionsLabel.textColor = Color.textSemiBlack
         instructionsLabel.numberOfLines = 3
@@ -107,7 +107,7 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         
         let invitationsLabel = UILabel()
         invitationsLabel.text = "Invitations"
-        invitationsLabel.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(22))
+        invitationsLabel.font = UIFont(name: "Apercu-Medium", size: dynamicFontSize(22))
         invitationsLabel.adjustsFontSizeToFitWidth = true
         invitationsLabel.textColor = Color.textSemiBlack
         invitationsLabel.numberOfLines = 1
@@ -134,7 +134,7 @@ class ConfirmEmailViewController: UIViewController, UIGestureRecognizerDelegate,
         
         confirmButton.backgroundColor = Color.buttonClickable
         confirmButton.setTitle("Confirm", for: .normal)
-        confirmButton.titleLabel?.font = UIFont(name: "Apercu Bold", size: dynamicFontSize(20))
+        confirmButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: dynamicFontSize(20))
         confirmButton.isEnabled = true
         confirmButton.layer.cornerRadius = 5
         confirmButton.addTarget(self, action: #selector(confirmClicked), for: .touchUpInside)

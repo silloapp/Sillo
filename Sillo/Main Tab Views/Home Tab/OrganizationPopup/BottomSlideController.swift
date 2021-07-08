@@ -223,7 +223,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         addSpaceButton.setTitle("Add a space", for: .normal)
         addSpaceButton.setTitleColor(.black, for: .normal)
-        addSpaceButton.titleLabel?.font = UIFont(name: "Apercu Bold", size: 17)
+        addSpaceButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 17)
         addSpaceButton.titleLabel?.textAlignment = .left
         addSpaceButton.addTarget(self, action: #selector(addNewSpaceClicked), for: .touchUpInside)
         
@@ -351,7 +351,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         cell.imgUser.layer.masksToBounds = false
         cell.imgUser.layer.cornerRadius = cell.imgUser.frame.size.width/2
         cell.imgUser.clipsToBounds = true
-        cell.imgUser.layer.borderColor = UIColor.gray.cgColor
+        cell.imgUser.layer.borderColor = Color.russiandolphin.cgColor
         
         let orgPicRef = "orgProfiles/\(organization)\(Constants.image_extension)" as NSString
         if imageCache.object(forKey: orgPicRef) != nil { //image in cache
@@ -414,7 +414,6 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         selectIndex = indexPath.row
         let nextOrganization = organizationData.organizationList[selectIndex]
         organizationData.changeOrganization(dest: nextOrganization)
-        UserDefaults.standard.setValue(nextOrganization, forKey: "defaultOrganization")
         
         let nextVC = prepareTabVC()
         nextVC.modalPresentationStyle = .fullScreen

@@ -15,7 +15,7 @@ class PostHandler {
     var posts = [String:Post]() //a dictionary
     var sortedPosts = [Post]() //a sorted post
     var snapshot: QuerySnapshot? = nil //post query snapshot
-    var postBatchSize = 15 //number of posts to get per "batch"
+    var postBatchSize = 5 //number of posts to get per "batch"
     //MARK: add more posts
     func getNextBatch() {
         guard let lastSnapshot = self.snapshot!.documents.last else {

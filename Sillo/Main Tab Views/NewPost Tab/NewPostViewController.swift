@@ -47,7 +47,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     let newPostButton: UIButton = {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 17)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 17)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickableUnselected
         button.addTarget(self, action: #selector(createPost(_:)), for: .touchUpInside)
@@ -61,7 +61,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         let label = UILabel()
         label.numberOfLines = 1;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = UIFont(name: "Apercu Bold", size: 24)
+        label.font = UIFont(name: "Apercu-Bold", size: 24)
         label.text = "New Post"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -89,7 +89,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         textView.text = "Ask something anonymously to \(organizationData.currOrganizationName ?? "your organization")..."
         textView.textColor = UIColor.lightGray
         textView.backgroundColor = UIColor.white
-        textView.font = UIFont(name: "Apercu Regular", size: 17)
+        textView.font = UIFont(name: "Apercu-Regular", size: 17)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         return textView

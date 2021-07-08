@@ -15,6 +15,7 @@
 		A01CA46D25C32AE70028FCBB /* NotificationEnableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */; };
 		A01CA47E25C333400028FCBB /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01CA47D25C333400028FCBB /* NewPostViewController.swift */; };
 		A0334B6B25F5D6F1008A05F8 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0334B6A25F5D6F0008A05F8 /* ProfileVC.swift */; };
+		A06FC4C726801F0500A721CD /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06FC4C626801F0500A721CD /* ChatCell.swift */; };
 		A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */; };
 		A08E82E325E0276B00760BF1 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */; };
 		A08E82EE25E16AB500760BF1 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E82ED25E16AB500760BF1 /* AccountViewController.swift */; };
@@ -27,6 +28,7 @@
 		AA02F6D8260D601900E24E72 /* QuestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02F6D7260D601900E24E72 /* QuestData.swift */; };
 		AA02F6E3260DE4F100E24E72 /* ManageUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02F6E2260DE4F100E24E72 /* ManageUserViewController.swift */; };
 		AA0A495A25FE141900FDD87F /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */; };
+		AA0CCBCB268DB428002B0DB9 /* InviteCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0CCBCA268DB428002B0DB9 /* InviteCodeViewController.swift */; };
 		AA19190E25FF669000180A80 /* StartScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19190D25FF669000180A80 /* StartScreenViewController.swift */; };
 		AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */; };
 		AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */; };
@@ -133,6 +135,7 @@
 		A01CA46C25C32AE70028FCBB /* NotificationEnableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnableViewController.swift; sourceTree = "<group>"; };
 		A01CA47D25C333400028FCBB /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		A0334B6A25F5D6F0008A05F8 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		A06FC4C626801F0500A721CD /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		A08E82DA25E00B2F00760BF1 /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		A08E82E225E0276A00760BF1 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		A08E82ED25E16AB500760BF1 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +148,7 @@
 		AA02F6D7260D601900E24E72 /* QuestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestData.swift; sourceTree = "<group>"; };
 		AA02F6E2260DE4F100E24E72 /* ManageUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUserViewController.swift; sourceTree = "<group>"; };
 		AA0A495925FE141900FDD87F /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
+		AA0CCBCA268DB428002B0DB9 /* InviteCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeViewController.swift; sourceTree = "<group>"; };
 		AA19190D25FF669000180A80 /* StartScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenViewController.swift; sourceTree = "<group>"; };
 		AA56CE0925B2722D000E4C52 /* VerificationProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProcessingViewController.swift; sourceTree = "<group>"; };
 		AA56CE0E25B278DF000E4C52 /* NameChangeProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeProcessingViewController.swift; sourceTree = "<group>"; };
@@ -313,6 +317,7 @@
 				AA57BA7A25E87078001C378B /* ProfileSetupViewController.swift */,
 				AA7E0F5A25E3C546004C8C94 /* ProfileSetInterestsViewController.swift */,
 				FD7C8A8726055C7C00647D1B /* OnboardingViewController.swift */,
+				AA0CCBCA268DB428002B0DB9 /* InviteCodeViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -425,6 +430,7 @@
 				A01CA47D25C333400028FCBB /* NewPostViewController.swift */,
 				FDB8188C2626D55C0089E9A2 /* StickerPickerViewController.swift */,
 				FD1645AE2626F21E003F31B9 /* StickerCollectionViewCell.swift */,
+				A06FC4C626801F0500A721CD /* ChatCell.swift */,
 			);
 			path = "NewPost Tab";
 			sourceTree = "<group>";
@@ -931,7 +937,9 @@
 				FD1645AF2626F21E003F31B9 /* StickerCollectionViewCell.swift in Sources */,
 				A08E82EE25E16AB500760BF1 /* AccountViewController.swift in Sources */,
 				AADFD2292605F87D00D26DCF /* WelcomeToSilloViewController.swift in Sources */,
+				AA0CCBCB268DB428002B0DB9 /* InviteCodeViewController.swift in Sources */,
 				AA56CE0F25B278DF000E4C52 /* NameChangeProcessingViewController.swift in Sources */,
+				A06FC4C726801F0500A721CD /* ChatCell.swift in Sources */,
 				AA56CE0A25B2722D000E4C52 /* VerificationProcessingViewController.swift in Sources */,
 				AA92070B2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift in Sources */,
 				FD9D92C225A13B25003C7883 /* SceneDelegate.swift in Sources */,

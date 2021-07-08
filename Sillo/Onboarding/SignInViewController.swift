@@ -22,12 +22,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         etextField.layer.cornerRadius = 10.0;
         etextField.attributedPlaceholder = NSAttributedString(string: " youremail@berkeley.edu", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: UIFont(name: "Apercu Regular", size: 17)
+            .font: UIFont(name: "Apercu-Regular", size: 17)
         ])
         etextField.keyboardType = .emailAddress
         etextField.autocorrectionType = .no
         etextField.autocapitalizationType = .none
-        etextField.font = UIFont(name: "Apercu Regular", size: 17)
+        etextField.font = UIFont(name: "Apercu-Regular", size: 17)
         etextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         etextField.translatesAutoresizingMaskIntoConstraints = false
         return etextField
@@ -39,7 +39,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         ptextField.placeholder = " Password"
         ptextField.attributedPlaceholder = NSAttributedString(string: " Password", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: UIFont(name: "Apercu Regular", size: 17)
+            .font: UIFont(name: "Apercu-Regular", size: 17)
         ])
         ptextField.layer.cornerRadius = 10.0;
         ptextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -101,7 +101,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         let signInLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(28))
+            label.font = UIFont(name: "Apercu-Medium", size: dynamicFontSize(28))
             label.text = "Sign in"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -116,8 +116,8 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         let schoolEmailLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
-            label.text = "Enter your school email"
+            label.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
+            label.text = "Enter your email"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
@@ -138,7 +138,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
         //MARK: password label
         let createPasswordLabel: UILabel = {
             let label = UILabel()
-            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
+            label.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
             label.text = "Password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -179,7 +179,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate {
             let button = UIButton()
             button.layer.cornerRadius = 8
             button.setTitle("Sign in with e-mail", for: .normal)
-            button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+            button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
             button.setTitleColor(.white, for: .normal)
             button.backgroundColor = Color.buttonClickable
             button.addTarget(self, action: #selector(nextClicked(_:)), for: .touchUpInside)

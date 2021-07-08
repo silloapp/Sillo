@@ -27,7 +27,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         let button = UIButton()
         button.setTitle("Get Started", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(getStartedClicked(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         let button = UIButton()
         button.setTitle("I already have an account", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.addTarget(self, action: #selector(signInClicked(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -134,7 +134,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
 
         let page1 = OnboardingViewController(_image: UIImage(named: "onboarding1")!, _descriptionText: "Spark a conversation in your team anonymously.")
         let page2 = OnboardingViewController(_image: UIImage(named: "onboarding2")!, _descriptionText: "Show yourself only when you are ready.")
-        let page3 = OnboardingViewController(_image: UIImage(named: "onboarding3")!, _descriptionText: "Share exclusive deals from nearby restaurants.")
+        let page3 = OnboardingViewController(_image: UIImage(named: "onboarding3")!, _descriptionText: "Share your favorite interests with like-minded peers.")
         
         // add the individual viewControllers to the pageViewController
         self.pages.append(page1)

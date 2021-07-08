@@ -1,18 +1,27 @@
 //
-//  PasscodeVerificationViewController.swift
+//  InviteCodeViewController.swift
 //  Sillo
 //
-//  Created by William Loo on 1/7/21.
+//  Created by William Loo on 7/1/21.
 //
 
 import UIKit
 import Firebase
 
 //MARK: figma screen 164, 165
-class PasscodeVerificationViewController: UIViewController {
+class InviteCodeViewController: UIViewController {
     
     private var latestAuthRequestTimestamp: Date = Date()-5.0
-    private var THROTTLE_LIMIT: Double = 5.0 //in seconds
+    private var DEBOUNCE_LIMIT = 2.0
+    
+    //MARK: init exit button
+    let exitButton: UIButton = {
+        let btn = UIButton()
+        btn.setBackgroundImage(UIImage(named: "back"), for: .normal)
+        btn.imageView?.contentMode = .scaleAspectFit
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
     
     //MARK: init sillo logotype
     let silloLogotype: UIImageView = {
@@ -27,7 +36,7 @@ class PasscodeVerificationViewController: UIViewController {
     let headerLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Apercu-Medium", size: 28)
-        label.text = "Verify your email"
+        label.text = "Enter Invite Code"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -36,7 +45,8 @@ class PasscodeVerificationViewController: UIViewController {
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Apercu-Regular", size: 17)
-        label.text = "Check your inbox for a verification code."
+        label.text = "Check with your group admin. A new Sillo Space invitation will be created for valid invite codes."
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -49,10 +59,9 @@ class PasscodeVerificationViewController: UIViewController {
         textField.attributedPlaceholder = NSAttributedString(string: "", attributes: [
             .font: UIFont(name: "Apercu-Regular", size: 17)
         ])
+        textField.autocapitalizationType = .allCharacters
         textField.layer.cornerRadius = 10.0;
         textField.clearsOnBeginEditing = true
-        textField.keyboardType = .phonePad
-        textField.textContentType = .oneTimeCode
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -62,33 +71,11 @@ class PasscodeVerificationViewController: UIViewController {
         return range.location < 5
     }
     
-    //MARK: init resend email label
-    let resendLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Apercu-Regular", size: 22)
-        label.text = "I didn't receive a code!"
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    //MARK: init resend email button
-    let resendButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Resend", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel!.font = UIFont(name: "Apercu-Bold", size: 22)
-        button.setTitleColor(.darkGray, for: .highlighted)
-        button.addTarget(self, action: #selector(resendRequested(_:)), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     //MARK: init verify button
     let verifyButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 8
-        button.setTitle("Verify", for: .normal)
+        button.setTitle("Submit", for: .normal)
         button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
@@ -100,6 +87,7 @@ class PasscodeVerificationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewDidLoad() {
@@ -114,6 +102,18 @@ class PasscodeVerificationViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tap)
         
+        //left gesture recognizer
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+        edgePan.edges = .left
+        view.addGestureRecognizer(edgePan)
+        
+        //MARK: exit button
+        self.view.addSubview(exitButton)
+        exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        exitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.addTarget(self, action: #selector(exitPressed), for: .touchUpInside)
         
         //MARK: logotype
         view.addSubview(silloLogotype)
@@ -124,7 +124,7 @@ class PasscodeVerificationViewController: UIViewController {
         
         //MARK: header label
         view.addSubview(headerLabel)
-        headerLabel.widthAnchor.constraint(equalToConstant: 211).isActive = true
+        headerLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         headerLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         headerLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32).isActive = true
         headerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 192).isActive = true
@@ -132,7 +132,7 @@ class PasscodeVerificationViewController: UIViewController {
         //MARK: body label
         view.addSubview(bodyLabel)
         bodyLabel.widthAnchor.constraint(equalToConstant: 327).isActive = true
-        bodyLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        bodyLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
         bodyLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32).isActive = true
         bodyLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 233).isActive = true
          
@@ -144,60 +144,71 @@ class PasscodeVerificationViewController: UIViewController {
         passcodeField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         passcodeField.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        //MARK: resend label
-        view.addSubview(resendLabel)
-        resendLabel.widthAnchor.constraint(equalToConstant: 291).isActive = true
-        resendLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        resendLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        resendLabel.topAnchor.constraint(equalTo: passcodeField.bottomAnchor, constant: 104).isActive = true
-        
-        //MARK: resend code button
-        view.addSubview(resendButton)
-        resendButton.widthAnchor.constraint(equalToConstant: 291).isActive = true
-        resendButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        resendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resendButton.topAnchor.constraint(equalTo: resendLabel.bottomAnchor, constant: 5).isActive = true
-        
         
         //MARK: verify Button
         view.addSubview(verifyButton)
         verifyButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         verifyButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         verifyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        verifyButton.topAnchor.constraint(equalTo: resendButton.topAnchor, constant: 74).isActive = true
+        verifyButton.topAnchor.constraint(equalTo: passcodeField.topAnchor, constant: 74).isActive = true
         
     }
     
-    @objc func resendRequested(_:UIButton) {
-        let requestThrottled: Bool = -self.latestAuthRequestTimestamp.timeIntervalSinceNow < self.THROTTLE_LIMIT
-        if (!requestThrottled) {
-            //haptics
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.prepare()
-            generator.impactOccurred()
-            
-            cloudutil.generateAuthenticationCode()
-            self.latestAuthRequestTimestamp = Date()
-            
-            //log passcode resent
-            analytics.log_passcode_verification_resend()
-        }
-        else {
-            print("throttle limit exceeded!")
-        }
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
+    }
+    
+    @objc func exitPressed() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func verifyClicked(_:UIButton) {
+        let requestThrottled: Bool = -self.latestAuthRequestTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        if requestThrottled {
+            return
+        }
+        
         if (passcodeField.hasText) {
+            self.latestAuthRequestTimestamp = Date()
             self.passcodeField.resignFirstResponder()
-            let nextVC = VerificationProcessingViewController()
-            nextVC.modalPresentationStyle = .fullScreen
-            nextVC.passcode = passcodeField.text!
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            
+            let alert = AlertView(headingText: "Please wait..", messageText: "Your invite code has been submitted.", action1Label: "", action1Color: UIColor.white, action1Completion: {
+            }, action2Label: "Nil", action2Color: .gray, action2Completion: {
+            }, withCancelBtn: false, image: UIImage(named:"wait_a_moment"), withOnlyOneAction: true)
+            alert.modalPresentationStyle = .overCurrentContext
+            alert.modalTransitionStyle = .crossDissolve
+            self.present(alert, animated: false, completion: nil)
+            
+            guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/verifyInviteCode") else {return}
+            var request = URLRequest(url: url)
+            let payload = "{\"userID\": \"\(Constants.FIREBASE_USERID!)\", \"passcode\": \"\(passcodeField.text!)\"}".data(using: .utf8)
+            
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = payload
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard error == nil else { print(error!.localizedDescription); return }
+                guard let data = data else { print("Empty data");return }
+
+                if let str = String(data: data, encoding: .utf8) {
+                    
+                    print("invite code function result: \(str)")
+                    DispatchQueue.main.async {
+                        alert.dismiss(animated: true, completion: nil)
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            }.resume()
+            
+            
         }
         else {
             DispatchQueue.main.async {
-                let alert = AlertView(headingText: "Please enter a verification code.", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                let alert = AlertView(headingText: "Oops!", messageText: "Please enter an invite code.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                     self.dismiss(animated: true, completion: nil)
                 }, action2Label: "Nil", action2Color: .gray, action2Completion: {
                 }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
@@ -210,8 +221,8 @@ class PasscodeVerificationViewController: UIViewController {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= 2*(keyboardSize.height / 3)
+            if self.view.frame.origin.y == 0 && self.view.frame.height < 812 {
+                self.view.frame.origin.y -= (keyboardSize.height/3)
             }
         }
     }
@@ -226,3 +237,4 @@ class PasscodeVerificationViewController: UIViewController {
         passcodeField.resignFirstResponder()
     }
 }
+

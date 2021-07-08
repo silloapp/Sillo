@@ -127,12 +127,13 @@ class StartScreenViewController: UIViewController {
     }
     
 }
-func prepareTabVC() -> UIViewController {
+func prepareTabVC(defaultIndex: Int? = 0) -> UIViewController {
     let tabVC = CustomTabBarController()
     tabVC.tabBar.barTintColor = Color.offsnow
     tabVC.tabBar.layer.masksToBounds = true
     tabVC.tabBar.isTranslucent = true
     tabVC.tabBar.layer.borderWidth = 0
+    tabVC.selectedIndex = defaultIndex!
     
     tabVC.tabBar.layer.shadowOffset = CGSize(width: 0, height: -4)
     tabVC.tabBar.layer.shadowRadius = 10

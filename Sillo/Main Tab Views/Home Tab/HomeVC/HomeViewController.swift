@@ -61,6 +61,8 @@ class HomeViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTeamPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToTop), name: Notification.Name(rawValue: "scrollToTopOfFeed"), object: nil)
+        
         //MARK: attach listener
         feed.posts = [:] //clear posts in memory
         let organizationID = organizationData.currOrganization ?? "ERROR"
@@ -86,14 +88,21 @@ class HomeViewController: UIViewController {
     
     //notification callback for refreshing profile picture
     @objc func refreshTeamPic(_:UIImage) {
-        let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
-        if imageCache.object(forKey: orgPicRef) != nil { //image in cache
-            let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
-            self.teamPic.image = cachedImage
+        if organizationData.currOrganization != nil { //there is a chance that this will get called while currOrg is still null
+            let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
+            if imageCache.object(forKey: orgPicRef) != nil { //image in cache
+                let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
+                self.teamPic.image = cachedImage
+            }
+            else {
+                cloudutil.downloadImage(ref: orgPicRef as String)
+            }
         }
-        else {
-            cloudutil.downloadImage(ref: orgPicRef as String)
-        }
+    }
+    
+    //notification callback for scrolling to top
+    @objc func scrollToTop() {
+        self.postsTable.setContentOffset(.zero, animated: true)
     }
     
     override func viewDidLoad() {
@@ -353,7 +362,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         //cannot report oneself, but can delete post
         if post.posterUserID! == Constants.FIREBASE_USERID! {
             DispatchQueue.main.async {
-                let alert = AlertView(headingText: "My Post Actions", messageText: "", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                let alert = AlertView(headingText: "My Post Options", messageText: "", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
                     self.dismiss(animated: true, completion: nil)
                 }, action2Label: "Delete Post", action2Color: Color.burple, action2Completion: {
                     self.dismiss(animated: false, completion: nil);self.confirmDeletePost(postID: post.postID!)
@@ -451,8 +460,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             generator.notificationOccurred(.error)
             let alert = AlertView(headingText: "Woops, you can't reply to a post you wrote yoursef!", messageText: "", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                 self.dismiss(animated: true, completion: nil);tableView.deselectRow(at: indexPath, animated: true)
-            }, action2Label: "Nil", action2Color: .gray, action2Completion: {
-            }, withCancelBtn: false, image: UIImage(named:"warning"), withOnlyOneAction: true)
+            }, action2Label: "Delete Post", action2Color: Color.salmon, action2Completion: {
+                self.dismiss(animated: false, completion: nil);self.confirmDeletePost(postID: post.postID!);tableView.deselectRow(at: indexPath, animated: false)
+            }, withCancelBtn: false, image: UIImage(named:"warning"), withOnlyOneAction: false)
             alert.modalPresentationStyle = .overCurrentContext
             alert.modalTransitionStyle = .crossDissolve
             self.present(alert, animated: true, completion: nil)

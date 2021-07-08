@@ -20,7 +20,7 @@ class NotificationEnableViewController: UIViewController {
     //MARK: init Header label
     let headerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Apercu Bold", size: 32)
+        label.font = UIFont(name: "Apercu-Bold", size: 32)
         label.textColor = Color.buttonClickable
         label.text = "Stay connected"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ class NotificationEnableViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 5;
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = UIFont(name: "Apercu Regular", size: 20)
+        label.font = UIFont(name: "Apercu-Regular", size: 20)
         label.text = "Now let’s turn on notifications so we can let you know when members want to connect with you. "
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -42,7 +42,7 @@ class NotificationEnableViewController: UIViewController {
     let enableNotificationsButton: UIButton = {
         let button = UIButton()
         button.setTitle("Enable Notifications", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = Color.buttonClickable
         button.addTarget(self, action: #selector(enableNotifications(_:)), for: .touchUpInside)
@@ -55,7 +55,7 @@ class NotificationEnableViewController: UIViewController {
     let skipButton: UIButton = {
         let button = UIButton()
         button.setTitle("Skip this step", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 17)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 17)
         button.setTitleColor(.gray, for: .normal)
         button.addTarget(self, action: #selector(skipNotifications(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

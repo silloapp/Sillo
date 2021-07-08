@@ -14,10 +14,11 @@ import MessageUI
 class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,MFMailComposeViewControllerDelegate {
     
     // MARK: - IBDeclarations :
-    
+    var origin = "home" //either "home" or "teams"
     let scrollView = UIScrollView()
     let insideScrollVw = UIView()
     let titleLabel = UILabel()
+    let inviteCodeButton = UIButton(type: UIButton.ButtonType.custom)
     let screenSize = UIScreen.main.bounds
     let TopTable = UITableView()
     
@@ -41,8 +42,21 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
+        
+        //MARK: Allows swipe from left to go back (making it interactive caused issue with the header) but only if the view was from teams menu
+        if self.origin == "teams" {
+            let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwipe))
+            edgePan.edges = .left
+            view.addGestureRecognizer(edgePan)
+        }
+    }
+    
+    //MARK: function for left swipe gesture
+    @objc func leftEdgeSwipe(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+       if recognizer.state == .recognized {
+          self.navigationController?.popViewController(animated: true)
+       }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +65,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         self.view.backgroundColor = ViewBgColor
         self.navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
         settingElemets()
         
         localUser.invites = [] //must clear otherwise invites will appear more than once
@@ -75,6 +90,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.isHidden = false
     }
     
@@ -134,11 +150,27 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         titleLabel.textAlignment = .center
         
         let TITLEconstraints = [
-            titleLabel.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 45),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo:  self.view.topAnchor, constant: 80),
+            titleLabel.leftAnchor.constraint(equalTo: exitButton.leftAnchor, constant: 0),
             titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 184/375),
             titleLabel.heightAnchor.constraint(equalToConstant: 25)
             
+        ]
+        
+        // FOR INVITE CODE BUTTON :
+        self.scrollView.addSubview(inviteCodeButton)
+        inviteCodeButton.setTitle("Enter Code", for: .normal)
+        inviteCodeButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 15)
+        inviteCodeButton.backgroundColor = Color.buttonClickableUnselected
+        inviteCodeButton.addTarget(self, action:#selector(inviteCodeButtonPressed), for: .touchUpInside)
+        inviteCodeButton.frame = CGRect(x: 0, y: 0, width: 80, height: 20)
+        inviteCodeButton.cornerRadius = 12
+        
+        let inviteCodeButtonConstraints = [
+            inviteCodeButton.topAnchor.constraint(equalTo:  self.view.topAnchor, constant: 80),
+            inviteCodeButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
+            inviteCodeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 100/375),
+            inviteCodeButton.heightAnchor.constraint(equalToConstant: 25)
         ]
         
         // FOR EXIT BUTTON :
@@ -154,17 +186,17 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
         let sectitleLabel = UILabel()
         self.scrollView.addSubview(sectitleLabel)
-        sectitleLabel.text = "These are spaces you've been invited to. Select the spaces you would like to join. You can always sign in to more later."
+        sectitleLabel.text = Constants.EMAIL ?? "your email"
         sectitleLabel.backgroundColor = .clear
-        sectitleLabel.textColor = .black
-        sectitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
+        sectitleLabel.textColor = Color.darkerRussianDolphinGray
+        sectitleLabel.font = UIFont(name: "Apercu-Regular", size: 18)
         sectitleLabel.textAlignment = .left
         sectitleLabel.numberOfLines = 0
         sectitleLabel.lineBreakMode = .byWordWrapping
         
         let sectitleLabelconstraints = [
             sectitleLabel.topAnchor.constraint(equalTo:  self.titleLabel.topAnchor, constant: 50),
-            sectitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+            sectitleLabel.leftAnchor.constraint(equalTo: exitButton.leftAnchor, constant: 0),
             sectitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
             sectitleLabel.heightAnchor.constraint(equalToConstant: 70)
         ]
@@ -178,44 +210,38 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             insideScrollVw.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 272/812)
         ]
         
+        //MARK: or divider
+        let divider: UIImageView = {
+            let imageView = UIImageView()
+            let image = UIImage(named: "or-divider")
+            imageView.image = image
+            return imageView
+        }()
+        self.scrollView.addSubview(divider)
 
-        // FOR BOTTOM TITLE :
-        
-        let bottomtitleLabel = UILabel()
-        self.scrollView.addSubview(bottomtitleLabel)
-        bottomtitleLabel.text = "This is a list of all your teams associated with \(Constants.EMAIL ?? "your email")."
-        bottomtitleLabel.backgroundColor = .clear
-        bottomtitleLabel.textColor = .black
-        bottomtitleLabel.font = UIFont(name: "Apercu-Regular", size: 16)
-        bottomtitleLabel.textAlignment = .left
-        bottomtitleLabel.numberOfLines = 0
-        bottomtitleLabel.lineBreakMode = .byWordWrapping
-        
-        let bottomtitleconstraints = [
-            bottomtitleLabel.topAnchor.constraint(equalTo:  insideScrollVw.bottomAnchor, constant: 25),
-            bottomtitleLabel.leftAnchor.constraint(equalTo: insideScrollVw.leftAnchor),
-            bottomtitleLabel.widthAnchor.constraint(equalTo: insideScrollVw.widthAnchor, constant: -15),
-            bottomtitleLabel.heightAnchor.constraint(equalToConstant: 50)
+        let dividerConstraints = [
+            divider.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150),
+            divider.widthAnchor.constraint(equalToConstant: 305),
+            divider.heightAnchor.constraint(equalToConstant: 22),
+            divider.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor)
         ]
-        
-
         
         // FOR BOTTOM secondTITLE :
         
         let bottomSectitleLabel = UILabel()
         self.scrollView.addSubview(bottomSectitleLabel)
-        bottomSectitleLabel.text = "Don't see what you're looking for? Make sure you've been invited by your team leader."
+        bottomSectitleLabel.text = "Looking to create your own space?"
         bottomSectitleLabel.backgroundColor = .clear
-        bottomSectitleLabel.textColor = Color.burple
-        bottomSectitleLabel.font = UIFont(name: "Apercu-Bold", size: 16)
-        bottomSectitleLabel.textAlignment = .left
+        bottomSectitleLabel.textColor = Color.matte
+        bottomSectitleLabel.font = UIFont(name: "Apercu-Regular", size: 18)
+        bottomSectitleLabel.textAlignment = .center
         bottomSectitleLabel.numberOfLines = 0
         bottomSectitleLabel.lineBreakMode = .byWordWrapping
         
         let bottomSectitleLabelconstraints = [
-            bottomSectitleLabel.topAnchor.constraint(equalTo:  bottomtitleLabel.bottomAnchor, constant: 10),
-            bottomSectitleLabel.leftAnchor.constraint(equalTo: insideScrollVw.leftAnchor),
-            bottomSectitleLabel.widthAnchor.constraint(equalTo: insideScrollVw.widthAnchor, constant: -15),
+            bottomSectitleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90),
+            bottomSectitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            bottomSectitleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 305/375),
             bottomSectitleLabel.heightAnchor.constraint(equalToConstant: 50)
             
         ]
@@ -225,7 +251,7 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         let BottomButton = UIButton()
         self.scrollView.addSubview(BottomButton)
         BottomButton.backgroundColor = Color.buttonClickable
-        BottomButton.setTitle("Create Your Own Space", for: .normal)
+        BottomButton.setTitle("Create a Sillo Space", for: .normal)
         BottomButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
         BottomButton.setTitleColor(.white, for: .normal)
         BottomButton.clipsToBounds = true
@@ -252,7 +278,8 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         TopTable.register(CustomTableViewCell.self, forCellReuseIdentifier: "inviteCell")
         
         let TopTableconstraints = [
-            TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),  TopTable.leftAnchor.constraint(equalTo: exitButton.leftAnchor, constant: 0),
+            TopTable.topAnchor.constraint(equalTo:  sectitleLabel.topAnchor, constant: 75),
+            TopTable.leftAnchor.constraint(equalTo: exitButton.leftAnchor, constant: 0),
             TopTable.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
             TopTable.heightAnchor.constraint(equalToConstant: 300)
         ]
@@ -268,9 +295,10 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         NSLayoutConstraint.activate(scrollViewconstraints)
         NSLayoutConstraint.activate(insideScrollViewconstraints)
         NSLayoutConstraint.activate(TITLEconstraints)
+        NSLayoutConstraint.activate(inviteCodeButtonConstraints)
         NSLayoutConstraint.activate(sectitleLabelconstraints)
         NSLayoutConstraint.activate(TopTableconstraints)
-        NSLayoutConstraint.activate(bottomtitleconstraints)
+        NSLayoutConstraint.activate(dividerConstraints)
         NSLayoutConstraint.activate(bottomSectitleLabelconstraints)
         NSLayoutConstraint.activate(BottomButtonconstraints)
         
@@ -278,14 +306,21 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         self.scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.insideScrollVw.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.inviteCodeButton.translatesAutoresizingMaskIntoConstraints = false
         sectitleLabel.translatesAutoresizingMaskIntoConstraints = false
         TopTable.translatesAutoresizingMaskIntoConstraints = false
-        bottomtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        divider.translatesAutoresizingMaskIntoConstraints = false
         bottomSectitleLabel.translatesAutoresizingMaskIntoConstraints = false
         BottomButton.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.layoutIfNeeded()
         
+        
+    }
+    
+    @objc func inviteCodeButtonPressed(sender:UIButton) {
+        let nextVC = InviteCodeViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
         
     }
     
@@ -299,10 +334,19 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             self.present(nextVC, animated: true, completion: nil)
         }
         else {
-            let nextVC = prepareTabVC()
+            //signed in user, now determine where the original screen was that led here
+            if origin == "teams" {
+                //from teams menu view, simple pop
+                self.navigationController?.popViewController(animated: true)
+                return
+            }
+            //otherwise, create a new navigation vc (the previous one was deleted)
+            let nextVC:UITabBarController = prepareTabVC() as! UITabBarController
             nextVC.modalPresentationStyle = .fullScreen
             nextVC.modalTransitionStyle = .crossDissolve
-            self.present(nextVC, animated: true)
+                
+
+                self.present(nextVC, animated: true)
         }
     }
     
@@ -450,7 +494,17 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
             generator.notificationOccurred(.error)
             DispatchQueue.main.async {
                 let alert = AlertView(headingText: "Organization Already Joined!", messageText: "You have already joined this organization.", action1Label: "Okay", action1Color: Color.burple, action1Completion: {
-                    self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);self.exitPressed()
+                    self.dismiss(animated: true, completion: nil);organizationData.changeOrganization(dest: orgID);
+                    do {let nextVC = prepareTabVC()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        
+                        let navC = UINavigationController(rootViewController: nextVC)
+                        navC.modalPresentationStyle = .fullScreen
+                        navC.modalTransitionStyle = .crossDissolve
+                        navC.setNavigationBarHidden(true, animated: false)
+                        self.present(navC, animated: true, completion: nil)
+                        
+                    }
                 }, action2Label: "Nil", action2Color: .gray, action2Completion: {
                 }, withCancelBtn: false, image: nil, withOnlyOneAction: true)
                 alert.modalPresentationStyle = .overCurrentContext

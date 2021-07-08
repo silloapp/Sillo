@@ -178,7 +178,7 @@ class AnimationWaterBubbleVC: UIViewController {
         self.view.addSubview(ContinueBtn)
         self.view.bringSubviewToFront(ContinueBtn)
         ContinueBtn.backgroundColor = themeColor
-        ContinueBtn.titleLabel?.font = UIFont(name: "Apercu Bold", size: 16)
+        ContinueBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
         ContinueBtn.titleLabel?.textAlignment = .center
         ContinueBtn.setTitle("Continue", for: .normal)
         ContinueBtn.setTitleColor(.white, for: .normal)

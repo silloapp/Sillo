@@ -126,7 +126,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         if organizationData.adminStatusMap[organizationData.currOrganization!] == true {
             let inviteButton = UIButton(type: UIButton.ButtonType.custom)
             inviteButton.setTitle("Invite", for: .normal)
-            inviteButton.titleLabel?.font = UIFont(name: "Apercu Bold", size: 17)
+            inviteButton.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 17)
             inviteButton.backgroundColor = Color.buttonClickable
             inviteButton.addTarget(self, action:#selector(addbtnMethod), for: .touchUpInside)
             inviteButton.frame = CGRect(x: 0, y: 0, width: 80, height: 20)
@@ -167,7 +167,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         self.searchView.addSubview(searchTf)
         searchTf.attributedPlaceholder = NSAttributedString(string: "Search Name", attributes: [
             .foregroundColor: UIColor.lightGray,
-            .font: UIFont(name: "Apercu Regular", size: 17)
+            .font: UIFont(name: "Apercu-Regular", size: 17)
         ])
         searchTf.addTarget(self, action: #selector(self.searchTextFieldDidChange), for: .editingChanged)
         searchTf.placeholder = "Search name"
@@ -402,7 +402,7 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         print("add button clicked")
         let nextVC = AddPeopleToSpaceViewController()
         nextVC.orgNameString = organizationData.currOrganizationName
-        nextVC.orgImage = UIImage(named: "avatar-2")
+        nextVC.orgImage = UIImage(named: "avatar-2") //TODO: handle pictures
         nextVC.onboardingMode = false
         self.navigationController?.pushViewController(nextVC, animated: true)
         

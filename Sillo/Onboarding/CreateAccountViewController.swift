@@ -18,7 +18,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     //MARK: init email text field
     let emailTextField: UITextField = {
         let etextField = UITextField()
-        guard let customFont = UIFont(name: "Apercu Regular", size: 16) else {
+        guard let customFont = UIFont(name: "Apercu-Regular", size: 16) else {
             fatalError("""
                 Failed to load the "CustomFont-Light" font.
                 Make sure the font file is included in the project and the font name is spelled correctly.
@@ -39,7 +39,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     //MARK: init password text field
     var passwordTextField: UITextField = {
         let ptextField = UITextField()
-        guard let customFont = UIFont(name: "Apercu Regular", size: 16) else {
+        guard let customFont = UIFont(name: "Apercu-Regular", size: 16) else {
             fatalError("""
                 Failed to load the "CustomFont-Light" font.
                 Make sure the font file is included in the project and the font name is spelled correctly.
@@ -60,7 +60,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     //MARK: init confirm password text field
     var confirmPasswordTextField: UITextField = {
         let ctextField = UITextField()
-        guard let customFont = UIFont(name: "Apercu Regular", size: 16) else {
+        guard let customFont = UIFont(name: "Apercu-Regular", size: 16) else {
             fatalError("""
                 Failed to load the "CustomFont-Light" font.
                 Make sure the font file is included in the project and the font name is spelled correctly.
@@ -128,7 +128,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         let createAccountLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = UIFont(name: "Apercu Medium", size: dynamicFontSize(28))
+            label.font = UIFont(name: "Apercu-Medium", size: dynamicFontSize(28))
             label.text = "Create your account"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -143,8 +143,8 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         let schoolEmailLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
-            label.text = "Enter your school email"
+            label.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
+            label.text = "Enter your email"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
@@ -166,7 +166,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         let createPasswordLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(17))
+            label.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
             label.text = "Create a password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -206,7 +206,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         let confirmPasswordLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = UIFont(name: "Apercu Regular", size: 17)
+            label.font = UIFont(name: "Apercu-Regular", size: 17)
             label.text = "Confirm password"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -230,7 +230,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             let button = UIButton()
             button.layer.cornerRadius = 8
             button.setTitle("Continue with e-mail", for: .normal)
-            button.titleLabel?.font = UIFont(name: "Apercu Bold", size: 20)
+            button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
             button.setTitleColor(.white, for: .normal)
             button.backgroundColor = Color.buttonClickable
             button.addTarget(self, action: #selector(nextClicked(_:)), for: .touchUpInside)
@@ -249,7 +249,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
             tview.textAlignment = .left
             tview.isEditable = false
             tview.isScrollEnabled = false
-            tview.font = UIFont(name: "Apercu Regular", size: dynamicFontSize(13))
+            tview.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(13))
             tview.textColor = .black
             tview.text = "By creating an account, you are indicating that you have read and acknowledged the Terms of Service and Privacy Policy."
             tview.translatesAutoresizingMaskIntoConstraints = false
