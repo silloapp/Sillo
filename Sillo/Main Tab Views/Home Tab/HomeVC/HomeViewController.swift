@@ -23,6 +23,7 @@ class HomeViewController: UIViewController {
         return table
     }()
     
+    let clubName = UILabel()
     let teamPic = UIImageView()
     
     public let header : UIView = {
@@ -58,6 +59,8 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableView(note:)), name: Notification.Name("refreshPostTableView"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.tabBarOpacityChange(note:)), name: Notification.Name("PopupDidAppear"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationTitleLabel), name: Notification.Name(rawValue: "refreshOrgTitleLabel"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTeamPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
@@ -98,6 +101,10 @@ class HomeViewController: UIViewController {
                 cloudutil.downloadImage(ref: orgPicRef as String)
             }
         }
+    }
+    
+    @objc func refreshOrganizationTitleLabel(_:NSNotification) {
+        self.clubName.text = organizationData.currOrganizationName ?? "My Organization"
     }
     
     //notification callback for scrolling to top
@@ -242,11 +249,10 @@ class HomeViewController: UIViewController {
         silloLogo.contentMode = .scaleAspectFit
         stack.addArrangedSubview(silloLogo)
         
-        let clubName = UILabel()
-        clubName.text = organizationData.currOrganizationName ?? "My Organization"
-        clubName.font = UIFont(name:"Apercu-Bold", size: 22)
-        clubName.textColor = Color.teamHeader
-        stack.addArrangedSubview(clubName)
+        self.clubName.text = organizationData.currOrganizationName ?? "My Organization"
+        self.clubName.font = UIFont(name:"Apercu-Bold", size: 22)
+        self.clubName.textColor = Color.teamHeader
+        stack.addArrangedSubview(self.clubName)
         
         return stack
     }

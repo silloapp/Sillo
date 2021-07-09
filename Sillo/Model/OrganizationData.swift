@@ -301,6 +301,7 @@ class OrganizationData {
                             cloudutil.downloadImage(ref: "orgProfiles/\(orgID)\(Constants.image_extension)")
                         }
                         NotificationCenter.default.post(name: Notification.Name("RefreshOrganizationListing"), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshOrgTitleLabel"), object: nil)
                     }
                 }
             }
