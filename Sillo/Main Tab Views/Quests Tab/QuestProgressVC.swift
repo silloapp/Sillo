@@ -18,34 +18,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         return view
     }()
     
-    //MARK: quest title
-    let questTitle: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1;
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = UIFont(name:"Apercu-Bold", size: 17)
-        label.text = "Quest Progress"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        return label
-    }()
-    
-    //MARK: init description
-    let descLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0;
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = UIFont(name:"Apercu-Bold", size: 15)
-        label.text = "Complete your quest to claim a Sillo sticker!"
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        return label
-    }()
-    
-    let progressBar = UIProgressView(progressViewStyle: .bar)
-    var timer = Timer()
-    
     let scrollView : UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -169,33 +141,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         NSLayoutConstraint.activate(insideScrollViewconstraints)
         
         
-        //MARK: questTitle
-        self.insideScrollVw.addSubview(questTitle)
-        questTitle.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 20).isActive = true
-        questTitle.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
-        
-        
-        //MARK: set up progress bar
-        self.insideScrollVw.addSubview(progressBar)
-        progressBar.setProgress(0.2, animated: true)
-        progressBar.trackTintColor = .lightGray
-        progressBar.tintColor = themeColor
-        
-        let progressBarConstraints = [
-            progressBar.topAnchor.constraint(equalTo:  self.questTitle.bottomAnchor, constant: 20),
-            progressBar.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
-            progressBar.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            progressBar.heightAnchor.constraint(equalToConstant: 2)
-        ]
-        NSLayoutConstraint.activate(progressBarConstraints)
-        progressBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        //MARK: desc label
-        self.insideScrollVw.addSubview(descLabel)
-        descLabel.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 20).isActive = true
-        descLabel.leadingAnchor.constraint(equalTo: questTitle.leadingAnchor).isActive = true
-        descLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 300/375).isActive = true
-        
         
         //MARK: subtask tableview
         self.insideScrollVw.addSubview(subtaskTableView)
@@ -207,7 +152,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         subtaskTableView.translatesAutoresizingMaskIntoConstraints = false
         subtaskTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         let TopTableconstraints = [
-            self.subtaskTableView.topAnchor.constraint(equalTo:  self.descLabel.bottomAnchor, constant: 10),
+            self.subtaskTableView.topAnchor.constraint(equalTo:  self.header.bottomAnchor, constant: 30),
             self.subtaskTableView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 15),
             self.subtaskTableView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15),
             self.subtaskTableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 230/815)
@@ -389,14 +334,13 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         if quests.subtasks[indexPath.row].current >= quests.subtasks[indexPath.row].target {
             cell.labUserName.isHidden = true
             cell.checkImg.isHidden = false
-        }else{
+        } else {
             cell.labUserName.isHidden = false
             cell.checkImg.isHidden = true
         }
         
         //if all tasks completed, user can click to unlock sticker
-        if progressBar.progress  == 1.0 {
-            StartFloatingStars()
+        if getPercentageCompleted(subtasks: quests.subtasks)  == 1.0 {
             showPopupLbl()
         } else {
             hidePopupLbl()
@@ -487,10 +431,6 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         //refresh the subtask table
         self.subtaskTableView.reloadData()
         
-        //update progress bar
-        let percentageCompleted = getPercentageCompleted(subtasks: quests.subtasks)
-        print("percentage completed: \(percentageCompleted)")
-        progressBar.setProgress(percentageCompleted , animated: true)
     }
 
     
