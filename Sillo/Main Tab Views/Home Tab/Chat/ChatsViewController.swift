@@ -185,10 +185,12 @@ final class ChatsViewController: UITableViewController {
     }
     
     @objc func revealUser(note: NSNotification) {
-        print("OP has just accepted ur message and you are now revealed to each other!")
-        let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(revealVC, animated: true)
+        if (chatHandler.chatMetadata[chatID]?.isRevealed == true) { //only reveal if this is my chat
+            print("OP has just accepted ur message and you are now revealed to each other!")
+            let revealVC = AnimationWaterBubbleVC(chatID: self.chatID)
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(revealVC, animated: true)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
