@@ -234,6 +234,8 @@ class HomePostTableViewCellGIF: UITableViewCell {
                     if let media = response?.data {
                         DispatchQueue.main.sync { [weak self] in
                             self?.mediaView.media = media
+                            self!.imageViewWidthConstraint = self?.mediaView.widthAnchor.constraint(equalTo: (self?.mediaView.heightAnchor)!, multiplier: media.aspectRatio)
+                            self!.imageViewWidthConstraint?.isActive = true
                         }
                     }
                 }
@@ -351,10 +353,6 @@ class HomePostTableViewCellGIF: UITableViewCell {
         bubbleView.layer.shadowRadius = 25
         bubbleView.layer.shadowOffset = CGSize(width: 0, height: 13)
         
-        //bubbleView.backgroundColor = .systemRed
-       
-        
-        
         bubbleView.addSubview(mediaView)
         mediaView.translatesAutoresizingMaskIntoConstraints = false
         mediaView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
@@ -382,7 +380,6 @@ class HomePostTableViewCellGIF: UITableViewCell {
         mediaView.contentMode = .scaleAspectFill //TODO: to avoid cropping, change this to aspectFit (though if you do this you'll also have to solve the issue with the rounded corners not showing, will do this when i have more time!)
         mediaView.layer.cornerRadius = bubbleView.layer.cornerRadius
         mediaView.layer.masksToBounds = true
- 
         mediaView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
         mediaView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor).isActive = true
         mediaView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor).isActive = true

@@ -226,13 +226,23 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         stickerImageView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 20).isActive = true
         
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
-           toolBar.barStyle = UIBarStyle.default
+        toolBar.barStyle = UIBarStyle.default
+        let gifButton = UIBarButtonItem(image: UIImage(named: "file")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(addGifPressed(_:)))
+        let stickerButton = UIBarButtonItem(image: UIImage(named: "stickers-1")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(addGifPressed(_:)))
+        let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        negativeSeperator.width = 12
+        
            toolBar.items = [
-            UIBarButtonItem(title:"GIPHY", style: UIBarButtonItem.Style.plain, target: self, action: #selector(addGifPressed(_:))),
-//            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title:"Sticker", style: UIBarButtonItem.Style.plain, target: self, action: #selector(addStickerPressed(_:)))]
-           toolBar.sizeToFit()
-           textView.inputAccessoryView = toolBar
+            negativeSeperator,
+           gifButton,
+           negativeSeperator,
+           stickerButton,
+        ]
+        
+        toolBar.sizeToFit()
+        toolBar.isTranslucent = false
+        //toolBar.barTintColor = Color.burple
+        textView.inputAccessoryView = toolBar
         
     }
     
