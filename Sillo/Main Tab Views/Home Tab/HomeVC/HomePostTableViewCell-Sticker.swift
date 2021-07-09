@@ -218,7 +218,7 @@ class HomePostTableViewCellGIF: UITableViewCell {
                 let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Apercu-Bold", size: 17)]
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: stringValue, attributes: myAttribute as [NSAttributedString.Key : Any])
                 attributedString.setColor(color: UIColor.lightGray, forText:"· \(timeStampString)")
-                attributedString.setFont(font: UIFont(name: "Apercu Regular", size: 15)!, forText: "· \(timeStampString)")
+                attributedString.setFont(font: UIFont(name: "Apercu-Regular", size: 15)!, forText: "· \(timeStampString)")
                 userName.attributedText = attributedString
             }
             if let messageText = msg.message {
@@ -380,7 +380,6 @@ class HomePostTableViewCellGIF: UITableViewCell {
         mediaView.contentMode = .scaleAspectFill //TODO: to avoid cropping, change this to aspectFit (though if you do this you'll also have to solve the issue with the rounded corners not showing, will do this when i have more time!)
         mediaView.layer.cornerRadius = bubbleView.layer.cornerRadius
         mediaView.layer.masksToBounds = true
-        mediaView.layer.backgroundColor = UIColor.blue.cgColor
         mediaView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
         mediaView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor).isActive = true
         mediaView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor).isActive = true
