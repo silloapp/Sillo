@@ -228,7 +228,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50))
         toolBar.barStyle = UIBarStyle.default
         let gifButton = UIBarButtonItem(image: UIImage(named: "file")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(addGifPressed(_:)))
-        let stickerButton = UIBarButtonItem(image: UIImage(named: "stickers-1")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(addGifPressed(_:)))
+        let stickerButton = UIBarButtonItem(image: UIImage(named: "stickers-1")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(addStickerPressed(_:)))
         let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativeSeperator.width = 12
         
