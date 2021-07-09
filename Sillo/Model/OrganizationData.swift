@@ -295,13 +295,13 @@ class OrganizationData {
                 if let query = query {
                     if query.exists {
                         let name = query.get("organization_name") as! String
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshOrgTitleLabel"), object: nil)
                         self.idToName[orgID] = name
                         let imageRef = query.get("image") as! String
                         if (imageRef != "") {
                             cloudutil.downloadImage(ref: "orgProfiles/\(orgID)\(Constants.image_extension)")
                         }
                         NotificationCenter.default.post(name: Notification.Name("RefreshOrganizationListing"), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshOrgTitleLabel"), object: nil)
                     }
                 }
             }

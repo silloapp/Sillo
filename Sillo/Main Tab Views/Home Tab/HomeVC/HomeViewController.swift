@@ -60,7 +60,7 @@ class HomeViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.tabBarOpacityChange(note:)), name: Notification.Name("PopupDidAppear"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationLabel), name: Notification.Name(rawValue: "refreshOrgTitleLabel"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationTitleLabel), name: Notification.Name(rawValue: "refreshOrgTitleLabel"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTeamPic), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
@@ -103,7 +103,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    @objc func refreshOrganizationLabel(_:NSNotification) {
+    @objc func refreshOrganizationTitleLabel(_:NSNotification) {
         self.clubName.text = organizationData.currOrganizationName ?? "My Organization"
     }
     
