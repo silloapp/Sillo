@@ -177,9 +177,14 @@ final class ChatsViewController: UITableViewController {
             
             //check if conversation is revealed
             if chatHandler.chatMetadata[self.chatID] != nil && chatHandler.chatMetadata[self.chatID]!.isRevealed! {
-                let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
-                Imagebutton.setImage(cachedImage, for: .normal) //set image
-                self.profilePreviewVC.profilePic = cachedImage
+                if (imageCache.object(forKey: profilePictureRef)?.image != nil) {
+                    let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
+                    Imagebutton.setImage(cachedImage.image, for: .normal)//set image
+                    self.profilePreviewVC.profilePic = cachedImage.image
+                }
+                else {
+                    cloudutil.downloadImage(ref: profilePictureRef as String)
+                }
             }
         }
     }
@@ -427,12 +432,12 @@ final class ChatsViewController: UITableViewController {
         if chatHandler.chatMetadata[self.chatID] != nil {
             if chatHandler.chatMetadata[self.chatID]!.isRevealed! {
                 let picRef:NSString = "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)" as NSString
-                var firebaseImage:UIImage? = nil
-                if (imageCache.object(forKey: picRef) != nil) {
-                    firebaseImage = imageCache.object(forKey: picRef)
+                var firebaseImage:UIImage? = UIImage(named:"avatar-4")
+                if (imageCache.object(forKey: picRef)?.image != nil) {
+                    firebaseImage = imageCache.object(forKey: picRef)!.image
                 }
                 else {
-                    firebaseImage = cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
+                    cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
                 }
                 Imagebutton.setImage(firebaseImage!, for: .normal)
             }
@@ -545,9 +550,9 @@ final class ChatsViewController: UITableViewController {
                             
                             if chatHandler.chatMetadata[self.chatID] != nil && chatHandler.chatMetadata[self.chatID]!.isRevealed! {
                                 let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)" as NSString
-                                if imageCache.object(forKey: profilePictureRef) != nil {
-                                    let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
-                                    self.profilePreviewVC.profilePic = cachedImage
+                                if imageCache.object(forKey: profilePictureRef)?.image != nil {
+                                    let cachedImageItem = imageCache.object(forKey: profilePictureRef)! //fetch from cache
+                                    self.profilePreviewVC.profilePic = cachedImageItem.image
                                 }
                                 else {
                                     cloudutil.downloadImage(ref: profilePictureRef as String)

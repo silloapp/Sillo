@@ -705,10 +705,16 @@ class ProfileSetupViewController: UIViewController{
     
     //notification callback for refreshing profile picture
     @objc func refreshProfilePicture(_:UIImage) {
-        let profilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"
-        self.profilePic = imageCache.object(forKey: profilePictureRef as NSString)
-        //self.profilePic = cloudutil.downloadImage(ref: profilePictureRef)
-        self.profilepic.image = profilePic
+        let profilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)" as NSString
+        
+        if (imageCache.object(forKey: profilePictureRef)?.image != nil) {
+            let imageCacheItem = imageCache.object(forKey: profilePictureRef)!
+            self.profilePic = imageCacheItem.image
+            self.profilepic.image = self.profilePic
+        }
+        else {
+            cloudutil.downloadImage(ref: profilePictureRef as String)
+        }
     }
     
     //User pressed preview button

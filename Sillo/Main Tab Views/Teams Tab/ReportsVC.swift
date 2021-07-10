@@ -498,7 +498,7 @@ class ReportsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                 cloudutil.downloadImage(ref: imageRef, useCache: true)
             }
             else {
-                nextVC.profilePic = imageCache.object(forKey: imageRef as NSString) ?? UIImage(named:"avatar-4")!
+                nextVC.profilePic = imageCache.object(forKey: imageRef as NSString)?.image ?? UIImage(named:"avatar-4")!
             }
             nextVC.username = "username goes here"
             nextVC.email = "no email provided."

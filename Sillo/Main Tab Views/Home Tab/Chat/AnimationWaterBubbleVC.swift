@@ -96,13 +96,21 @@ class AnimationWaterBubbleVC: UIViewController {
         
         //for person you're talking to
         let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)"
-        let cachedImage = imageCache.object(forKey: profilePictureRef as NSString) ?? UIImage(named:"avatar-4")!
-        self.UpperProfileImg.image = cachedImage
+        if let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)?.image ?? UIImage(named:"avatar-4") {
+            self.UpperProfileImg.image = cachedImage
+        }
+        else {
+            cloudutil.downloadImage(ref: profilePictureRef)
+        }
         
         //for yourself
         let myprofilePictureRef = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)"
-        let mycachedImage = imageCache.object(forKey: myprofilePictureRef as NSString) ?? UIImage(named:"avatar-2")!
-        self.lowerProfileImg.image = mycachedImage
+        if let mycachedImage = imageCache.object(forKey: myprofilePictureRef as NSString)?.image ?? UIImage(named:"avatar-2") {
+            self.lowerProfileImg.image = mycachedImage
+        }
+        else {
+            cloudutil.downloadImage(ref: myprofilePictureRef)
+        }
     }
 
     
@@ -134,11 +142,11 @@ class AnimationWaterBubbleVC: UIViewController {
         UpperProfileImg.layer.cornerRadius = 18
         let picRef:NSString = "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)" as NSString
         var firebaseImage = UIImage(named:"avatar-10")
-        if (imageCache.object(forKey: picRef) != nil) {
-            firebaseImage = imageCache.object(forKey: picRef)
+        if (imageCache.object(forKey: picRef)?.image != nil) {
+            firebaseImage = imageCache.object(forKey: picRef)?.image
         }
         else {
-            firebaseImage = cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
+            cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
         }
         UpperProfileImg.image = firebaseImage!
         
@@ -154,11 +162,11 @@ class AnimationWaterBubbleVC: UIViewController {
         
         let mypicRef:NSString = "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)" as NSString
         var myfirebaseImage = UIImage(named:"avatar-10")
-        if (imageCache.object(forKey: mypicRef) != nil) {
-            myfirebaseImage = imageCache.object(forKey: mypicRef)
+        if (imageCache.object(forKey: mypicRef)?.image != nil) {
+            myfirebaseImage = imageCache.object(forKey: mypicRef)?.image
         }
         else {
-            myfirebaseImage = cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)")
+            cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)")
         }
         lowerProfileImg.contentMode = .scaleAspectFill
         lowerProfileImg.image = myfirebaseImage!

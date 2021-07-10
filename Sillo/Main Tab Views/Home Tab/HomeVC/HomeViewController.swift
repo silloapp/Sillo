@@ -93,9 +93,9 @@ class HomeViewController: UIViewController {
     @objc func refreshTeamPic(_:UIImage) {
         if organizationData.currOrganization != nil { //there is a chance that this will get called while currOrg is still null
             let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
-            if imageCache.object(forKey: orgPicRef) != nil { //image in cache
-                let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
-                self.teamPic.image = cachedImage
+            if imageCache.object(forKey: orgPicRef)?.image != nil { //image in cache
+                let cachedImageItem = imageCache.object(forKey: orgPicRef)! //fetch from cache
+                self.teamPic.image = cachedImageItem.image
             }
             else {
                 cloudutil.downloadImage(ref: orgPicRef as String)
@@ -173,9 +173,9 @@ class HomeViewController: UIViewController {
 
         //team picture
         let orgPicRef = "orgProfiles/\(organizationData.currOrganization!)\(Constants.image_extension)" as NSString
-        if imageCache.object(forKey: orgPicRef) != nil { //image in cache
+        if imageCache.object(forKey: orgPicRef)?.image != nil { //image in cache
             let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
-            teamPic.image = cachedImage
+            teamPic.image = cachedImage.image
         }
         else {
             cloudutil.downloadImage(ref: orgPicRef as String)
