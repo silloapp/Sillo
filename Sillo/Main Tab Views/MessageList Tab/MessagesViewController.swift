@@ -191,7 +191,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.backgroundView = nil
-        let activeChats_count = chatHandler.chatMetadata.count
+        let activeChats_count = chatHandler.sortedChatMetadata.count
         if activeChats_count > 0 {
             return activeChats_count
         }
@@ -239,7 +239,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row + 5 == chatHandler.chatMetadata.count {
+        if indexPath.row + 5 == chatHandler.sortedChatMetadata.count {
             //we're almost at the end, pull more chats
             chatHandler.getNextBatch()
         }
