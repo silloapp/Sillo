@@ -37,7 +37,9 @@ class ImageCacheItem: NSObject , NSDiscardableContent {
 }
 
 //let imageCache = NSCache<NSString, UIImage>() //cache for images (key is the firebase path [ex: profiles/image.png)
+//https://stackoverflow.com/questions/20606161/nscache-removes-all-its-data-when-app-goes-to-background-state
 let imageCache = NSCache<NSString, ImageCacheItem>()
+
 
 class CloudUtil {
     
