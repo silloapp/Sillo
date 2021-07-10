@@ -457,9 +457,11 @@ final class ChatsViewController: UITableViewController {
         self.navigationItem.leftBarButtonItems = [barbackbutton,barImagebutton]
         
         let Rightbutton2 = UIButton(type: UIButton.ButtonType.custom)
-        Rightbutton2.setImage(UIImage(named: "menu"), for: .normal)
+        Rightbutton2.setImage(UIImage(named: "flag"), for: .normal)
         Rightbutton2.addTarget(self, action:#selector(menuMethod), for: .touchUpInside)
-        Rightbutton2.frame = CGRect(x: 0, y: 0, width: 20, height: 30)
+        Rightbutton2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        Rightbutton2.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        Rightbutton2.heightAnchor.constraint(equalToConstant: 30).isActive = true
         let barRightbutton2 = UIBarButtonItem(customView: Rightbutton2)
         self.navigationItem.rightBarButtonItems = [barRightbutton2]
         
