@@ -239,8 +239,9 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row + 5 == chatHandler.sortedChatMetadata.count {
+        if indexPath.row + 1 == chatHandler.sortedChatMetadata.count {
             //we're almost at the end, pull more chats
+            print("CHATS: GET NEXT BATCH")
             chatHandler.getNextBatch()
         }
         

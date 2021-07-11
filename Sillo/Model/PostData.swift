@@ -15,7 +15,8 @@ class PostHandler {
     var posts = [String:Post]() //a dictionary
     var sortedPosts = [Post]() //a sorted post
     var snapshot: QuerySnapshot? = nil //post query snapshot
-    var postBatchSize = 5 //number of posts to get per "batch"
+    var postBatchSize = 20 //number of posts to get per "batch"
+    var postBookmark:IndexPath? = nil //post table view bookmark
     //MARK: add more posts
     func getNextBatch() {
         guard let lastSnapshot = self.snapshot!.documents.last else {
@@ -158,6 +159,7 @@ class PostHandler {
     
     //MARK: cold start
     func coldStart() {
+        self.postBookmark = nil
         self.posts = [:]
         let organizationID = organizationData.currOrganization ?? "ERROR"
         print("PULLING POSTS FOR \(organizationID)")

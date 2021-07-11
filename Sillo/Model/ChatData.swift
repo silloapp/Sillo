@@ -23,12 +23,11 @@ class ChatHandler {
     var postToChat: [String: String] = [:]
     
     var chatSnapshot: QuerySnapshot? = nil //chats list snapshot
-    let chatBatchSize = 15 //number of conversations to pull in a batch
+    let chatBatchSize = 20 //number of conversations to pull in a batch
     let messagesBatchSize = 15 //number of messages to pull in a batch
     
     //MARK: add more chats
     func getNextBatch() {
-        print("GET NEXT BATCH")
         guard let lastSnapshot = self.chatSnapshot!.documents.last else {
             // The collection is empty.
             print("NO MORE")

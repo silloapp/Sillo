@@ -8,7 +8,6 @@
 import UIKit
 import Firebase
 
-
 class HomeViewController: UIViewController {
     
     let cellID = "cellID"
@@ -82,6 +81,9 @@ class HomeViewController: UIViewController {
             //handle document changes
             snapshot.documentChanges.forEach { change in
                 self.handlePostDocumentChange(change)
+                if change.type == .added {
+                    self.scrollToTop()
+                }
             }
         }
         quests.coldStart()
@@ -284,11 +286,18 @@ class HomeViewController: UIViewController {
         break
       }
     }
-    
+    var autoScrollTimeout = Date()
+    let autoScrollThreshold = 0.5
     //MARK: refresh called
     @objc func refreshTableView(note: NSNotification) {
         feed.sortedPosts = feed.sortPosts()
         self.postsTable.reloadData()
+        
+        if feed.postBookmark != nil && -autoScrollTimeout.timeIntervalSinceNow > autoScrollThreshold {
+            print("POST SCROLL to index: \(feed.postBookmark!.row)")
+            self.postsTable.scrollToRow(at: feed.postBookmark!, at: .bottom, animated: false)
+            autoScrollTimeout = Date()
+        }
     }
 }
 
@@ -331,10 +340,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row + 5 == feed.posts.count {
+        if indexPath.row + 1 == feed.posts.count {
+            print("POST: GET NEXT BATCH")
             //we're almost at the end, pull more posts
             feed.getNextBatch()
         }
+        
+        //save bookmark
+        if self.postsTable.indexPathsForVisibleRows != nil && !self.postsTable.indexPathsForVisibleRows!.isEmpty {
+            //let jumpPoint = Int(Double(self.postsTable.indexPathsForVisibleRows!.count)/2)
+            if feed.postBookmark == nil || self.postsTable.indexPathsForVisibleRows!.last!.row > feed.postBookmark!.row {
+                feed.postBookmark = self.postsTable.indexPathsForVisibleRows!.last
+                print("POST: UPDATE JUMP POINT to \(feed.postBookmark!.row)")
+            }
+        }
+        
         let post = feed.sortedPosts[indexPath.row]
         if post.attachment == "" {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! HomePostTableViewCell

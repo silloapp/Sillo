@@ -89,6 +89,7 @@ class OrganizationData {
     // MARK: Existing Organization Functions
     func changeOrganization(dest: String?) {
         if currOrganization == dest { return }
+        feed.postBookmark = nil
         currOrganization = dest
         currOrganizationName = idToName[currOrganization]
         currOrganizationAdmins = [:]
