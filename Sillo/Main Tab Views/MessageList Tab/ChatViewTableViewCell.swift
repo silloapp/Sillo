@@ -13,17 +13,17 @@ class ChatViewTableViewCell: UITableViewCell {
     var item:ChatMetadata? {
         didSet {
             guard let msg = item else {return}
-            var name = msg.recipient_name!
+            let name = msg.recipient_name!
             
             profilePic.image = UIImage(named: msg.recipient_image ?? "avatar-4")
             if msg.isRevealed! { //TODO: use person's profile pic
                 let imageRef:NSString = "profiles/\(msg.recipient_uid!)\(Constants.image_extension)" as NSString
-                if imageCache.object(forKey: imageRef) != nil {
-                    let cachedImage = imageCache.object(forKey: imageRef)
+                if imageCache.object(forKey: imageRef)?.image != nil {
+                    let cachedImage = imageCache.object(forKey: imageRef)?.image
                     profilePic.image =  cachedImage
                 }
                 else {
-                    profilePic.image =  cloudutil.downloadImage(ref: imageRef as String)
+                    cloudutil.downloadImage(ref: imageRef as String)
                 }
             }
 //            let dateFormatter = DateFormatter()
@@ -152,8 +152,12 @@ class ChatViewTableViewCell: UITableViewCell {
         
         if msg.isRevealed! {
             let profilePictureRef = "profiles/\(item?.recipient_uid ?? "")\(Constants.image_extension)"
-            let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)
-            profilePic.image = cachedImage
+            if let cachedImage = imageCache.object(forKey: profilePictureRef as NSString)?.image {
+                profilePic.image = cachedImage
+            }
+            else {
+                cloudutil.downloadImage(ref: profilePictureRef)
+            }
         }
     }
 

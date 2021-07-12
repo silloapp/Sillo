@@ -354,9 +354,9 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         cell.imgUser.layer.borderColor = Color.russiandolphin.cgColor
         
         let orgPicRef = "orgProfiles/\(organization)\(Constants.image_extension)" as NSString
-        if imageCache.object(forKey: orgPicRef) != nil { //image in cache
-            let cachedImage = imageCache.object(forKey: orgPicRef)! //fetch from cache
-            cell.imgUser.image = cachedImage
+        if imageCache.object(forKey: orgPicRef)?.image != nil { //image in cache
+            let cachedImageItem = imageCache.object(forKey: orgPicRef)! //fetch from cache
+            cell.imgUser.image = cachedImageItem.image
         }
         else {
             cloudutil.downloadImage(ref: orgPicRef as String)

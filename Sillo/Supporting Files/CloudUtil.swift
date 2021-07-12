@@ -15,9 +15,38 @@ let db =  Firestore.firestore()
 let storage = Storage.storage()
 let storageRef = storage.reference()
 
-let imageCache = NSCache<NSString, UIImage>() //cache for images (key is the firebase path [ex: profiles/image.png) 
+class ImageCacheItem: NSObject , NSDiscardableContent {
+
+    public var image: UIImage!
+
+    func beginContentAccess() -> Bool {
+        return true
+    }
+
+    func endContentAccess() {
+
+    }
+
+    func discardContentIfPossible() {
+
+    }
+
+    func isContentDiscarded() -> Bool {
+        return false
+    }
+}
+
+//let imageCache = NSCache<NSString, UIImage>() //cache for images (key is the firebase path [ex: profiles/image.png)
+//https://stackoverflow.com/questions/20606161/nscache-removes-all-its-data-when-app-goes-to-background-state
+let imageCache = NSCache<NSString, ImageCacheItem>()
+
 
 class CloudUtil {
+    
+    init() {
+        imageCache.countLimit = 100
+        imageCache.totalCostLimit = 1024 * 1024 * 100 //100Mb
+    }
     
     //MARK: Call the generateAuthenticationCode cloud function service
     func generateAuthenticationCode() {
@@ -53,7 +82,9 @@ class CloudUtil {
         }
         
         //shove into cache
-        imageCache.setObject(croppedImage, forKey: ref as NSString)
+        let imageCacheItem = ImageCacheItem()
+        imageCacheItem.image = croppedImage
+        imageCache.setObject(imageCacheItem, forKey: ref as NSString)
         
         //upload
         let storageRef = Constants.storage.reference(withPath: ref)
@@ -64,10 +95,10 @@ class CloudUtil {
         return
     }
     //MARK: download image
-    //USAGE: call and then check for "refreshPicture" callback, currently returns a placeholder
-    func downloadImage(ref: String, useCache: Bool? = true) -> UIImage? {
-        var resultImage = UIImage(named:"avatar-4")!
-        /* fk the cache doesn't work.. 
+    //USAGE: call and then check for "refreshPicture" callback, currently nothing.
+    func downloadImage(ref: String, useCache: Bool? = true) {
+        //let resultImage = UIImage(named:"avatar-4")!
+        /* fk the cache doesn't work..
         if useCache! == true && imageCache.object(forKey: ref as NSString) != nil {
             if let cachedVersion = imageCache.object(forKey: ref as NSString) {
                 // use the cached version
@@ -87,14 +118,17 @@ class CloudUtil {
                 print(error.localizedDescription)
                 return
               } else {
-                print("image success")
-                resultImage = UIImage(data: data!)!
-                imageCache.setObject(resultImage, forKey: ref as NSString)
+                let resultImage = UIImage(data: data!)!
+                
+                let imageCacheItem = ImageCacheItem()
+                imageCacheItem.image = resultImage
+                
+                imageCache.setObject(imageCacheItem, forKey: ref as NSString)
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "refreshPicture")))
               }
             }
         //}
-        return resultImage
+        //return resultImage
     }
 }
 

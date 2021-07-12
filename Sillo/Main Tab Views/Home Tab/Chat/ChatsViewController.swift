@@ -177,9 +177,14 @@ final class ChatsViewController: UITableViewController {
             
             //check if conversation is revealed
             if chatHandler.chatMetadata[self.chatID] != nil && chatHandler.chatMetadata[self.chatID]!.isRevealed! {
-                let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
-                Imagebutton.setImage(cachedImage, for: .normal) //set image
-                self.profilePreviewVC.profilePic = cachedImage
+                if (imageCache.object(forKey: profilePictureRef)?.image != nil) {
+                    let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
+                    Imagebutton.setImage(cachedImage.image, for: .normal)//set image
+                    self.profilePreviewVC.profilePic = cachedImage.image
+                }
+                else {
+                    cloudutil.downloadImage(ref: profilePictureRef as String)
+                }
             }
         }
     }
@@ -427,12 +432,12 @@ final class ChatsViewController: UITableViewController {
         if chatHandler.chatMetadata[self.chatID] != nil {
             if chatHandler.chatMetadata[self.chatID]!.isRevealed! {
                 let picRef:NSString = "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)" as NSString
-                var firebaseImage:UIImage? = nil
-                if (imageCache.object(forKey: picRef) != nil) {
-                    firebaseImage = imageCache.object(forKey: picRef)
+                var firebaseImage:UIImage? = UIImage(named:"avatar-4")
+                if (imageCache.object(forKey: picRef)?.image != nil) {
+                    firebaseImage = imageCache.object(forKey: picRef)!.image
                 }
                 else {
-                    firebaseImage = cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
+                    cloudutil.downloadImage(ref: "profiles/\(chatHandler.chatMetadata[self.chatID]!.recipient_uid!)\(Constants.image_extension)")
                 }
                 Imagebutton.setImage(firebaseImage!, for: .normal)
             }
@@ -452,9 +457,11 @@ final class ChatsViewController: UITableViewController {
         self.navigationItem.leftBarButtonItems = [barbackbutton,barImagebutton]
         
         let Rightbutton2 = UIButton(type: UIButton.ButtonType.custom)
-        Rightbutton2.setImage(UIImage(named: "menu"), for: .normal)
+        Rightbutton2.setImage(UIImage(named: "flag"), for: .normal)
         Rightbutton2.addTarget(self, action:#selector(menuMethod), for: .touchUpInside)
-        Rightbutton2.frame = CGRect(x: 0, y: 0, width: 20, height: 30)
+        Rightbutton2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        Rightbutton2.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        Rightbutton2.heightAnchor.constraint(equalToConstant: 30).isActive = true
         let barRightbutton2 = UIBarButtonItem(customView: Rightbutton2)
         self.navigationItem.rightBarButtonItems = [barRightbutton2]
         
@@ -545,9 +552,9 @@ final class ChatsViewController: UITableViewController {
                             
                             if chatHandler.chatMetadata[self.chatID] != nil && chatHandler.chatMetadata[self.chatID]!.isRevealed! {
                                 let profilePictureRef = "profiles/\(chatHandler.chatMetadata[self.chatID]?.recipient_uid ?? "")\(Constants.image_extension)" as NSString
-                                if imageCache.object(forKey: profilePictureRef) != nil {
-                                    let cachedImage = imageCache.object(forKey: profilePictureRef)! //fetch from cache
-                                    self.profilePreviewVC.profilePic = cachedImage
+                                if imageCache.object(forKey: profilePictureRef)?.image != nil {
+                                    let cachedImageItem = imageCache.object(forKey: profilePictureRef)! //fetch from cache
+                                    self.profilePreviewVC.profilePic = cachedImageItem.image
                                 }
                                 else {
                                     cloudutil.downloadImage(ref: profilePictureRef as String)

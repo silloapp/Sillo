@@ -173,10 +173,10 @@ class LocalUser {
             }
         }
     }
-    //MARK: set user's last active timestamp
+    //MARK: set user's last active timestamp and last active organization
     func setLastActiveTimestamp() {
-        if Constants.FIREBASE_USERID != nil {
-        Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["lastActiveTimestamp" : Date()]) { err in
+        if Constants.FIREBASE_USERID != nil && organizationData.currOrganization != nil {
+            Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["lastActiveTimestamp" : Date(), "lastActiveOrganization": organizationData.currOrganization!]) { err in
                 if let err = err {
                     print("error adding user info with error: \(err.localizedDescription)")
                 } else {

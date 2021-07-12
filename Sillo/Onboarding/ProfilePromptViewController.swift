@@ -141,13 +141,13 @@ class ProfilePromptViewController: UIViewController {
                         let interests = innerDict["interests"] as! [String]
                         let restaurants = innerDict["restaurants"] as! [String]
                         Constants.FIREBASE_USERID = Auth.auth().currentUser?.uid //temporary, we can remove this after spinning up a coldboot screen
-                        let profilePic = cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)") 
+                        cloudutil.downloadImage(ref: "profiles/\(Constants.FIREBASE_USERID!)\(Constants.image_extension)")
                         nextVC.bioText = bioText
                         nextVC.pronouns = pronouns
                         nextVC.interests = interests
                         nextVC.restaurants = restaurants
                         nextVC.useSeparateProfiles = useSeparateProfiles
-                        nextVC.profilePic = profilePic
+                        nextVC.profilePic = UIImage(named:"avatar-4")
                         
                         //log profile creation
                         analytics.log_create_profile()

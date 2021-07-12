@@ -214,16 +214,13 @@ class ManageUserViewController: UIViewController {
     }
     
     @objc func profilePictureLoaded(note:NSNotification) {
-        if let all = imageCache.value(forKey: "allObjects") as? NSArray {
-            for object in all {
-                print("object is \(object)")
-            }
-        }
         let imageRef = "profiles/\(userID)\(Constants.image_extension)"
-        if let cachedImage = imageCache.object(forKey: imageRef as NSString) {
-            print("STILL CACHED ")
-            profilepic.image = cachedImage
-            imageCache.setObject(cachedImage, forKey: imageRef as NSString)
+        if let cachedImageItem = imageCache.object(forKey: imageRef as NSString) {
+            profilepic.image = cachedImageItem.image
+            imageCache.setObject(cachedImageItem, forKey: imageRef as NSString)
+        }
+        else {
+            cloudutil.downloadImage(ref: imageRef)
         }
     }
     

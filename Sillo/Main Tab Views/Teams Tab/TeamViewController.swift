@@ -127,7 +127,8 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         userRef.getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let innerDict = document.data()!
-                                let profilePic = cloudutil.downloadImage(ref: "profiles/\(userID)\(Constants.image_extension)")
+                                let profilePic = UIImage(named:"avatar-4")
+                                cloudutil.downloadImage(ref: "profiles/\(userID)\(Constants.image_extension)")
                                 
                                 nextVC.pronouns = innerDict["pronouns"] as! String
                                 nextVC.bioText = innerDict["bio"] as! String
