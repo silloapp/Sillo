@@ -35,13 +35,8 @@ class ReportsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     let TopTable = UITableView()
     let MidTable = UITableView()
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setNeedsStatusBarAppearanceUpdate()
         self.navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.standardAppearance = self.appearance
         
