@@ -90,7 +90,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         }
-      
+        localUser.setLastActiveTimestamp()
     }
     override func viewDidLoad() {
         
