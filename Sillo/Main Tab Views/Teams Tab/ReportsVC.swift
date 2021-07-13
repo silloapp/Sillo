@@ -41,6 +41,7 @@ class ReportsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setNeedsStatusBarAppearanceUpdate()
         self.navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.standardAppearance = self.appearance
         
