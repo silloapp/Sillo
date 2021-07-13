@@ -184,6 +184,11 @@ class PostHandler {
         }
     }
     
+    //MARK: clear post data structure
+    func clearPostData() {
+        self.posts = [:]
+    }
+    
     //MARK: build post struct
     func buildPostStruct(postID: String, attachment:String, postText:String, poster:String, posterAlias:String, posterImageName: String, date: Date) -> Post {
         return Post(postID: postID, attachment: attachment, message: postText, posterUserID: poster, posterAlias: posterAlias, posterImageName: posterImageName, date: date)

@@ -67,7 +67,6 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToTop), name: Notification.Name(rawValue: "scrollToTopOfFeed"), object: nil)
         
         //MARK: attach listener
-        feed.posts = [:] //clear posts in memory
         let organizationID = organizationData.currOrganization ?? "ERROR"
         let reference = db.collection("organization_posts").document(organizationID).collection("posts").order(by: "timestamp", descending: true).limit(to: feed.postBatchSize)
         postListener = reference.addSnapshotListener { querySnapshot, error in

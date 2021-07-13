@@ -94,6 +94,7 @@ class OrganizationData {
         currOrganizationAdmins = [:]
         currOrganizationMembers = [:]
         chatHandler.clearChatData()
+        feed.clearPostData()
         UserDefaults.standard.setValue(dest, forKey: "defaultOrganization")
     }
     

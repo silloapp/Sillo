@@ -22,6 +22,10 @@ class TeamViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return view
     }()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     let isAdmin:Bool = organizationData.adminStatusMap[organizationData.currOrganization!] ?? false
     
     private var menuItems = [
