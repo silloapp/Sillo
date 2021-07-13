@@ -21,6 +21,10 @@ class NoInvitesViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     func setupView() {
         
         let stack = UIStackView()

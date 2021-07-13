@@ -52,6 +52,7 @@ class QuestProgressVC: UIViewController,UITableViewDelegate,UITableViewDataSourc
         questListener?.remove()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         
         quests.fetchNextSticker()

@@ -30,6 +30,11 @@ class NotificationsViewController: UIViewController {
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         fetchNotificationSettings()
         
