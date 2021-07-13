@@ -35,6 +35,10 @@ class LoadingViewController: UIViewController {
         return indicator
     }()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     //MARK: bllur effect
     var blurEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .light)

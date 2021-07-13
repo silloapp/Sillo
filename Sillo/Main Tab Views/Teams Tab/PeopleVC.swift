@@ -36,6 +36,10 @@ class PeopleVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UITe
         return appearance
     }()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false

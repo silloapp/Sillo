@@ -18,6 +18,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         return view
     }()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     private let menuItems = [
         MenuItem(name: "Privacy Policy", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17), //TODO: replace with actual VC
         MenuItem(name: "Terms of Use", nextVC: MyConnectionsVC(), withArrow: true, fontSize: 17),
@@ -29,12 +33,18 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     ]
     
     let menuItemTableView = UITableView() // view
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         setupHeader()
         view.backgroundColor = .white
         overrideUserInterfaceStyle = .light
+        
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        edgePan.edges = .left
+
+        view.addGestureRecognizer(edgePan)
         
         view.addSubview(menuItemTableView)
         self.menuItemTableView.tableFooterView = UIView() // removes separators at bottom of tableview
@@ -47,6 +57,12 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         menuItemTableView.dataSource = self
         menuItemTableView.delegate = self
         menuItemTableView.register(TeamCell.self, forCellReuseIdentifier: "contactCell") //TODO: replace identifier
+    }
+    
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -130,32 +146,6 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         return 50
     }
     
-    func setupPhotoTeamName() -> UIStackView {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = 100
-        stack.distribution = .fillProportionally
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        let icon = UIImageView()
-        icon.image = UIImage(named: "Backward Arrow")
-        icon.heightAnchor.constraint(equalToConstant: 17).isActive = true
-        icon.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        icon.contentMode = .scaleAspectFit
-        stack.addArrangedSubview(icon)
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backTapped(tapGestureRecognizer:)))
-        icon.isUserInteractionEnabled = true
-        icon.addGestureRecognizer(tapGestureRecognizer)
-        
-        let tabName = UILabel()
-        tabName.text = "Settings"
-        tabName.font = UIFont(name: "Apercu-Bold", size: 22)
-        tabName.textColor = Color.teamHeader
-        tabName.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        stack.addArrangedSubview(tabName)
-        
-        return stack
-    }
     
     func setupHeader() {
         view.addSubview(header)
@@ -164,13 +154,31 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         header.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 110/812).isActive = true
+
+        let icon = UIImageView()
+        header.addSubview(icon)
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.image = UIImage(named: "Backward Arrow")
+        icon.contentMode = .scaleAspectFit
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backTapped(tapGestureRecognizer:)))
+        icon.isUserInteractionEnabled = true
+        icon.addGestureRecognizer(tapGestureRecognizer)
         
-        let logoTeamStack = setupPhotoTeamName()
-        header.addSubview(logoTeamStack)
-        logoTeamStack.leadingAnchor.constraint(equalTo: header.safeAreaLayoutGuide.leadingAnchor, constant: 25).isActive = true
-        logoTeamStack.topAnchor.constraint(equalTo: header.safeAreaLayoutGuide.topAnchor).isActive = true
-        logoTeamStack.bottomAnchor.constraint(equalTo: header.bottomAnchor, constant: -15).isActive = true
-        logoTeamStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 17).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        icon.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 28).isActive = true
+        
+        let settingsLabel = UILabel()
+        header.addSubview(settingsLabel)
+        settingsLabel.text = "Settings"
+        settingsLabel.translatesAutoresizingMaskIntoConstraints = false
+        settingsLabel.font = UIFont(name: "Apercu-Bold", size: 22)
+        settingsLabel.textColor = Color.teamHeader
+        
+        settingsLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor).isActive = true
+        settingsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
+        
+        icon.centerYAnchor.constraint(equalTo: settingsLabel.centerYAnchor).isActive = true
     }
     
     @objc func backTapped(tapGestureRecognizer: UITapGestureRecognizer) {
