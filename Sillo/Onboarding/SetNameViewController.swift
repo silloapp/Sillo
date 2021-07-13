@@ -27,7 +27,7 @@ class SetNameViewController: UIViewController {
     //MARK: init last name text field
     let lastNameField: UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: " ie. Angelica", attributes: [
+        textField.attributedPlaceholder = NSAttributedString(string: " ie. Smith", attributes: [
             .foregroundColor: UIColor.lightGray,
             .font: UIFont(name: "Apercu-Regular", size: 17)!
         ])
