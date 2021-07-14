@@ -249,6 +249,7 @@ class LocalUser {
         organizationSignOut()
         clearUserConstants()
         chatHandler.clearChatData()
+        feed.clearPostData()
     }
     
 
