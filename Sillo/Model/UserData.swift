@@ -283,5 +283,9 @@ class LocalUser {
 
 //MARK: sign out helper function, reinstantiate
 func clearUserConstants() {
+    Constants.USERNAME = nil
+    Constants.FIREBASE_USERID = nil
+    Constants.EMAIL = nil
+    Constants.me = nil
     localUser = LocalUser()
 }
