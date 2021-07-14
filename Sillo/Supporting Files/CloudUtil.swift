@@ -71,6 +71,26 @@ class CloudUtil {
         }.resume()
     }
     
+    //MARK: Delete the current user given UserID
+    func deleteUser(userID:String) {
+        guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/deleteUser") else {return}
+        var request = URLRequest(url: url)
+        let payload = "{\"userID\": \"\(userID)\"}".data(using: .utf8)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = payload
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else { print(error!.localizedDescription); return }
+            guard let data = data else { print("Empty data");return }
+
+            if let str = String(data: data, encoding: .utf8) {
+                print(str)
+            }
+        }.resume()
+    }
+    
     func uploadImages(image: UIImage, ref: String, dimension: CGFloat? = 300) {
         // Data in memory
         var croppedImage = image

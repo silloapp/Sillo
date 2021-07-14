@@ -121,7 +121,7 @@ class SetNameViewController: UIViewController {
         let firstNameLabel: UILabel = {
             let label = UILabel()
             label.textAlignment = .left
-            label.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(30))
+            label.font = UIFont(name: "Apercu-Regular", size: dynamicFontSize(17))
             label.text = "First Name"
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
