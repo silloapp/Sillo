@@ -220,6 +220,11 @@ class ChatHandler {
     // user only reads chat, marks own user_chats to show isRead = true
     func readChat(userID: String, chatId: String) {
         
+        //MARK: update badge
+        let application = UIApplication.shared
+        let updatedBadgeCount: Int = max(application.applicationIconBadgeNumber - 1,0)
+        application.applicationIconBadgeNumber = updatedBadgeCount
+        db.collection("user_chats").document(Constants.FIREBASE_USERID!).updateData(["unread_conversations":updatedBadgeCount])
         //MARK: update user_chat for user
         let myChatDoc = db.collection("user_chats").document(userID)
             .collection(organizationData.currOrganization!).document(chatId)

@@ -71,6 +71,41 @@ class CloudUtil {
         }.resume()
     }
     
+    //MARK: update application badge based on organization
+    func updateBadge(userID:String, organizationID:String) {
+        let application = UIApplication.shared
+        var updatedBadgeCount: Int = 0
+        application.applicationIconBadgeNumber = updatedBadgeCount //initially set to 0.
+        //call updating service
+        guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/updateUnreadConversationsCount") else {return}
+        var request = URLRequest(url: url)
+        let payload = "{\"userID\": \"\(userID)\"}".data(using: .utf8)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = payload
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else { print(error!.localizedDescription); return }
+            guard let data = data else { print("Empty data");return }
+
+            if let str = String(data: data, encoding: .utf8) {
+                print(str)
+            }
+            //when service returns, fetch unread_conversations and set it as the badge
+            db.collection("user_chats").document(userID).getDocument() { (query, err) in
+                if let query = query {
+                    if query.exists {
+                        if let unreadConversations = query.get("unread_conversations") {
+                            updatedBadgeCount = unreadConversations as! Int
+                            application.applicationIconBadgeNumber = updatedBadgeCount
+                        }
+                    }
+                }
+            }
+        }.resume()
+    }
+    
     //MARK: Delete the current user given UserID
     func deleteUser(userID:String) {
         guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/deleteUser") else {return}

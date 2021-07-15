@@ -95,6 +95,9 @@ class OrganizationData {
         currOrganizationMembers = [:]
         chatHandler.clearChatData()
         feed.clearPostData()
+        if Constants.FIREBASE_USERID != nil {
+            cloudutil.updateBadge(userID: Constants.FIREBASE_USERID!, organizationID: currOrganization!)
+        }
         UserDefaults.standard.setValue(dest, forKey: "defaultOrganization")
     }
     
@@ -113,6 +116,11 @@ class OrganizationData {
                     }
                     self.currOrganizationName = name
                     self.idToName[dest] = name
+                    
+                    if Constants.FIREBASE_USERID != nil {
+                        cloudutil.updateBadge(userID: Constants.FIREBASE_USERID!, organizationID: self.currOrganization!)
+                    }
+                    
                     print("COMPLETE COLD CHANGE")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ColdOrgChangeComplete"), object: nil)
                 }
