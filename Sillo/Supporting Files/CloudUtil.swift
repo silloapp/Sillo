@@ -79,7 +79,7 @@ class CloudUtil {
         //call updating service
         guard let url = URL(string: "https://us-central1-anonymous-d1615.cloudfunctions.net/updateUnreadConversationsCount") else {return}
         var request = URLRequest(url: url)
-        let payload = "{\"userID\": \"\(userID)\"}".data(using: .utf8)
+        let payload = "{\"userID\": \"\(userID)\", \"organizationID\": \"\(organizationID)\"}".data(using: .utf8)
         
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
