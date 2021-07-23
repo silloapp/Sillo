@@ -22,6 +22,9 @@ class StartScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.routeUser(note:)), name: Notification.Name("UserLoadingComplete"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToMainView(note:)), name: Notification.Name("ColdOrgChangeComplete"), object: nil)
+        
+        pulsate()
+        localUser.coldStart()
     }
     
     override func viewDidLoad() {
@@ -35,9 +38,6 @@ class StartScreenViewController: UIViewController {
         logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.20).isActive = true
         logoImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.20).isActive = true
-        
-        pulsate()
-        localUser.coldStart()
     }
     @objc func routeUser(note:NSNotification) {
         var nextVC = UIViewController()

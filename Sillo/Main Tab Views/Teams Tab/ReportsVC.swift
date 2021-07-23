@@ -549,16 +549,33 @@ class ReportsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             let formattedDate = dateFormatter.string(from: postDate)
             
             DispatchQueue.main.async {
-                let alert = AlertView(headingText: "posted on: \(formattedDate)", messageText: postText, action1Label: "Okay", action1Color: Color.burple, action1Completion: {
+                let alert = AlertView(headingText: "posted on \(formattedDate)", messageText: postText, action1Label: "Okay", action1Color: Color.burple, action1Completion: {
                     self.dismiss(animated: true, completion: nil)
-                }, action2Label: "Delete", action2Color: Color.salmon, action2Completion: {self.dismiss(animated: false, completion: nil);feed.deletePost(postID: postID);self.dismissPostReport(reportID: postID)
+                }, action2Label: "Delete", action2Color: Color.salmon, action2Completion: {self.dismiss(animated: false, completion: nil);self.confirmDeletePost(postID: postID)
                 }, withCancelBtn: false, image: nil, withOnlyOneAction: false)
                 alert.modalPresentationStyle = .overCurrentContext
                 alert.modalTransitionStyle = .crossDissolve
                 self.present(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    func confirmDeletePost(postID:String) { //confirm delete
+        //haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.prepare()
+        generator.impactOccurred()
         
+        DispatchQueue.main.async {
+            let alert = AlertView(headingText: "Delete this post?", messageText: "This cannot be undone.", action1Label: "Cancel", action1Color: Color.buttonClickableUnselected, action1Completion: {
+                self.dismiss(animated: true, completion: nil)
+            }, action2Label: "Delete", action2Color: Color.salmon, action2Completion: {
+                self.dismiss(animated: true, completion: nil); feed.deletePost(postID: postID); self.dismissPostReport(reportID: postID)
+            }, withCancelBtn: false, image: UIImage(named:"reported post"), withOnlyOneAction: false)
+            alert.modalPresentationStyle = .overCurrentContext
+            alert.modalTransitionStyle = .crossDissolve
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     // MARK: - Navigation

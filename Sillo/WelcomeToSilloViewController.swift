@@ -464,8 +464,20 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         
     }
     
+    //debouncing mechanism
+    let DEBOUNCE_LIMIT = 0.9
+    var latestButtonPressTimestamp = Date()
+    
     //MARK: selected the cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //prevents duplicated taps
+        let requestThrottled: Bool = -self.latestButtonPressTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        if requestThrottled {
+            return
+        }
+        latestButtonPressTimestamp = Date()
+        
         //haptic feedback
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
@@ -535,7 +547,18 @@ class WelcomeToSilloViewController: UIViewController,UITableViewDelegate,UITable
         generator.notificationOccurred(.success)
     }
     
+    //debouncing mechanism 2
+    var latestCallbackTimestamp = Date()
+    
     @objc func inviteAccepted(note:NSNotification) {
+        
+        //prevents duplicated callbacks
+        let requestThrottled: Bool = -self.latestCallbackTimestamp.timeIntervalSinceNow < self.DEBOUNCE_LIMIT
+        if requestThrottled {
+            return
+        }
+        latestCallbackTimestamp = Date()
+        
         let nextVC = ProfilePromptViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
     }

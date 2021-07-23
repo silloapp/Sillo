@@ -173,10 +173,23 @@ class LocalUser {
             }
         }
     }
-    //MARK: set user's last active timestamp and last active organization
+    //MARK: set user's last active timestamp, last active organization, and sign-in status
     func setLastActiveTimestamp() {
         if Constants.FIREBASE_USERID != nil && organizationData.currOrganization != nil {
-            Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["lastActiveTimestamp" : Date(), "lastActiveOrganization": organizationData.currOrganization!]) { err in
+            Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["lastActiveTimestamp": Date(), "lastActiveOrganization": organizationData.currOrganization!, "isSignedIn": true]) { err in
+                if let err = err {
+                    print("error adding user info with error: \(err.localizedDescription)")
+                } else {
+                    print("successfully added user info")
+                }
+            }
+        }
+    }
+    
+    //MARK: set user's sign-in status to false
+    func setLogoutStatus() {
+        if Constants.FIREBASE_USERID != nil {
+            Constants.db.collection("users").document(Constants.FIREBASE_USERID!).updateData(["isSignedIn": false]) { err in
                 if let err = err {
                     print("error adding user info with error: \(err.localizedDescription)")
                 } else {
@@ -246,13 +259,12 @@ class LocalUser {
     }
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
         UserDefaults.standard.set(false, forKey: "loggedIn")
+        self.setLogoutStatus()
         organizationSignOut()
         clearUserConstants()
         chatHandler.clearChatData()
         feed.clearPostData()
     }
-    
-
     
     //MARK: delete self
     func deleteUser() {
@@ -260,12 +272,20 @@ class LocalUser {
         Constants.me!.delete(completion: nil)
         UserDefaults.standard.removeObject(forKey: "defaultOrganization")
         UserDefaults.standard.set(false, forKey: "loggedIn")
+        self.setLogoutStatus()
+        chatHandler.clearChatData()
+        feed.clearPostData()
         organizationSignOut()
+        cloudutil.deleteUser(userID: Constants.FIREBASE_USERID!)
         clearUserConstants()
     }
 }
 
 //MARK: sign out helper function, reinstantiate
 func clearUserConstants() {
+    Constants.USERNAME = nil
+    Constants.FIREBASE_USERID = nil
+    Constants.EMAIL = nil
+    Constants.me = nil
     localUser = LocalUser()
 }

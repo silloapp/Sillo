@@ -103,6 +103,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    //MARK: app receives notif
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let notifDict = userInfo["aps"] as! [AnyHashable:Any]
+        
+        //update unread badge
+        if let updatedBadgeNumber = notifDict["badge"] {
+            application.applicationIconBadgeNumber = updatedBadgeNumber as! Int
+        }
+    }
+    
     //MARK: Did Register Notifs
     func application(
       _ application: UIApplication,
