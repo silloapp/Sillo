@@ -81,7 +81,9 @@ class InterChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         }
         
         //now that message has been opened, mark as read for user
-        chatHandler.readChat(userID: Constants.FIREBASE_USERID!, chatId: self.chatID)
+        if !(chatHandler.chatMetadata[self.chatID]?.isRead ?? true) {
+            chatHandler.readChat(userID: Constants.FIREBASE_USERID!, chatId: self.chatID)
+        }
         
 //        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.isTranslucent = true
