@@ -127,6 +127,8 @@ class LocalUser {
         let myEmail = Constants.EMAIL ?? "ERROR"
         if !self.invites.contains(organizationID) {return}
         
+        feed.clearPostData() //clear posts in preparation for switching orgs
+        
         //a delay is needed because the invites table briefly refreshes
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.invites.remove(at: self.invites.firstIndex(of: organizationID)!)
