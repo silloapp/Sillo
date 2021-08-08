@@ -15,6 +15,9 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     private var latestButtonPressTimestamp: Date = Date()
     private var DEBOUNCE_LIMIT: Double = 0.5 //in seconds
     
+    //loading screen
+    let loadingVC = LoadingViewController()
+    
     //MARK: init email text field
     let emailTextField: UITextField = {
         let etextField = UITextField()
@@ -371,6 +374,10 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
     }
     
     @objc func signInButtonPressed(_ sender: Any) {
+            //show loading vc while backend business
+            loadingVC.modalPresentationStyle = .overCurrentContext
+            loadingVC.modalTransitionStyle = .crossDissolve
+            self.present(loadingVC, animated: false, completion: nil)
             GIDSignIn.sharedInstance().signIn()
         }
         
@@ -378,9 +385,10 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
         //Sign in functionality will be handled here
             if let error = error {
                 print(error.localizedDescription)
+                self.loadingVC.dismiss(animated: false, completion: nil)
                 return
             }
-            guard let auth = user.authentication else { return }
+            guard let auth = user.authentication else { self.loadingVC.dismiss(animated: false, completion: nil);return }
             let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
             Auth.auth().signIn(with: credentials) { (authResult, error) in
                 if let error = error {
@@ -395,6 +403,7 @@ class CreateAccountViewController: UIViewController, GIDSignInDelegate {
                     nextVC.modalPresentationStyle = .fullScreen
                     self.navigationController?.pushViewController(nextVC, animated: true)
                 }
+                self.loadingVC.dismiss(animated: false, completion: nil)
             }
         }
     
