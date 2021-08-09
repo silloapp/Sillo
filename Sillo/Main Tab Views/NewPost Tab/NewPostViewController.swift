@@ -113,6 +113,8 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
     var stickerName: String = ""
     var imageView = GPHMediaView()
     var media: GPHMedia?
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +131,7 @@ class NewPostViewController: UIViewController, UITextViewDelegate {
         stickerFloatingPanel.layout = MyFloatingPanelLayout()
         stickerFloatingPanel.behavior = MyFloatingPanelBehavior()
         stickerFloatingPanel.isRemovalInteractionEnabled = true
+        stickerFloatingPanel.backdropView.dismissalTapGestureRecognizer.isEnabled = true
         
         let apperance = SurfaceAppearance()
         apperance.cornerRadius = 25
@@ -486,16 +489,7 @@ extension NewPostViewController: GiphyDelegate {
         imageView.isUserInteractionEnabled = false
         imageView.layer.cornerRadius = 10
     }
-    
-//    func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
-//        // user tapped a GIF!
-//        print("user tapped a GIF!")
-//        giphyViewController.dismiss(animated: true, completion: nil)
-//        self.media = media
-//        addMedia()
-//        GPHCache.shared.clear()
-//    }
-    
+   
     func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
         //remove sticker if gif added (only one media at any time)
         removeSticker()
@@ -566,7 +560,14 @@ extension UITabBarController {
 
 extension NewPostViewController: FloatingPanelControllerDelegate {
     
-    
+    func floatingPanelDidMove(_ vc: FloatingPanelController) {
+        if vc.isAttracting == false {
+            let loc = vc.surfaceLocation
+            let minY = vc.surfaceLocation(for: .half).y
+            let maxY = vc.surfaceLocation(for: .half).y + 600.0
+            vc.surfaceLocation = CGPoint(x: loc.x, y: min(max(loc.y, minY), maxY))
+        }
+    }
     
 }
 
@@ -598,11 +599,21 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
             .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
         ]
     }
+    
+    func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
+        switch state {
+        case .full, .half: return 0.3
+        default: return 0.0
+        }
+    }
+    
+    
+    
 }
 
 class MyFloatingPanelBehavior: FloatingPanelBehavior {
     func allowsRubberBanding(for edge: UIRectEdge) -> Bool {
-        return false
+        return true
     }
 }
 
