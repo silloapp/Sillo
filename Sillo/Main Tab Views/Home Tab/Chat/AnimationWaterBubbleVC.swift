@@ -20,7 +20,7 @@ class AnimationWaterBubbleVC: UIViewController {
     var lowerProfileImg = UIImageView()
     
     var titlelbl = UILabel()
-    var starImg = UIImageView()
+//    var starImg = UIImageView()
     var starCountLbl = UILabel()
     var revealingNumberLbl = UILabel()
     
@@ -35,10 +35,37 @@ class AnimationWaterBubbleVC: UIViewController {
     
     let chatID: String
     
+    //MARK: next button
+    let nextButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 8
+        button.setTitle("Continue", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 20)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = Color.buttonClickable
+        button.addTarget(self, action: #selector(continuePressed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.becomeFirstResponder()
+        return button
+    }()
+    
+    let saveChangesContainer: UIView = {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.translatesAutoresizingMaskIntoConstraints = false
+
+        //set shadow
+        v.layer.shadowRadius = 10
+        v.layer.shadowOpacity = 0.25
+        v.layer.shadowOffset = .zero
+        v.layer.shadowColor = UIColor.black.cgColor
+        v.layer.shadowPath = UIBezierPath(rect: v.layer.bounds.insetBy(dx: 4, dy: 4)).cgPath
+        
+        return v
+    }()
+    
     init(chatID: String) {
-        
         self.chatID = chatID
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -47,38 +74,60 @@ class AnimationWaterBubbleVC: UIViewController {
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfilePicture), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
         
         RiseUpimageVw.contentMode = .scaleToFill
         RiseUpimageVw.backgroundColor = .white
-        
         RiseUpimageVw.backgroundColor = .clear
         RiseUpimageVw.frame = CGRect(x: 0, y:  self.view.frame.height, width: self.view.frame.width, height: 5)
         self.view.addSubview(RiseUpimageVw)
-        
         RiseUpimageVwTop.contentMode = .scaleToFill
         RiseUpimageVwTop.backgroundColor = .white
-        
         RiseUpimageVwTop.frame = CGRect(x: 0, y:  0, width: self.view.frame.width, height: self.view.frame.height+5)
         self.view.addSubview(RiseUpimageVwTop)
+        view.sendSubviewToBack(RiseUpimageVw)
+        
+
         
         upRiseup()
         settingElemets()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        //MARK: next button container
+        view.addSubview(saveChangesContainer)
+        saveChangesContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        saveChangesContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        saveChangesContainer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 90/812).isActive = true
+        saveChangesContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        saveChangesContainer.isHidden = true
+        saveChangesContainer.alpha = 0
+        view.bringSubviewToFront(saveChangesContainer)
+        
+        //MARK: next button
+        saveChangesContainer.addSubview(nextButton)
+        nextButton.centerXAnchor.constraint(equalTo: saveChangesContainer.centerXAnchor).isActive = true
+        nextButton.centerYAnchor.constraint(equalTo: saveChangesContainer.centerYAnchor, constant: -5).isActive = true
+        nextButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 50/812).isActive = true
+        nextButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
+
+        
+        UIView.animate(withDuration: 0.5, delay: 1.5, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            self.saveChangesContainer.isHidden = false
+            self.saveChangesContainer.alpha = 100
+        })
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
         timer.invalidate()
         wave.stopAnimation()
-    }
-    override func viewDidAppear(_ animated: Bool) {
     }
     
     // MARK: -============================= Fluid animation ===============================
@@ -114,21 +163,15 @@ class AnimationWaterBubbleVC: UIViewController {
     }
 
     
-    func settingElemets()
-    {
+    func settingElemets() {
         
         // MARK: -=============================== SETTING CONSTRAINTS============================================
-        
-        
-        
-        // For other elements :
-        
         
         self.view.addSubview(BgimageVw)
         BgimageVw.contentMode = .scaleToFill
         
         let BgimageVwconstraints = [
-            BgimageVw.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            BgimageVw.topAnchor.constraint(equalTo:  self.view.topAnchor, constant: 0),
             BgimageVw.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0),
             BgimageVw.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0),
             BgimageVw.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
@@ -182,34 +225,6 @@ class AnimationWaterBubbleVC: UIViewController {
         ]
         
         
-//        self.BgimageVw.addSubview(ContinueBtn)
-        self.view.addSubview(ContinueBtn)
-        self.view.bringSubviewToFront(ContinueBtn)
-        ContinueBtn.backgroundColor = themeColor
-        ContinueBtn.titleLabel?.font = UIFont(name: "Apercu-Bold", size: 16)
-        ContinueBtn.titleLabel?.textAlignment = .center
-        ContinueBtn.setTitle("Continue", for: .normal)
-        ContinueBtn.setTitleColor(.white, for: .normal)
-        
-        
-        ContinueBtn.layer.cornerRadius = 8
-        
-        
-        let ContinueBtnconstraints = [
-            ContinueBtn.bottomAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            ContinueBtn.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -25),
-            ContinueBtn.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 25),
-            ContinueBtn.heightAnchor.constraint(equalToConstant: 45)
-        ]
-        
-        ContinueBtn.addTarget(self, action: #selector(continuePressed), for: .touchUpInside)
-        
-//        let continueTap = UITapGestureRecognizer(target: self, action: #selector(continuePressed(_:)))
-//        continueTap.cancelsTouchesInView = false;
-//        ContinueBtn.addGestureRecognizer(continueTap)
-        ContinueBtn.isUserInteractionEnabled = true
-        
-        
         starCountLbl.text = "+25" //TODO: replace this
         starCountLbl.textColor = .black
         starCountLbl.font = UIFont.init(name: "Apercu-Medium", size: 16)
@@ -223,7 +238,7 @@ class AnimationWaterBubbleVC: UIViewController {
         ]
         self.BgimageVw.addSubview(revealingNumberLbl)
         self.BgimageVw.addSubview(starCountLbl)
-        
+
         revealingNumberLbl.text = "" //TODO: replace this once connections are implemented
         revealingNumberLbl.textColor = .white
         revealingNumberLbl.font = UIFont.init(name: "Apercu-Bold", size: 300)
@@ -237,16 +252,16 @@ class AnimationWaterBubbleVC: UIViewController {
         ]
         
         
-        self.BgimageVw.addSubview(starImg)
-        starImg.image = UIImage(named:"bgStar")
-        starImg.contentMode = .scaleAspectFit
-        
-        let starImgconstraints = [
-            starImg.topAnchor.constraint(equalTo:  self.starCountLbl.topAnchor, constant: 0),
-            starImg.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -65),
-            starImg.widthAnchor.constraint(equalToConstant: 16),
-            starImg.heightAnchor.constraint(equalToConstant: 16)
-        ]
+//        self.BgimageVw.addSubview(starImg)
+//        starImg.image = UIImage(named:"bgStar")
+//        starImg.contentMode = .scaleAspectFit
+//
+//        let starImgconstraints = [
+//            starImg.topAnchor.constraint(equalTo:  self.starCountLbl.topAnchor, constant: 0),
+//            starImg.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -65),
+//            starImg.widthAnchor.constraint(equalToConstant: 16),
+//            starImg.heightAnchor.constraint(equalToConstant: 16)
+//        ]
         
         self.view.addSubview(titlelbl)
         let recipientName = chatHandler.chatMetadata[chatID]?.recipient_name ?? "a new friend"
@@ -270,9 +285,7 @@ class AnimationWaterBubbleVC: UIViewController {
         NSLayoutConstraint.activate(titlelblconstraints)
         NSLayoutConstraint.activate(lowerProfileImgconstraints)
         NSLayoutConstraint.activate(starCountLblconstraints)
-        NSLayoutConstraint.activate(starImgconstraints)
-        NSLayoutConstraint.activate(ContinueBtnconstraints)
-        //  NSLayoutConstraint.activate(RiseUpimageVwconstraints)
+//        NSLayoutConstraint.activate(starImgconstraints)
         NSLayoutConstraint.activate(revealingNumberLblconstraints)
         
         self.view.layoutIfNeeded()
@@ -282,17 +295,12 @@ class AnimationWaterBubbleVC: UIViewController {
         self.titlelbl.translatesAutoresizingMaskIntoConstraints = false
         self.lowerProfileImg.translatesAutoresizingMaskIntoConstraints = false
         self.starCountLbl.translatesAutoresizingMaskIntoConstraints = false
-        self.starImg.translatesAutoresizingMaskIntoConstraints = false
+//        self.starImg.translatesAutoresizingMaskIntoConstraints = false
         self.ContinueBtn.translatesAutoresizingMaskIntoConstraints = false
-        //    self.RiseUpimageVw.translatesAutoresizingMaskIntoConstraints = false
         self.revealingNumberLbl.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        
     }
     
-    func upRiseup()
-    {
+    func upRiseup() {
         //
         wave = WaveAnimationView(frame: CGRect(origin: .zero, size: RiseUpimageVw.bounds.size), color: UIColor.blue.withAlphaComponent(0.5))
         //   wave = WaveAnimationView(frame: CGRect(x: 0, y:  self.view.frame.height/2 , width: self.view.frame.width, height: self.view.frame.height/2), color: UIColor.white.withAlphaComponent(0.5))
@@ -304,26 +312,23 @@ class AnimationWaterBubbleVC: UIViewController {
         self.wave.setProgress(1.0)
         
         
+        
         self.RiseUpimageVw.layer.borderColor = UIColor.white.cgColor
-        UIView.animate(withDuration: 9) { [self] in
+        UIView.animate(withDuration: 3) { [self] in
             self.RiseUpimageVw.transform = CGAffineTransform(translationX:0 , y: -(screenSize.height+screenSize.height))
             self.RiseUpimageVwTop.transform = CGAffineTransform(translationX:0 , y: -(screenSize.height+screenSize.height))
             self.view.backgroundColor = UIColor.init(red: 223/255.0, green: 234/255.0, blue: 251/255.0, alpha: 1)
-            
         }
-        
         
         self.timerFluid = Timer.scheduledTimer(timeInterval: 5.0, target: self,   selector: (#selector(ShowElements)), userInfo: nil, repeats: false)
         
     }
     
-    @objc func ShowElements()
-    {
+    @objc func ShowElements() {
         self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self,   selector: (#selector(StarsAnimationStarts)), userInfo: nil, repeats: true)
     }
     
-    @objc func StarsAnimationStarts()
-    {
+    @objc func StarsAnimationStarts() {
         //----------------- For  Bubble :
         
         let bubbleImageView = UIImageView(image: UIImage(named:"bgStar"))
@@ -366,8 +371,6 @@ class AnimationWaterBubbleVC: UIViewController {
         CATransaction.commit()
         
         self.RiseUpimageVw.isHidden = true
-        
-        
     }
     
     func randomFloatBetween(_ smallNumber: CGFloat, and bigNumber: CGFloat) -> CGFloat {
@@ -379,19 +382,6 @@ class AnimationWaterBubbleVC: UIViewController {
         return multiplication + smallNumber
         
     }
-    
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
 

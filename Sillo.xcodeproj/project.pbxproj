@@ -66,6 +66,8 @@
 		FD1D22BF25A19F9E00F1636C /* Apercu Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */; };
 		FD1D22C025A19F9E00F1636C /* Apercu Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */; };
 		FD1D22C125A19F9E00F1636C /* Apercu Mono.otf in Resources */ = {isa = PBXBuildFile; fileRef = FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */; };
+		FD1DC03726C07DAD00FFF492 /* OrganizationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1DC03626C07DAD00FFF492 /* OrganizationPickerViewController.swift */; };
+		FD1DC03926C09BDB00FFF492 /* OrganizationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1DC03826C09BDB00FFF492 /* OrganizationTableViewCell.swift */; };
 		FD1DC5B525E10945007A0E70 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */; };
 		FD7C4F8625FDFB6900231F06 /* AddNewSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F8525FDFB6900231F06 /* AddNewSpace.swift */; };
 		FD7C4F9625FDFC0000231F06 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7C4F9425FDFBFF00231F06 /* DesignableView.swift */; };
@@ -188,6 +190,8 @@
 		FD1D22B625A19F9D00F1636C /* Apercu Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Bold.otf"; sourceTree = "<group>"; };
 		FD1D22B725A19F9E00F1636C /* Apercu Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Regular.otf"; sourceTree = "<group>"; };
 		FD1D22B825A19F9E00F1636C /* Apercu Mono.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Apercu Mono.otf"; sourceTree = "<group>"; };
+		FD1DC03626C07DAD00FFF492 /* OrganizationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationPickerViewController.swift; sourceTree = "<group>"; };
+		FD1DC03826C09BDB00FFF492 /* OrganizationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationTableViewCell.swift; sourceTree = "<group>"; };
 		FD1DC5B425E10945007A0E70 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		FD45DA702626DCD100B38CDE /* FloatingPanel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FloatingPanel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD7C4F8525FDFB6900231F06 /* AddNewSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewSpace.swift; sourceTree = "<group>"; };
@@ -410,6 +414,7 @@
 				FD94908125C3EB26009F4F29 /* HomeViewController.swift */,
 				FDA03F8825CCAA2D00F5F530 /* HomePostTableViewCell.swift */,
 				AA92070A2660B0A400FADFCE /* HomePostTableViewCell-Sticker.swift */,
+				FD1DC03626C07DAD00FFF492 /* OrganizationPickerViewController.swift */,
 			);
 			path = HomeVC;
 			sourceTree = "<group>";
@@ -420,6 +425,7 @@
 				FD8B838F25F4B37E004980AC /* BottomSlideController.swift */,
 				FD7C4F8525FDFB6900231F06 /* AddNewSpace.swift */,
 				FD8B839425F4B468004980AC /* CustomTableViewCell.swift */,
+				FD1DC03826C09BDB00FFF492 /* OrganizationTableViewCell.swift */,
 			);
 			path = OrganizationPopup;
 			sourceTree = "<group>";
@@ -903,6 +909,7 @@
 				FDA03F8925CCAA2E00F5F530 /* HomePostTableViewCell.swift in Sources */,
 				AA57BA7B25E87078001C378B /* ProfileSetupViewController.swift in Sources */,
 				FDEBE945261EF49F0084AB12 /* NotificationsViewController.swift in Sources */,
+				FD1DC03926C09BDB00FFF492 /* OrganizationTableViewCell.swift in Sources */,
 				FD93B2DB26057BF200CC44AA /* InterChatVC.swift in Sources */,
 				AABEC69725A83B7900D89C62 /* PasscodeVerificationViewController.swift in Sources */,
 				FD7C8A8826055C7C00647D1B /* OnboardingViewController.swift in Sources */,
@@ -954,6 +961,7 @@
 				AA57BA7325E84587001C378B /* ProfilePromptViewController.swift in Sources */,
 				FD7C4F9825FDFC0000231F06 /* AlwaysShowPopup.swift in Sources */,
 				A08E82DB25E00B2F00760BF1 /* TeamViewController.swift in Sources */,
+				FD1DC03726C07DAD00FFF492 /* OrganizationPickerViewController.swift in Sources */,
 				FDAEBF6A2608E7AF0084FF47 /* ActionButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1125,7 +1133,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sillo/Sillo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 9Z82JGWWDM;
 				INFOPLIST_FILE = Sillo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1149,7 +1157,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sillo/Sillo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 9Z82JGWWDM;
 				INFOPLIST_FILE = Sillo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

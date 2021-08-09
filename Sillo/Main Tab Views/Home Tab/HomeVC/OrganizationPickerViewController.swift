@@ -1,21 +1,15 @@
 //
-//  BottomSlideController.swift
-//  WithoutStoryboard
+//  OrganizationPickerViewController.swift
+//  Sillo
 //
-//  Created by USER on 20/02/21.
+//  Created by Eashan Mathur on 8/8/21.
 //
 
 import UIKit
-import PullUpController
 
-class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewDataSource {
+class OrganizationPickerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    enum InitialState {
-        case contracted
-        case expanded
-    }
     
-    var initialState: InitialState = .expanded
     var selectIndex = -1
     var visualEffectView = UIView()
     var mainView = UIView()
@@ -24,73 +18,18 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
     var firstPreviewView = UIView()
     var secondPreviewView = UIView()
     var tableView = UITableView()
-    
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+    }
+
+
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
         settingElemets()
     }
-    
-    var initialPointOffset: CGFloat {
-        switch initialState {
-        
-        case .contracted:
-            print("contracted 1")
-            
-            return 0
-            
-        case .expanded:
-            print("expanded 1")
-            print("tableViewHeight",tableViewHeight)
-            return tableViewHeight + 220
-        }
-        
-        
-    }
-    
-    public var portraitSize: CGSize = .zero
-    public var landscapeFrame: CGRect = .zero
-    
-    private var safeAreaAdditionalOffset: CGFloat {
-        hasSafeArea ? 20 : 0
-    }
-    
-    // MARK: - Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        portraitSize = CGSize(width: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height),
-                              height: 0)
-        landscapeFrame = CGRect(x: 5, y: 50, width: 280, height: 300)
-        
-        tableView.attach(to: self)
-        setupDataSource()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfDismissNotification(notification:)), name: Notification.Name("DismissNotificationIdentifier"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshOrganizationListing(notification:)), name: Notification.Name(rawValue: "refreshPicture"), object: nil)
-        
-    }
-    
-    @objc func methodOfDismissNotification(notification: Notification) {
-        print("Value of notification : ", notification.object ?? "")
-        dismiss()
-    }
-    
-    @objc func refreshOrganizationListing(notification: Notification) {
-        self.tableView.reloadData()
-    }
-    
-    func dismiss() {
-        NotificationCenter.default.post(name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
-        if let lastStickyPoint = pullUpControllerAllStickyPoints.last {
-            pullUpControllerMoveToVisiblePoint(0, animated: true, completion: nil)
-        }
-    }
-    
 
-    
-    //===================================*** SETTING CONSTRAINT ***=======================================//
-    
     func settingElemets() {
         
         // FOR SCROLL :
@@ -139,31 +78,11 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         button1dismiss.addTarget(self, action:#selector(button1dismissMethod), for: .touchUpInside)
         
         
-        
-        let searchBoxContainerViewconstraints = [
-            searchBoxContainerView.topAnchor.constraint(equalTo:  self.mainView.safeAreaLayoutGuide.topAnchor, constant: 10),
-            searchBoxContainerView.leftAnchor.constraint(equalTo: self.mainView.safeAreaLayoutGuide.leftAnchor, constant: 0),
-            searchBoxContainerView.rightAnchor.constraint(equalTo: self.mainView.safeAreaLayoutGuide.rightAnchor, constant: 0),
-            searchBoxContainerView.heightAnchor.constraint(equalToConstant: 20)
-        ]
-        
         mainView.clipsToBounds = true
         mainView.layer.cornerRadius = 16
         mainView.layer.masksToBounds = true
         mainView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        
-        searchSeparatorView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
-        searchSeparatorView.clipsToBounds = true
-        searchSeparatorView.layer.cornerRadius = 4
-        
-        let searchSeparatorViewconstraints = [
-            searchSeparatorView.centerXAnchor.constraint(equalTo:  self.view.centerXAnchor, constant: 0),
-            searchSeparatorView.topAnchor.constraint(equalTo: self.searchBoxContainerView.safeAreaLayoutGuide.topAnchor, constant: 8),
-            searchSeparatorView.widthAnchor.constraint(equalToConstant: 70),
-            searchSeparatorView.heightAnchor.constraint(equalToConstant: 8)
-        ]
-        
-        
+
         
         self.mainView.addSubview(firstPreviewView)
         
@@ -185,7 +104,7 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.bounces = false
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(OrganizationTableViewCell.self, forCellReuseIdentifier: "cell")
         
         self.mainView.addSubview(tableView)
         
@@ -269,11 +188,11 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         // NSLayoutConstraint.activate(visualEffectViewconstraints)
         NSLayoutConstraint.activate(mainViewconstraints)
-        NSLayoutConstraint.activate(searchBoxContainerViewconstraints)
+//        NSLayoutConstraint.activate(searchBoxContainerViewconstraints)
         NSLayoutConstraint.activate(firstPreviewViewconstraints)
         NSLayoutConstraint.activate(secondPreviewViewconstraints)
         NSLayoutConstraint.activate(tableViewconstraints)
-        NSLayoutConstraint.activate(searchSeparatorViewconstraints)
+//        NSLayoutConstraint.activate(searchSeparatorViewconstraints)
         NSLayoutConstraint.activate(button1dismissconstraints)
         NSLayoutConstraint.activate(button2dismissconstraints)
         NSLayoutConstraint.activate(buttonPlusconstraints)
@@ -294,42 +213,33 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         addSpaceButton.translatesAutoresizingMaskIntoConstraints = false
         
     }
-    
+
     @objc func addNewSpaceClicked() {
         
-//        let nextVC: UIViewController!
-//        if localUser.invites.count > 0 {
-//            print("HAVE INVITES")
-//            nextVC = WelcomeToSilloViewController()
-//        }
-//        else {
-//            //MARK: set up fallback if table is empty
-//            nextVC = WelcomeToSilloNoInviteVC()
-//        }
-        
+
         let nextVC = WelcomeToSilloViewController()
         let navC = UINavigationController(rootViewController: nextVC)
         navC.modalPresentationStyle = .fullScreen
         self.present(navC,animated: true, completion:nil)
     }
-    
+
     @objc func button1dismissMethod() {
         
         print("called action")
         
-        dismiss()
+//        dismiss()
         
     }
     @objc func button2dismissMethod() {
         
         print("called 2 action")
-        dismiss()
+//        dismiss()
     }
-    
+
     //=============================*** DELEGATE DATASOURCE METHODS ***===============================//
-    
+
     // MARK: - Tableview methods:
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 95
     }
@@ -337,75 +247,41 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         
         return organizationData.organizationList.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
+        let cell =  tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! OrganizationTableViewCell
         cell.selectionStyle = .none
         
         let organization = organizationData.organizationList[indexPath.row]
         let organizationName = organizationData.idToName[organization] ?? "My Organization"
-        
-        cell.labUserName.isHidden = false
-        cell.imgUser2.isHidden = true
-        
-        
-        cell.imgUser.layer.borderWidth = 3.5
-        cell.imgUser.layer.masksToBounds = false
-        cell.imgUser.layer.cornerRadius = cell.imgUser.frame.size.width/2
-        cell.imgUser.clipsToBounds = true
-        cell.imgUser.layer.borderColor = Color.russiandolphin.cgColor
-        
         let orgPicRef = "orgProfiles/\(organization)\(Constants.image_extension)" as NSString
         if imageCache.object(forKey: orgPicRef)?.image != nil { //image in cache
             let cachedImageItem = imageCache.object(forKey: orgPicRef)! //fetch from cache
-            cell.imgUser.image = cachedImageItem.image
+            cell.orgImage.image = cachedImageItem.image
         }
         else {
             cloudutil.downloadImage(ref: orgPicRef as String)
-            cell.imgUser.image = UIImage(named:"avatar-2")
+            cell.orgImage.image = UIImage(named:"avatar-2")
         }
         
-        cell.labMessage.text = organizationName
-        cell.labMessage.textColor = .black
-        cell.labMessage.font = UIFont(name: "Apercu-Bold", size: 17)
         
-        cell.labUserName.text = organizationName
-        cell.labMessage.text = "" //nothing here
-        cell.labMessage.font = UIFont(name: "Apercu-Regular", size: 15)
+        cell.orgName.text = organizationName
+
         
-        if organization == organizationData.currOrganization
-        {
-            cell.bgView.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
+        if organization == organizationData.currOrganization {
+            cell.bcg.backgroundColor = UIColor.init(red: 242/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1)
             cell.isUserInteractionEnabled = false
         }
-        else
-        {
-            cell.bgView.backgroundColor = .clear
+        else {
+            cell.bcg.backgroundColor = .clear
         }
         
-        cell.Messageconstraints = [
-            cell.labMessage.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: 13),
-            cell.labMessage.leftAnchor.constraint(equalTo:  cell.imgUser2.leftAnchor, constant: 15),
-            cell.labMessage.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: 20),
-            cell.labMessage.heightAnchor.constraint(equalToConstant: 20)
-        ]
-        
-        cell.TITLEconstraints = [
-            cell.labUserName.centerYAnchor.constraint(equalTo:  cell.contentView.centerYAnchor, constant: -10),
-            cell.labUserName.leftAnchor.constraint(equalTo:  cell.imgUser2.leftAnchor, constant: 15),
-            cell.labUserName.rightAnchor.constraint(equalTo:  cell.contentView.rightAnchor, constant: 20),
-            cell.labUserName.heightAnchor.constraint(equalToConstant: 20)
-        ]
-        
-        
-        
-        NSLayoutConstraint.activate(cell.Messageconstraints)
-        NSLayoutConstraint.activate(cell.TITLEconstraints)
-        
+
         return cell
         
         
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.reloadData()
         
@@ -428,113 +304,12 @@ class BottomSlideController:PullUpController,UITableViewDelegate,UITableViewData
         generator.impactOccurred()
         
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         view.layer.cornerRadius = 12
     }
-    
-    override func pullUpControllerWillMove(to stickyPoint: CGFloat) {
-        print("will move to \(stickyPoint)")
-        
-    }
-    
-    override func pullUpControllerDidMove(to stickyPoint: CGFloat) {
-        print("did move to \(stickyPoint)")
-    }
-    
-    override func pullUpControllerDidDrag(to point: CGFloat) {
-        print("did drag to \(point)")
-        
-        if point > 0 {
-            NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
-        }
-        else {
-            NotificationCenter.default.post(name: Notification.Name("HideBlurNotificationIdentifier"), object: nil)
-        }
-        
-    }
-    
-    private func setupDataSource() {
-        
-    }
-    
-    // MARK: - PullUpController
-    
-    override var pullUpControllerPreferredSize: CGSize {
-        return portraitSize
-    }
-    
-    override var pullUpControllerPreferredLandscapeFrame: CGRect {
-        return landscapeFrame
-    }
-    
-    var tableViewHeight: CGFloat {
-        tableView.layoutIfNeeded()
-        
-        return tableView.contentSize.height
-    }
-    
-    override var pullUpControllerBounceOffset: CGFloat {
-        return 20
-    }
-    
-    override func pullUpControllerAnimate(action: PullUpController.Action,
-                                          withDuration duration: TimeInterval,
-                                          animations: @escaping () -> Void,
-                                          completion: ((Bool) -> Void)?) {
-        switch action {
-        case .move:
-            UIView.animate(withDuration: 0.3,
-                           delay: 0,
-                           usingSpringWithDamping: 0.7,
-                           initialSpringVelocity: 0,
-                           options: .curveEaseInOut,
-                           animations: animations,
-                           completion: completion)
-            
-            
-        default:
-            UIView.animate(withDuration: 0.3,
-                           animations: animations,
-                           completion: completion)
-        }
-    }
-    
-}
 
-
-extension BottomSlideController: UISearchBarDelegate {
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        if let lastStickyPoint = pullUpControllerAllStickyPoints.last {
-            pullUpControllerMoveToVisiblePoint(lastStickyPoint, animated: true, completion: nil)
-        }
-    }
-}
-
-
-extension UIViewController {
-    
-    var hasSafeArea: Bool {
-        guard
-            #available(iOS 11.0, tvOS 11.0, *)
-        else {
-            return false
-        }
-        return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
-    }
-    
-}
-
-extension UIView {
-    
-    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        self.layer.mask = mask
-    }
     
 }

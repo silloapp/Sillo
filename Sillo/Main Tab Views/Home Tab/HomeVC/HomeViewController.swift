@@ -7,10 +7,12 @@
 
 import UIKit
 import Firebase
+import FloatingPanel
 
 
 class HomeViewController: UIViewController {
     
+    var orgPickerPanel: FloatingPanelController!
     let cellID = "cellID"
     let stickerCellID = "stickerCellID"
     let gifCellID = "gifCellID"
@@ -120,10 +122,26 @@ class HomeViewController: UIViewController {
         setupHeader()
         setupTableView()
         
+        orgPickerPanel = FloatingPanelController()
+        orgPickerPanel.delegate = self
+        
+        orgPickerPanel.layout = MyFloatingPanelLayout()
+        orgPickerPanel.behavior = MyFloatingPanelBehavior()
+        orgPickerPanel.isRemovalInteractionEnabled = true
+        orgPickerPanel.backdropView.dismissalTapGestureRecognizer.isEnabled = true
+        
+        let apperance = SurfaceAppearance()
+        apperance.cornerRadius = 25
+        orgPickerPanel.surfaceView.appearance = apperance
+        let contentVC = OrganizationPickerViewController()
+        orgPickerPanel.set(contentViewController: contentVC)
+        orgPickerPanel.track(scrollView: contentVC.tableView)
+        
+    
         navigationController?.navigationBar.barTintColor = Color.headerBackground
         navigationController?.navigationBar.isTranslucent = false
         
-        addDismissPullUpController(animated: false)
+//        addDismissPullUpController(animated: false)
         
     }
     
@@ -209,31 +227,10 @@ class HomeViewController: UIViewController {
     }
     
     @objc func profilePicTapped() {
-        
-        blurVw.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(blurTapped))
-        blurVw.addGestureRecognizer(tap)
-        addPullUpController(animated: true)
-        NotificationCenter.default.post(name: Notification.Name("ShowBlurNotificationIdentifier"), object: nil)
-        
-//        let alertView = AlertView(headingText: "Community Guidelines Warning", messageText: "This conversation is no longer available. Please review our community guidelines and keep Sillo a safe space. This conversation is no longer available. Please review our community guidelines and keep Sillo a safe space.", action1Label: "Got it", action1Color: Color.burple, action1Completion: {
-//            self.dismiss(animated: true, completion: nil)
-//        }, action2Label: "Logout", action2Color: .gray, action2Completion: {
-//            let auth = Auth.auth()
-//            do {
-//                try auth.signOut()
-//            } catch let error as NSError {
-//                // let's hope this never happens and pretend nothing happened
-//                print("Error signing out: %@", error)
-//            }
-//            self.dismiss(animated: true, completion: nil)
-//        }, withCancelBtn: false, image: UIImage(named: "sillo-logo"), withOnlyOneAction: true)
-//        alertView.modalPresentationStyle = .overCurrentContext
-//        alertView.modalTransitionStyle = .crossDissolve
-//
-//        self.present(alertView, animated: true, completion: nil)
-
+        self.present(orgPickerPanel, animated: true, completion: nil)
     }
+    
+    
     
     
     func setupPhotoTeamName() -> UIStackView {
@@ -289,6 +286,20 @@ class HomeViewController: UIViewController {
         feed.sortedPosts = feed.sortPosts()
         self.postsTable.reloadData()
     }
+}
+
+
+extension HomeViewController: FloatingPanelControllerDelegate {
+    
+    func floatingPanelDidMove(_ vc: FloatingPanelController) {
+        if vc.isAttracting == false {
+            let loc = vc.surfaceLocation
+            let minY = vc.surfaceLocation(for: .half).y
+            let maxY = vc.surfaceLocation(for: .half).y + 600.0
+            vc.surfaceLocation = CGPoint(x: loc.x, y: min(max(loc.y, minY), maxY))
+        }
+    }
+    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
