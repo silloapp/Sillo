@@ -13,6 +13,7 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setMessagesBadgeStatus(note:)), name: Notification.Name("UpdateMessageTabBarBadge"), object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -23,6 +24,23 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 
     }
     
+    
+    @objc func setMessagesBadgeStatus(note: NSNotification) {
+        var status:Int = -1
+        self.tabBar.items![3].badgeColor = Color.burple
+        if note.userInfo != nil && note.userInfo!["badge"] != nil {
+            let data = note.userInfo!
+            status = data["badge"] as! Int
+            //if -1, clear badge, if not, leave a blank dot
+            if status < 0 {
+                self.tabBar.items![3].badgeValue = nil
+            }
+            else {
+                self.tabBar.items![3].badgeValue = ""
+            }
+        }
+
+    }
     
     //get index to determine direction
     func getIndexHelper(forViewController vc: UIViewController) -> Int? {

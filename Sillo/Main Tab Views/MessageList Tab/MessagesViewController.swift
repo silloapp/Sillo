@@ -91,6 +91,7 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         localUser.setLastActiveTimestamp()
+        chatHandler.updateMessagesTabBarBadge()
     }
     override func viewDidLoad() {
         

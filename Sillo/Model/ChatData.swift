@@ -26,6 +26,8 @@ class ChatHandler {
     let chatBatchSize = 15 //number of conversations to pull in a batch
     let messagesBatchSize = 15 //number of messages to pull in a batch
     
+    var passiveNotificationLatched = false
+    
     //MARK: add more chats
     func getNextBatch() {
         print("GET NEXT BATCH")
@@ -79,7 +81,43 @@ class ChatHandler {
             }
             self.chatSnapshot = querySnapshot
         }
-        
+        self.latchPassiveMessageNotifSystem()
+    }
+    
+    func latchPassiveMessageNotifSystem() {
+        if (self.passiveNotificationLatched == true) {return}
+        let myUserID = Constants.FIREBASE_USERID ?? "ERROR"
+        let reference = db.collection("user_chats").document(myUserID).collection(organizationData.currOrganization!).order(by: "timestamp", descending: true).limit(to: chatHandler.chatBatchSize)
+        let _ = reference.addSnapshotListener { querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            
+            //set most recent snapshot (like a bookmark)
+            chatHandler.chatSnapshot = snapshot
+            self.passiveNotificationLatched = true
+            
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    let chatID = diff.document.documentID
+                    print("New conversation: \(chatID)")
+                    //add or update active chat
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                }
+                if (diff.type == .modified) {
+                    let chatID = diff.document.documentID
+                    print("updated active chat: \(chatID)")
+                    chatHandler.handleNewUserChat(chatID: chatID, data: diff.document.data())
+                }
+                if (diff.type == .removed) {
+                    let chatID = diff.document.documentID
+                    print("Removed conversation: \(chatID)")
+                    chatHandler.chatMetadata[chatID] = nil
+                    chatHandler.sortedChatMetadata = chatHandler.sortChatMetadata()
+                }
+            }
+        }
     }
     
     //fetches chat info to display in messageListVC: profile pic / alias/ latest msg and timestamp
@@ -142,6 +180,7 @@ class ChatHandler {
                 }
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshMessageListView"), object: nil)
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshChatView"), object: nil)
+                self.updateMessagesTabBarBadge()
             }
         }
     }
@@ -248,6 +287,34 @@ class ChatHandler {
                 }
             }
         }
+    }
+    /*
+    sets the messages tab bar badge
+    */
+    func updateMessagesTabBarBadge() {
+        //set unread status
+        if chatHandler.unreadConversationExists() {
+            print("UPDATE WITH UNREAD BADGE")
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UpdateMessageTabBarBadge"), object: nil, userInfo: ["badge":1])
+        }
+        else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UpdateMessageTabBarBadge"), object: nil, userInfo: ["badge":-1])
+            print("DISMISS BADGE")
+        }
+    }
+    
+    /*
+    returns boolean as to whether there is any unread conversations
+     True if there are unread messages
+     False if there are no unread messages
+    */
+    func unreadConversationExists() -> Bool {
+        for key in self.chatMetadata.keys {
+            if (self.chatMetadata[key]?.isRead == false) {
+                return true
+            }
+        }
+        return false
     }
     
     func revealChat(chatId: String) {
