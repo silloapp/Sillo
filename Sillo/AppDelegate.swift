@@ -110,7 +110,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //update unread badge
         if let updatedBadgeNumber = notifDict["badge"] {
             application.applicationIconBadgeNumber = updatedBadgeNumber as! Int
-            chatHandler.updateMessagesTabBarBadge()
         }
     }
     
