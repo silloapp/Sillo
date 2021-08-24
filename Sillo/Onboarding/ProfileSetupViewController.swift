@@ -885,6 +885,7 @@ extension ProfileSetupViewController: UICollectionViewDelegateFlowLayout, UIColl
 }
 
 ///https://www.swiftdevcenter.com/uitextview-dismiss-keyboard-swift/#:~:text=For%20UITextView%20there%20is%20no,delegate%20function%20which%20is%20wrong.
+//done button for bio text view
 extension UITextView {
     
     func addDoneButton(title: String, target: Any, selector: Selector) {
