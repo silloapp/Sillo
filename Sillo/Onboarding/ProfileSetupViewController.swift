@@ -197,8 +197,15 @@ class ProfileSetupViewController: UIViewController{
         textView.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textView.backgroundColor = Color.textFieldBackground
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
+        
         return textView
     }()
+    
+    @objc func tapDone(sender: Any) {
+        bioTextView.resignFirstResponder()
+    }
+    
     
     //MARK: FOURTH greyLine
     let fourthGreyLine:UIView = {
@@ -275,6 +282,7 @@ class ProfileSetupViewController: UIViewController{
             .font: customFont
         ])
         textField.text = ""
+        textField.doneAccessory = true
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.backgroundColor = Color.textFieldBackground
@@ -297,6 +305,7 @@ class ProfileSetupViewController: UIViewController{
             .font: customFont
         ])
         textField.text = ""
+        textField.doneAccessory = true
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.backgroundColor = Color.textFieldBackground
@@ -319,6 +328,7 @@ class ProfileSetupViewController: UIViewController{
             .font: customFont
         ])
         textField.text = ""
+        textField.doneAccessory = true
         textField.layer.cornerRadius = 10.0;
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
         textField.backgroundColor = Color.textFieldBackground
@@ -871,6 +881,58 @@ extension ProfileSetupViewController: UICollectionViewDelegateFlowLayout, UIColl
             cell.data = "NONE"
         }
         return cell
+    }
+}
+
+///https://www.swiftdevcenter.com/uitextview-dismiss-keyboard-swift/#:~:text=For%20UITextView%20there%20is%20no,delegate%20function%20which%20is%20wrong.
+//done button for bio text view
+extension UITextView {
+    
+    func addDoneButton(title: String, target: Any, selector: Selector) {
+        
+        let toolBar = UIToolbar(frame: CGRect(x: 0.0,
+                                              y: 0.0,
+                                              width: UIScreen.main.bounds.size.width,
+                                              height: 44.0))//1
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)//2
+        let barButton = UIBarButtonItem(title: title, style: .done, target: target, action: selector)//3
+        toolBar.setItems([barButton, flexible], animated: false)//4
+        self.inputAccessoryView = toolBar//5
+    }
+}
+
+//for done button
+extension UITextField{
+    
+    @IBInspectable var doneAccessory: Bool{
+        get{
+            return self.doneAccessory
+        }
+        set (hasDone) {
+            if hasDone{
+                addDoneButtonOnKeyboard()
+            }
+        }
+    }
+    
+    func addDoneButtonOnKeyboard()
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        
+        let items = [done,flexSpace]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        self.inputAccessoryView = doneToolbar
+    }
+    
+    @objc func doneButtonAction()
+    {
+        self.resignFirstResponder()
     }
 }
 
